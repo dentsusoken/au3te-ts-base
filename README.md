@@ -1,3 +1,33 @@
-# 開発者向けのリンク集
+# How to use
 
-[Gitの利用方法とCIのセットアップガイド](https://esq365.sharepoint.com/sites/isid-scm/SitePages/%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%82%92%E5%88%9D%E3%82%81%E3%82%8B%E5%89%8D%E3%81%AB.aspx)
+## Preparing au3te-ts-common
+
+```bash
+git clone https://github.com/dentsusoken/au3te-ts-common
+cd au3te-ts-common
+npm run install
+npm run build
+npm link
+cd ..
+```
+
+## Preparing au3te-ts-base
+
+```bash
+git clone https://github.com/dentsusoken/au3te-ts-base
+cd au3te-ts-base
+npm run install
+npm link au3te-ts-common
+npm run build
+npm link
+cd ..
+```
+
+## Using au3te-ts-base from another project
+
+```bash
+mkdir test
+cd test
+npm init es6 -y
+npm link au3te-ts-base
+```
