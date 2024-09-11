@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { AuthleteApiImpl } from './AuthleteApiImpl';
-import { AuthleteConfiguration } from '../conf';
-import { PushedAuthReqRequest } from 'au3te-ts-common';
+import { AuthleteConfiguration } from 'au3te-ts-common/conf';
+import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
 
 describe('AuthleteApiImpl', () => {
   let authleteApi: AuthleteApiImpl;
@@ -32,7 +32,7 @@ describe('AuthleteApiImpl', () => {
       expect(response.responseContent).toBeDefined();
       expect(response.clientAuthMethod).toBe('none');
       expect(response.requestUri).toBeDefined();
-      expect(response.dpopNonce).toBeNull();
+      expect(response.dpopNonce).toBeUndefined();
     }, 10000);
 
     it('should handle invalid request', async () => {
@@ -49,9 +49,9 @@ describe('AuthleteApiImpl', () => {
       expect(response.resultCode).toBeDefined();
       expect(response.resultMessage).toBeDefined();
       expect(response.responseContent).toBeDefined();
-      expect(response.clientAuthMethod).toBeNull();
-      expect(response.requestUri).toBeNull();
-      expect(response.dpopNonce).toBeNull();
+      expect(response.clientAuthMethod).toBeUndefined();
+      expect(response.requestUri).toBeUndefined();
+      expect(response.dpopNonce).toBeUndefined();
     }, 10000);
   });
 });

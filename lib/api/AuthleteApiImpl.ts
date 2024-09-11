@@ -15,43 +15,21 @@
  * License.
  */
 
-import {
-  AuthleteApi,
-  PushedAuthReqRequest,
-  PushedAuthReqResponse,
-  pushedAuthReqResponseSchema,
-  ApiCall,
-  PostHttpCall,
-} from 'au3te-ts-common';
-import { AuthleteConfiguration } from '../conf';
-import * as apiPath from './AuthleteApiPath';
+import { AbstractAuthleteApi } from 'au3te-ts-common/api';
+import { AuthleteConfiguration } from 'au3te-ts-common/conf';
+import * as apiPath from './authleteApiPath';
 
-export class AuthleteApiImpl implements AuthleteApi {
-  private auth: string;
-  private pushAuthorizationRequestPath: string;
+export class AuthleteApiImpl extends AbstractAuthleteApi {
+  protected readonly baseUrl: string;
+  protected readonly auth: string;
+  protected readonly pushAuthorizationRequestPath: string;
 
-  constructor(private configuration: AuthleteConfiguration) {
-    this.auth = 'Bearer ' + configuration.serviceAccessToken;
+  constructor(protected configuration: AuthleteConfiguration) {
+    super();
+    this.baseUrl = configuration.baseUrl;
+    this.auth = 'Bearer ' + this.configuration.serviceAccessToken;
     this.pushAuthorizationRequestPath = apiPath.pushedAuthReqPath(
       this.configuration.serviceApiKey
     );
-  }
-
-  get baseUrl(): string {
-    return this.configuration.baseUrl;
-  }
-
-  pushAuthorizationRequest(
-    request: PushedAuthReqRequest
-  ): Promise<PushedAuthReqResponse> {
-    const httpCall = new PostHttpCall(
-      this.baseUrl,
-      this.pushAuthorizationRequestPath,
-      this.auth,
-      request
-    );
-    const apiCall = new ApiCall(httpCall, pushedAuthReqResponseSchema);
-
-    return apiCall.call();
   }
 }

@@ -15,25 +15,4 @@
  * License.
  */
 
-const toString = (value: unknown): string =>
-  typeof value === 'string' ? value : String(value);
-
-export const jsonToQueryString = (json: Record<string, unknown>): string => {
-  const searchParams = new URLSearchParams();
-
-  Object.entries(json).forEach(([key, value]) => {
-    if (value != null) {
-      if (Array.isArray(value)) {
-        value.forEach((v) => {
-          if (v != null) {
-            searchParams.append(key, toString(v));
-          }
-        });
-      } else {
-        searchParams.append(key, toString(value));
-      }
-    }
-  });
-
-  return searchParams.toString();
-};
+export * from './responseFactory';

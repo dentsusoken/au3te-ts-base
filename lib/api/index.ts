@@ -15,16 +15,5 @@
  * License.
  */
 
-/**
- * The base path for the pushed authentication request API.
- * @type {string}
- */
-const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
-
-/**
- * Generates the path for the pushed authentication request API.
- * @param {string} serviceId - The service ID.
- * @returns {string} The generated path.
- */
-export const pushedAuthReqPath = (serviceId: string) =>
-  PUSHED_AUTH_REQ_API_PATH.replace(/%d/, serviceId);
+export * from './AuthleteApiImpl';
+export * from './authleteApiPath';

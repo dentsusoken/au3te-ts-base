@@ -15,4 +15,4 @@
  * License.
  */
 
-export * as conf from './conf';
+export * from './BaseEndpoint';

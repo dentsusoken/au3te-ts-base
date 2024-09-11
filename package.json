@@ -10,19 +10,36 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js",
+      "require": "./dist/api/index.cjs"
+    },
+    "./endpoint": {
+      "types": "./dist/endpoint/index.d.ts",
+      "import": "./dist/endpoint/index.js",
+      "require": "./dist/endpoint/index.cjs"
+    },
+    "./endpoint.par": {
+      "types": "./dist/endpoint/par/index.d.ts",
+      "import": "./dist/endpoint/par/index.js",
+      "require": "./dist/endpoint/par/index.cjs"
+    },
+    "./extractor": {
+      "types": "./dist/extractor/index.d.ts",
+      "import": "./dist/extractor/index.js",
+      "require": "./dist/extractor/index.cjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.cjs"
     }
   },
   "scripts": {
     "build": "vite build && tsc",
-    "test": "vitest"
+    "test": "vitest --run"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
