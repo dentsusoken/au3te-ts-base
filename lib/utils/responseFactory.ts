@@ -69,6 +69,24 @@ export const ok = (body?: string, headers?: Headers) =>
   createResponse(HttpStatus.OK, MediaType.APPLICATION_JSON_UTF8, body, headers);
 
 /**
+ * Creates an HTTP response with a 200 OK status and HTML content.
+ *
+ * This function is typically used to generate responses for form-based
+ * interactions, such as those defined in the OAuth 2.0 Form Post Response Mode.
+ *
+ * @param {string} [body] - The HTML content to be included in the response body.
+ *                          If omitted, an empty body will be returned.
+ * @returns {Response} A Response object with:
+ *                     - Status: 200 OK
+ *                     - Content-Type: text/html;charset=UTF-8
+ *                     - Body: The provided HTML content or empty if not provided
+ *
+ * @see {@link https://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html|OAuth 2.0 Form Post Response Mode}
+ */
+export const form = (body?: string) =>
+  createResponse(HttpStatus.OK, MediaType.TEXT_HTML_UTF8, body);
+
+/**
  * Creates a 201 Created response.
  *
  * @param body - The body of the response.

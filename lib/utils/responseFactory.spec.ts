@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   createResponse,
   ok,
+  form,
   created,
   noContent,
   location,
@@ -54,6 +55,31 @@ describe('Response creation functions', () => {
       expect(await response.json()).toEqual({ success: true });
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+  });
+
+  describe('form', () => {
+    it('should create a 200 OK response with HTML content', async () => {
+      const htmlContent = '<html><body><h1>Test</h1></body></html>';
+      const response = form(htmlContent);
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe(htmlContent);
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.TEXT_HTML_UTF8
+      );
+    });
+
+    it('should create a 200 OK response with empty body when no content is provided', async () => {
+      const response = form();
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.TEXT_HTML_UTF8
       );
     });
   });

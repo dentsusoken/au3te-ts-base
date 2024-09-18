@@ -34,24 +34,44 @@ describe('AuthleteApiImpl', () => {
       expect(response.requestUri).toBeDefined();
       expect(response.dpopNonce).toBeUndefined();
     }, 10000);
+  });
 
-    it('should handle invalid request', async () => {
-      const invalidRequest: PushedAuthReqRequest = {
-        parameters: 'invalid_parameter=value',
+  describe('authorization', () => {
+    it('should successfully post an authorization', async () => {
+      const parRequest: PushedAuthReqRequest = {
+        parameters:
+          'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
       };
 
-      const response = await authleteApi.pushAuthorizationRequest(
-        invalidRequest
+      const parResponse = await authleteApi.pushAuthorizationRequest(
+        parRequest
       );
 
-      expect(response).toBeDefined();
-      expect(response.action).toBe('UNAUTHORIZED');
-      expect(response.resultCode).toBeDefined();
-      expect(response.resultMessage).toBeDefined();
-      expect(response.responseContent).toBeDefined();
-      expect(response.clientAuthMethod).toBeUndefined();
-      expect(response.requestUri).toBeUndefined();
-      expect(response.dpopNonce).toBeUndefined();
+      expect(parResponse).toBeDefined();
+      expect(parResponse.action).toBe('CREATED');
+      expect(parResponse.resultCode).toBeDefined();
+      expect(parResponse.resultMessage).toBeDefined();
+      expect(parResponse.responseContent).toBeDefined();
+      expect(parResponse.clientAuthMethod).toBe('none');
+      expect(parResponse.requestUri).toBeDefined();
+      expect(parResponse.dpopNonce).toBeUndefined();
+
+      const authorizationRequest: PushedAuthReqRequest = {
+        parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
+          parResponse.requestUri!
+        )}`,
+      };
+
+      const authorizationResponse = await authleteApi.authorization(
+        authorizationRequest
+      );
+      console.log(authorizationResponse);
+
+      expect(authorizationResponse).toBeDefined();
+      expect(authorizationResponse.action).toBe('INTERACTION');
+      expect(authorizationResponse.service).toBeDefined();
+      expect(authorizationResponse.client).toBeDefined();
+      expect(authorizationResponse.ticket).toBeDefined();
     }, 10000);
   });
 });

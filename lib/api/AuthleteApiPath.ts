@@ -21,6 +21,8 @@
  */
 const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
 
+const AUTH_AUTHORIZATION_API_PATH = '/api/%d/auth/authorization';
+
 /**
  * Generates the path for the pushed authentication request API.
  * @param {string} serviceId - The service ID.
@@ -28,3 +30,6 @@ const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
  */
 export const pushedAuthReqPath = (serviceId: string) =>
   PUSHED_AUTH_REQ_API_PATH.replace(/%d/, serviceId);
+
+export const authorizationPath = (serviceId: string) =>
+  AUTH_AUTHORIZATION_API_PATH.replace(/%d/, serviceId);

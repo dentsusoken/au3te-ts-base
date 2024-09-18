@@ -23,12 +23,16 @@ export class AuthleteApiImpl extends AbstractAuthleteApi {
   protected readonly baseUrl: string;
   protected readonly auth: string;
   protected readonly pushAuthorizationRequestPath: string;
+  protected readonly authorizationPath: string;
 
   constructor(protected configuration: AuthleteConfiguration) {
     super();
     this.baseUrl = configuration.baseUrl;
     this.auth = 'Bearer ' + this.configuration.serviceAccessToken;
     this.pushAuthorizationRequestPath = apiPath.pushedAuthReqPath(
+      this.configuration.serviceApiKey
+    );
+    this.authorizationPath = apiPath.authorizationPath(
       this.configuration.serviceApiKey
     );
   }
