@@ -1,79 +1,97 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { z } from 'zod';
 import { InMemorySession } from './InMemorySession';
 
-type TestSessionData = {
-  stringValue: string;
-  numberValue: number;
-  booleanValue: boolean;
-};
-
 describe('InMemorySession', () => {
-  let session: InMemorySession<TestSessionData>;
+  let session: InMemorySession<TestSchemas>;
+
+  const testSchemas = {
+    user: z.object({
+      id: z.string(),
+      name: z.string(),
+    }),
+    count: z.number(),
+    isActive: z.boolean(),
+  };
+
+  type TestSchemas = typeof testSchemas;
 
   beforeEach(() => {
-    session = new InMemorySession<TestSessionData>();
+    session = new InMemorySession(testSchemas);
   });
 
   describe('get and set', () => {
     it('should set and get a value', async () => {
-      await session.set('stringValue', 'test');
-      const value = await session.get('stringValue');
-      expect(value).toBe('test');
+      await session.set('user', { id: '1', name: 'John' });
+      const user = await session.get('user');
+      expect(user).toEqual({ id: '1', name: 'John' });
     });
 
     it('should return undefined for non-existent key', async () => {
-      const value = await session.get('numberValue');
+      const value = await session.get('count');
       expect(value).toBeUndefined();
+    });
+
+    it('should handle different types', async () => {
+      await session.set('count', 42);
+      await session.set('isActive', true);
+
+      const count = await session.get('count');
+      const isActive = await session.get('isActive');
+
+      expect(count).toBe(42);
+      expect(isActive).toBe(true);
     });
   });
 
   describe('getBatch and setBatch', () => {
     it('should set and get multiple values', async () => {
       await session.setBatch({
-        stringValue: 'test',
-        numberValue: 123,
-        booleanValue: true,
-      });
-      const values = await session.getBatch(
-        'stringValue',
-        'numberValue',
-        'booleanValue'
-      );
-      expect(values).toEqual({
-        stringValue: 'test',
-        numberValue: 123,
-        booleanValue: true,
+        user: { id: '1', name: 'John' },
+        count: 42,
+        isActive: true,
       });
 
-      await session.setBatch({
-        booleanValue: false,
-      });
-      const values2 = await session.getBatch('booleanValue');
-      expect(values2).toEqual({
-        booleanValue: false,
+      const result = await session.getBatch('user', 'count', 'isActive');
+      expect(result).toEqual({
+        user: { id: '1', name: 'John' },
+        count: 42,
+        isActive: true,
       });
     });
 
-    it('should return undefined for non-existent keys in batch', async () => {
-      const values = await session.getBatch('stringValue', 'numberValue');
-      expect(values).toEqual({
-        stringValue: undefined,
-        numberValue: undefined,
+    it('should handle partial updates', async () => {
+      await session.setBatch({
+        user: { id: '1', name: 'John' },
+        count: 42,
+      });
+
+      await session.setBatch({
+        count: 43,
+        isActive: true,
+      });
+
+      const result = await session.getBatch('user', 'count', 'isActive');
+      expect(result).toEqual({
+        user: { id: '1', name: 'John' },
+        count: 43,
+        isActive: true,
       });
     });
   });
 
   describe('delete', () => {
     it('should delete a value and return it', async () => {
-      await session.set('stringValue', 'test');
-      const deletedValue = await session.delete('stringValue');
-      expect(deletedValue).toBe('test');
-      const value = await session.get('stringValue');
-      expect(value).toBeUndefined();
+      await session.set('user', { id: '1', name: 'John' });
+      const deletedUser = await session.delete('user');
+      expect(deletedUser).toEqual({ id: '1', name: 'John' });
+
+      const user = await session.get('user');
+      expect(user).toBeUndefined();
     });
 
     it('should return undefined when deleting non-existent key', async () => {
-      const deletedValue = await session.delete('numberValue');
+      const deletedValue = await session.delete('count');
       expect(deletedValue).toBeUndefined();
     });
   });
@@ -81,40 +99,45 @@ describe('InMemorySession', () => {
   describe('deleteBatch', () => {
     it('should delete multiple values and return them', async () => {
       await session.setBatch({
-        stringValue: 'test',
-        numberValue: 123,
-        booleanValue: true,
+        user: { id: '1', name: 'John' },
+        count: 42,
+        isActive: true,
       });
-      const deletedValues = await session.deleteBatch(
-        'stringValue',
-        'numberValue'
-      );
+
+      const deletedValues = await session.deleteBatch('user', 'count');
       expect(deletedValues).toEqual({
-        stringValue: 'test',
-        numberValue: 123,
+        user: { id: '1', name: 'John' },
+        count: 42,
       });
-      const remainingValue = await session.get('booleanValue');
-      expect(remainingValue).toBe(true);
+
+      const remainingValues = await session.getBatch(
+        'user',
+        'count',
+        'isActive'
+      );
+      expect(remainingValues).toEqual({
+        user: undefined,
+        count: undefined,
+        isActive: true,
+      });
     });
   });
 
   describe('clear', () => {
     it('should clear all values', async () => {
       await session.setBatch({
-        stringValue: 'test',
-        numberValue: 123,
-        booleanValue: true,
+        user: { id: '1', name: 'John' },
+        count: 42,
+        isActive: true,
       });
+
       await session.clear();
-      const values = await session.getBatch(
-        'stringValue',
-        'numberValue',
-        'booleanValue'
-      );
+
+      const values = await session.getBatch('user', 'count', 'isActive');
       expect(values).toEqual({
-        stringValue: undefined,
-        numberValue: undefined,
-        booleanValue: undefined,
+        user: undefined,
+        count: undefined,
+        isActive: undefined,
       });
     });
   });

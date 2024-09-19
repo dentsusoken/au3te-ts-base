@@ -15,29 +15,55 @@
  * License.
  */
 
-import { Session, SessionValue } from './Session';
+import { z } from 'zod';
+import { SessionSchemas, StoredSessionData, ParsedSessionData } from './types';
+import { Session } from './Session';
 
 /**
  * In-memory implementation of the Session interface.
  *
- * @template T - The type of session data, where keys are strings and values are SessionValue.
- * @implements {Session<T>}
+ * @template T - An object type extending SessionSchemas, defining the structure of the session data.
  */
-export class InMemorySession<T extends Record<string, SessionValue>>
-  implements Session<T>
-{
-  /** @private */
-  private data = {} as T;
+export class InMemorySession<T extends SessionSchemas> implements Session<T> {
+  private data: StoredSessionData<T> = {};
+  private schemas: T;
+
+  /**
+   * Creates an instance of InMemorySession.
+   *
+   * @param {T} schemas - The Zod schemas for validating session data.
+   */
+  constructor(schemas: T) {
+    this.schemas = schemas;
+  }
+
+  /**
+   * Parses a stored value for a given key.
+   *
+   * @template K - The key type, which must be a key of T.
+   * @param {K} key - The key to parse the value for.
+   * @returns {z.infer<T[K]> | undefined} The parsed value, or undefined if not found or parsing fails.
+   */
+  parseValue<K extends keyof T>(key: K): z.infer<T[K]> | undefined {
+    const value = this.data[key];
+
+    if (!value) {
+      return undefined;
+    }
+
+    const parsedJson = JSON.parse(value);
+    return this.schemas[key].parse(parsedJson);
+  }
 
   /**
    * Retrieves the value associated with the specified key.
    *
    * @template K - The key type, which must be a key of T.
    * @param {K} key - The key to retrieve the value for.
-   * @returns {Promise<T[K] | undefined>} A promise that resolves with the value, or undefined if not found.
+   * @returns {Promise<z.infer<T[K]> | undefined>} A promise that resolves with the parsed value, or undefined if not found.
    */
-  async get<K extends keyof T>(key: K): Promise<T[K] | undefined> {
-    return this.data[key];
+  async get<K extends keyof T>(key: K): Promise<z.infer<T[K]> | undefined> {
+    return this.parseValue(key);
   }
 
   /**
@@ -45,17 +71,17 @@ export class InMemorySession<T extends Record<string, SessionValue>>
    *
    * @template K - The key type, which must be a key of T.
    * @param {...K} keys - The keys to retrieve values for.
-   * @returns {Promise<{ [P in K]: T[P] | undefined }>} A promise that resolves with an object containing the retrieved values.
+   * @returns {Promise<ParsedSessionData<T, K>>} A promise that resolves with an object containing the retrieved and parsed values.
    */
   async getBatch<K extends keyof T>(
     ...keys: K[]
-  ): Promise<{ [P in K]: T[P] | undefined }> {
-    const result = {} as {
-      [P in K]: T[P] | undefined;
-    };
+  ): Promise<ParsedSessionData<T, K>> {
+    const result: ParsedSessionData<T, K> = {};
+
     keys.forEach((key) => {
-      result[key] = this.data[key];
+      result[key] = this.parseValue(key);
     });
+
     return result;
   }
 
@@ -64,21 +90,26 @@ export class InMemorySession<T extends Record<string, SessionValue>>
    *
    * @template K - The key type, which must be a key of T.
    * @param {K} key - The key to set the value for.
-   * @param {T[K]} value - The value to set.
+   * @param {z.infer<T[K]>} value - The value to set.
    * @returns {Promise<void>} A promise that resolves when the operation is complete.
    */
-  async set<K extends keyof T>(key: K, value: T[K]): Promise<void> {
-    this.data[key] = value;
+  async set<K extends keyof T>(key: K, value: z.infer<T[K]>): Promise<void> {
+    this.data[key] = JSON.stringify(value);
   }
 
   /**
    * Sets multiple key-value pairs in the session.
    *
-   * @param {Partial<T>} batch - An object containing the key-value pairs to set.
+   * @template K - The key type, which must be a key of T.
+   * @param {ParsedSessionData<T, K>} batch - An object containing the key-value pairs to set.
    * @returns {Promise<void>} A promise that resolves when the operation is complete.
    */
-  async setBatch(batch: Partial<T>): Promise<void> {
-    this.data = { ...this.data, ...batch };
+  async setBatch<K extends keyof T>(
+    batch: ParsedSessionData<T, K>
+  ): Promise<void> {
+    Object.entries(batch).forEach(([key, value]) => {
+      this.data[key as K] = JSON.stringify(value);
+    });
   }
 
   /**
@@ -86,11 +117,12 @@ export class InMemorySession<T extends Record<string, SessionValue>>
    *
    * @template K - The key type, which must be a key of T.
    * @param {K} key - The key to delete the value for.
-   * @returns {Promise<T[K] | undefined>} A promise that resolves with the deleted value, or undefined if not found.
+   * @returns {Promise<z.infer<T[K]> | undefined>} A promise that resolves with the deleted value, or undefined if not found.
    */
-  async delete<K extends keyof T>(key: K): Promise<T[K] | undefined> {
-    const result = this.data[key];
+  async delete<K extends keyof T>(key: K): Promise<z.infer<T[K]> | undefined> {
+    const result = this.parseValue(key);
     delete this.data[key];
+
     return result;
   }
 
@@ -99,16 +131,15 @@ export class InMemorySession<T extends Record<string, SessionValue>>
    *
    * @template K - The key type, which must be a key of T.
    * @param {...K} keys - The keys to delete values for.
-   * @returns {Promise<{ [P in K]: T[P] | undefined }>} A promise that resolves with an object containing the deleted values.
+   * @returns {Promise<ParsedSessionData<T, K>>} A promise that resolves with an object containing the deleted values.
    */
   async deleteBatch<K extends keyof T>(
     ...keys: K[]
-  ): Promise<{ [P in K]: T[P] | undefined }> {
-    const result = {} as {
-      [P in K]: T[P] | undefined;
-    };
+  ): Promise<ParsedSessionData<T, K>> {
+    const result: ParsedSessionData<T, K> = {};
+
     keys.forEach((key) => {
-      result[key] = this.data[key];
+      result[key] = this.parseValue(key);
       delete this.data[key];
     });
     return result;
@@ -120,6 +151,6 @@ export class InMemorySession<T extends Record<string, SessionValue>>
    * @returns {Promise<void>} A promise that resolves when the operation is complete.
    */
   async clear(): Promise<void> {
-    this.data = {} as T;
+    this.data = {};
   }
 }
