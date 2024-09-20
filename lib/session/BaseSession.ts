@@ -15,8 +15,16 @@
  * License.
  */
 
-// import { User } from 'au3te-ts-common/schemas.common';
+import { Session } from './Session';
+import { sessionSchemas } from './sessionSchemas';
 
-// export type SessionVars = {
-
-// };
+/**
+ * Represents the base session type for the application.
+ *
+ * This type is a specialized version of the generic Session interface,
+ * configured with the application's specific session schemas.
+ * It provides type-safe access to session data as defined in sessionSchemas.
+ *
+ * @typedef {Session<typeof sessionSchemas>} BaseSession
+ */
+export type BaseSession = Session<typeof sessionSchemas>;
