@@ -16,27 +16,65 @@
  */
 
 import { runAsyncCatching } from 'au3te-ts-common/utils';
-import { ProcessError } from 'au3te-ts-common/endpoint';
 import { ToApiRequest } from './toApiRequest';
 import { ProcessApiRequest } from './processApiRequest';
 import { ProcessApiResponse } from './processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { RecoverResponseResult } from '../recoverResponseResult';
 
+/**
+ * Represents a function that handles HTTP POST requests.
+ *
+ * @typedef {Function} Post
+ * @param {Request} request - The incoming HTTP request.
+ * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+ */
 export type Post = (request: Request) => Promise<Response>;
 
+/**
+ * Parameters required to create a POST handler function.
+ *
+ * @typedef {Object} CreatePostParams
+ * @property {ToApiRequest} toApiRequest - Function to convert the HTTP request to an API request.
+ * @property {ProcessApiRequest} processApiRequest - Function to process the API request.
+ * @property {ProcessApiResponse} processApiResponse - Function to process the API response.
+ * @property {RecoverResponseResult} recoverResponseResult - Function to handle and recover from errors.
+ */
 export type CreatePostParams = {
   toApiRequest: ToApiRequest;
   processApiRequest: ProcessApiRequest;
   processApiResponse: ProcessApiResponse;
-  processError: ProcessError;
+  recoverResponseResult: RecoverResponseResult;
 };
 
+/**
+ * Creates a POST handler function for processing authorization requests.
+ *
+ * This function sets up a pipeline for handling POST requests, including
+ * request conversion, API processing, response processing, and error handling.
+ *
+ * @param {CreatePostParams} params - The parameters required to create the POST handler.
+ * @returns {Post} A function that handles POST requests.
+ *
+ * @example
+ * const postHandler = createPost({
+ *   toApiRequest: convertToApiRequest,
+ *   processApiRequest: handleApiRequest,
+ *   processApiResponse: formatApiResponse,
+ *   recoverResponseResult: handleErrors
+ * });
+ *
+ * // Usage
+ * app.post('/authorize', async (req, res) => {
+ *   const response = await postHandler(req);
+ *   res.status(response.status).send(response.body);
+ * });
+ */
 export const createPost =
   ({
     toApiRequest,
     processApiRequest,
     processApiResponse,
-    processError,
+    recoverResponseResult,
   }: CreatePostParams): Post =>
   async (request: Request): Promise<Response> => {
     const responseResult = await runAsyncCatching(async () => {
@@ -46,15 +84,5 @@ export const createPost =
       return processApiResponse(apiResponse);
     });
 
-    const mayBeRecoveredResult = await responseResult.recoverAsync(
-      async (e) => {
-        const message = await processError(e);
-
-        return responseFactory.internalServerError(message);
-      }
-    );
-
-    return mayBeRecoveredResult.getOrElse((e) =>
-      responseFactory.internalServerError(e.message)
-    );
+    return await recoverResponseResult(responseResult);
   };

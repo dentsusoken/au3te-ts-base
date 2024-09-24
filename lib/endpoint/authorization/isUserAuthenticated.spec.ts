@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   createIsUserAuthenticated,
   IsUserAuthenticated,
@@ -22,12 +22,6 @@ describe('createIsUserAuthenticated', () => {
   });
 
   it('should return false when user does not exist in session', async () => {
-    const result = await isUserAuthenticated();
-    expect(result).toBe(false);
-  });
-
-  it('should return false when session throws an error', async () => {
-    vi.spyOn(session, 'get').mockRejectedValueOnce(new Error('Session error'));
     const result = await isUserAuthenticated();
     expect(result).toBe(false);
   });

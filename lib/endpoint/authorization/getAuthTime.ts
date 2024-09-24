@@ -16,14 +16,13 @@
  */
 
 import { BaseSession } from '../../session/BaseSession';
-import { runAsyncCatching } from 'au3te-ts-common/utils';
 
 /**
  * Represents a function that retrieves the time when the user was last authenticated.
  *
  * @returns {Promise<number>} A promise that resolves to the authentication time in seconds since the Unix epoch, or 0 if not available.
  */
-export type GetUserAuthenticatedAt = () => Promise<number>;
+export type GetAuthTime = () => Promise<number>;
 
 /**
  * Creates a function to retrieve the time when the user was last authenticated.
@@ -33,16 +32,12 @@ export type GetUserAuthenticatedAt = () => Promise<number>;
  * If the 'authTime' is not available or an error occurs, it returns 0.
  *
  * @param {BaseSession} session - The session object used to retrieve the authentication time.
- * @returns {GetUserAuthenticatedAt} A function that when called, retrieves the user's last authentication time.
+ * @returns {GetAuthTime} A function that when called, retrieves the user's last authentication time.
  */
-export const createGetUserAuthenticatedAt =
-  (session: BaseSession): GetUserAuthenticatedAt =>
+export const createGetAuthTime =
+  (session: BaseSession): GetAuthTime =>
   async () => {
-    const result = await runAsyncCatching(async () => {
-      const authTime = await session.get('authTime');
+    const authTime = await session.get('authTime');
 
-      return authTime ?? 0;
-    });
-
-    return result.getOrDefault(0);
+    return authTime ?? 0;
   };

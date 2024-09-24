@@ -16,7 +16,6 @@
  */
 
 import { BaseSession } from '../../session/BaseSession';
-import { runAsyncCatching } from 'au3te-ts-common/utils';
 
 /**
  * Represents a function that retrieves the subject (unique identifier) of the authenticated user.
@@ -26,24 +25,10 @@ import { runAsyncCatching } from 'au3te-ts-common/utils';
  */
 export type GetUserSubject = () => Promise<string | undefined>;
 
-/**
- * Creates a function to retrieve the subject of the authenticated user from the session.
- *
- * This function uses the provided session to fetch the 'user' object and extract its 'subject' property.
- * The subject typically represents a unique identifier for the user, often used as the 'sub' claim in ID tokens.
- * If the user is not authenticated or an error occurs during retrieval, it returns undefined.
- *
- * @param {BaseSession} session - The session object used to retrieve the user information.
- * @returns {GetUserSubject} A function that when called, retrieves the user's subject.
- */
 export const createGetUserSubject =
   (session: BaseSession): GetUserSubject =>
   async () => {
-    const result = await runAsyncCatching(async () => {
-      const user = await session.get('user');
+    const user = await session.get('user');
 
-      return user?.subject;
-    });
-
-    return result.getOrDefault(undefined);
+    return user?.subject;
   };

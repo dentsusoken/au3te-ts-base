@@ -1,8 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { PushedAuthReqEndpoint, PAR_PATH } from './PushedAuthReqEndpoint';
+import {
+  AuthorizationFailEndpoint,
+  AUTHORIZATION_FAIL_PATH,
+} from './AuthorizationFailEndpoint';
 import { createProcessApiResponse } from './processApiResponse';
 import { defaultProcessApiRequest } from './processApiRequest';
-import { createToApiRequest } from './toApiRequest';
 import { createRecoverResponseResult } from '../recoverResponseResult';
 import { createPost } from './post';
 
@@ -13,9 +15,6 @@ vi.mock('./processApiResponse', () => ({
 vi.mock('./processApiRequest', () => ({
   defaultProcessApiRequest: vi.fn(),
 }));
-vi.mock('./toApiRequest', () => ({
-  createToApiRequest: vi.fn(),
-}));
 vi.mock('../recoverResponseResult', () => ({
   createRecoverResponseResult: vi.fn(),
 }));
@@ -23,25 +22,19 @@ vi.mock('./post', () => ({
   createPost: vi.fn(),
 }));
 
-describe('PushedAuthReqEndpoint', () => {
+describe('AuthorizationFailEndpoint', () => {
   it('should initialize with default values', () => {
-    const endpoint = new PushedAuthReqEndpoint();
+    const endpoint = new AuthorizationFailEndpoint();
 
-    expect(endpoint.path).toBe(PAR_PATH);
+    expect(endpoint.path).toBe(AUTHORIZATION_FAIL_PATH);
     expect(createProcessApiResponse).toHaveBeenCalledWith(
       endpoint.buildUnknownActionMessage
     );
     expect(endpoint.processApiRequest).toBe(defaultProcessApiRequest);
-    expect(createToApiRequest).toHaveBeenCalledWith({
-      extractParameters: endpoint.extractParameters,
-      extractClientCredentials: endpoint.extractClientCredentials,
-      extractClientCertificateAndPath: endpoint.extractClientCertificateAndPath,
-    });
     expect(createRecoverResponseResult).toHaveBeenCalledWith(
       endpoint.processError
     );
     expect(createPost).toHaveBeenCalledWith({
-      toApiRequest: endpoint.toApiRequest,
       processApiRequest: endpoint.processApiRequest,
       processApiResponse: endpoint.processApiResponse,
       recoverResponseResult: endpoint.recoverResponseResult,
@@ -51,43 +44,35 @@ describe('PushedAuthReqEndpoint', () => {
   it('should use provided options when initializing', () => {
     const mockProcessApiResponse = vi.fn();
     const mockProcessApiRequest = vi.fn();
-    const mockToApiRequest = vi.fn();
     const mockRecoverResponseResult = vi.fn();
     const mockPost = vi.fn();
 
-    const endpoint = new PushedAuthReqEndpoint({
+    const endpoint = new AuthorizationFailEndpoint({
       processApiResponse: mockProcessApiResponse,
       processApiRequest: mockProcessApiRequest,
-      toApiRequest: mockToApiRequest,
       recoverResponseResult: mockRecoverResponseResult,
       post: mockPost,
     });
 
-    expect(endpoint.path).toBe(PAR_PATH);
+    expect(endpoint.path).toBe(AUTHORIZATION_FAIL_PATH);
     expect(endpoint.processApiResponse).toBe(mockProcessApiResponse);
     expect(endpoint.processApiRequest).toBe(mockProcessApiRequest);
-    expect(endpoint.toApiRequest).toBe(mockToApiRequest);
     expect(endpoint.recoverResponseResult).toBe(mockRecoverResponseResult);
     expect(endpoint.post).toBe(mockPost);
   });
 
   it('should inherit properties from BaseEndpoint', () => {
-    const mockExtractParameters = vi.fn();
-    const mockExtractClientCredentials = vi.fn();
-    const mockExtractClientCertificateAndPath = vi.fn();
+    const mockBuildUnknownActionMessage = vi.fn();
+    const mockProcessError = vi.fn();
 
-    const endpoint = new PushedAuthReqEndpoint({
-      extractParameters: mockExtractParameters,
-      extractClientCredentials: mockExtractClientCredentials,
-      extractClientCertificateAndPath: mockExtractClientCertificateAndPath,
+    const endpoint = new AuthorizationFailEndpoint({
+      buildUnknownActionMessage: mockBuildUnknownActionMessage,
+      processError: mockProcessError,
     });
 
-    expect(endpoint.extractParameters).toBe(mockExtractParameters);
-    expect(endpoint.extractClientCredentials).toBe(
-      mockExtractClientCredentials
+    expect(endpoint.buildUnknownActionMessage).toBe(
+      mockBuildUnknownActionMessage
     );
-    expect(endpoint.extractClientCertificateAndPath).toBe(
-      mockExtractClientCertificateAndPath
-    );
+    expect(endpoint.processError).toBe(mockProcessError);
   });
 });

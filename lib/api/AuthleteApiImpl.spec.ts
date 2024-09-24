@@ -2,6 +2,8 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { AuthleteApiImpl } from './AuthleteApiImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
 import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
+import { AuthorizationRequest } from 'au3te-ts-common/schemas.authorization';
+import { AuthorizationFailRequest } from 'au3te-ts-common/schemas.authorization.fail';
 
 describe('AuthleteApiImpl', () => {
   let authleteApi: AuthleteApiImpl;
@@ -56,7 +58,7 @@ describe('AuthleteApiImpl', () => {
       expect(parResponse.requestUri).toBeDefined();
       expect(parResponse.dpopNonce).toBeUndefined();
 
-      const authorizationRequest: PushedAuthReqRequest = {
+      const authorizationRequest: AuthorizationRequest = {
         parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
           parResponse.requestUri!
         )}`,
@@ -65,13 +67,66 @@ describe('AuthleteApiImpl', () => {
       const authorizationResponse = await authleteApi.authorization(
         authorizationRequest
       );
-      console.log(authorizationResponse);
+      //console.log(authorizationResponse);
 
       expect(authorizationResponse).toBeDefined();
       expect(authorizationResponse.action).toBe('INTERACTION');
       expect(authorizationResponse.service).toBeDefined();
       expect(authorizationResponse.client).toBeDefined();
       expect(authorizationResponse.ticket).toBeDefined();
+    }, 10000);
+  });
+
+  describe('authorizationFail', () => {
+    it('should successfully post an authorization fail', async () => {
+      const parRequest: PushedAuthReqRequest = {
+        parameters:
+          'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
+      };
+
+      const parResponse = await authleteApi.pushAuthorizationRequest(
+        parRequest
+      );
+
+      expect(parResponse).toBeDefined();
+      expect(parResponse.action).toBe('CREATED');
+      expect(parResponse.resultCode).toBeDefined();
+      expect(parResponse.resultMessage).toBeDefined();
+      expect(parResponse.responseContent).toBeDefined();
+      expect(parResponse.clientAuthMethod).toBe('none');
+      expect(parResponse.requestUri).toBeDefined();
+      expect(parResponse.dpopNonce).toBeUndefined();
+
+      const authorizationRequest: AuthorizationRequest = {
+        parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
+          parResponse.requestUri!
+        )}`,
+      };
+
+      const authorizationResponse = await authleteApi.authorization(
+        authorizationRequest
+      );
+      //console.log(authorizationResponse);
+
+      expect(authorizationResponse).toBeDefined();
+      expect(authorizationResponse.action).toBe('INTERACTION');
+      expect(authorizationResponse.service).toBeDefined();
+      expect(authorizationResponse.client).toBeDefined();
+      expect(authorizationResponse.ticket).toBeDefined();
+
+      const authorizationFailRequest: AuthorizationFailRequest = {
+        reason: 'NOT_LOGGED_IN',
+        ticket: authorizationResponse.ticket,
+      };
+
+      const authorizationFailResponse = await authleteApi.authorizationFail(
+        authorizationFailRequest
+      );
+      console.log(authorizationFailResponse);
+
+      expect(authorizationFailResponse).toBeDefined();
+      expect(authorizationFailResponse.resultCode).toBe('A060301');
+      expect(authorizationFailResponse.action).toBe('LOCATION');
     }, 10000);
   });
 });

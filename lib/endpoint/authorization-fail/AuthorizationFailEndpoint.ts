@@ -24,51 +24,40 @@ import {
   defaultProcessApiRequest,
   ProcessApiRequest,
 } from './processApiRequest';
-import { createToApiRequest, ToApiRequest } from './toApiRequest';
 import { createPost, Post } from './post';
 import {
-  RecoverResponseResult,
   createRecoverResponseResult,
+  RecoverResponseResult,
 } from '../recoverResponseResult';
 
-export const PAR_PATH = '/api/par';
+export const AUTHORIZATION_FAIL_PATH = '/api/auth/authorization/fail';
 
-export type PushedAuthReqEndpointConstructorOptions = {
+export type AuthorizationFailEndpointConstructorOptions = {
   processApiResponse?: ProcessApiResponse;
   processApiRequest?: ProcessApiRequest;
-  toApiRequest?: ToApiRequest;
   recoverResponseResult?: RecoverResponseResult;
   post?: Post;
 } & BaseEndpointConstructorOptions;
 
-export class PushedAuthReqEndpoint extends BaseEndpoint {
+export class AuthorizationFailEndpoint extends BaseEndpoint {
   processApiResponse: ProcessApiResponse;
   processApiRequest: ProcessApiRequest;
-  toApiRequest: ToApiRequest;
-  recoverResponseResult: RecoverResponseResult;
+  recoverResponseResult?: RecoverResponseResult;
   post: Post;
 
-  constructor(options: PushedAuthReqEndpointConstructorOptions = {}) {
-    super(PAR_PATH, options);
+  constructor(options: AuthorizationFailEndpointConstructorOptions = {}) {
+    super(AUTHORIZATION_FAIL_PATH, options);
     this.processApiResponse =
       options.processApiResponse ??
       createProcessApiResponse(this.buildUnknownActionMessage);
     this.processApiRequest =
       options.processApiRequest ?? defaultProcessApiRequest;
-    this.toApiRequest =
-      options.toApiRequest ??
-      createToApiRequest({
-        extractParameters: this.extractParameters,
-        extractClientCredentials: this.extractClientCredentials,
-        extractClientCertificateAndPath: this.extractClientCertificateAndPath,
-      });
     this.recoverResponseResult =
       options.recoverResponseResult ??
       createRecoverResponseResult(this.processError);
     this.post =
       options.post ??
       createPost({
-        toApiRequest: this.toApiRequest,
         processApiRequest: this.processApiRequest,
         processApiResponse: this.processApiResponse,
         recoverResponseResult: this.recoverResponseResult,

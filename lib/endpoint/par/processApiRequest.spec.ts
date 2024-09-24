@@ -21,6 +21,7 @@ describe('defaultProcessApiRequest', () => {
     const mockAuthleteApi = {
       pushAuthorizationRequest: mockPushAuthorizationRequest,
       authorization: vi.fn(),
+      authorizationFail: vi.fn(),
     } as AuthleteApi;
     AuthleteApiFactory.registerDefaultApi(mockAuthleteApi);
 

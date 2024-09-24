@@ -15,7 +15,6 @@
  * License.
  */
 
-import { runAsyncCatching } from 'au3te-ts-common/utils';
 import { BaseSession } from '../../session/BaseSession';
 
 /**
@@ -26,24 +25,19 @@ import { BaseSession } from '../../session/BaseSession';
 export type IsUserAuthenticated = () => Promise<boolean>;
 
 /**
- * Creates a function to check if a user is authenticated based on the provided session.
+ * Creates a function to check if a user is currently authenticated.
  *
- * This function uses the session to retrieve the user information and determines
- * if the user is authenticated based on the presence of user data in the session.
- * It handles potential errors during the session access and defaults to false
- * if an error occurs.
+ * This function uses the provided session to retrieve the user information.
+ * If the user exists in the session, it is considered that the user is authenticated.
  *
  * @param {BaseSession} session - The session object used to retrieve user information.
  * @returns {IsUserAuthenticated} A function that when called, checks if the user is authenticated.
+ *                                Returns a promise that resolves to true if the user is authenticated, false otherwise.
  */
 export const createIsUserAuthenticated =
   (session: BaseSession): IsUserAuthenticated =>
   async () => {
-    const result = await runAsyncCatching(async () => {
-      const user = await session.get('user');
+    const user = await session.get('user');
 
-      return user != null;
-    });
-
-    return result.getOrDefault(false);
+    return user != null;
   };

@@ -21,7 +21,28 @@
  */
 const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
 
+/**
+ * Path template for Authlete's authorization API endpoint.
+ *
+ * This constant represents the path template for the authorization API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ */
 const AUTH_AUTHORIZATION_API_PATH = '/api/%d/auth/authorization';
+
+/**
+ * Path template for Authlete's authorization failure API endpoint.
+ *
+ * This constant represents the path template for the authorization failure API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ * @see {@link https://docs.authlete.com/#auth-authorization-fail|Authlete API Reference: /auth/authorization/fail}
+ */
+const AUTH_AUTHORIZATION_FAIL_API_PATH = '/api/%d/auth/authorization/fail';
 
 /**
  * Generates the path for the pushed authentication request API.
@@ -31,5 +52,29 @@ const AUTH_AUTHORIZATION_API_PATH = '/api/%d/auth/authorization';
 export const pushedAuthReqPath = (serviceId: string) =>
   PUSHED_AUTH_REQ_API_PATH.replace(/%d/, serviceId);
 
+/**
+ * Generates the full path for Authlete's authorization API endpoint.
+ *
+ * This function replaces the '%d' placeholder in the AUTH_AUTHORIZATION_API_PATH
+ * with the provided service ID to create the complete API path.
+ *
+ * @function
+ * @param {string} serviceId - The service ID to be inserted into the path.
+ * @returns {string} The complete path for the authorization API endpoint.
+ */
 export const authorizationPath = (serviceId: string) =>
   AUTH_AUTHORIZATION_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the full path for Authlete's authorization failure API endpoint.
+ *
+ * This function replaces the '%d' placeholder in the AUTH_AUTHORIZATION_FAIL_API_PATH
+ * with the provided service ID to create the complete API path.
+ *
+ * @function
+ * @param {string} serviceId - The service ID to be inserted into the path.
+ * @returns {string} The complete path for the authorization failure API endpoint.
+ * @see {@link https://docs.authlete.com/#auth-authorization-fail|Authlete API Reference: /auth/authorization/fail}
+ */
+export const authorizationFailPath = (serviceId: string) =>
+  AUTH_AUTHORIZATION_FAIL_API_PATH.replace(/%d/, serviceId);
