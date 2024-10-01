@@ -15,46 +15,36 @@
  * License.
  */
 
+import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
+import { ApiClient } from 'au3te-ts-common/api';
+import {
+  PushedAuthReqHandler,
+  PushedAuthReqHandlerConstructorOptions,
+} from '../../handler/par/PushedAuthReqHandler';
 import { BaseEndpoint, BaseEndpointConstructorOptions } from '../BaseEndpoint';
-import {
-  createProcessApiResponse,
-  ProcessApiResponse,
-} from './processApiResponse';
-import {
-  defaultProcessApiRequest,
-  ProcessApiRequest,
-} from './processApiRequest';
-import { createToApiRequest, ToApiRequest } from './toApiRequest';
-import { createPost, Post } from './post';
-import {
-  RecoverResponseResult,
-  createRecoverResponseResult,
-} from '../recoverResponseResult';
-
-export const PAR_PATH = '/api/par';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest, createProcessRequest } from '../processRequest';
+import { createToApiRequest } from './toApiRequest';
 
 export type PushedAuthReqEndpointConstructorOptions = {
-  processApiResponse?: ProcessApiResponse;
-  processApiRequest?: ProcessApiRequest;
-  toApiRequest?: ToApiRequest;
-  recoverResponseResult?: RecoverResponseResult;
-  post?: Post;
-} & BaseEndpointConstructorOptions;
+  toApiRequest?: ToApiRequest<PushedAuthReqRequest>;
+  processRequest?: ProcessRequest;
+} & BaseEndpointConstructorOptions &
+  PushedAuthReqHandlerConstructorOptions;
 
 export class PushedAuthReqEndpoint extends BaseEndpoint {
-  processApiResponse: ProcessApiResponse;
-  processApiRequest: ProcessApiRequest;
-  toApiRequest: ToApiRequest;
-  recoverResponseResult: RecoverResponseResult;
-  post: Post;
+  apiClient: ApiClient;
+  handler: PushedAuthReqHandler;
+  toApiRequest: ToApiRequest<PushedAuthReqRequest>;
+  processRequest: ProcessRequest;
 
-  constructor(options: PushedAuthReqEndpointConstructorOptions = {}) {
-    super(PAR_PATH, options);
-    this.processApiResponse =
-      options.processApiResponse ??
-      createProcessApiResponse(this.buildUnknownActionMessage);
-    this.processApiRequest =
-      options.processApiRequest ?? defaultProcessApiRequest;
+  constructor(
+    apiClient: ApiClient,
+    options: PushedAuthReqEndpointConstructorOptions = {}
+  ) {
+    super(options);
+    this.apiClient = apiClient;
+    this.handler = new PushedAuthReqHandler(apiClient, options);
     this.toApiRequest =
       options.toApiRequest ??
       createToApiRequest({
@@ -62,16 +52,11 @@ export class PushedAuthReqEndpoint extends BaseEndpoint {
         extractClientCredentials: this.extractClientCredentials,
         extractClientCertificateAndPath: this.extractClientCertificateAndPath,
       });
-    this.recoverResponseResult =
-      options.recoverResponseResult ??
-      createRecoverResponseResult(this.processError);
-    this.post =
-      options.post ??
-      createPost({
+    this.processRequest =
+      options.processRequest ??
+      createProcessRequest({
         toApiRequest: this.toApiRequest,
-        processApiRequest: this.processApiRequest,
-        processApiResponse: this.processApiResponse,
-        recoverResponseResult: this.recoverResponseResult,
+        handle: this.handler.handle,
       });
   }
 }

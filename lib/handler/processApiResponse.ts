@@ -15,6 +15,10 @@
  * License.
  */
 
-export * from './BaseEndpoint';
-export * from './processRequest';
-export * from './toApiRequest';
+/**
+ * Represents a function that processes an API response and returns a Promise of Response.
+ * @template RES - The type of the API response.
+ * @param {RES} apiResponse - The API response to be processed.
+ * @returns {Promise<Response>} A promise that resolves to a Response object.
+ */
+export type ProcessApiResponse<RES> = (apiResponse: RES) => Promise<Response>;

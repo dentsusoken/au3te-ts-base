@@ -16,8 +16,9 @@
  */
 
 import { PushedAuthReqResponse } from 'au3te-ts-common/schemas.par';
+import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/endpoint';
+import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 
 /**
  * Prepares headers for the HTTP response based on the API response.
@@ -40,17 +41,6 @@ export const prepareHeaders = (
 };
 
 /**
- * Represents a function that processes a PushedAuthReqResponse and returns a Promise resolving to a Response.
- *
- * @typedef {Function} ProcessApiResponse
- * @param {PushedAuthReqResponse} apiResponse - The response from the Authlete API to be processed.
- * @returns {Promise<Response>} A promise that resolves to the HTTP response.
- */
-export type ProcessApiResponse = (
-  apiResponse: PushedAuthReqResponse
-) => Promise<Response>;
-
-/**
  * Creates a ProcessApiResponse function that handles different API response actions.
  *
  * @function createProcessApiResponse
@@ -58,7 +48,9 @@ export type ProcessApiResponse = (
  * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
  */
 export const createProcessApiResponse =
-  (buildUnknownActionMessage: BuildUnknownActionMessage): ProcessApiResponse =>
+  (
+    buildUnknownActionMessage: BuildUnknownActionMessage
+  ): ProcessApiResponse<PushedAuthReqResponse> =>
   async (apiResponse: PushedAuthReqResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
     const headers = prepareHeaders(apiResponse);

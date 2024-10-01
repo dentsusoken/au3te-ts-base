@@ -16,10 +16,6 @@
  */
 
 import {
-  CommonEndpoint,
-  CommonEndpointConstructorOptions,
-} from 'au3te-ts-common/endpoint';
-import {
   ExtractParameters,
   defaultExtractParameters,
 } from '../extractor/extractParameters';
@@ -36,19 +32,18 @@ export type BaseEndpointConstructorOptions = {
   extractParameters?: ExtractParameters;
   extractClientCredentials?: ExtractClientCredentials;
   extractClientCertificateAndPath?: ExtractClientCertificateAndPath;
-} & CommonEndpointConstructorOptions;
+};
 
 /**
  * Base class for endpoints that handle common operations.
  * @extends CommonEndpoint
  */
-export class BaseEndpoint extends CommonEndpoint {
+export class BaseEndpoint {
   extractParameters: ExtractParameters;
   extractClientCredentials: ExtractClientCredentials;
   extractClientCertificateAndPath: ExtractClientCertificateAndPath;
 
-  constructor(path: string, options: BaseEndpointConstructorOptions = {}) {
-    super(path, options);
+  constructor(options: BaseEndpointConstructorOptions = {}) {
     this.extractParameters =
       options.extractParameters ?? defaultExtractParameters;
     this.extractClientCredentials =

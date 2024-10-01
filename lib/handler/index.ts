@@ -15,6 +15,8 @@
  * License.
  */
 
-export * from './BaseEndpoint';
-export * from './processRequest';
-export * from './toApiRequest';
+export * from './BaseHandler';
+export * from './handle';
+export * from './processApiRequest';
+export * from './processApiResponse';
+export * from './recoverResponseResult';

@@ -18,13 +18,28 @@
     },
     "./endpoint": {
       "types": "./dist/endpoint/index.d.ts",
-      "import": "./dist/endpoint/index.js",
+      "import": "./dist/dendpoint/index.js",
       "require": "./dist/endpoint/index.cjs"
     },
     "./endpoint.par": {
       "types": "./dist/endpoint/par/index.d.ts",
       "import": "./dist/endpoint/par/index.js",
       "require": "./dist/endpoint/par/index.cjs"
+    },
+    "./handler": {
+      "types": "./dist/handler/index.d.ts",
+      "import": "./dist/handler/index.js",
+      "require": "./dist/handler/index.cjs"
+    },
+    "./handler.par": {
+      "types": "./dist/handler/par/index.d.ts",
+      "import": "./dist/handler/par/index.js",
+      "require": "./dist/handler/par/index.cjs"
+    },
+    "./handler.authorization-fail": {
+      "types": "./dist/handler/authorization-fail/index.d.ts",
+      "import": "./dist/handler/authorization-fail/index.js",
+      "require": "./dist/handler/authorization-fail/index.cjs"
     },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",

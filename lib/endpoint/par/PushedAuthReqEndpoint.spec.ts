@@ -1,93 +1,81 @@
-import { describe, it, expect, vi } from 'vitest';
-import { PushedAuthReqEndpoint, PAR_PATH } from './PushedAuthReqEndpoint';
-import { createProcessApiResponse } from './processApiResponse';
-import { defaultProcessApiRequest } from './processApiRequest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { PushedAuthReqEndpoint } from './PushedAuthReqEndpoint';
+import { ApiClient } from 'au3te-ts-common/api';
+import { PushedAuthReqHandler } from '../../handler/par/PushedAuthReqHandler';
 import { createToApiRequest } from './toApiRequest';
-import { createRecoverResponseResult } from '../recoverResponseResult';
-import { createPost } from './post';
+import { createProcessRequest } from '../processRequest';
 
-// Mock the imported functions
-vi.mock('./processApiResponse', () => ({
-  createProcessApiResponse: vi.fn(),
-}));
-vi.mock('./processApiRequest', () => ({
-  defaultProcessApiRequest: vi.fn(),
-}));
-vi.mock('./toApiRequest', () => ({
-  createToApiRequest: vi.fn(),
-}));
-vi.mock('../recoverResponseResult', () => ({
-  createRecoverResponseResult: vi.fn(),
-}));
-vi.mock('./post', () => ({
-  createPost: vi.fn(),
-}));
+vi.mock('../../handler/par/PushedAuthReqHandler');
+vi.mock('./toApiRequest');
+vi.mock('../processRequest');
 
 describe('PushedAuthReqEndpoint', () => {
-  it('should initialize with default values', () => {
-    const endpoint = new PushedAuthReqEndpoint();
+  const mockApiClient = {} as ApiClient;
 
-    expect(endpoint.path).toBe(PAR_PATH);
-    expect(createProcessApiResponse).toHaveBeenCalledWith(
-      endpoint.buildUnknownActionMessage
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should initialize with default options with mocks', () => {
+    const endpoint = new PushedAuthReqEndpoint(mockApiClient);
+
+    expect(endpoint).toBeInstanceOf(PushedAuthReqEndpoint);
+    expect(endpoint.apiClient).toBe(mockApiClient);
+    expect(endpoint.handler).toBeInstanceOf(PushedAuthReqHandler);
+    expect(createToApiRequest).toHaveBeenCalled();
+    expect(createProcessRequest).toHaveBeenCalled();
+  });
+
+  it('should use custom toApiRequest if provided', () => {
+    const mockToApiRequest = vi.fn();
+    const endpoint = new PushedAuthReqEndpoint(mockApiClient, {
+      toApiRequest: mockToApiRequest,
+    });
+
+    expect(endpoint.toApiRequest).toBe(mockToApiRequest);
+    expect(createToApiRequest).not.toHaveBeenCalled();
+  });
+
+  it('should use custom processRequest if provided', () => {
+    const mockProcessRequest = vi.fn();
+    const endpoint = new PushedAuthReqEndpoint(mockApiClient, {
+      processRequest: mockProcessRequest,
+    });
+
+    expect(endpoint.processRequest).toBe(mockProcessRequest);
+    expect(createProcessRequest).not.toHaveBeenCalled();
+  });
+
+  it('should pass options to PushedAuthReqHandler', () => {
+    const customOptions = {
+      extractParameters: vi.fn(),
+      extractClientCredentials: vi.fn(),
+      extractClientCertificateAndPath: vi.fn(),
+    };
+    new PushedAuthReqEndpoint(mockApiClient, customOptions);
+
+    expect(PushedAuthReqHandler).toHaveBeenCalledWith(
+      mockApiClient,
+      customOptions
     );
-    expect(endpoint.processApiRequest).toBe(defaultProcessApiRequest);
+  });
+
+  it('should create toApiRequest with correct parameters', () => {
+    const endpoint = new PushedAuthReqEndpoint(mockApiClient);
+
     expect(createToApiRequest).toHaveBeenCalledWith({
       extractParameters: endpoint.extractParameters,
       extractClientCredentials: endpoint.extractClientCredentials,
       extractClientCertificateAndPath: endpoint.extractClientCertificateAndPath,
     });
-    expect(createRecoverResponseResult).toHaveBeenCalledWith(
-      endpoint.processError
-    );
-    expect(createPost).toHaveBeenCalledWith({
+  });
+
+  it('should create processRequest with correct parameters', () => {
+    const endpoint = new PushedAuthReqEndpoint(mockApiClient);
+
+    expect(createProcessRequest).toHaveBeenCalledWith({
       toApiRequest: endpoint.toApiRequest,
-      processApiRequest: endpoint.processApiRequest,
-      processApiResponse: endpoint.processApiResponse,
-      recoverResponseResult: endpoint.recoverResponseResult,
+      handle: endpoint.handler.handle,
     });
-  });
-
-  it('should use provided options when initializing', () => {
-    const mockProcessApiResponse = vi.fn();
-    const mockProcessApiRequest = vi.fn();
-    const mockToApiRequest = vi.fn();
-    const mockRecoverResponseResult = vi.fn();
-    const mockPost = vi.fn();
-
-    const endpoint = new PushedAuthReqEndpoint({
-      processApiResponse: mockProcessApiResponse,
-      processApiRequest: mockProcessApiRequest,
-      toApiRequest: mockToApiRequest,
-      recoverResponseResult: mockRecoverResponseResult,
-      post: mockPost,
-    });
-
-    expect(endpoint.path).toBe(PAR_PATH);
-    expect(endpoint.processApiResponse).toBe(mockProcessApiResponse);
-    expect(endpoint.processApiRequest).toBe(mockProcessApiRequest);
-    expect(endpoint.toApiRequest).toBe(mockToApiRequest);
-    expect(endpoint.recoverResponseResult).toBe(mockRecoverResponseResult);
-    expect(endpoint.post).toBe(mockPost);
-  });
-
-  it('should inherit properties from BaseEndpoint', () => {
-    const mockExtractParameters = vi.fn();
-    const mockExtractClientCredentials = vi.fn();
-    const mockExtractClientCertificateAndPath = vi.fn();
-
-    const endpoint = new PushedAuthReqEndpoint({
-      extractParameters: mockExtractParameters,
-      extractClientCredentials: mockExtractClientCredentials,
-      extractClientCertificateAndPath: mockExtractClientCertificateAndPath,
-    });
-
-    expect(endpoint.extractParameters).toBe(mockExtractParameters);
-    expect(endpoint.extractClientCredentials).toBe(
-      mockExtractClientCredentials
-    );
-    expect(endpoint.extractClientCertificateAndPath).toBe(
-      mockExtractClientCertificateAndPath
-    );
   });
 });

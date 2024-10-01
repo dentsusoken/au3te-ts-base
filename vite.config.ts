@@ -8,6 +8,10 @@ export default defineConfig({
         api: './lib/api/index.ts',
         endpoint: './lib/endpoint/index.ts',
         'endpoint/par': './lib/endpoint/par/index.ts',
+        handler: './lib/handler/index.ts',
+        'handler/par': './lib/handler/par/index.ts',
+        'handler/authorization-fail':
+          './lib/handler/authorization-fail/index.ts',
         extractor: './lib/extractor/index.ts',
         utils: './lib/utils/index.ts',
       },

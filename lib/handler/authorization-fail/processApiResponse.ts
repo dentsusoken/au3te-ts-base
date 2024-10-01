@@ -17,14 +17,13 @@
 
 import { AuthorizationFailResponse } from 'au3te-ts-common/schemas.authorization.fail';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/endpoint';
-
-export type ProcessApiResponse = (
-  apiResponse: AuthorizationFailResponse
-) => Promise<Response>;
+import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
+import { ProcessApiResponse } from '../processApiResponse';
 
 export const createProcessApiResponse =
-  (buildUnknownActionMessage: BuildUnknownActionMessage): ProcessApiResponse =>
+  (
+    buildUnknownActionMessage: BuildUnknownActionMessage
+  ): ProcessApiResponse<AuthorizationFailResponse> =>
   async (apiResponse: AuthorizationFailResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
 

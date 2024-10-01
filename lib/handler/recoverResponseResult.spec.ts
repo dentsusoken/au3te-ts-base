@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Result } from 'au3te-ts-common/utils';
-import { ProcessError } from 'au3te-ts-common/endpoint';
+import { ProcessError } from 'au3te-ts-common/handler';
 import { createRecoverResponseResult } from './recoverResponseResult';
 
 describe('createRecoverResponseResult', () => {

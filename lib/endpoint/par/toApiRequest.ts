@@ -19,15 +19,7 @@ import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
 import { ExtractParameters } from '../../extractor/extractParameters';
 import { ExtractClientCredentials } from '../../extractor/extractClientCredentials';
 import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCertificateAndPath';
-
-/**
- * Represents a function that converts a Request to a PushedAuthReqRequest.
- *
- * @typedef {Function} ToApiRequest
- * @param {Request} request - The incoming HTTP request.
- * @returns {Promise<PushedAuthReqRequest>} A promise that resolves to a PushedAuthReqRequest object.
- */
-export type ToApiRequest = (request: Request) => Promise<PushedAuthReqRequest>;
+import { ToApiRequest } from '../toApiRequest';
 
 export type CreateToApiRequestParams = {
   extractParameters: ExtractParameters;
@@ -40,7 +32,7 @@ export const createToApiRequest =
     extractParameters,
     extractClientCredentials,
     extractClientCertificateAndPath,
-  }: CreateToApiRequestParams): ToApiRequest =>
+  }: CreateToApiRequestParams): ToApiRequest<PushedAuthReqRequest> =>
   async (request: Request): Promise<PushedAuthReqRequest> => {
     const parameters = await extractParameters(request);
     const { clientId, clientSecret } = await extractClientCredentials(request);

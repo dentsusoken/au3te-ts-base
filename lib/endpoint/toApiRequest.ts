@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  * License.
  */
 
-export * from './BaseEndpoint';
-export * from './processRequest';
-export * from './toApiRequest';
+/**
+ * Represents a function that converts a Request object to an API request of type REQ.
+ * @template REQ - The type of the API request.
+ * @param {Request} request - The incoming Request object to be converted.
+ * @returns {Promise<REQ>} A promise that resolves to the converted API request.
+ */
+export type ToApiRequest<REQ> = (request: Request) => Promise<REQ>;
