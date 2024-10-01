@@ -15,5 +15,5 @@
  * License.
  */
 
-export * from './AuthleteApiImpl';
-export * from './authleteApiPath';
+export * from './ApiClientImpl';
+export * from './apiPath';

@@ -17,7 +17,7 @@
 
 import { AbstractApiClient } from 'au3te-ts-common/api';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
-import * as apiPath from './authleteApiPath';
+import * as apiPath from './apiPath';
 
 /**
  * Implementation of the ApiClient interface extending AbstractApiClient.
@@ -40,6 +40,9 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for failed authorization requests */
   readonly authorizationFailPath: string;
 
+  /** The path for authorization issue requests */
+  readonly authorizationIssuePath: string;
+
   /**
    * Creates an instance of ApiClientImpl.
    * @param {AuthleteConfiguration} configuration - The configuration object for Authlete service.
@@ -55,6 +58,10 @@ export class ApiClientImpl extends AbstractApiClient {
       this.configuration.serviceApiKey
     );
     this.authorizationFailPath = apiPath.authorizationFailPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.authorizationIssuePath = apiPath.authorizationIssuePath(
       this.configuration.serviceApiKey
     );
   }

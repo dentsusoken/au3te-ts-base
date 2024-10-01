@@ -3,18 +3,17 @@ import { ApiClientImpl } from './ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
 import {
   PushedAuthReqRequest,
-  PushedAuthReqResponse,
   pushedAuthReqResponseSchema,
 } from 'au3te-ts-common/schemas.par';
-import {
-  AuthorizationResponse,
-  authorizationResponseSchema,
-} from 'au3te-ts-common/schemas.authorization';
+import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
 import {
   AuthorizationFailRequest,
-  AuthorizationFailResponse,
   authorizationFailResponseSchema,
 } from 'au3te-ts-common/schemas.authorization.fail';
+import {
+  AuthorizationIssueRequest,
+  authorizationIssueResponseSchema,
+} from 'au3te-ts-common/schemas.authorization.issue';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
@@ -24,74 +23,93 @@ const configuration: AuthleteConfiguration = {
 };
 const apiClient = new ApiClientImpl(configuration);
 
-const testPushAuthorizationRequest =
-  async (): Promise<PushedAuthReqResponse> => {
-    const request: PushedAuthReqRequest = {
-      parameters:
-        'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
-    };
-
-    const response = await apiClient.callPostApi(
-      apiClient.pushAuthorizationRequestPath,
-      pushedAuthReqResponseSchema,
-      request
-    );
-
-    expect(response).toBeDefined();
-    expect(response.action).toBe('CREATED');
-    expect(response.resultCode).toBeDefined();
-    expect(response.resultMessage).toBeDefined();
-    expect(response.responseContent).toBeDefined();
-    expect(response.clientAuthMethod).toBe('none');
-    expect(response.requestUri).toBeDefined();
-    expect(response.dpopNonce).toBeUndefined();
-
-    return response;
+const testPushAuthorizationRequest = async () => {
+  const request: PushedAuthReqRequest = {
+    parameters:
+      'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
   };
 
-const testAuthorization = async (
-  parResponse: PushedAuthReqResponse
-): Promise<AuthorizationResponse> => {
-  const authorizationRequest: PushedAuthReqRequest = {
+  const response = await apiClient.callPostApi(
+    apiClient.pushAuthorizationRequestPath,
+    pushedAuthReqResponseSchema,
+    request
+  );
+
+  expect(response).toBeDefined();
+  expect(response.action).toBe('CREATED');
+  expect(response.resultCode).toBeDefined();
+  expect(response.resultMessage).toBeDefined();
+  expect(response.responseContent).toBeDefined();
+  expect(response.clientAuthMethod).toBe('none');
+  expect(response.requestUri).toBeDefined();
+  expect(response.dpopNonce).toBeUndefined();
+
+  return response.requestUri!;
+};
+
+const testAuthorization = async (requestUri: string) => {
+  const request: PushedAuthReqRequest = {
     parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
-      parResponse.requestUri!
+      requestUri
     )}`,
   };
 
-  const authorizationResponse = await apiClient.callPostApi(
+  const response = await apiClient.callPostApi(
     apiClient.authorizationPath,
     authorizationResponseSchema,
-    authorizationRequest
+    request
   );
 
-  expect(authorizationResponse).toBeDefined();
-  expect(authorizationResponse.action).toBe('INTERACTION');
-  expect(authorizationResponse.service).toBeDefined();
-  expect(authorizationResponse.client).toBeDefined();
-  expect(authorizationResponse.ticket).toBeDefined();
+  expect(response).toBeDefined();
+  expect(response.action).toBe('INTERACTION');
+  expect(response.service).toBeDefined();
+  expect(response.client).toBeDefined();
+  expect(response.ticket).toBeDefined();
 
-  return authorizationResponse;
+  return response.ticket!;
 };
 
-const testAuthorizationFail = async (
-  authorizationResponse: AuthorizationResponse
-): Promise<AuthorizationFailResponse> => {
-  const authorizationFailRequest: AuthorizationFailRequest = {
+const testAuthorizationFail = async (ticket: string) => {
+  const request: AuthorizationFailRequest = {
     reason: 'NOT_LOGGED_IN',
-    ticket: authorizationResponse.ticket,
+    ticket: ticket,
   };
 
-  const authorizationFailResponse = await apiClient.callPostApi(
+  const response = await apiClient.callPostApi(
     apiClient.authorizationFailPath,
     authorizationFailResponseSchema,
-    authorizationFailRequest
+    request
   );
 
-  expect(authorizationFailResponse).toBeDefined();
-  expect(authorizationFailResponse.resultCode).toBe('A060301');
-  expect(authorizationFailResponse.action).toBe('LOCATION');
+  expect(response).toBeDefined();
+  expect(response.resultCode).toBe('A060301');
+  expect(response.action).toBe('LOCATION');
 
-  return authorizationFailResponse;
+  return response;
+};
+
+const testAuthorizationIssue = async (ticket: string) => {
+  const request: AuthorizationIssueRequest = {
+    ticket,
+    subject: '1004',
+  };
+
+  const response = await apiClient.callPostApi(
+    apiClient.authorizationIssuePath,
+    authorizationIssueResponseSchema,
+    request
+  );
+  console.log(response);
+
+  expect(response).toBeDefined();
+  expect(response.resultCode).toBe('A040001');
+  expect(response.action).toBe('LOCATION');
+  expect(
+    response.responseContent?.startsWith('eudi-openid4ci://authorize/?code=')
+  ).toBe(true);
+  expect(response.authorizationCode).toBeDefined();
+
+  return response;
 };
 
 describe('AbstractApiClient', () => {
@@ -103,16 +121,24 @@ describe('AbstractApiClient', () => {
 
   describe('authorization', () => {
     it('should successfully post an authorization', async () => {
-      const parResponse = await testPushAuthorizationRequest();
-      await testAuthorization(parResponse);
+      const requestUri = await testPushAuthorizationRequest();
+      await testAuthorization(requestUri);
     }, 10000);
   });
 
   describe('authorizationFail', () => {
     it('should successfully post an authorization fail', async () => {
-      const parResponse = await testPushAuthorizationRequest();
-      const authorizationResponse = await testAuthorization(parResponse);
-      await testAuthorizationFail(authorizationResponse);
+      const requestUri = await testPushAuthorizationRequest();
+      const ticket = await testAuthorization(requestUri);
+      await testAuthorizationFail(ticket);
+    }, 10000);
+  });
+
+  describe('authorizationIssue', () => {
+    it('should successfully post an authorization issue', async () => {
+      const requestUri = await testPushAuthorizationRequest();
+      const ticket = await testAuthorization(requestUri);
+      await testAuthorizationIssue(ticket);
     }, 10000);
   });
 });
