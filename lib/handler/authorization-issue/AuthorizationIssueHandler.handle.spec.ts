@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
-import { AuthorizationFailHandler } from './AuthorizationFailHandler';
+import { AuthorizationIssueHandler } from './AuthorizationIssueHandler';
 import {
   PushedAuthReqRequest,
   pushedAuthReqResponseSchema,
 } from 'au3te-ts-common/schemas.par';
 import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationFailRequest } from 'au3te-ts-common/schemas.authorization.fail';
+import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization.issue';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
@@ -16,9 +16,9 @@ const configuration: AuthleteConfiguration = {
   serviceAccessToken: process.env.ACCESS_TOKEN || '',
 };
 const apiClient = new ApiClientImpl(configuration);
-const handler = new AuthorizationFailHandler(apiClient);
+const handler = new AuthorizationIssueHandler(apiClient);
 
-const testPushAuthorizationRequest = async (): Promise<string> => {
+const testPushAuthorizationRequest = async () => {
   const request: PushedAuthReqRequest = {
     parameters:
       'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
@@ -37,7 +37,7 @@ const testAuthorization = async (requestUri: string): Promise<string> => {
   const request: PushedAuthReqRequest = {
     parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
       requestUri!
-    )}`,
+    )}&prompt=none`,
   };
 
   const response = await apiClient.callPostApi(
@@ -45,33 +45,30 @@ const testAuthorization = async (requestUri: string): Promise<string> => {
     authorizationResponseSchema,
     request
   );
+  //console.log(response);
 
   return response.ticket!;
 };
 
-const testAuthorizationFail = async (ticket: string) => {
-  const authorizationFailRequest: AuthorizationFailRequest = {
-    reason: 'NOT_LOGGED_IN',
+const testAuthorizationIssue = async (ticket: string) => {
+  const request: AuthorizationIssueRequest = {
     ticket,
+    subject: '1004',
   };
 
-  const authorizationFailResponse = await handler.handle(
-    authorizationFailRequest
-  );
-  //console.log(authorizationFailResponse);
+  const response = await handler.handle(request);
+  console.log(response);
 
-  expect(authorizationFailResponse.status).toBe(302);
+  expect(response.status).toBe(302);
   expect(
-    authorizationFailResponse.headers
-      .get('Location')
-      ?.startsWith('eudi-openid4ci://')
+    response.headers.get('Location')?.startsWith('eudi-openid4ci://')
   ).toBe(true);
 };
 
-describe('AuthorizationFailHandler.handle', () => {
+describe('AuthorizationIssueHandler.handle', () => {
   it('should successfully handle()', async () => {
     const requestUri = await testPushAuthorizationRequest();
     const ticket = await testAuthorization(requestUri);
-    await testAuthorizationFail(ticket);
+    await testAuthorizationIssue(ticket);
   }, 10000);
 });

@@ -27,48 +27,98 @@ import {
   RecoverResponseResult,
   createRecoverResponseResult,
 } from '../recoverResponseResult';
-import {
-  PushedAuthReqRequest,
-  PushedAuthReqResponse,
-  pushedAuthReqResponseSchema,
-} from 'au3te-ts-common/schemas.par';
 import { ApiClient } from 'au3te-ts-common/api';
+import {
+  AuthorizationIssueRequest,
+  AuthorizationIssueResponse,
+  authorizationIssueResponseSchema,
+} from 'au3te-ts-common/schemas.authorization.issue';
 
-export const PAR_PATH = '/api/par';
+/**
+ * The path for the authorization issue API endpoint.
+ */
+export const AUTHORIZATION_ISSUE_PATH = '/api/auth/authorization/issue';
 
-export type PushedAuthReqHandlerConstructorOptions<REQ extends object, RES> = {
+/**
+ * Options for constructing an AuthorizationIssueHandler.
+ * @template REQ - The type of the request object.
+ * @template RES - The type of the response object.
+ */
+export type AuthorizationIssueHandlerConstructorOptions<
+  REQ extends object,
+  RES
+> = {
+  /**
+   * Function to process the API response.
+   */
   processApiResponse?: ProcessApiResponse<RES>;
+  /**
+   * Function to process the API request.
+   */
   processApiRequest?: ProcessApiRequest<REQ, RES>;
+  /**
+   * Function to recover from a response result.
+   */
   recoverResponseResult?: RecoverResponseResult;
+  /**
+   * Function to handle the request.
+   */
   handle?: Handle<REQ>;
 } & BaseHandlerConstructorOptions;
 
-export class PushedAuthReqHandler<
-  REQ extends PushedAuthReqRequest = PushedAuthReqRequest,
-  RES extends PushedAuthReqResponse = PushedAuthReqResponse
+/**
+ * Handler for authorization issue requests.
+ * @template REQ - The type of the request object, extending AuthorizationIssueRequest.
+ * @template RES - The type of the response object, extending AuthorizationIssueResponse.
+ */
+export class AuthorizationIssueHandler<
+  REQ extends AuthorizationIssueRequest = AuthorizationIssueRequest,
+  RES extends AuthorizationIssueResponse = AuthorizationIssueResponse
 > extends BaseHandler {
+  /**
+   * The API client used for making requests.
+   */
   apiClient: ApiClient;
+
+  /**
+   * Function to process the API response.
+   */
   processApiResponse: ProcessApiResponse<RES>;
+
+  /**
+   * Function to process the API request.
+   */
   processApiRequest: ProcessApiRequest<REQ, RES>;
+
+  /**
+   * Function to recover from a response result.
+   */
   recoverResponseResult: RecoverResponseResult;
+
+  /**
+   * Function to handle the request.
+   */
   handle: Handle<REQ>;
 
+  /**
+   * Constructs an AuthorizationIssueHandler.
+   * @param apiClient - The API client to use for requests.
+   * @param options - Options for configuring the handler.
+   */
   constructor(
     apiClient: ApiClient,
-    options: PushedAuthReqHandlerConstructorOptions<REQ, RES> = {}
+    options: AuthorizationIssueHandlerConstructorOptions<REQ, RES> = {}
   ) {
-    super(PAR_PATH, options);
+    super(AUTHORIZATION_ISSUE_PATH, options);
     this.apiClient = apiClient;
     this.processApiResponse =
       options.processApiResponse ??
-      (createProcessApiResponse(
-        this.buildUnknownActionMessage
-      ) as ProcessApiResponse<RES>);
+      createProcessApiResponse(this.buildUnknownActionMessage);
     this.processApiRequest =
       options.processApiRequest ??
       (createProcessApiRequest(
-        apiClient.pushAuthorizationRequestPath,
-        pushedAuthReqResponseSchema,
+        apiClient.authorizationFailPath,
+        authorizationIssueResponseSchema,
         this.apiClient
       ) as ProcessApiRequest<REQ, RES>);
     this.recoverResponseResult =
@@ -76,10 +126,10 @@ export class PushedAuthReqHandler<
       createRecoverResponseResult(this.processError);
     this.handle =
       options.handle ??
-      createHandle({
+      (createHandle({
         processApiRequest: this.processApiRequest,
         processApiResponse: this.processApiResponse,
         recoverResponseResult: this.recoverResponseResult,
-      });
+      }) as Handle<REQ>);
   }
 }
