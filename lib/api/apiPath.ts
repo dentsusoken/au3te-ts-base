@@ -61,6 +61,22 @@ const AUTH_AUTHORIZATION_FAIL_API_PATH = '/api/%d/auth/authorization/fail';
 const AUTH_AUTHORIZATION_ISSUE_API_PATH = '/api/%d/auth/authorization/issue';
 
 /**
+ * The path template for the service configuration API endpoint.
+ *
+ * This constant represents the URL path for getting service configuration.
+ * The '%d' placeholder should be replaced with the appropriate service API key or version number.
+ *
+ * @constant
+ * @type {string}
+ * @example
+ * // Usage example:
+ * const serviceApiKey = '1234';
+ * const path = SERVICE_CONFIGURATION_API_PATH.replace('%d', serviceApiKey);
+ * // Result: '/api/1234/service/configuration'
+ */
+const SERVICE_CONFIGURATION_API_PATH = '/api/%d/service/configuration';
+
+/**
  * Generates the path for the pushed authentication request API.
  * @param {string} serviceId - The service ID.
  * @returns {string} The generated path.
@@ -107,3 +123,16 @@ export const authorizationFailPath = (serviceId: string) =>
  */
 export const authorizationIssuePath = (serviceId: string) =>
   AUTH_AUTHORIZATION_ISSUE_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the service configuration API path for a given service ID.
+ *
+ * This function creates the specific path for the service configuration API endpoint
+ * by replacing the '%d' placeholder in the SERVICE_CONFIGURATION_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the authorization issue endpoint.
+ */
+export const serviceConfigurationPath = (serviceId: string) =>
+  SERVICE_CONFIGURATION_API_PATH.replace(/%d/, serviceId);
