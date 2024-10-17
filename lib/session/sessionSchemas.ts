@@ -16,10 +16,18 @@
  */
 
 import { z } from 'zod';
-import { userSchema } from 'au3te-ts-common/schemas.common';
+import {
+  userSchema,
+  clientSchema,
+  nullableButOptionalStringArraySchema,
+} from 'au3te-ts-common/schemas.common';
+import { authorizationDecisionParamsSchema } from 'au3te-ts-common/schemas.authorization-decision';
 import { SessionSchemas } from './types';
 
 export const sessionSchemas = {
+  authorizationDecisionParams: authorizationDecisionParamsSchema,
+  acrs: nullableButOptionalStringArraySchema,
   user: userSchema,
+  client: clientSchema,
   authTime: z.number(),
 } satisfies SessionSchemas;

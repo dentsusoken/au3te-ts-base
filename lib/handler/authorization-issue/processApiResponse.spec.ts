@@ -45,7 +45,7 @@ describe('createProcessApiResponse', () => {
     const apiResponse = {
       action: 'FORM',
       responseContent: '<form>...</form>',
-    } as AuthorizationFailResponse;
+    } as AuthorizationIssueResponse;
     const response = await processApiResponse(apiResponse);
     expect(response.status).toBe(200);
     expect(response.headers.get('Content-Type')).toBe(
@@ -57,7 +57,7 @@ describe('createProcessApiResponse', () => {
   it('should handle unknown action', async () => {
     const apiResponse = {
       action: 'UNKNOWN_ACTION',
-    } as unknown as AuthorizationFailResponse;
+    } as unknown as AuthorizationIssueResponse;
     const response = await processApiResponse(apiResponse);
     expect(response.status).toBe(500);
     expect(await response.text()).toBe('Unknown action: UNKNOWN_ACTION');

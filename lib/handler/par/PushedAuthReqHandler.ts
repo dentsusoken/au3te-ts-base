@@ -34,8 +34,16 @@ import {
 } from 'au3te-ts-common/schemas.par';
 import { ApiClient } from 'au3te-ts-common/api';
 
+/**
+ * The path for the Pushed Authorization Request (PAR) endpoint.
+ */
 export const PAR_PATH = '/api/par';
 
+/**
+ * Options for constructing a PushedAuthReqHandler.
+ * @template REQ - The type of the request object.
+ * @template RES - The type of the response object.
+ */
 export type PushedAuthReqHandlerConstructorOptions<REQ extends object, RES> = {
   processApiResponse?: ProcessApiResponse<RES>;
   processApiRequest?: ProcessApiRequest<REQ, RES>;
@@ -43,16 +51,45 @@ export type PushedAuthReqHandlerConstructorOptions<REQ extends object, RES> = {
   handle?: Handle<REQ>;
 } & BaseHandlerConstructorOptions;
 
+/**
+ * Handler for Pushed Authorization Requests (PAR).
+ * @template REQ - The type of the request object, extending PushedAuthReqRequest.
+ * @template RES - The type of the response object, extending PushedAuthReqResponse.
+ */
 export class PushedAuthReqHandler<
   REQ extends PushedAuthReqRequest = PushedAuthReqRequest,
   RES extends PushedAuthReqResponse = PushedAuthReqResponse
 > extends BaseHandler {
+  /**
+   * The API client used for making requests.
+   */
   apiClient: ApiClient;
+
+  /**
+   * Function to process the API response.
+   */
   processApiResponse: ProcessApiResponse<RES>;
+
+  /**
+   * Function to process the API request.
+   */
   processApiRequest: ProcessApiRequest<REQ, RES>;
+
+  /**
+   * Function to recover from a response result.
+   */
   recoverResponseResult: RecoverResponseResult;
+
+  /**
+   * Function to handle the request.
+   */
   handle: Handle<REQ>;
 
+  /**
+   * Constructs a new PushedAuthReqHandler.
+   * @param apiClient - The API client to use for requests.
+   * @param options - Options for configuring the handler.
+   */
   constructor(
     apiClient: ApiClient,
     options: PushedAuthReqHandlerConstructorOptions<REQ, RES> = {}

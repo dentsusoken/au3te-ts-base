@@ -15,7 +15,10 @@
  * License.
  */
 
-import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
+import {
+  PushedAuthReqRequest,
+  PushedAuthReqResponse,
+} from 'au3te-ts-common/schemas.par';
 import { ApiClient } from 'au3te-ts-common/api';
 import {
   PushedAuthReqHandler,
@@ -26,18 +29,53 @@ import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest, createProcessRequest } from '../processRequest';
 import { createToApiRequest } from './toApiRequest';
 
+/**
+ * Options for constructing a PushedAuthReqEndpoint.
+ */
 export type PushedAuthReqEndpointConstructorOptions = {
+  /**
+   * Function to convert the request to an API request.
+   */
   toApiRequest?: ToApiRequest<PushedAuthReqRequest>;
+  /**
+   * Function to process the request.
+   */
   processRequest?: ProcessRequest;
 } & BaseEndpointConstructorOptions &
-  PushedAuthReqHandlerConstructorOptions;
+  PushedAuthReqHandlerConstructorOptions<
+    PushedAuthReqRequest,
+    PushedAuthReqResponse
+  >;
 
+/**
+ * Endpoint for handling Pushed Authorization Requests (PAR).
+ */
 export class PushedAuthReqEndpoint extends BaseEndpoint {
+  /**
+   * The API client used for making requests.
+   */
   apiClient: ApiClient;
+
+  /**
+   * The handler for Pushed Authorization Requests.
+   */
   handler: PushedAuthReqHandler;
+
+  /**
+   * Function to convert the request to an API request.
+   */
   toApiRequest: ToApiRequest<PushedAuthReqRequest>;
+
+  /**
+   * Function to process the request.
+   */
   processRequest: ProcessRequest;
 
+  /**
+   * Constructs a new PushedAuthReqEndpoint.
+   * @param apiClient - The API client to use for requests.
+   * @param options - Options for configuring the endpoint.
+   */
   constructor(
     apiClient: ApiClient,
     options: PushedAuthReqEndpointConstructorOptions = {}
