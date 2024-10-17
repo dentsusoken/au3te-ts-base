@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationFailResponse } from 'au3te-ts-common/schemas.authorization.fail';
+import { AuthorizationFailResponse } from 'au3te-ts-common/schemas.authorization-fail';
 import * as responseFactory from '../../utils/responseFactory';
 import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 import { ProcessApiResponse } from '../processApiResponse';

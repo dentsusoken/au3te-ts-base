@@ -32,7 +32,7 @@ import {
   AuthorizationIssueRequest,
   AuthorizationIssueResponse,
   authorizationIssueResponseSchema,
-} from 'au3te-ts-common/schemas.authorization.issue';
+} from 'au3te-ts-common/schemas.authorization-issue';
 
 /**
  * The path for the authorization issue API endpoint.

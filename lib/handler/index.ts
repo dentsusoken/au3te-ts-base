@@ -19,3 +19,4 @@ export * from './BaseHandler';
 export * from './handle';
 export * from './processApiResponse';
 export * from './recoverResponseResult';
+export * from './ResponseError';

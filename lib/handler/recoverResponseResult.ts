@@ -16,8 +16,9 @@
  */
 
 import { Result } from 'au3te-ts-common/utils';
-import { ProcessError } from 'au3te-ts-common/handler';
+import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
+import { ProcessError } from 'au3te-ts-common/handler';
 
 /**
  * A function type that recovers from a Result<Response> and returns a Promise<Response>.
@@ -49,9 +50,13 @@ export const createRecoverResponseResult =
   async (responseResult: Result<Response>): Promise<Response> => {
     const mayBeRecoveredResult = await responseResult.recoverAsync(
       async (e) => {
-        const message = await processError(e);
+        await processError(e);
 
-        return responseFactory.internalServerError(message);
+        if (e instanceof ResponseError) {
+          return e.response;
+        }
+
+        return responseFactory.internalServerError(e.message);
       }
     );
 

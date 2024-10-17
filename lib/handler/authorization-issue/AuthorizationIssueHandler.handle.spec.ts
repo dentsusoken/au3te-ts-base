@@ -7,7 +7,7 @@ import {
   pushedAuthReqResponseSchema,
 } from 'au3te-ts-common/schemas.par';
 import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization.issue';
+import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

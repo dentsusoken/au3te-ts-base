@@ -9,11 +9,11 @@ import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorizati
 import {
   AuthorizationFailRequest,
   authorizationFailResponseSchema,
-} from 'au3te-ts-common/schemas.authorization.fail';
+} from 'au3te-ts-common/schemas.authorization-fail';
 import {
   AuthorizationIssueRequest,
   authorizationIssueResponseSchema,
-} from 'au3te-ts-common/schemas.authorization.issue';
+} from 'au3te-ts-common/schemas.authorization-issue';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

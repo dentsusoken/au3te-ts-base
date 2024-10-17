@@ -32,7 +32,7 @@ import {
   AuthorizationFailRequest,
   AuthorizationFailResponse,
   authorizationFailResponseSchema,
-} from 'au3te-ts-common/schemas.authorization.fail';
+} from 'au3te-ts-common/schemas.authorization-fail';
 
 export const AUTHORIZATION_FAIL_PATH = '/api/auth/authorization/fail';
 

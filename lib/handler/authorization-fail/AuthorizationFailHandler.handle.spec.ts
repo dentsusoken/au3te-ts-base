@@ -7,7 +7,7 @@ import {
   pushedAuthReqResponseSchema,
 } from 'au3te-ts-common/schemas.par';
 import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationFailRequest } from 'au3te-ts-common/schemas.authorization.fail';
+import { AuthorizationFailRequest } from 'au3te-ts-common/schemas.authorization-fail';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

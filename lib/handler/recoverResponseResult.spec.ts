@@ -1,46 +1,53 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Result } from 'au3te-ts-common/utils';
-import { ProcessError } from 'au3te-ts-common/handler';
+import { ResponseError } from './ResponseError';
+import * as responseFactory from '../utils/responseFactory';
 import { createRecoverResponseResult } from './recoverResponseResult';
 
 describe('createRecoverResponseResult', () => {
-  const mockProcessError: ProcessError = vi.fn(
-    async (e) => `Processed error: ${e.message}`
-  );
-  const recoverResponseResult = createRecoverResponseResult(mockProcessError);
+  // Mock the processError function
+  const mockProcessError = vi.fn();
 
-  it('should return the original response when Result is Ok', async () => {
-    const mockResponse = new Response('Success', { status: 200 });
-    const result = Result.success(mockResponse);
+  // Create a sample successful response
+  const successResponse = new Response('Success', { status: 200 });
 
-    const response = await recoverResponseResult(result);
+  it('should return the original response for successful results', async () => {
+    const recoverResponse = createRecoverResponseResult(mockProcessError);
+    const result = Result.success(successResponse);
 
-    expect(response).toBe(mockResponse);
+    const response = await recoverResponse(result);
+
+    expect(response).toBe(successResponse);
     expect(mockProcessError).not.toHaveBeenCalled();
   });
 
-  it('should process the error and return an internal server error response when Result is Err', async () => {
-    const error = new Error('Test error');
-    const result = Result.failure(error) as Result<Response>;
+  it('should handle ResponseError and return its response', async () => {
+    const recoverResponse = createRecoverResponseResult(mockProcessError);
+    const errorResponse = new Response('Error', { status: 400 });
+    const responseError = new ResponseError('Test error', errorResponse);
+    const result = Result.failure<Response>(responseError);
 
-    const response = await recoverResponseResult(result);
+    const response = await recoverResponse(result);
 
-    expect(response.status).toBe(500);
-    expect(await response.text()).toBe('Processed error: Test error');
-    expect(mockProcessError).toHaveBeenCalledWith(error);
+    expect(response).toBe(errorResponse);
+    expect(mockProcessError).toHaveBeenCalledWith(responseError);
   });
 
-  it('should return an internal server error with the error message if processError fails', async () => {
-    const error = new Error('Test error');
-    const result = Result.failure(error) as Result<Response>;
-    vi.mocked(mockProcessError).mockRejectedValueOnce(
-      new Error('Process error failed')
+  it('should handle generic errors and return an internal server error response', async () => {
+    const recoverResponse = createRecoverResponseResult(mockProcessError);
+    const genericError = new Error('Generic error');
+    const result = Result.failure<Response>(genericError);
+
+    vi.spyOn(responseFactory, 'internalServerError').mockReturnValue(
+      new Response('Internal Server Error', { status: 500 })
     );
 
-    const response = await recoverResponseResult(result);
+    const response = await recoverResponse(result);
 
     expect(response.status).toBe(500);
-    expect(await response.text()).toBe('Process error failed');
-    expect(mockProcessError).toHaveBeenCalledWith(error);
+    expect(mockProcessError).toHaveBeenCalledWith(genericError);
+    expect(responseFactory.internalServerError).toHaveBeenCalledWith(
+      'Generic error'
+    );
   });
 });
