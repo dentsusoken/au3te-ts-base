@@ -10,10 +10,11 @@ const configuration: AuthleteConfiguration = {
   serviceApiKey: process.env.API_KEY || '',
   serviceAccessToken: process.env.ACCESS_TOKEN || '',
 };
+
 const apiClient = new ApiClientImpl(configuration);
 const handler = new CredentialIssuerMetadataReqHandler(apiClient);
 
-const testPushAuthorizationRequest = async () => {
+const testCredentialIssuerMetadataRequest = async () => {
   const request: CredentialIssuerMetadataRequest = {
     pretty: true,
   };
@@ -29,8 +30,8 @@ const testPushAuthorizationRequest = async () => {
   //return response;
 };
 
-describe('PushedAuthReqHandler.handle', () => {
+describe('CredentialIssuerMetadataReqHandler.handle', () => {
   it('should successfully handle()', async () => {
-    await testPushAuthorizationRequest();
+    await testCredentialIssuerMetadataRequest();
   }, 10000);
 });

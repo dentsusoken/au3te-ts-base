@@ -30,7 +30,7 @@ import {
 import {
   ServiceConfigurationRequest,
   ServiceConfigurationResponse,
-  serviceConfigurationRequestSchema,
+  serviceConfigurationResponseSchema,
 } from 'au3te-ts-common/schemas.service.configuration';
 import { ApiClient } from 'au3te-ts-common/api';
 
@@ -66,7 +66,7 @@ export class ServiceConfReqHandler<
       options.processApiRequest ??
       (createProcessGetApiRequest(
         apiClient.serviceConfigurationPath,
-        serviceConfigurationRequestSchema,
+        serviceConfigurationResponseSchema,
         this.apiClient
       ) as ProcessApiRequest<REQ, RES>);
     this.recoverResponseResult =

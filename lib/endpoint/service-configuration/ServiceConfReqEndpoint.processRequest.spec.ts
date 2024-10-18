@@ -12,7 +12,7 @@ const configuration: AuthleteConfiguration = {
 const apiClient = new ApiClientImpl(configuration);
 const endpoint = new ServiceConfReqEndpoint(apiClient);
 
-const testPushAuthorizationRequest = async () => {
+const testServiceConfRequest = async () => {
   const query = new URLSearchParams({
     pretty: 'true',
     patch:
@@ -26,18 +26,17 @@ const testPushAuthorizationRequest = async () => {
 
   const response = await endpoint.processRequest(request);
   //console.log(response);
-  const resBody = await response.text();
-  console.log(resBody);
+  const resBody = await response.json();
+  // console.log(resBody);
 
   expect(response.status).toBe(200);
-  // expect(resBody.expires_in).toBeDefined();
-  // expect(resBody.request_uri).toBeDefined();
+  expect(resBody.issuer).toBeDefined();
 
   //return response;
 };
 
 describe('ServiceConfReqEndpoint.processRequest', () => {
   it('should successfully processRequest()', async () => {
-    await testPushAuthorizationRequest();
+    await testServiceConfRequest();
   }, 10000);
 });

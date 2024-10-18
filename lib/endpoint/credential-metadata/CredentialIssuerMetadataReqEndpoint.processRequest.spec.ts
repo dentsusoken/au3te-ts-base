@@ -12,7 +12,7 @@ const configuration: AuthleteConfiguration = {
 const apiClient = new ApiClientImpl(configuration);
 const endpoint = new CredentialIssuerMetadataReqEndpoint(apiClient);
 
-const testPushAuthorizationRequest = async () => {
+const testCredentialIssuerMetadataRequest = async () => {
   const query = new URLSearchParams({
     pretty: 'true',
   }).toString();
@@ -25,7 +25,7 @@ const testPushAuthorizationRequest = async () => {
   const response = await endpoint.processRequest(request);
   //console.log(response);
   const resBody = await response.json();
-  //console.log(resBody);
+  // console.log(resBody);
 
   expect(response.status).toBe(200);
   expect(resBody.credential_issuer).toBeDefined();
@@ -35,6 +35,6 @@ const testPushAuthorizationRequest = async () => {
 
 describe('CredentialIssuerMetadataReqEndpoint.processRequest', () => {
   it('should successfully processRequest()', async () => {
-    await testPushAuthorizationRequest();
+    await testCredentialIssuerMetadataRequest();
   }, 10000);
 });

@@ -13,7 +13,7 @@ const configuration: AuthleteConfiguration = {
 const apiClient = new ApiClientImpl(configuration);
 const handler = new ServiceConfReqHandler(apiClient);
 
-const testPushAuthorizationRequest = async () => {
+const testServiceConfRequest = async () => {
   const request: ServiceConfigurationRequest = {
     pretty: true,
     patch:
@@ -23,7 +23,7 @@ const testPushAuthorizationRequest = async () => {
   const response = await handler.handle(request);
   // console.log(response);
   const responseBody = await response.json();
-  //console.log(responseBody);
+  // console.log(responseBody);
 
   expect(response.status).toBe(200);
   expect(responseBody.issuer).toBeDefined();
@@ -31,8 +31,8 @@ const testPushAuthorizationRequest = async () => {
   //return response;
 };
 
-describe('PushedAuthReqHandler.handle', () => {
+describe('ServiceConfReqHandler.handle', () => {
   it('should successfully handle()', async () => {
-    await testPushAuthorizationRequest();
+    await testServiceConfRequest();
   }, 10000);
 });
