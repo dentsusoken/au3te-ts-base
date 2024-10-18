@@ -77,6 +77,22 @@ const AUTH_AUTHORIZATION_ISSUE_API_PATH = '/api/%d/auth/authorization/issue';
 const SERVICE_CONFIGURATION_API_PATH = '/api/%d/service/configuration';
 
 /**
+ * The path template for the credential issuer metadata API endpoint.
+ *
+ * This constant represents the URL path for getting credential issuer metadata.
+ * The '%d' placeholder should be replaced with the appropriate service API key or version number.
+ *
+ * @constant
+ * @type {string}
+ * @example
+ * // Usage example:
+ * const serviceApiKey = '1234';
+ * const path = CREDENTIAL_ISSUER_METADATA_API_PATH.replace('%d', serviceApiKey);
+ * // Result: '/api/1234/vci/metadata'
+ */
+const CREDENTIAL_ISSUER_METADATA_API_PATH = '/api/%d/vci/metadata';
+
+/**
  * Generates the path for the pushed authentication request API.
  * @param {string} serviceId - The service ID.
  * @returns {string} The generated path.
@@ -136,3 +152,16 @@ export const authorizationIssuePath = (serviceId: string) =>
  */
 export const serviceConfigurationPath = (serviceId: string) =>
   SERVICE_CONFIGURATION_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the credential issuer metadata API path for a given service ID.
+ *
+ * This function creates the specific path for the service configuration API endpoint
+ * by replacing the '%d' placeholder in the CREDENTIAL_ISSUER_METADATA_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the authorization issue endpoint.
+ */
+export const credentialIssuerMetadataPath = (serviceId: string) =>
+  CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);
