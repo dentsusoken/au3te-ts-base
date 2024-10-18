@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service.configuration';
+import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service-configuration';
 import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {

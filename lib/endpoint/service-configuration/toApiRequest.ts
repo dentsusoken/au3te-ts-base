@@ -15,7 +15,7 @@
  * License.
  */
 
-import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service.configuration';
+import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-configuration';
 import { ToApiRequest } from '../toApiRequest';
 
 export const createToApiRequest =

@@ -31,7 +31,7 @@ import {
   ServiceConfigurationRequest,
   ServiceConfigurationResponse,
   serviceConfigurationResponseSchema,
-} from 'au3te-ts-common/schemas.service.configuration';
+} from 'au3te-ts-common/schemas.service-configuration';
 import { ApiClient } from 'au3te-ts-common/api';
 
 export const SERVICE_CONF_PATH = '/.well-known/openid-configuration';

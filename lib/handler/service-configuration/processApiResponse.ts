@@ -15,7 +15,7 @@
  * License.
  */
 
-import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service.configuration';
+import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service-configuration';
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 

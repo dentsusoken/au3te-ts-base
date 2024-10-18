@@ -26,6 +26,16 @@
       "import": "./dist/endpoint/par/index.js",
       "require": "./dist/endpoint/par/index.cjs"
     },
+    "./endpoint.service-configuration": {
+      "types": "./dist/endpoint/service-configuration/index.d.ts",
+      "import": "./dist/endpoint/service-configuration/index.js",
+      "require": "./dist/endpoint/service-configuration/index.cjs"
+    },
+    "./endpoint.credential-metadata": {
+      "types": "./dist/endpoint/credential-metadata/index.d.ts",
+      "import": "./dist/endpoint/credential-metadata/index.js",
+      "require": "./dist/endpoint/credential-metadata/index.cjs"
+    },
     "./handler": {
       "types": "./dist/handler/index.d.ts",
       "import": "./dist/handler/index.js",
@@ -35,6 +45,16 @@
       "types": "./dist/handler/par/index.d.ts",
       "import": "./dist/handler/par/index.js",
       "require": "./dist/handler/par/index.cjs"
+    },
+    "./handler.service-configuration": {
+      "types": "./dist/handler/service-configuration/index.d.ts",
+      "import": "./dist/handler/service-configuration/index.js",
+      "require": "./dist/handler/service-configuration/index.cjs"
+    },
+    "./handler.credential-metadata": {
+      "types": "./dist/handler/credential-metadata/index.d.ts",
+      "import": "./dist/handler/credential-metadata/index.js",
+      "require": "./dist/handler/credential-metadata/index.cjs"
     },
     "./handler.authorization-fail": {
       "types": "./dist/handler/authorization-fail/index.d.ts",

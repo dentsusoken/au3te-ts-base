@@ -15,18 +15,5 @@
  * License.
  */
 
-import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
-import { ToApiRequest } from '../toApiRequest';
-
-export const createToApiRequest =
-  (): ToApiRequest<CredentialIssuerMetadataRequest> =>
-  async (request: Request): Promise<CredentialIssuerMetadataRequest> => {
-    const serachParams = new URL(request.url).searchParams;
-    const pretty = Boolean(serachParams.get('pretty'));
-
-    const apiRequest: CredentialIssuerMetadataRequest = {
-      pretty,
-    };
-
-    return apiRequest;
-  };
+export * from './ServiceConfReqHandler';
+export * from './processApiResponse';

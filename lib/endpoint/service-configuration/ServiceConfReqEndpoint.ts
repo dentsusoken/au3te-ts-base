@@ -27,7 +27,7 @@ import { createToApiRequest } from './toApiRequest';
 import {
   ServiceConfigurationRequest,
   ServiceConfigurationResponse,
-} from 'au3te-ts-common/schemas.service.configuration';
+} from 'au3te-ts-common/schemas.service-configuration';
 
 export type ServiceConfReqEndpointConstructorOptions = {
   toApiRequest?: ToApiRequest<ServiceConfigurationRequest>;

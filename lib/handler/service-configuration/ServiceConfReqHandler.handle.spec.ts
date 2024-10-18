@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
 import { ServiceConfReqHandler } from './ServiceConfReqHandler';
-import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service.configuration';
+import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-configuration';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

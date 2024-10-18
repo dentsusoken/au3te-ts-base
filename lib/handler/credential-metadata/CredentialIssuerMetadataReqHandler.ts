@@ -31,7 +31,7 @@ import {
   CredentialIssuerMetadataRequest,
   CredentialIssuerMetadataResponse,
   credentialIssuerMetadataResponseSchema,
-} from 'au3te-ts-common/schemas.credential.metadata';
+} from 'au3te-ts-common/schemas.credential-metadata';
 import { ApiClient } from 'au3te-ts-common/api';
 
 export const CREDENTIAL_ISSUER_METADATA_PATH =

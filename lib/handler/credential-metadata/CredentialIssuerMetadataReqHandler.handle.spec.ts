@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
 import { CredentialIssuerMetadataReqHandler } from './CredentialIssuerMetadataReqHandler';
-import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential.metadata';
+import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

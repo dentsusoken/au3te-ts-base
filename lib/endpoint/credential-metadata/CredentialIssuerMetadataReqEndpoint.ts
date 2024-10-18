@@ -18,7 +18,7 @@
 import {
   CredentialIssuerMetadataRequest,
   CredentialIssuerMetadataResponse,
-} from 'au3te-ts-common/schemas.credential.metadata';
+} from 'au3te-ts-common/schemas.credential-metadata';
 import { ApiClient } from 'au3te-ts-common/api';
 import {
   CredentialIssuerMetadataReqHandler,

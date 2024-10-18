@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential.metadata';
+import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
