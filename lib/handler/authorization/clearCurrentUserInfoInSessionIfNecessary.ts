@@ -19,28 +19,47 @@ import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { CheckPrompts } from './checkPrompts';
 import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
+import { BaseSession } from '../../session/BaseSession';
 
+/**
+ * Represents a function that clears the current user information from the session if necessary.
+ *
+ * @param {AuthorizationResponse} response - The authorization response object.
+ * @param {BaseSession} session - The session object.
+ * @returns {Promise<void>} A promise that resolves when the operation is complete.
+ */
 export type ClearCurrentUserInfoInSessionIfNecessary = (
-  response: AuthorizationResponse
+  response: AuthorizationResponse,
+  session: BaseSession
 ) => Promise<void>;
 
+/**
+ * Parameters for creating a ClearCurrentUserInfoInSessionIfNecessary function.
+ */
 type CreateClearCurrentUserInfoInSessionIfNecessaryParams = {
   checkPrompts: CheckPrompts;
   checkAuthAge: CheckAuthAge;
   clearCurrentUserInfoInSession: ClearCurrentUserInfoInSession;
 };
 
+/**
+ * Creates a function to clear current user information from the session if necessary.
+ *
+ * @param {CreateClearCurrentUserInfoInSessionIfNecessaryParams} params - The parameters for creating the function.
+ * @returns {ClearCurrentUserInfoInSessionIfNecessary} A function that clears current user information if necessary.
+ */
 export const createClearCurrentUserInfoInSessionIfNecessary =
   ({
     checkPrompts,
     checkAuthAge,
     clearCurrentUserInfoInSession,
   }: CreateClearCurrentUserInfoInSessionIfNecessaryParams): ClearCurrentUserInfoInSessionIfNecessary =>
-  async (response) => {
-    const shouldClearSession =
-      checkPrompts(response) || (await checkAuthAge(response));
+  async (response, session) => {
+    const authTime = (await session.get('authTime')) ?? 0;
+    const shouldClearCurrentUserInfoInSession =
+      checkPrompts(response.prompts) || checkAuthAge(authTime, response.maxAge);
 
-    if (shouldClearSession) {
-      await clearCurrentUserInfoInSession();
+    if (shouldClearCurrentUserInfoInSession) {
+      await clearCurrentUserInfoInSession(session);
     }
   };

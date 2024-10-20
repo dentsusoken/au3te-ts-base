@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,28 +34,73 @@ import {
   authorizationFailResponseSchema,
 } from 'au3te-ts-common/schemas.authorization-fail';
 
+/**
+ * The path for the authorization fail API endpoint.
+ */
 export const AUTHORIZATION_FAIL_PATH = '/api/auth/authorization/fail';
 
+/**
+ * Options for constructing an AuthorizationFailHandler.
+ * @template REQ - The type of the request object.
+ * @template RES - The type of the response object.
+ */
 export type AuthorizationFailHandlerConstructorOptions<
   REQ extends object,
   RES
 > = {
+  /**
+   * Function to process the API response.
+   */
   processApiResponse?: ProcessApiResponse<RES>;
+  /**
+   * Function to process the API request.
+   */
   processApiRequest?: ProcessApiRequest<REQ, RES>;
+  /**
+   * Function to recover from a response result.
+   */
   recoverResponseResult?: RecoverResponseResult;
+  /**
+   * Function to handle the request.
+   */
   handle?: Handle<AuthorizationFailRequest>;
 } & BaseHandlerConstructorOptions;
 
+/**
+ * Handler for authorization fail requests.
+ * @template REQ - The type of the request object, extending AuthorizationFailRequest.
+ * @template RES - The type of the response object, extending AuthorizationFailResponse.
+ */
 export class AuthorizationFailHandler<
   REQ extends AuthorizationFailRequest = AuthorizationFailRequest,
   RES extends AuthorizationFailResponse = AuthorizationFailResponse
 > extends BaseHandler {
+  /**
+   * The API client used for making requests.
+   */
   apiClient: ApiClient;
+  /**
+   * Function to process the API response.
+   */
   processApiResponse: ProcessApiResponse<RES>;
+  /**
+   * Function to process the API request.
+   */
   processApiRequest: ProcessApiRequest<REQ, RES>;
+  /**
+   * Function to recover from a response result.
+   */
   recoverResponseResult: RecoverResponseResult;
+  /**
+   * Function to handle the request.
+   */
   handle: Handle<REQ>;
 
+  /**
+   * Creates an instance of AuthorizationFailHandler.
+   * @param {ApiClient} apiClient - The API client to use for requests.
+   * @param {AuthorizationFailHandlerConstructorOptions<REQ, RES>} [options={}] - Options for configuring the handler.
+   */
   constructor(
     apiClient: ApiClient,
     options: AuthorizationFailHandlerConstructorOptions<REQ, RES> = {}

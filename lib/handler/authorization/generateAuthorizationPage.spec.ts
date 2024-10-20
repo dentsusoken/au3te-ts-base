@@ -3,6 +3,7 @@ import { createGenerateAuthorizationPage } from './generateAuthorizationPage';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import * as pageModel from 'au3te-ts-common/page-model.authorization';
 import { BaseSession } from '../../session/BaseSession';
+
 // Mock dependencies
 vi.mock('au3te-ts-common/page-model.authorization');
 
@@ -10,7 +11,7 @@ describe('createGenerateAuthorizationPage', () => {
   const mockSession = {
     setBatch: vi.fn(),
     get: vi.fn(),
-  };
+  } as unknown as BaseSession;
   const mockResponseToDecisionParams = vi.fn();
   const mockClearCurrentUserInfoInSessionIfNecessary = vi.fn();
   const mockBuildResponse = vi.fn();
@@ -22,7 +23,6 @@ describe('createGenerateAuthorizationPage', () => {
     vi.clearAllMocks();
 
     generateAuthorizationPage = createGenerateAuthorizationPage({
-      session: mockSession as unknown as BaseSession,
       responseToDecisionParams: mockResponseToDecisionParams,
       clearCurrentUserInfoInSessionIfNecessary:
         mockClearCurrentUserInfoInSessionIfNecessary,
@@ -42,7 +42,7 @@ describe('createGenerateAuthorizationPage', () => {
     const mockModel = { page: 'authorization' };
 
     mockResponseToDecisionParams.mockReturnValue(mockDecisionParams);
-    mockSession.get.mockResolvedValue(mockUser);
+    vi.mocked(mockSession.get).mockResolvedValue(mockUser);
     vi.spyOn(pageModel, 'buildAuthorizationPageModel').mockReturnValue({
       authorizationResponse: mockResponse,
       ...mockModel,
@@ -51,7 +51,7 @@ describe('createGenerateAuthorizationPage', () => {
     mockBuildResponse.mockResolvedValue(mockResponseObject);
 
     // Act
-    const result = await generateAuthorizationPage(mockResponse);
+    const result = await generateAuthorizationPage(mockResponse, mockSession);
 
     // Assert
     expect(mockSession.setBatch).toHaveBeenCalledWith({
@@ -60,7 +60,8 @@ describe('createGenerateAuthorizationPage', () => {
       client: mockResponse.client,
     });
     expect(mockClearCurrentUserInfoInSessionIfNecessary).toHaveBeenCalledWith(
-      mockResponse
+      mockResponse,
+      mockSession
     );
     expect(mockSession.get).toHaveBeenCalledWith('user');
     expect(pageModel.buildAuthorizationPageModel).toHaveBeenCalledWith(

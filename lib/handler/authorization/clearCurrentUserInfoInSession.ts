@@ -18,24 +18,23 @@
 import { BaseSession } from '../../session/BaseSession';
 
 /**
- * Represents a function that clears the current user's information from the session.
+ * Represents a function that clears the current user information from the session.
  *
- * @returns {Promise<void>} A promise that resolves when the user information has been cleared.
+ * @param {BaseSession} session - The session object containing user information
+ * @returns {Promise<void>} A promise that resolves when the operation is complete
  */
-export type ClearCurrentUserInfoInSession = () => Promise<void>;
+export type ClearCurrentUserInfoInSession = (
+  session: BaseSession
+) => Promise<void>;
 
 /**
- * Creates a function to clear the current user's information from the session.
- *
+ * Default implementation of the function to clear current user information from the session.
  * This function removes both the 'user' and 'authTime' entries from the session.
- * The 'user' typically contains the user's subject identifier and other user-related data.
- * The 'authTime' represents the time when the user authentication occurred.
  *
- * @param {BaseSession} session - The session object used to store user information.
- * @returns {ClearCurrentUserInfoInSession} A function that when called, clears the user information from the session.
+ * @param {BaseSession} session - The session object containing user information
+ * @returns {Promise<void>} A promise that resolves when the operation is complete
  */
-export const createClearCurrentUserInfoInSession =
-  (session: BaseSession): ClearCurrentUserInfoInSession =>
-  async () => {
+export const defaultClearCurrentUserInfoInSession: ClearCurrentUserInfoInSession =
+  async (session: BaseSession) => {
     await session.deleteBatch('user', 'authTime');
   };

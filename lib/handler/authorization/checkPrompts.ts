@@ -15,27 +15,22 @@
  * License.
  */
 
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
+/**
+ * Represents a function that checks if the 'login' prompt is included in the given array of prompts.
+ * @param {string[] | undefined} prompts - An array of prompt strings or undefined.
+ * @returns {boolean} True if 'login' is included in the prompts, false otherwise.
+ */
+export type CheckPrompts = (prompts: string[] | undefined) => boolean;
 
 /**
- * Represents a function that checks the prompts in an AuthorizationResponse.
- *
- * @param {AuthorizationResponse} response - The authorization response to check.
- * @returns {boolean} True if re-authentication is required, false otherwise.
+ * Default implementation of the CheckPrompts function.
+ * @param {string[] | undefined} prompts - An array of prompt strings or undefined.
+ * @returns {boolean} True if 'login' is included in the prompts, false if prompts is undefined or doesn't include 'login'.
  */
-export type CheckPrompts = (response: AuthorizationResponse) => boolean;
-
-/**
- * Default implementation of CheckPrompts.
- * Checks if the 'login' prompt is present in the authorization response.
- *
- * @param {AuthorizationResponse} response - The authorization response to check.
- * @returns {boolean} True if the 'login' prompt is present, indicating that
- *                    the user's session should be cleared and re-authentication
- *                    is required. False otherwise.
- */
-export const defaultCheckPrompts: CheckPrompts = (response) => {
-  const prompts = response.prompts ?? [];
+export const defaultCheckPrompts: CheckPrompts = (prompts) => {
+  if (!prompts) {
+    return false;
+  }
 
   return prompts.includes('login');
 };

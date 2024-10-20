@@ -23,11 +23,11 @@ import { BuildResponse } from './buildResponse';
 import { ResponseToDecisionParams } from './responseToDecisionParams';
 
 export type GenerateAuthorizationPage = (
-  response: AuthorizationResponse
+  response: AuthorizationResponse,
+  session: BaseSession
 ) => Promise<Response>;
 
 type GenerateAuthorizationPageParams = {
-  session: BaseSession;
   responseToDecisionParams: ResponseToDecisionParams;
   clearCurrentUserInfoInSessionIfNecessary: ClearCurrentUserInfoInSessionIfNecessary;
   buildResponse: BuildResponse;
@@ -35,12 +35,11 @@ type GenerateAuthorizationPageParams = {
 
 export const createGenerateAuthorizationPage =
   ({
-    session,
     responseToDecisionParams,
     clearCurrentUserInfoInSessionIfNecessary,
     buildResponse,
   }: GenerateAuthorizationPageParams): GenerateAuthorizationPage =>
-  async (response) => {
+  async (response, session) => {
     const authorizationDecisionParams = responseToDecisionParams(response);
     const acrs = response.acrs;
     const client = response.client;
@@ -50,7 +49,7 @@ export const createGenerateAuthorizationPage =
       acrs,
       client,
     });
-    await clearCurrentUserInfoInSessionIfNecessary(response);
+    await clearCurrentUserInfoInSessionIfNecessary(response, session);
     const user = await session.get('user');
     const model = buildAuthorizationPageModel(response, user);
 

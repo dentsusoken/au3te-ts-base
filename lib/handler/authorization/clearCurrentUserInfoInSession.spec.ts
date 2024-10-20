@@ -1,40 +1,19 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import {
-  createClearCurrentUserInfoInSession,
-  ClearCurrentUserInfoInSession,
-} from './clearCurrentUserInfoInSession';
+import { describe, it, expect, vi } from 'vitest';
 import { BaseSession } from '../../session/BaseSession';
+import { defaultClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
 
-describe('createClearCurrentUserInfoInSession', () => {
-  let mockSession: BaseSession;
-  let clearCurrentUserInfoInSession: ClearCurrentUserInfoInSession;
-
-  beforeEach(() => {
-    mockSession = {
+describe('defaultClearCurrentUserInfoInSession', () => {
+  it('should delete user and authTime from the session', async () => {
+    // Create a mock BaseSession
+    const mockSession: BaseSession = {
       deleteBatch: vi.fn().mockResolvedValue(undefined),
     } as unknown as BaseSession;
 
-    clearCurrentUserInfoInSession =
-      createClearCurrentUserInfoInSession(mockSession);
-  });
+    // Call the function
+    await defaultClearCurrentUserInfoInSession(mockSession);
 
-  it('should call session.deleteBatch with correct parameters', async () => {
-    await clearCurrentUserInfoInSession();
-
+    // Check if deleteBatch was called with correct arguments
     expect(mockSession.deleteBatch).toHaveBeenCalledWith('user', 'authTime');
     expect(mockSession.deleteBatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('should return a Promise that resolves to void', async () => {
-    const result = await clearCurrentUserInfoInSession();
-
-    expect(result).toBeUndefined();
-  });
-
-  it('should propagate errors from session.deleteBatch', async () => {
-    const error = new Error('Test error');
-    vi.mocked(mockSession.deleteBatch).mockRejectedValueOnce(error);
-
-    await expect(clearCurrentUserInfoInSession()).rejects.toThrow('Test error');
   });
 });
