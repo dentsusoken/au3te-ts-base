@@ -15,7 +15,7 @@
  * License.
  */
 
-import { runAsyncCatching } from 'au3te-ts-common/utils';
+import { runAsyncCatching } from 'oid4vc-core/utils';
 import { ProcessApiRequest } from 'au3te-ts-common/handler';
 import { ProcessApiResponse } from './processApiResponse';
 import { RecoverResponseResult } from './recoverResponseResult';
