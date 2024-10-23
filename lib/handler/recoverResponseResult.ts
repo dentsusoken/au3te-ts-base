@@ -15,7 +15,7 @@
  * License.
  */
 
-import { Result } from 'au3te-ts-common/utils';
+import { Result } from 'oid4vc-core/utils';
 import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
 import { ProcessError } from 'au3te-ts-common/handler';
