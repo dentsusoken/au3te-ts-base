@@ -15,5 +15,6 @@
  * License.
  */
 
-export * from './CredentialIssuerMetadataReqEndpoint';
+export * from './CredentialMetadataEndpointConfiguration';
+export * from './CredentialMetadataEndpointConfigurationImpl';
 export * from './toApiRequest';

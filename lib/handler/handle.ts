@@ -14,14 +14,8 @@
  * language governing permissions and limitations under the
  * License.
  */
-
-<<<<<<< HEAD
-import { runAsyncCatching } from 'au3te-ts-common/utils';
-import { ProcessApiRequest } from './processApiRequest';
-=======
 import { runAsyncCatching } from 'oid4vc-core/utils';
-import { ProcessApiRequest } from 'au3te-ts-common/handler';
->>>>>>> b9611033fb7e589b20e1900e2d7ea455adbf9b5b
+import { ProcessApiRequest } from './processApiRequest';
 import { ProcessApiResponse } from './processApiResponse';
 import { RecoverResponseResult } from './recoverResponseResult';
 
