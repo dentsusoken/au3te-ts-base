@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { createToApiRequest } from './toApiRequest';
+import { defaultToApiRequest } from './toApiRequest';
 
-describe('createToApiRequest', () => {
-  const toApiRequest = createToApiRequest();
+describe('defaultToApiRequest', () => {
+  const toApiRequest = defaultToApiRequest;
 
   it('should create a PushedAuthReqRequest from a Request', async () => {
     const mockRequest = new Request(

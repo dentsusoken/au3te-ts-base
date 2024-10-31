@@ -15,5 +15,6 @@
  * License.
  */
 
-export * from './ServiceConfReqEndpoint';
+export * from './ServiceConfigurationEndpointConfiguration';
+export * from './ServiceConfigurationEndpointConfigurationImpl';
 export * from './toApiRequest';

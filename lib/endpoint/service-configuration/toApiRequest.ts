@@ -18,15 +18,22 @@
 import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-configuration';
 import { ToApiRequest } from '../toApiRequest';
 
-export const createToApiRequest =
-  (): ToApiRequest<ServiceConfigurationRequest> =>
-  async (request: Request): Promise<ServiceConfigurationRequest> => {
-    const searchParams = new URL(request.url).searchParams;
-    const { pretty, patch } =
-      searchParams.get('pretty') === 'true'
-        ? { pretty: true, patch: searchParams.get('patch') }
-        : { pretty: false, patch: searchParams.get('patch') };
-    const apiRequest: ServiceConfigurationRequest = { pretty, patch };
+/**
+ * Default implementation to convert an HTTP request to a ServiceConfigurationRequest.
+ * Extracts 'pretty' and 'patch' parameters from the URL query string.
+ *
+ * @param request - The incoming HTTP request
+ * @returns A Promise resolving to a ServiceConfigurationRequest object
+ */
+export const defaultToApiRequest: ToApiRequest<
+  ServiceConfigurationRequest
+> = async (request: Request): Promise<ServiceConfigurationRequest> => {
+  const searchParams = new URL(request.url).searchParams;
+  const { pretty, patch } =
+    searchParams.get('pretty') === 'true'
+      ? { pretty: true, patch: searchParams.get('patch') }
+      : { pretty: false, patch: searchParams.get('patch') };
+  const apiRequest: ServiceConfigurationRequest = { pretty, patch };
 
-    return apiRequest;
-  };
+  return apiRequest;
+};
