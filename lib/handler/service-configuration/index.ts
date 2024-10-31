@@ -15,5 +15,6 @@
  * License.
  */
 
-export * from './ServiceConfReqHandler';
+export * from './ServiceConfigurationHandlerConfiguration';
+export * from './ServiceConfigurationHandlerConfigurationImpl';
 export * from './processApiResponse';

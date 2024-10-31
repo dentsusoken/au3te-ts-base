@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,34 +17,30 @@
 
 import { AuthorizationIssueResponse } from 'au3te-ts-common/schemas.authorization-issue';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
-import { ProcessApiResponse } from '../processApiResponse';
+import {
+  ProcessApiResponse,
+  CreateProcessApiResponseParams,
+} from '../processApiResponse';
 
 /**
- * Creates a function to process the API response from the authorization issue endpoint.
+ * Creates a function to process API responses for Authorization Issue requests.
  *
- * @param {BuildUnknownActionMessage} buildUnknownActionMessage - A function to build an error message for unknown actions.
- * @returns {ProcessApiResponse<AuthorizationIssueResponse>} A function that takes an AuthorizationIssueResponse and returns a Promise resolving to a Response.
- *
- * @template AuthorizationIssueResponse
- * @template Response
- *
- * @callback ProcessApiResponse
- * @param {AuthorizationIssueResponse} apiResponse - The response from the authorization issue API.
- * @returns {Promise<Response>} A promise that resolves to the appropriate Response based on the action.
- *
- * @typedef {Object} AuthorizationIssueResponse
- * @property {string} action - The action to be taken based on the API response.
- * @property {string} [responseContent] - The content of the response, if any.
- *
- * @typedef {Function} BuildUnknownActionMessage
- * @param {string} action - The unknown action encountered.
- * @returns {string} An error message for the unknown action.
+ * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @param {string} params.path - The path of the API endpoint.
+ * @param {Function} params.buildUnknownActionMessage - Function to build an unknown action message.
+ * @returns {ProcessApiResponse<AuthorizationIssueResponse>} A function that processes Authorization Issue API responses.
  */
 export const createProcessApiResponse =
-  (
-    buildUnknownActionMessage: BuildUnknownActionMessage
-  ): ProcessApiResponse<AuthorizationIssueResponse> =>
+  ({
+    path,
+    buildUnknownActionMessage,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<AuthorizationIssueResponse> =>
+  /**
+   * Processes the API response for Authorization Issue requests.
+   *
+   * @param {AuthorizationIssueResponse} apiResponse - The response from the Authlete API for Authorization Issue.
+   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   */
   async (apiResponse: AuthorizationIssueResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
 
@@ -59,7 +55,7 @@ export const createProcessApiResponse =
         return responseFactory.form(responseContent);
       default:
         return responseFactory.internalServerError(
-          buildUnknownActionMessage(action)
+          buildUnknownActionMessage(path, action)
         );
     }
   };

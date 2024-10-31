@@ -17,47 +17,50 @@
 
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
 import { CheckAuthAge } from './checkAuthAge';
 import { BuildAuthorizationFailError } from './buildAuthorizationFailError';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
-import { AuthorizationIssueHandler } from '../authorization-issue/AuthorizationIssueHandler';
+import { Handle } from '../handle';
+import { SessionSchemas } from '../../session/types';
 
 /**
- * Represents a function that handles the no-interaction flow in the authorization process.
- * @param {AuthorizationResponse} response - The authorization response object.
- * @param {BaseSession} session - The session object.
- * @returns {Promise<Response>} A promise that resolves to the response.
+ * Type definition for a function that handles no interaction authorization.
+ * @template SS - The type of SessionSchemas
+ * @param {AuthorizationResponse} response - The authorization response
+ * @param {Session<SS>} session - The session object
+ * @returns {Promise<Response>} A promise that resolves to a Response object
  */
-export type HandleNoInteraction = (
+export type HandleNoInteraction<SS extends SessionSchemas> = (
   response: AuthorizationResponse,
-  session: BaseSession
+  session: Session<SS>
 ) => Promise<Response>;
 
 /**
- * Parameters for creating a HandleNoInteraction function.
+ * Parameters for creating a HandleNoInteraction function
  */
 type CreateHandleNoInteractionParams = {
   checkAuthAge: CheckAuthAge;
   checkSubject: CheckSubject;
   calcSub: CalcSub;
   buildAuthorizationFailError: BuildAuthorizationFailError;
-  authorizationIssueHandler: AuthorizationIssueHandler;
+  handle4AuthorizationIssue: Handle<AuthorizationIssueRequest>;
 };
 
 /**
- * Creates a function to handle the no-interaction flow in the authorization process.
- * @param {CreateHandleNoInteractionParams} params - The parameters for creating the function.
- * @returns {HandleNoInteraction} A function that handles the no-interaction flow.
+ * Creates a function to handle no interaction authorization
+ * @template SS - The type of SessionSchemas
+ * @param {CreateHandleNoInteractionParams} params - The parameters for creating the function
+ * @returns {HandleNoInteraction<SS>} A function that handles no interaction authorization
  */
-export const createHandleNoInteraction = ({
+export const createHandleNoInteraction = <SS extends SessionSchemas>({
   checkAuthAge,
   checkSubject,
   calcSub,
   buildAuthorizationFailError,
-  authorizationIssueHandler,
-}: CreateHandleNoInteractionParams): HandleNoInteraction => {
+  handle4AuthorizationIssue,
+}: CreateHandleNoInteractionParams): HandleNoInteraction<SS> => {
   return async (response, session) => {
     const { user, authTime: rawAuthTime } = await session.getBatch(
       'user',
@@ -97,6 +100,6 @@ export const createHandleNoInteraction = ({
       sub,
     };
 
-    return authorizationIssueHandler.handle(authorizationIssueRequest);
+    return handle4AuthorizationIssue(authorizationIssueRequest);
   };
 };

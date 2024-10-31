@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,6 @@
  * License.
  */
 
-export * from './ParHandlerConfiguration';
-export * from './ParHandlerConfigurationImpl';
+export * from './AuthorizationIssueHandlerConfiguration';
+export * from './AuthorizationIssueHandlerConfigurationImpl';
 export * from './processApiResponse';

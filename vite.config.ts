@@ -14,13 +14,17 @@ export default defineConfig({
           './lib/endpoint/credential-metadata/index.ts',
         handler: './lib/handler/index.ts',
         'handler/par': './lib/handler/par/index.ts',
+        'handler/authorization': './lib/handler/authorization/index.ts',
         'handler/authorization-fail':
           './lib/handler/authorization-fail/index.ts',
+        'handler/authorization-issue':
+          './lib/handler/authorization-issue/index.ts',
         'handler/service-configuration':
           './lib/handler/service-configuration/index.ts',
         'handler/credential-metadata':
           './lib/handler/credential-metadata/index.ts',
         extractor: './lib/extractor/index.ts',
+        session: './lib/session/index.ts',
         utils: './lib/utils/index.ts',
       },
       name: 'au3te-ts-base',

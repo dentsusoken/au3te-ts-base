@@ -19,23 +19,40 @@ import {
   AuthorizationFailReason,
   AuthorizationFailRequest,
 } from 'au3te-ts-common/schemas.authorization-fail';
-import { AuthorizationFailHandler } from '../authorization-fail/AuthorizationFailHandler';
+import { Handle } from '../handle';
 import { ResponseError } from '../ResponseError';
 
+/**
+ * Type definition for a function that builds an authorization fail error.
+ * @param {string} ticket - The ticket associated with the authorization request.
+ * @param {AuthorizationFailReason} reason - The reason for the authorization failure.
+ * @returns {Promise<ResponseError>} A promise that resolves to a ResponseError.
+ */
 export type BuildAuthorizationFailError = (
   ticket: string,
   reason: AuthorizationFailReason
 ) => Promise<ResponseError>;
 
+/**
+ * Creates a function to build an authorization fail error.
+ * @param {Handle<AuthorizationFailRequest>} handle - The function to handle the authorization fail request.
+ * @returns {BuildAuthorizationFailError} A function that builds an authorization fail error.
+ */
 export const createBuildAuthorizationFailError = (
-  handler: AuthorizationFailHandler
+  handle: Handle<AuthorizationFailRequest>
 ): BuildAuthorizationFailError => {
+  /**
+   * Builds an authorization fail error.
+   * @param {string} ticket - The ticket associated with the authorization request.
+   * @param {AuthorizationFailReason} reason - The reason for the authorization failure.
+   * @returns {Promise<ResponseError>} A promise that resolves to a ResponseError.
+   */
   return async (ticket: string, reason: AuthorizationFailReason) => {
     const apiRequest: AuthorizationFailRequest = {
       ticket,
       reason,
     };
-    const response = await handler.handle(apiRequest);
+    const response = await handle(apiRequest);
 
     return new ResponseError(
       `Authorization failed: ticket ${ticket}, reason ${reason}`,

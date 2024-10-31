@@ -17,13 +17,16 @@
 
 import { AuthorizationFailResponse } from 'au3te-ts-common/schemas.authorization-fail';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
-import { ProcessApiResponse } from '../processApiResponse';
+import {
+  ProcessApiResponse,
+  CreateProcessApiResponseParams,
+} from '../processApiResponse';
 
 export const createProcessApiResponse =
-  (
-    buildUnknownActionMessage: BuildUnknownActionMessage
-  ): ProcessApiResponse<AuthorizationFailResponse> =>
+  ({
+    path,
+    buildUnknownActionMessage,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<AuthorizationFailResponse> =>
   async (apiResponse: AuthorizationFailResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
 
@@ -38,7 +41,7 @@ export const createProcessApiResponse =
         return responseFactory.form(responseContent);
       default:
         return responseFactory.internalServerError(
-          buildUnknownActionMessage(action)
+          buildUnknownActionMessage(path, action)
         );
     }
   };

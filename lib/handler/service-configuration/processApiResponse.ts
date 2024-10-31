@@ -19,15 +19,8 @@ import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service-co
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 
-/**
- * Creates a ProcessApiResponse function that handles different API response actions.
- *
- * @function createProcessApiResponse
- * @param {BuildUnknownActionMessage} buildUnknownActionMessage - A function to build an error message for unknown actions.
- * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
- */
-export const createProcessApiResponse =
-  (): ProcessApiResponse<ServiceConfigurationResponse> =>
-  async (apiResponse: ServiceConfigurationResponse): Promise<Response> => {
-    return responseFactory.ok(JSON.stringify(apiResponse));
-  };
+export const defaultProcessApiResponse: ProcessApiResponse<
+  ServiceConfigurationResponse
+> = async (apiResponse: ServiceConfigurationResponse): Promise<Response> => {
+  return responseFactory.ok(JSON.stringify(apiResponse));
+};

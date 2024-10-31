@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { createHandle } from './handle';
 
 describe('createHandle', () => {
+  const path = 'path';
+
   it('should process request and response successfully', async () => {
     const mockProcessApiRequest = vi
       .fn()
@@ -11,9 +13,10 @@ describe('createHandle', () => {
       .mockResolvedValue(new Response('Success', { status: 200 }));
     const mockRecoverResponseResult = vi
       .fn()
-      .mockImplementation(async (result) => result.value);
+      .mockImplementation(async (_, result) => result.value);
 
     const handle = createHandle({
+      path,
       processApiRequest: mockProcessApiRequest,
       processApiResponse: mockProcessApiResponse,
       recoverResponseResult: mockRecoverResponseResult,
@@ -21,6 +24,7 @@ describe('createHandle', () => {
 
     const apiRequest = { key: 'value' };
     const response = await handle(apiRequest);
+    console.log('response:', response);
 
     expect(mockProcessApiRequest).toHaveBeenCalledWith(apiRequest);
     expect(mockProcessApiResponse).toHaveBeenCalledWith({
@@ -41,6 +45,7 @@ describe('createHandle', () => {
       .mockResolvedValue(new Response('Error', { status: 500 }));
 
     const handle = createHandle({
+      path,
       processApiRequest: mockProcessApiRequest,
       processApiResponse: mockProcessApiResponse,
       recoverResponseResult: mockRecoverResponseResult,
@@ -68,6 +73,7 @@ describe('createHandle', () => {
       .mockResolvedValue(new Response('Error', { status: 500 }));
 
     const handle = createHandle({
+      path,
       processApiRequest: mockProcessApiRequest,
       processApiResponse: mockProcessApiResponse,
       recoverResponseResult: mockRecoverResponseResult,

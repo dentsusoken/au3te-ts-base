@@ -20,43 +20,23 @@ import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
 import { ProcessError } from 'au3te-ts-common/handler';
 
-/**
- * A function type that recovers from a Result<Response> and returns a Promise<Response>.
- *
- * @typedef {Function} RecoverResponseResult
- * @param {Result<Response>} responseResult - The Result object containing either a successful Response or an error.
- * @returns {Promise<Response>} A promise that resolves to a Response, either the original one or an error response.
- */
 export type RecoverResponseResult = (
+  path: string,
   responseResult: Result<Response>
 ) => Promise<Response>;
 
-/**
- * Creates a function to recover from potential errors in a Result<Response>.
- *
- * This function handles both successful responses and errors. If an error occurs,
- * it attempts to process the error and create an appropriate error response.
- *
- * @param {ProcessError} processError - A function to process errors and generate error messages.
- * @returns {RecoverResponseResult} A function that takes a Result<Response> and returns a Promise<Response>.
- *
- * @example
- * const recoverResponse = createRecoverResponseResult(myErrorProcessor);
- * const result = await someOperation();
- * const response = await recoverResponse(result);
- */
 export const createRecoverResponseResult =
   (processError: ProcessError): RecoverResponseResult =>
-  async (responseResult: Result<Response>): Promise<Response> => {
+  async (path, responseResult): Promise<Response> => {
     const mayBeRecoveredResult = await responseResult.recoverAsync(
-      async (e) => {
-        await processError(e);
+      async (error) => {
+        await processError(path, error);
 
-        if (e instanceof ResponseError) {
-          return e.response;
+        if (error instanceof ResponseError) {
+          return error.response;
         }
 
-        return responseFactory.internalServerError(e.message);
+        return responseFactory.internalServerError(error.message);
       }
     );
 

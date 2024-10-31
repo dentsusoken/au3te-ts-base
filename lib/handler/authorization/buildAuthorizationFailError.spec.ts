@@ -1,13 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createBuildAuthorizationFailError } from './buildAuthorizationFailError';
-import { AuthorizationFailHandler } from '../authorization-fail/AuthorizationFailHandler';
 import { ResponseError } from '../ResponseError';
 
 describe('createBuildAuthorizationFailError', () => {
-  // Mock AuthorizationFailHandler
-  const mockHandler = {
-    handle: vi.fn(),
-  } as unknown as AuthorizationFailHandler;
+  const mockHandle = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -16,15 +12,15 @@ describe('createBuildAuthorizationFailError', () => {
   it('should create a ResponseError with correct message and response', async () => {
     // Arrange
     const mockResponse = new Response();
-    vi.mocked(mockHandler.handle).mockResolvedValue(mockResponse);
+    mockHandle.mockResolvedValue(mockResponse);
     const buildAuthorizationFailError =
-      createBuildAuthorizationFailError(mockHandler);
+      createBuildAuthorizationFailError(mockHandle);
 
     // Act
     const result = await buildAuthorizationFailError('test-ticket', 'DENIED');
 
     // Assert
-    expect(mockHandler.handle).toHaveBeenCalledWith({
+    expect(mockHandle).toHaveBeenCalledWith({
       ticket: 'test-ticket',
       reason: 'DENIED',
     });

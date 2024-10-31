@@ -16,7 +16,7 @@
  */
 
 import { runAsyncCatching } from 'au3te-ts-common/utils';
-import { ProcessApiRequest } from 'au3te-ts-common/handler';
+import { ProcessApiRequest } from './processApiRequest';
 import { ProcessApiResponse } from './processApiResponse';
 import { RecoverResponseResult } from './recoverResponseResult';
 
@@ -32,6 +32,8 @@ export type Handle<REQ extends object> = (apiRequest: REQ) => Promise<Response>;
  * @template RES - The type of the API response.
  */
 export type CreateHandleParams<REQ extends object, RES> = {
+  /** The API endpoint path */
+  path: string;
   /** Function to process the API request */
   processApiRequest: ProcessApiRequest<REQ, RES>;
   /** Function to process the API response */
@@ -49,6 +51,7 @@ export type CreateHandleParams<REQ extends object, RES> = {
  */
 export const createHandle =
   <REQ extends object, RES>({
+    path,
     processApiRequest,
     processApiResponse,
     recoverResponseResult,
@@ -60,5 +63,5 @@ export const createHandle =
       return processApiResponse(apiResponse);
     });
 
-    return await recoverResponseResult(responseResult);
+    return await recoverResponseResult(path, responseResult);
   };

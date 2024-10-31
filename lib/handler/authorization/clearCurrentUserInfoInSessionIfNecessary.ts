@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,41 +19,48 @@ import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { CheckPrompts } from './checkPrompts';
 import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 /**
- * Represents a function that clears the current user information from the session if necessary.
- *
- * @param {AuthorizationResponse} response - The authorization response object.
- * @param {BaseSession} session - The session object.
- * @returns {Promise<void>} A promise that resolves when the operation is complete.
+ * Type definition for a function that clears current user information from the session if necessary.
+ * @template SS - The type of SessionSchemas
+ * @param {AuthorizationResponse} response - The authorization response
+ * @param {Session<SS>} session - The session object
+ * @returns {Promise<void>} A promise that resolves when the operation is complete
  */
-export type ClearCurrentUserInfoInSessionIfNecessary = (
-  response: AuthorizationResponse,
-  session: BaseSession
-) => Promise<void>;
+export type ClearCurrentUserInfoInSessionIfNecessary<
+  SS extends SessionSchemas
+> = (response: AuthorizationResponse, session: Session<SS>) => Promise<void>;
 
 /**
- * Parameters for creating a ClearCurrentUserInfoInSessionIfNecessary function.
+ * Parameters for creating a ClearCurrentUserInfoInSessionIfNecessary function
+ * @template SS - The type of SessionSchemas
  */
-type CreateClearCurrentUserInfoInSessionIfNecessaryParams = {
+type CreateClearCurrentUserInfoInSessionIfNecessaryParams<
+  SS extends SessionSchemas
+> = {
+  /** Function to check prompts */
   checkPrompts: CheckPrompts;
+  /** Function to check authentication age */
   checkAuthAge: CheckAuthAge;
-  clearCurrentUserInfoInSession: ClearCurrentUserInfoInSession;
+  /** Function to clear current user information from the session */
+  clearCurrentUserInfoInSession: ClearCurrentUserInfoInSession<SS>;
 };
 
 /**
- * Creates a function to clear current user information from the session if necessary.
- *
- * @param {CreateClearCurrentUserInfoInSessionIfNecessaryParams} params - The parameters for creating the function.
- * @returns {ClearCurrentUserInfoInSessionIfNecessary} A function that clears current user information if necessary.
+ * Creates a function to clear current user information from the session if necessary
+ * @template SS - The type of SessionSchemas
+ * @param {CreateClearCurrentUserInfoInSessionIfNecessaryParams<SS>} params - The parameters for creating the function
+ * @returns {ClearCurrentUserInfoInSessionIfNecessary<SS>} A function that clears current user information if necessary
  */
 export const createClearCurrentUserInfoInSessionIfNecessary =
-  ({
+  <SS extends SessionSchemas = typeof sessionSchemas>({
     checkPrompts,
     checkAuthAge,
     clearCurrentUserInfoInSession,
-  }: CreateClearCurrentUserInfoInSessionIfNecessaryParams): ClearCurrentUserInfoInSessionIfNecessary =>
+  }: CreateClearCurrentUserInfoInSessionIfNecessaryParams<SS>): ClearCurrentUserInfoInSessionIfNecessary<SS> =>
   async (response, session) => {
     const authTime = (await session.get('authTime')) ?? 0;
     const shouldClearCurrentUserInfoInSession =

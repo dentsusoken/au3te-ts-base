@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { ServiceConfigurationResponse } from 'au3te-ts-common/schemas.service-configuration';
-import { createProcessApiResponse } from './processApiResponse';
+import { defaultProcessApiResponse } from './processApiResponse';
 
-describe('createProcessApiResponse', () => {
-  const processApiResponse = createProcessApiResponse();
+describe('defaultProcessApiResponse', () => {
+  const processApiResponse = defaultProcessApiResponse;
 
   it('should handle response', async () => {
     const apiResponse = {

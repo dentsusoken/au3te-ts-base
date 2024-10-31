@@ -15,6 +15,8 @@
  * License.
  */
 
+import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
+
 /**
  * Represents a function that processes an API response and returns a Promise of Response.
  * @template RES - The type of the API response.
@@ -22,3 +24,10 @@
  * @returns {Promise<Response>} A promise that resolves to a Response object.
  */
 export type ProcessApiResponse<RES> = (apiResponse: RES) => Promise<Response>;
+
+export type CreateProcessApiResponseParams = {
+  /** The path of the API endpoint. */
+  path: string;
+  /** Function to build an unknown action message. */
+  buildUnknownActionMessage: BuildUnknownActionMessage;
+};

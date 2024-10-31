@@ -1,19 +1,17 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createHandleNoInteraction } from './handleNoInteraction';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import { BaseSession } from '../../session/BaseSession';
-import { AuthorizationIssueHandler } from '../authorization-issue/AuthorizationIssueHandler';
+import { Session } from '../../session/Session';
+import { Handle } from '../handle';
 import { User } from 'au3te-ts-common/schemas.common';
+import { SessionSchemas } from '../../session/types';
 
 // Mock dependencies
 const mockCheckAuthAge = vi.fn();
 const mockCheckSubject = vi.fn();
 const mockCalcSub = vi.fn();
 const mockBuildAuthorizationFailError = vi.fn();
-const mockHandle = vi.fn();
-const mockAuthorizationIssueHandler = {
-  handle: mockHandle,
-} as unknown as AuthorizationIssueHandler;
+const mockHandle4AuthorizationIssue = vi.fn();
 
 describe('handleNoInteraction', () => {
   const handleNoInteraction = createHandleNoInteraction({
@@ -21,7 +19,7 @@ describe('handleNoInteraction', () => {
     checkSubject: mockCheckSubject,
     calcSub: mockCalcSub,
     buildAuthorizationFailError: mockBuildAuthorizationFailError,
-    authorizationIssueHandler: mockAuthorizationIssueHandler,
+    handle4AuthorizationIssue: mockHandle4AuthorizationIssue,
   });
 
   // Mock AuthorizationResponse and BaseSession
@@ -36,7 +34,7 @@ describe('handleNoInteraction', () => {
   const mockGetBatch = vi.fn();
   const mockSession = {
     getBatch: mockGetBatch,
-  } as unknown as BaseSession;
+  } as unknown as Session<SessionSchemas>;
 
   afterEach(() => {
     vi.resetAllMocks();
@@ -52,9 +50,7 @@ describe('handleNoInteraction', () => {
     mockCheckSubject.mockReturnValue(false);
     mockCalcSub.mockResolvedValue('calculated-sub');
     const mockResult = new Response('success-response');
-    vi.mocked(mockAuthorizationIssueHandler.handle).mockResolvedValue(
-      mockResult
-    );
+    mockHandle4AuthorizationIssue.mockResolvedValue(mockResult);
 
     const result = await handleNoInteraction(mockResponse, mockSession);
 
@@ -73,7 +69,7 @@ describe('handleNoInteraction', () => {
       'test-subject',
       mockResponse.client
     );
-    expect(mockAuthorizationIssueHandler.handle).toHaveBeenCalledWith({
+    expect(mockHandle4AuthorizationIssue).toHaveBeenCalledWith({
       ticket: 'test-ticket',
       subject: 'test-subject',
       authTime: 1234567890,

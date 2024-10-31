@@ -16,9 +16,11 @@
  */
 
 import { PushedAuthReqResponse } from 'au3te-ts-common/schemas.par';
-import { ProcessApiResponse } from '../processApiResponse';
+import {
+  ProcessApiResponse,
+  CreateProcessApiResponseParams,
+} from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 
 /**
  * Prepares headers for the HTTP response based on the API response.
@@ -41,16 +43,22 @@ export const prepareHeaders = (
 };
 
 /**
- * Creates a ProcessApiResponse function that handles different API response actions.
+ * Creates a function to process API responses for Pushed Authorization Requests (PAR).
  *
- * @function createProcessApiResponse
- * @param {BuildUnknownActionMessage} buildUnknownActionMessage - A function to build an error message for unknown actions.
- * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
+ * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @returns {ProcessApiResponse<PushedAuthReqResponse>} A function that processes PAR API responses.
  */
 export const createProcessApiResponse =
-  (
-    buildUnknownActionMessage: BuildUnknownActionMessage
-  ): ProcessApiResponse<PushedAuthReqResponse> =>
+  ({
+    path,
+    buildUnknownActionMessage,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<PushedAuthReqResponse> =>
+  /**
+   * Processes the API response for Pushed Authorization Requests (PAR).
+   *
+   * @param {PushedAuthReqResponse} apiResponse - The response from the Authlete API for PAR.
+   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   */
   async (apiResponse: PushedAuthReqResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
     const headers = prepareHeaders(apiResponse);
@@ -74,7 +82,7 @@ export const createProcessApiResponse =
         return responseFactory.internalServerError(responseContent, headers);
       default:
         return responseFactory.internalServerError(
-          buildUnknownActionMessage(action)
+          buildUnknownActionMessage(path, action)
         );
     }
   };

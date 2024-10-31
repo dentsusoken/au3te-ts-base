@@ -2,17 +2,19 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from './processApiResponse';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import * as responseFactory from '../../utils/responseFactory';
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
 
 // Mock dependencies
-const mockSession = {} as BaseSession;
+const mockSession = {} as Session<SessionSchemas>;
 const mockGenerateAuthorizationPage = vi.fn();
 const mockHandleNoInteraction = vi.fn();
 const mockBuildUnknownActionMessage = vi.fn();
-
+const mockPath = '/';
 describe('createProcessApiResponse', () => {
   const processApiResponse = createProcessApiResponse({
     session: mockSession,
+    path: mockPath,
     generateAuthorizationPage: mockGenerateAuthorizationPage,
     handleNoInteraction: mockHandleNoInteraction,
     buildUnknownActionMessage: mockBuildUnknownActionMessage,
@@ -110,6 +112,7 @@ describe('createProcessApiResponse', () => {
     await processApiResponse(apiResponse);
 
     expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
+      mockPath,
       'UNKNOWN_ACTION'
     );
     expect(spy).toHaveBeenCalledWith('Unknown action message');

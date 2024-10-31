@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createGenerateAuthorizationPage } from './generateAuthorizationPage';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import * as pageModel from 'au3te-ts-common/page-model.authorization';
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 // Mock dependencies
 vi.mock('au3te-ts-common/page-model.authorization');
@@ -11,10 +11,11 @@ describe('createGenerateAuthorizationPage', () => {
   const mockSession = {
     setBatch: vi.fn(),
     get: vi.fn(),
-  } as unknown as BaseSession;
+  } as unknown as Session<typeof sessionSchemas>;
   const mockResponseToDecisionParams = vi.fn();
   const mockClearCurrentUserInfoInSessionIfNecessary = vi.fn();
   const mockBuildResponse = vi.fn();
+  const mockBuildAuthorizationPageModel = vi.fn();
   let generateAuthorizationPage: ReturnType<
     typeof createGenerateAuthorizationPage
   >;
@@ -26,6 +27,7 @@ describe('createGenerateAuthorizationPage', () => {
       responseToDecisionParams: mockResponseToDecisionParams,
       clearCurrentUserInfoInSessionIfNecessary:
         mockClearCurrentUserInfoInSessionIfNecessary,
+      buildAuthorizationPageModel: mockBuildAuthorizationPageModel,
       buildResponse: mockBuildResponse,
     });
   });
@@ -43,12 +45,9 @@ describe('createGenerateAuthorizationPage', () => {
 
     mockResponseToDecisionParams.mockReturnValue(mockDecisionParams);
     vi.mocked(mockSession.get).mockResolvedValue(mockUser);
-    vi.spyOn(pageModel, 'buildAuthorizationPageModel').mockReturnValue({
-      authorizationResponse: mockResponse,
-      ...mockModel,
-    });
     const mockResponseObject = new Response();
     mockBuildResponse.mockResolvedValue(mockResponseObject);
+    mockBuildAuthorizationPageModel.mockReturnValue(mockModel);
 
     // Act
     const result = await generateAuthorizationPage(mockResponse, mockSession);
@@ -64,14 +63,11 @@ describe('createGenerateAuthorizationPage', () => {
       mockSession
     );
     expect(mockSession.get).toHaveBeenCalledWith('user');
-    expect(pageModel.buildAuthorizationPageModel).toHaveBeenCalledWith(
+    expect(mockBuildAuthorizationPageModel).toHaveBeenCalledWith(
       mockResponse,
       mockUser
     );
-    expect(mockBuildResponse).toHaveBeenCalledWith({
-      authorizationResponse: mockResponse,
-      ...mockModel,
-    });
+    expect(mockBuildResponse).toHaveBeenCalledWith(mockModel);
     expect(result).toBe(mockResponseObject);
   });
 });

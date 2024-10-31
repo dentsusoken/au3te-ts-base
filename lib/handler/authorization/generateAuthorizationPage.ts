@@ -15,34 +15,58 @@
  * License.
  */
 
-import { buildAuthorizationPageModel } from 'au3te-ts-common/page-model.authorization';
+import { BuildAuthorizationPageModel } from 'au3te-ts-common/page-model.authorization';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
+import { sessionSchemas } from '../../session/sessionSchemas';
 import { ClearCurrentUserInfoInSessionIfNecessary } from './clearCurrentUserInfoInSessionIfNecessary';
 import { BuildResponse } from './buildResponse';
 import { ResponseToDecisionParams } from './responseToDecisionParams';
 
-export type GenerateAuthorizationPage = (
+/**
+ * Type definition for a function that generates an authorization page.
+ * @template SS - The type of SessionSchemas
+ * @param {AuthorizationResponse} response - The authorization response
+ * @param {Session<SS>} session - The session object
+ * @returns {Promise<Response>} A promise that resolves to a Response object
+ */
+export type GenerateAuthorizationPage<SS extends SessionSchemas> = (
   response: AuthorizationResponse,
-  session: BaseSession
+  session: Session<SS>
 ) => Promise<Response>;
 
-type GenerateAuthorizationPageParams = {
+/**
+ * Parameters for creating a GenerateAuthorizationPage function
+ * @template SS - The type of SessionSchemas
+ */
+type CreateGenerateAuthorizationPageParams<SS extends SessionSchemas> = {
+  /** Function to convert response to decision parameters */
   responseToDecisionParams: ResponseToDecisionParams;
-  clearCurrentUserInfoInSessionIfNecessary: ClearCurrentUserInfoInSessionIfNecessary;
+  /** Function to clear current user information from the session if necessary */
+  clearCurrentUserInfoInSessionIfNecessary: ClearCurrentUserInfoInSessionIfNecessary<SS>;
+  /** Function to build the authorization page model */
+  buildAuthorizationPageModel: BuildAuthorizationPageModel;
+  /** Function to build the response */
   buildResponse: BuildResponse;
 };
 
+/**
+ * Creates a function to generate an authorization page
+ * @template SS - The type of SessionSchemas
+ * @param {CreateGenerateAuthorizationPageParams<SS>} params - The parameters for creating the function
+ * @returns {GenerateAuthorizationPage<SS>} A function that generates an authorization page
+ */
 export const createGenerateAuthorizationPage =
-  ({
+  <SS extends SessionSchemas = typeof sessionSchemas>({
     responseToDecisionParams,
     clearCurrentUserInfoInSessionIfNecessary,
+    buildAuthorizationPageModel,
     buildResponse,
-  }: GenerateAuthorizationPageParams): GenerateAuthorizationPage =>
+  }: CreateGenerateAuthorizationPageParams<SS>): GenerateAuthorizationPage<SS> =>
   async (response, session) => {
     const authorizationDecisionParams = responseToDecisionParams(response);
-    const acrs = response.acrs;
-    const client = response.client;
+    const { acrs, client } = response;
 
     await session.setBatch({
       authorizationDecisionParams,

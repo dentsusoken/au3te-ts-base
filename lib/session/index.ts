@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,6 @@
  * License.
  */
 
-import { Session } from './Session';
-import { sessionSchemas } from './sessionSchemas';
-
-/**
- * Represents the base session type for the application.
- *
- * This type is a specialized version of the generic Session interface,
- * configured with the application's specific session schemas.
- * It provides type-safe access to session data as defined in sessionSchemas.
- *
- * @typedef {Session<typeof sessionSchemas>} BaseSession
- */
-export type BaseSession = Session<typeof sessionSchemas>;
+export * from './Session';
+export * from './InMemorySession';
+export * from './types';

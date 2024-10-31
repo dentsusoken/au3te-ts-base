@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
-import { CredentialIssuerMetadataReqHandler } from './CredentialIssuerMetadataReqHandler';
+import { sessionSchemas } from '../../session/sessionSchemas';
+import { InMemorySession } from '../../session/InMemorySession';
+import { BaseHandlerConfigurationImpl } from '../BaseHandlerConfigurationImpl';
+import { CredentialMetadataHandlerConfigurationImpl } from './CredentialMetadataHandlerConfigurationImpl';
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
 
 const configuration: AuthleteConfiguration = {
@@ -12,26 +15,30 @@ const configuration: AuthleteConfiguration = {
 };
 
 const apiClient = new ApiClientImpl(configuration);
-const handler = new CredentialIssuerMetadataReqHandler(apiClient);
+const session = new InMemorySession(sessionSchemas);
+const baseHandlerConfiguration = new BaseHandlerConfigurationImpl(
+  apiClient,
+  session
+);
+const config = new CredentialMetadataHandlerConfigurationImpl(
+  baseHandlerConfiguration
+);
 
-const testCredentialIssuerMetadataRequest = async () => {
+const testCredentialIssuerMetadata = async () => {
   const request: CredentialIssuerMetadataRequest = {
     pretty: true,
   };
 
-  const response = await handler.handle(request);
-  //console.log(response);
+  const response = await config.handle(request);
   const responseBody = await response.json();
   //console.log(responseBody);
 
   expect(response.status).toBe(200);
   expect(responseBody.credential_issuer).toBeDefined();
-
-  //return response;
 };
 
-describe('CredentialIssuerMetadataReqHandler.handle', () => {
+describe('CredentialMetadataHandlerConfiguration.handle', () => {
   it('should successfully handle()', async () => {
-    await testCredentialIssuerMetadataRequest();
+    await testCredentialIssuerMetadata();
   }, 10000);
 });

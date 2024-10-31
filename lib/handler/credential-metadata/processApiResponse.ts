@@ -16,21 +16,32 @@
  */
 
 import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
-import { ProcessApiResponse } from '../processApiResponse';
+import {
+  CreateProcessApiResponseParams,
+  ProcessApiResponse,
+} from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 
 /**
  * Creates a ProcessApiResponse function that handles different API response actions.
  *
  * @function createProcessApiResponse
- * @param {BuildUnknownActionMessage} buildUnknownActionMessage - A function to build an error message for unknown actions.
+ * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @param {string} params.path - The path of the API endpoint.
+ * @param {Function} params.buildUnknownActionMessage - Function to build an unknown action message.
  * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
  */
 export const createProcessApiResponse =
-  (
-    buildUnknownActionMessage: BuildUnknownActionMessage
-  ): ProcessApiResponse<CredentialIssuerMetadataResponse> =>
+  ({
+    path,
+    buildUnknownActionMessage,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<CredentialIssuerMetadataResponse> =>
+  /**
+   * Processes the API response for Credential Issuer Metadata requests.
+   *
+   * @param {CredentialIssuerMetadataResponse} apiResponse - The response from the Authlete API.
+   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   */
   async (apiResponse: CredentialIssuerMetadataResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
 
@@ -43,7 +54,7 @@ export const createProcessApiResponse =
         return responseFactory.internalServerError(responseContent);
       default:
         return responseFactory.internalServerError(
-          buildUnknownActionMessage(action)
+          buildUnknownActionMessage(path, action)
         );
     }
   };

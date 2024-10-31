@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,22 @@
  * License.
  */
 
-import { BaseSession } from '../../session/BaseSession';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 /**
- * Represents a function that clears the current user information from the session.
- *
- * @param {BaseSession} session - The session object containing user information
+ * Type definition for a function that clears current user information from the session.
+ * @template SS - The type of SessionSchemas
+ * @param {Session<SS>} session - The session object to clear user information from
  * @returns {Promise<void>} A promise that resolves when the operation is complete
  */
-export type ClearCurrentUserInfoInSession = (
-  session: BaseSession
+export type ClearCurrentUserInfoInSession<SS extends SessionSchemas> = (
+  session: Session<SS>
 ) => Promise<void>;
 
-/**
- * Default implementation of the function to clear current user information from the session.
- * This function removes both the 'user' and 'authTime' entries from the session.
- *
- * @param {BaseSession} session - The session object containing user information
- * @returns {Promise<void>} A promise that resolves when the operation is complete
- */
-export const defaultClearCurrentUserInfoInSession: ClearCurrentUserInfoInSession =
-  async (session: BaseSession) => {
-    await session.deleteBatch('user', 'authTime');
-  };
+export const defaultClearCurrentUserInfoInSession: ClearCurrentUserInfoInSession<
+  typeof sessionSchemas
+> = async (session) => {
+  await session.deleteBatch('user', 'authTime');
+};

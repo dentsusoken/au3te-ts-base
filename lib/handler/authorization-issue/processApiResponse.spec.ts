@@ -3,11 +3,13 @@ import { AuthorizationIssueResponse } from 'au3te-ts-common/schemas.authorizatio
 import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {
-  const mockBuildUnknownActionMessage = (action: string) =>
-    `Unknown action: ${action}`;
-  const processApiResponse = createProcessApiResponse(
-    mockBuildUnknownActionMessage
-  );
+  const path = '/path';
+  const mockBuildUnknownActionMessage = (path: string, action: string) =>
+    `${path}: Unknown action: ${action}`;
+  const processApiResponse = createProcessApiResponse({
+    path,
+    buildUnknownActionMessage: mockBuildUnknownActionMessage,
+  });
 
   it('should handle INTERNAL_SERVER_ERROR action', async () => {
     const apiResponse = {
@@ -60,6 +62,6 @@ describe('createProcessApiResponse', () => {
     } as unknown as AuthorizationIssueResponse;
     const response = await processApiResponse(apiResponse);
     expect(response.status).toBe(500);
-    expect(await response.text()).toBe('Unknown action: UNKNOWN_ACTION');
+    expect(await response.text()).toBe('/path: Unknown action: UNKNOWN_ACTION');
   });
 });

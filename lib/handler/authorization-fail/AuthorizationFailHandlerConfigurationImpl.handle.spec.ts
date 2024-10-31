@@ -1,12 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
-import { AuthorizationFailHandler } from './AuthorizationFailHandler';
 import {
   PushedAuthReqRequest,
   pushedAuthReqResponseSchema,
 } from 'au3te-ts-common/schemas.par';
-import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
+import { sessionSchemas } from '../../session/sessionSchemas';
+import { InMemorySession } from '../../session/InMemorySession';
+import { AuthorizationFailHandlerConfigurationImpl } from './AuthorizationFailHandlerConfigurationImpl';
+import { BaseHandlerConfigurationImpl } from '../BaseHandlerConfigurationImpl';
+import {
+  AuthorizationRequest,
+  authorizationResponseSchema,
+} from 'au3te-ts-common/schemas.authorization';
 import { AuthorizationFailRequest } from 'au3te-ts-common/schemas.authorization-fail';
 
 const configuration: AuthleteConfiguration = {
@@ -16,7 +22,14 @@ const configuration: AuthleteConfiguration = {
   serviceAccessToken: process.env.ACCESS_TOKEN || '',
 };
 const apiClient = new ApiClientImpl(configuration);
-const handler = new AuthorizationFailHandler(apiClient);
+const session = new InMemorySession(sessionSchemas);
+const baseHandlerConfiguration = new BaseHandlerConfigurationImpl(
+  apiClient,
+  session
+);
+const config = new AuthorizationFailHandlerConfigurationImpl(
+  baseHandlerConfiguration
+);
 
 const testPushAuthorizationRequest = async (): Promise<string> => {
   const request: PushedAuthReqRequest = {
@@ -34,7 +47,7 @@ const testPushAuthorizationRequest = async (): Promise<string> => {
 };
 
 const testAuthorization = async (requestUri: string): Promise<string> => {
-  const request: PushedAuthReqRequest = {
+  const request: AuthorizationRequest = {
     parameters: `client_id=tw24.wallet.dentsusoken.com&request_uri=${encodeURIComponent(
       requestUri!
     )}`,
@@ -55,7 +68,7 @@ const testAuthorizationFail = async (ticket: string) => {
     ticket,
   };
 
-  const authorizationFailResponse = await handler.handle(
+  const authorizationFailResponse = await config.handle(
     authorizationFailRequest
   );
   //console.log(authorizationFailResponse);
@@ -68,7 +81,7 @@ const testAuthorizationFail = async (ticket: string) => {
   ).toBe(true);
 };
 
-describe('AuthorizationFailHandler.handle', () => {
+describe('AuthorizationFailHandlerConfigurationImpl.handle', () => {
   it('should successfully handle()', async () => {
     const requestUri = await testPushAuthorizationRequest();
     const ticket = await testAuthorization(requestUri);

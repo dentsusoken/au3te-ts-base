@@ -18,42 +18,43 @@
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 import { GenerateAuthorizationPage } from './generateAuthorizationPage';
 import { HandleNoInteraction } from './handleNoInteraction';
-import { BaseSession } from '../../session/BaseSession';
+import { CreateProcessApiResponseParams } from '../processApiResponse';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
 
 /**
- * Type definition for parameters required to create a ProcessApiResponse function
- * @typedef {Object} CreateProcessApiResponseParams
- * @property {BaseSession} session - The session object
- * @property {GenerateAuthorizationPage} generateAuthorizationPage - Function to generate the authorization page
- * @property {HandleNoInteraction} handleNoInteraction - Function to handle cases where no interaction is required
- * @property {BuildUnknownActionMessage} buildUnknownActionMessage - Function to build error messages for unknown actions
+ * Extended parameters for creating a process API response function for authorization.
+ * @template SS - The type of SessionSchemas
  */
-type CreateProcessApiResponseParams = {
-  session: BaseSession;
-  generateAuthorizationPage: GenerateAuthorizationPage;
-  handleNoInteraction: HandleNoInteraction;
-  buildUnknownActionMessage: BuildUnknownActionMessage;
-};
+type CreateProcessApiResponseParams4Authorization<SS extends SessionSchemas> = {
+  /** The session object */
+  session: Session<SS>;
+  /** Function to generate the authorization page */
+  generateAuthorizationPage: GenerateAuthorizationPage<SS>;
+  /** Function to handle no interaction cases */
+  handleNoInteraction: HandleNoInteraction<SS>;
+} & CreateProcessApiResponseParams;
 
 /**
- * Creates a function to process authorization API responses
- * @param {CreateProcessApiResponseParams} params - Parameters required to create the function
- * @returns {ProcessApiResponse<AuthorizationResponse>} Function to process authorization API responses
+ * Creates a function to process API responses for Authorization requests.
+ * @template SS - The type of SessionSchemas
+ * @param {CreateProcessApiResponseParams4Authorization<SS>} params - The parameters for creating the process function
+ * @returns {ProcessApiResponse<AuthorizationResponse>} A function that processes Authorization API responses
  */
 export const createProcessApiResponse =
-  ({
+  <SS extends SessionSchemas>({
+    path,
     session,
     generateAuthorizationPage,
     handleNoInteraction,
     buildUnknownActionMessage,
-  }: CreateProcessApiResponseParams): ProcessApiResponse<AuthorizationResponse> =>
+  }: CreateProcessApiResponseParams4Authorization<SS>): ProcessApiResponse<AuthorizationResponse> =>
   /**
-   * Processes the authorization API response and returns an appropriate HTTP response
-   * @param {AuthorizationResponse} apiResponse - Response from the authorization API
-   * @returns {Promise<Response>} HTTP response
+   * Processes the API response for Authorization requests.
+   * @param {AuthorizationResponse} apiResponse - The response from the Authlete API for Authorization
+   * @returns {Promise<Response>} A promise that resolves to the HTTP response
    */
   async (apiResponse: AuthorizationResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
@@ -73,7 +74,7 @@ export const createProcessApiResponse =
         return await handleNoInteraction(apiResponse, session);
       default:
         return responseFactory.internalServerError(
-          buildUnknownActionMessage(action)
+          buildUnknownActionMessage(path, action)
         );
     }
   };

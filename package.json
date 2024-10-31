@@ -56,15 +56,30 @@
       "import": "./dist/handler/credential-metadata/index.js",
       "require": "./dist/handler/credential-metadata/index.cjs"
     },
+    "./handler.authorization": {
+      "types": "./dist/handler/authorization/index.d.ts",
+      "import": "./dist/handler/authorization/index.js",
+      "require": "./dist/handler/authorization/index.cjs"
+    },
     "./handler.authorization-fail": {
       "types": "./dist/handler/authorization-fail/index.d.ts",
       "import": "./dist/handler/authorization-fail/index.js",
       "require": "./dist/handler/authorization-fail/index.cjs"
     },
+    "./handler.authorization-issue": {
+      "types": "./dist/handler/authorization-issue/index.d.ts",
+      "import": "./dist/handler/authorization-issue/index.js",
+      "require": "./dist/handler/authorization-issue/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",
       "require": "./dist/extractor/index.cjs"
+    },
+    "./session": {
+      "types": "./dist/session/index.d.ts",
+      "import": "./dist/session/index.js",
+      "require": "./dist/session/index.cjs"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",

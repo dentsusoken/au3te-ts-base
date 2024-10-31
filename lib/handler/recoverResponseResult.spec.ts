@@ -15,7 +15,7 @@ describe('createRecoverResponseResult', () => {
     const recoverResponse = createRecoverResponseResult(mockProcessError);
     const result = Result.success(successResponse);
 
-    const response = await recoverResponse(result);
+    const response = await recoverResponse('path', result);
 
     expect(response).toBe(successResponse);
     expect(mockProcessError).not.toHaveBeenCalled();
@@ -27,10 +27,10 @@ describe('createRecoverResponseResult', () => {
     const responseError = new ResponseError('Test error', errorResponse);
     const result = Result.failure<Response>(responseError);
 
-    const response = await recoverResponse(result);
+    const response = await recoverResponse('path', result);
 
     expect(response).toBe(errorResponse);
-    expect(mockProcessError).toHaveBeenCalledWith(responseError);
+    expect(mockProcessError).toHaveBeenCalledWith('path', responseError);
   });
 
   it('should handle generic errors and return an internal server error response', async () => {
@@ -42,10 +42,10 @@ describe('createRecoverResponseResult', () => {
       new Response('Internal Server Error', { status: 500 })
     );
 
-    const response = await recoverResponse(result);
+    const response = await recoverResponse('path', result);
 
     expect(response.status).toBe(500);
-    expect(mockProcessError).toHaveBeenCalledWith(genericError);
+    expect(mockProcessError).toHaveBeenCalledWith('path', genericError);
     expect(responseFactory.internalServerError).toHaveBeenCalledWith(
       'Generic error'
     );

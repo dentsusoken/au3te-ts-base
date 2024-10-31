@@ -4,11 +4,12 @@ import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {
   const mockBuildUnknownActionMessage = vi.fn(
-    (action) => `Unknown action: ${action}`
+    (path, action) => `Unknown action: ${action} at ${path}`
   );
-  const processApiResponse = createProcessApiResponse(
-    mockBuildUnknownActionMessage
-  );
+  const processApiResponse = createProcessApiResponse({
+    path: '/test-path',
+    buildUnknownActionMessage: mockBuildUnknownActionMessage,
+  });
 
   it('should handle OK action', async () => {
     const apiResponse = {
@@ -46,8 +47,11 @@ describe('createProcessApiResponse', () => {
     } as unknown as CredentialIssuerMetadataResponse;
     const response = await processApiResponse(apiResponse);
     expect(response.status).toBe(500);
-    expect(await response.text()).toBe('Unknown action: UNKNOWN_ACTION');
+    expect(await response.text()).toBe(
+      'Unknown action: UNKNOWN_ACTION at /test-path'
+    );
     expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
+      '/test-path',
       'UNKNOWN_ACTION'
     );
   });

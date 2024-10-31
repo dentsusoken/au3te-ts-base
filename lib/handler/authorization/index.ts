@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,16 @@
  * License.
  */
 
-export * from './ParHandlerConfiguration';
-export * from './ParHandlerConfigurationImpl';
+export * from './AuthorizationHandlerConfiguration';
+export * from './AuthorizationHandlerConfigurationImpl';
+export * from './buildAuthorizationFailError';
+export * from './buildResponse';
+export * from './calcSub';
+export * from './checkAuthAge';
+export * from './checkPrompts';
+export * from './checkSubject';
+export * from './clearCurrentUserInfoInSession';
+export * from './clearCurrentUserInfoInSessionIfNecessary';
+export * from './generateAuthorizationPage';
+export * from './handleNoInteraction';
 export * from './processApiResponse';
