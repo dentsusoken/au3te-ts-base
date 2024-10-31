@@ -38,7 +38,7 @@ export class ServiceConfigurationHandlerConfigurationImpl<
 > implements ServiceConfigurationHandlerConfiguration
 {
   /** The path for the service configuration endpoint. */
-  path: string = '/.well-known/openid-federation';
+  path: string = '/.well-known/openid-configuration';
 
   /** Function to process the API request for service configuration. */
   processApiRequest: ProcessApiRequest<

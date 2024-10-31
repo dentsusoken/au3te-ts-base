@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,22 @@
  */
 
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
+import { ProcessRequest } from '../processRequest';
 import { ToApiRequest } from '../toApiRequest';
 
 /**
- * Default function to convert an HTTP request to a CredentialIssuerMetadataRequest.
- * Extracts query parameters from the request URL and constructs the API request object.
- *
- * @param request - The incoming HTTP request
- * @returns Promise resolving to a CredentialIssuerMetadataRequest object
+ * Interface defining the configuration for the credential metadata endpoint.
+ * This endpoint handles requests related to credential metadata.
  */
-export const defaultToApiRequest: ToApiRequest<
-  CredentialIssuerMetadataRequest
-> = async (request: Request): Promise<CredentialIssuerMetadataRequest> => {
-  const serachParams = new URL(request.url).searchParams;
-  const pretty = Boolean(serachParams.get('pretty'));
+export interface CredentialMetadataEndpointConfiguration {
+  /**
+   * Function to convert an HTTP request to a CredentialIssuerMetadataRequest.
+   */
+  toApiRequest: ToApiRequest<CredentialIssuerMetadataRequest>;
 
-  const apiRequest: CredentialIssuerMetadataRequest = {
-    pretty,
-  };
-
-  return apiRequest;
-};
+  /**
+   * Function to process incoming HTTP requests to the credential metadata endpoint.
+   * Takes a Request object and returns a Promise resolving to a Response.
+   */
+  processRequest: ProcessRequest;
+}

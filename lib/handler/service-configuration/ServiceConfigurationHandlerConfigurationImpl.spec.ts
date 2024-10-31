@@ -20,7 +20,7 @@ describe('ServiceConfigurationHandlerConfigurationImpl', () => {
       mockBaseConfig
     );
 
-    expect(config.path).toBe('/.well-known/openid-federation');
+    expect(config.path).toBe('/.well-known/openid-configuration');
     expect(config.processApiRequest).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
