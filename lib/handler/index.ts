@@ -15,6 +15,8 @@
  * License.
  */
 
+export * from './BaseHandlerConfiguration';
+export * from './BaseHandlerConfigurationImpl';
 export * from './handle';
 export * from './processApiRequest';
 export * from './processApiResponse';

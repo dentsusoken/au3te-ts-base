@@ -15,5 +15,6 @@
  * License.
  */
 
-export * from './PushedAuthReqEndpoint';
+export * from './ParEndpointConfiguration';
+export * from './ParEndpointConfigurationImpl';
 export * from './toApiRequest';

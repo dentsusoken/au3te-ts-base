@@ -2,7 +2,6 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createHandleNoInteraction } from './handleNoInteraction';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { Session } from '../../session/Session';
-import { Handle } from '../handle';
 import { User } from 'au3te-ts-common/schemas.common';
 import { SessionSchemas } from '../../session/types';
 
