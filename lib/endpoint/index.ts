@@ -15,6 +15,5 @@
  * License.
  */
 
-export * from './BaseEndpoint';
 export * from './processRequest';
 export * from './toApiRequest';
