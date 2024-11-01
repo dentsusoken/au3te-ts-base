@@ -21,12 +21,27 @@ import { ExtractClientCredentials } from '../../extractor/extractClientCredentia
 import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCertificateAndPath';
 import { ToApiRequest } from '../toApiRequest';
 
-export type CreateToApiRequestParams = {
+/**
+ * Parameters required to create a PAR API request converter.
+ *
+ * @interface CreateToApiRequestParams
+ * @property {ExtractParameters} extractParameters - Function to extract request parameters
+ * @property {ExtractClientCredentials} extractClientCredentials - Function to extract client credentials
+ * @property {ExtractClientCertificateAndPath} extractClientCertificateAndPath - Function to extract client certificate and path
+ */
+type CreateToApiRequestParams = {
   extractParameters: ExtractParameters;
   extractClientCredentials: ExtractClientCredentials;
   extractClientCertificateAndPath: ExtractClientCertificateAndPath;
 };
 
+/**
+ * Creates a function that converts an HTTP request to a Pushed Authorization Request API request.
+ *
+ * @function createToApiRequest
+ * @param {CreateToApiRequestParams} params - The parameter extraction functions
+ * @returns {ToApiRequest<PushedAuthReqRequest>} A function that converts Request to PushedAuthReqRequest
+ */
 export const createToApiRequest =
   ({
     extractParameters,

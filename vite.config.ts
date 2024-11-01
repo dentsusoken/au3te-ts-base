@@ -8,6 +8,7 @@ export default defineConfig({
         api: './lib/api/index.ts',
         endpoint: './lib/endpoint/index.ts',
         'endpoint/par': './lib/endpoint/par/index.ts',
+        'endpoint/authorization': './lib/endpoint/authorization/index.ts',
         'endpoint/service-configuration':
           './lib/endpoint/service-configuration/index.ts',
         'endpoint/credential-metadata':

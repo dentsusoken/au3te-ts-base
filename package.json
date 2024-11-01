@@ -26,6 +26,11 @@
       "import": "./dist/endpoint/par/index.js",
       "require": "./dist/endpoint/par/index.cjs"
     },
+    "./endpoint.authorization": {
+      "types": "./dist/endpoint/authorization/index.d.ts",
+      "import": "./dist/endpoint/authorization/index.js",
+      "require": "./dist/endpoint/authorization/index.cjs"
+    },
     "./endpoint.service-configuration": {
       "types": "./dist/endpoint/service-configuration/index.d.ts",
       "import": "./dist/endpoint/service-configuration/index.js",
