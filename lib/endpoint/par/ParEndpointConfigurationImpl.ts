@@ -65,8 +65,10 @@ export class ParEndpointConfigurationImpl<
     );
 
     this.processRequest = createProcessRequest({
+      path: parHandlerConfiguration.path,
       toApiRequest: this.toApiRequest,
       handle: parHandlerConfiguration.handle,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
     });
   }
 }

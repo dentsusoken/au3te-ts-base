@@ -50,8 +50,10 @@ export class CredentialMetadataEndpointConfigurationImpl<
     const credentialMetadataHandlerConfiguration =
       new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
     this.processRequest = createProcessRequest({
+      path: credentialMetadataHandlerConfiguration.path,
       toApiRequest: this.toApiRequest,
       handle: credentialMetadataHandlerConfiguration.handle,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
     });
   }
 }

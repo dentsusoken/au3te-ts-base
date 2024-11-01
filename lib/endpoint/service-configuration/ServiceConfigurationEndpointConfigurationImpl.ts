@@ -41,8 +41,10 @@ export class ServiceConfigurationEndpointConfigurationImpl<
         baseHandlerConfiguration
       );
     this.processRequest = createProcessRequest({
+      path: serviceConfigurationHandlerConfiguration.path,
       toApiRequest: this.toApiRequest,
       handle: serviceConfigurationHandlerConfiguration.handle,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
     });
   }
 }

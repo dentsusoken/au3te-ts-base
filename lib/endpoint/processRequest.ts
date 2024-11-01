@@ -18,28 +18,30 @@
 import { runAsyncCatching } from 'oid4vc-core/utils';
 import { ToApiRequest } from './toApiRequest';
 import { Handle } from '../handler/handle';
-import * as responseFactory from '../utils/responseFactory';
+import { RecoverResponseResult } from '../handler/recoverResponseResult';
 
 export type ProcessRequest = (request: Request) => Promise<Response>;
 
 type CreateProcessRequestParams<REQ extends object> = {
+  path: string;
   toApiRequest: ToApiRequest<REQ>;
   handle: Handle<REQ>;
+  recoverResponseResult: RecoverResponseResult;
 };
 
 export const createProcessRequest =
   <REQ extends object>({
+    path,
     toApiRequest,
     handle,
+    recoverResponseResult,
   }: CreateProcessRequestParams<REQ>): ProcessRequest =>
   async (request) => {
-    const result = await runAsyncCatching(async () => {
+    const responseResult = await runAsyncCatching(async () => {
       const apiRequest = await toApiRequest(request);
 
       return handle(apiRequest);
     });
 
-    return result
-      .recover((e) => responseFactory.internalServerError(e.message))
-      .getOrThrow();
+    return await recoverResponseResult(path, responseResult);
   };

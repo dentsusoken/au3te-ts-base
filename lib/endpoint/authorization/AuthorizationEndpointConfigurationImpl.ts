@@ -78,8 +78,10 @@ export class AuthorizationEndpointConfigurationImpl<
       });
 
     this.processRequest = createProcessRequest({
+      path: authorizationHandlerConfiguration.path,
       toApiRequest: this.toApiRequest,
       handle: authorizationHandlerConfiguration.handle,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
     });
   }
 }
