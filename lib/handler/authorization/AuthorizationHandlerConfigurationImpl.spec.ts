@@ -39,7 +39,7 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
   });
 
   it('should have path property with correct value', () => {
-    expect(instance.path).toBe('/api/auth/authorization');
+    expect(instance.path).toBe('/api/authorization');
   });
 
   it('should have processApiRequest property', () => {

@@ -38,7 +38,7 @@ export class AuthorizationIssueHandlerConfigurationImpl<
 > implements AuthorizationIssueHandlerConfiguration
 {
   /** The path for the authorization issue endpoint. */
-  path: string = '/api/auth/authorization/issue';
+  path: string = '/api/authorization/issue';
 
   /** Function to process the API request for authorization issue. */
   processApiRequest: ProcessApiRequest<

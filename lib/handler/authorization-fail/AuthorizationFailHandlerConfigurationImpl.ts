@@ -37,7 +37,7 @@ export class AuthorizationFailHandlerConfigurationImpl
   implements AuthorizationFailHandlerConfiguration
 {
   /** The path for the authorization fail endpoint. */
-  path: string = '/api/auth/authorization/fail';
+  path: string = '/api/authorization/fail';
 
   /** Function to process the API request for authorization fail. */
   processApiRequest: ProcessApiRequest<

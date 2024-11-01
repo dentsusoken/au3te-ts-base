@@ -20,7 +20,7 @@ describe('AuthorizationFailHandlerConfigurationImpl', () => {
       mockBaseConfig
     );
 
-    expect(config.path).toBe('/api/auth/authorization/fail');
+    expect(config.path).toBe('/api/authorization/fail');
     expect(config.processApiRequest).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();

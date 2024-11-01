@@ -75,7 +75,7 @@ type AuthorizationHandlerConfigurationImplConstructorParams<
 export class AuthorizationHandlerConfigurationImpl<SS extends SessionSchemas>
   implements AuthorizationHandlerConfiguration<SS>
 {
-  path = '/api/auth/authorization';
+  path = '/api/authorization';
 
   processApiRequest: ProcessApiRequest<
     AuthorizationRequest,
