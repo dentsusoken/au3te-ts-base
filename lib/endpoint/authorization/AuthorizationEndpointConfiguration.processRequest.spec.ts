@@ -6,6 +6,10 @@ import { InMemorySession } from '../../session/InMemorySession';
 import { BaseHandlerConfigurationImpl } from '../../handler/BaseHandlerConfigurationImpl';
 import { AuthorizationEndpointConfigurationImpl } from './AuthorizationEndpointConfigurationImpl';
 import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
+import {
+  PushedAuthReqRequest,
+  pushedAuthReqResponseSchema,
+} from 'au3te-ts-common/schemas.par';
 
 describe('AuthorizationEndpointConfiguration.processRequest', () => {
   const configuration: AuthleteConfiguration = {
@@ -27,14 +31,32 @@ describe('AuthorizationEndpointConfiguration.processRequest', () => {
     extractorConfiguration
   );
 
-  const testAuthorizationGetRequest = async () => {
-    // Create URL with query parameters matching PAR request parameters
-    const url = new URL('http://localhost/authorize');
+  const testPushAuthorizationRequest = async (): Promise<string> => {
     const params = new URLSearchParams({
       scope: 'org.iso.18013.5.1.mDL openid',
       redirect_uri: 'eudi-openid4ci://authorize/',
       response_type: 'code',
       client_id: 'tw24.wallet.dentsusoken.com',
+    });
+
+    const request: PushedAuthReqRequest = {
+      parameters: params.toString(),
+    };
+
+    const response = await apiClient.callPostApi(
+      apiClient.pushAuthorizationRequestPath,
+      pushedAuthReqResponseSchema,
+      request
+    );
+
+    return response.requestUri!;
+  };
+
+  const testAuthorizationGetRequest = async (requestUri: string) => {
+    const url = new URL('http://localhost/authorize');
+    const params = new URLSearchParams({
+      client_id: 'tw24.wallet.dentsusoken.com',
+      request_uri: requestUri,
     });
 
     const request = new Request(`${url}?${params.toString()}`, {
@@ -42,17 +64,13 @@ describe('AuthorizationEndpointConfiguration.processRequest', () => {
     });
 
     const response = await endpointConfiguration.processRequest(request);
-
-    // Should return 200 OK for the authorization page
     expect(response.status).toBe(200);
   };
 
-  const testAuthorizationPostRequest = async () => {
+  const testAuthorizationPostRequest = async (requestUri: string) => {
     const params = new URLSearchParams({
-      scope: 'org.iso.18013.5.1.mDL openid',
-      redirect_uri: 'eudi-openid4ci://authorize/',
-      response_type: 'code',
       client_id: 'tw24.wallet.dentsusoken.com',
+      request_uri: requestUri,
     });
 
     const request = new Request('http://localhost/authorize', {
@@ -64,16 +82,16 @@ describe('AuthorizationEndpointConfiguration.processRequest', () => {
     });
 
     const response = await endpointConfiguration.processRequest(request);
-
-    // Should return 200 OK for the authorization page
     expect(response.status).toBe(200);
   };
 
   it('should successfully process GET authorization request', async () => {
-    await testAuthorizationGetRequest();
+    const requestUri = await testPushAuthorizationRequest();
+    await testAuthorizationGetRequest(requestUri);
   }, 10000);
 
   it('should successfully process POST authorization request', async () => {
-    await testAuthorizationPostRequest();
+    const requestUri = await testPushAuthorizationRequest();
+    await testAuthorizationPostRequest(requestUri);
   }, 10000);
 });

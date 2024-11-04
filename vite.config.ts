@@ -9,6 +9,8 @@ export default defineConfig({
         endpoint: './lib/endpoint/index.ts',
         'endpoint/par': './lib/endpoint/par/index.ts',
         'endpoint/authorization': './lib/endpoint/authorization/index.ts',
+        'endpoint/authorization-decision':
+          './lib/endpoint/authorization-decision/index.ts',
         'endpoint/service-configuration':
           './lib/endpoint/service-configuration/index.ts',
         'endpoint/credential-metadata':

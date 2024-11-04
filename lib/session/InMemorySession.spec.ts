@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { z } from 'zod';
 import { InMemorySession } from './InMemorySession';
+import { sessionSchemas } from './sessionSchemas';
 
 describe('InMemorySession', () => {
   let session: InMemorySession<TestSchemas>;
@@ -139,6 +140,50 @@ describe('InMemorySession', () => {
         count: undefined,
         isActive: undefined,
       });
+    });
+  });
+
+  describe('sessionSchemas', () => {
+    it('should work with sessionSchemas', async () => {
+      const session = new InMemorySession(sessionSchemas);
+
+      // AuthorizationDecisionParamsをセット
+      await session.set('authorizationDecisionParams', {
+        ticket: 'test-ticket',
+        claimNames: ['name', 'email'],
+        claimLocales: ['ja', 'en'],
+        idTokenClaims: 'test-claims',
+        requestedClaimsForTx: ['claim1', 'claim2'],
+        requestedVerifiedClaimsForTx: [{ array: ['verified1', 'verified2'] }],
+      });
+
+      // 値を確認
+      const params = await session.get('authorizationDecisionParams');
+      expect(params).toEqual({
+        ticket: 'test-ticket',
+        claimNames: ['name', 'email'],
+        claimLocales: ['ja', 'en'],
+        idTokenClaims: 'test-claims',
+        requestedClaimsForTx: ['claim1', 'claim2'],
+        requestedVerifiedClaimsForTx: [{ array: ['verified1', 'verified2'] }],
+      });
+
+      // deleteBatchで削除
+      const deleted = await session.deleteBatch('authorizationDecisionParams');
+      expect(deleted).toEqual({
+        authorizationDecisionParams: {
+          ticket: 'test-ticket',
+          claimNames: ['name', 'email'],
+          claimLocales: ['ja', 'en'],
+          idTokenClaims: 'test-claims',
+          requestedClaimsForTx: ['claim1', 'claim2'],
+          requestedVerifiedClaimsForTx: [{ array: ['verified1', 'verified2'] }],
+        },
+      });
+
+      // 削除後の確認
+      const afterDelete = await session.get('authorizationDecisionParams');
+      expect(afterDelete).toBeUndefined();
     });
   });
 });

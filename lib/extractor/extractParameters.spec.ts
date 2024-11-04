@@ -19,7 +19,7 @@ describe('defaultExtractParameters', () => {
   it('should extract parameters from form-urlencoded POST request', async () => {
     const data = { query: 'hello world', param: 'a&b=c' };
     const body = new URLSearchParams(data).toString();
-    console.log(body);
+    //console.log(body);
 
     const request = new Request('https://example.com', {
       method: 'POST',

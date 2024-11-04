@@ -28,6 +28,59 @@ export type ResponseToDecisionParams = (
 ) => AuthorizationDecisionParams;
 
 /**
+ * Adds 'txn' to the claim names array if claims are present
+ * @param {string[] | undefined} claimNames - The original claim names array
+ * @returns {string[] | undefined} Updated claim names array with 'txn' added if applicable
+ */
+const addTxnToClaimNames = (
+  claimNames: string[] | undefined
+): string[] | undefined => {
+  if (!claimNames) {
+    // if no claims were requested it can't be a connectid au request
+    return undefined;
+  }
+
+  // txn will now be returned for any requests that request oidc claims
+  return [...claimNames, 'txn'];
+};
+
+const normalizeClaimLocales = (
+  claimLocales: string[] | undefined
+): string[] | undefined => {
+  if (!claimLocales || claimLocales.length === 0) {
+    return undefined;
+  }
+
+  // From 5.2. Claims Languages and Scripts in OpenID Connect Core 1.0
+  //
+  //     However, since BCP47 language tag values are case insensitive,
+  //     implementations SHOULD interpret the language tag values
+  //     supplied in a case insensitive manner.
+  //
+  const lowerSet = new Set<string>();
+  const list: string[] = [];
+
+  claimLocales.forEach((claimLocale) => {
+    claimLocale = claimLocale?.trim();
+    // If the claim locale is empty.
+    if (!claimLocale) {
+      return;
+    }
+
+    // If the claim locale is a duplicate (case insensitive check).
+    const lowerClaimLocale = claimLocale.toLowerCase();
+    if (lowerSet.has(lowerClaimLocale)) {
+      return;
+    }
+
+    lowerSet.add(lowerClaimLocale);
+    list.push(claimLocale);
+  });
+
+  return list.length === 0 ? undefined : list;
+};
+
+/**
  * Default conversion function from AuthorizationResponse to AuthorizationDecisionParams
  * @param {AuthorizationResponse} response - The authorization response
  * @returns {AuthorizationDecisionParams} The authorization decision parameters
@@ -36,8 +89,8 @@ export const defaultResponseToDecisionParams: ResponseToDecisionParams = (
   response
 ) => ({
   ticket: response.ticket!,
-  claimNames: response.claims,
-  claimLocales: response.claimsLocales,
+  claimNames: addTxnToClaimNames(response.claims),
+  claimLocales: normalizeClaimLocales(response.claimsLocales),
   idTokenClaims: response.idTokenClaims,
   requestedClaimsForTx: response.requestedClaimsForTx,
   requestedVerifiedClaimsForTx: response.requestedVerifiedClaimsForTx,
