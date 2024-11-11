@@ -4,6 +4,9 @@ import {
   authorizationPath,
   authorizationFailPath,
   authorizationIssuePath,
+  tokenPath,
+  tokenIssuePath,
+  tokenFailPath,
 } from './apiPath';
 
 describe('API path functions', () => {
@@ -27,5 +30,17 @@ describe('API path functions', () => {
     expect(authorizationIssuePath(serviceId)).toBe(
       '/api/123/auth/authorization/issue'
     );
+  });
+
+  it('should generate the correct tokenPath', () => {
+    expect(tokenPath(serviceId)).toBe('/api/123/auth/token');
+  });
+
+  it('should generate the correct tokenIssuePath', () => {
+    expect(tokenIssuePath(serviceId)).toBe('/api/123/auth/token/issue');
+  });
+
+  it('should generate the correct tokenFailPath', () => {
+    expect(tokenFailPath(serviceId)).toBe('/api/123/auth/token/fail');
   });
 });

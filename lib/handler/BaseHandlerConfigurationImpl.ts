@@ -24,6 +24,7 @@ import {
 import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
 import { ApiClient } from 'au3te-ts-common/api';
+import { defaultPrepareHeaders, PrepareHeaders } from './prepareHeaders';
 
 /**
  * Implementation of the BaseHandlerConfiguration interface.
@@ -44,6 +45,9 @@ export class BaseHandlerConfigurationImpl<SS extends SessionSchemas>
   /** Function to recover from response errors. */
   recoverResponseResult: RecoverResponseResult;
 
+  /** Function to prepare response headers. */
+  prepareHeaders: PrepareHeaders;
+
   /**
    * Creates an instance of BaseHandlerConfigurationImpl.
    * @param {ApiClient} apiClient - The API client to use.
@@ -54,5 +58,6 @@ export class BaseHandlerConfigurationImpl<SS extends SessionSchemas>
     this.apiClient = apiClient;
     this.session = session;
     this.recoverResponseResult = createRecoverResponseResult(this.processError);
+    this.prepareHeaders = defaultPrepareHeaders;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,47 +21,34 @@ import {
   CreateProcessApiResponseParams,
 } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
+import { PrepareHeaders } from '../prepareHeaders';
 
 /**
- * Prepares headers for the HTTP response based on the API response.
+ * Parameters for creating a PAR API response processor.
  *
- * @function prepareHeaders
- * @param {PushedAuthReqResponse} apiResponse - The response from the Authlete API.
- * @returns {responseFactory.Headers} An object containing the prepared headers.
+ * @typedef {Object} ParCreateProcessApiResponseParams
+ * @property {PrepareHeaders} prepareHeaders - Function to prepare response headers.
+ *   Must handle the required dpopNonce parameter from the API response.
  */
-export const prepareHeaders = (
-  apiResponse: PushedAuthReqResponse
-): responseFactory.Headers => {
-  const { dpopNonce } = apiResponse;
-  const headers = {} as responseFactory.Headers;
-
-  if (dpopNonce) {
-    headers['DPoP-Nonce'] = dpopNonce;
-  }
-
-  return headers;
+type ParCreateProcessApiResponseParams = CreateProcessApiResponseParams & {
+  prepareHeaders: PrepareHeaders;
 };
 
 /**
  * Creates a function to process API responses for Pushed Authorization Requests (PAR).
  *
- * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @param {ParCreateProcessApiResponseParams} params - The parameters for creating the process function.
  * @returns {ProcessApiResponse<PushedAuthReqResponse>} A function that processes PAR API responses.
  */
 export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
-  }: CreateProcessApiResponseParams): ProcessApiResponse<PushedAuthReqResponse> =>
-  /**
-   * Processes the API response for Pushed Authorization Requests (PAR).
-   *
-   * @param {PushedAuthReqResponse} apiResponse - The response from the Authlete API for PAR.
-   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
-   */
+    prepareHeaders,
+  }: ParCreateProcessApiResponseParams): ProcessApiResponse<PushedAuthReqResponse> =>
   async (apiResponse: PushedAuthReqResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
-    const headers = prepareHeaders(apiResponse);
+    const headers = prepareHeaders({ dpopNonce: apiResponse.dpopNonce });
 
     switch (action) {
       case 'CREATED':

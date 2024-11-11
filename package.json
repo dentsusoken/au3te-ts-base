@@ -81,6 +81,16 @@
       "import": "./dist/handler/authorization-issue/index.js",
       "require": "./dist/handler/authorization-issue/index.cjs"
     },
+    "./handler.token-issue": {
+      "types": "./dist/handler/token-issue/index.d.ts",
+      "import": "./dist/handler/token-issue/index.js",
+      "require": "./dist/handler/token-issue/index.cjs"
+    },
+    "./handler.token-fail": {
+      "types": "./dist/handler/token-fail/index.d.ts",
+      "import": "./dist/handler/token-fail/index.js",
+      "require": "./dist/handler/token-fail/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",

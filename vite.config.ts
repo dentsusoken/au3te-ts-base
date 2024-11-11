@@ -22,6 +22,8 @@ export default defineConfig({
           './lib/handler/authorization-fail/index.ts',
         'handler/authorization-issue':
           './lib/handler/authorization-issue/index.ts',
+        'handler/token-issue': './lib/handler/token-issue/index.ts',
+        'handler/token-fail': './lib/handler/token-fail/index.ts',
         'handler/service-configuration':
           './lib/handler/service-configuration/index.ts',
         'handler/credential-metadata':

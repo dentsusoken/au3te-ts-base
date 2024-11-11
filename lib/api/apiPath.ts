@@ -33,18 +33,6 @@ const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
 const AUTH_AUTHORIZATION_API_PATH = '/api/%d/auth/authorization';
 
 /**
- * Path template for Authlete's authorization failure API endpoint.
- *
- * This constant represents the path template for the authorization failure API endpoint.
- * The '%d' placeholder should be replaced with the appropriate API version number
- * when constructing the full URL.
- *
- * @constant {string}
- * @see {@link https://docs.authlete.com/#auth-authorization-fail|Authlete API Reference: /auth/authorization/fail}
- */
-const AUTH_AUTHORIZATION_FAIL_API_PATH = '/api/%d/auth/authorization/fail';
-
-/**
  * The path template for the authorization issue API endpoint.
  *
  * This constant represents the URL path for issuing an authorization.
@@ -59,6 +47,57 @@ const AUTH_AUTHORIZATION_FAIL_API_PATH = '/api/%d/auth/authorization/fail';
  * // Result: '/api/1234/auth/authorization/issue'
  */
 const AUTH_AUTHORIZATION_ISSUE_API_PATH = '/api/%d/auth/authorization/issue';
+
+/**
+ * Path template for Authlete's authorization failure API endpoint.
+ *
+ * This constant represents the path template for the authorization failure API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ * @see {@link https://docs.authlete.com/#auth-authorization-fail|Authlete API Reference: /auth/authorization/fail}
+ */
+const AUTH_AUTHORIZATION_FAIL_API_PATH = '/api/%d/auth/authorization/fail';
+
+/**
+ * Path template for Authlete's token API endpoint.
+ *
+ * This constant represents the path template for the token API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ */
+const AUTH_TOKEN_API_PATH = '/api/%d/auth/token';
+
+/**
+ * Path template for Authlete's token issue API endpoint.
+ *
+ * This constant represents the path template for the token issue API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ * @example
+ * // Usage example:
+ * const serviceApiKey = '1234';
+ * const path = AUTH_TOKEN_ISSUE_API_PATH.replace('%d', serviceApiKey);
+ * // Result: '/api/1234/auth/token/issue'
+ */
+const AUTH_TOKEN_ISSUE_API_PATH = '/api/%d/auth/token/issue';
+
+/**
+ * Path template for Authlete's token failure API endpoint.
+ *
+ * This constant represents the path template for the token failure API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ * @see {@link https://docs.authlete.com/#auth-token-fail|Authlete API Reference: /auth/token/fail}
+ */
+const AUTH_TOKEN_FAIL_API_PATH = '/api/%d/auth/token/fail';
 
 /**
  * The path template for the service configuration API endpoint.
@@ -165,3 +204,42 @@ export const serviceConfigurationPath = (serviceId: string) =>
  */
 export const credentialIssuerMetadataPath = (serviceId: string) =>
   CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the token API path for a given service ID.
+ *
+ * This function creates the specific path for the token API endpoint
+ * by replacing the '%d' placeholder in the AUTH_TOKEN_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the token endpoint.
+ */
+export const tokenPath = (serviceId: string) =>
+  AUTH_TOKEN_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the token issue API path for a given service ID.
+ *
+ * This function creates the specific path for the token issue API endpoint
+ * by replacing the '%d' placeholder in the AUTH_TOKEN_ISSUE_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the token issue endpoint.
+ */
+export const tokenIssuePath = (serviceId: string) =>
+  AUTH_TOKEN_ISSUE_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the token fail API path for a given service ID.
+ *
+ * This function creates the specific path for the token fail API endpoint
+ * by replacing the '%d' placeholder in the AUTH_TOKEN_FAIL_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the token fail endpoint.
+ */
+export const tokenFailPath = (serviceId: string) =>
+  AUTH_TOKEN_FAIL_API_PATH.replace(/%d/, serviceId);

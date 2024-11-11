@@ -18,12 +18,17 @@
 import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 
 /**
- * Represents a function that processes an API response and returns a Promise of Response.
- * @template RES - The type of the API response.
- * @param {RES} apiResponse - The API response to be processed.
- * @returns {Promise<Response>} A promise that resolves to a Response object.
+ * Represents a function that processes an API response and returns a Response object.
+ * @template RES - Type of the API response
+ * @template T - Type of the optional parameters
+ * @param {RES} apiResponse - The API response to be processed
+ * @param {T} [options] - Additional optional parameters
+ * @returns {Promise<Response>} A Promise that resolves to a Response object
  */
-export type ProcessApiResponse<RES> = (apiResponse: RES) => Promise<Response>;
+export type ProcessApiResponse<RES, T = unknown> = (
+  apiResponse: RES,
+  options?: T
+) => Promise<Response>;
 
 export type CreateProcessApiResponseParams = {
   /** The path of the API endpoint. */

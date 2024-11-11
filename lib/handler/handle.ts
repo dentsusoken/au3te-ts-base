@@ -21,22 +21,30 @@ import { RecoverResponseResult } from './recoverResponseResult';
 
 /**
  * Represents a function that handles an API request and returns a Promise of Response.
- * @template REQ - The type of the request object, must extend object.
+ * @template REQ - The type of the request object, must extend object
+ * @template OPTS - The type of optional parameters
+ * @param {REQ} apiRequest - The API request to be processed
+ * @param {OPTS} [options] - Optional parameters
+ * @returns {Promise<Response>} A Promise that resolves to a Response object
  */
-export type Handle<REQ extends object> = (apiRequest: REQ) => Promise<Response>;
+export type Handle<REQ extends object, OPTS = unknown> = (
+  apiRequest: REQ,
+  options?: OPTS
+) => Promise<Response>;
 
 /**
  * Parameters for creating a handle function.
  * @template REQ - The type of the request object, must extend object.
  * @template RES - The type of the API response.
+ * @template OPTS - The type of optional parameters.
  */
-export type CreateHandleParams<REQ extends object, RES> = {
+export type CreateHandleParams<REQ extends object, RES, OPTS> = {
   /** The API endpoint path */
   path: string;
   /** Function to process the API request */
   processApiRequest: ProcessApiRequest<REQ, RES>;
   /** Function to process the API response */
-  processApiResponse: ProcessApiResponse<RES>;
+  processApiResponse: ProcessApiResponse<RES, OPTS>;
   /** Function to recover from response errors */
   recoverResponseResult: RecoverResponseResult;
 };
@@ -45,21 +53,22 @@ export type CreateHandleParams<REQ extends object, RES> = {
  * Creates a handle function for processing API requests and responses.
  * @template REQ - The type of the request object, must extend object.
  * @template RES - The type of the API response.
- * @param {CreateHandleParams<REQ, RES>} params - The parameters for creating the handle function.
- * @returns {Handle<REQ>} A function that handles API requests and returns a Promise of Response.
+ * @template OPTS - The type of optional parameters.
+ * @param {CreateHandleParams<REQ, RES, OPTS>} params - The parameters for creating the handle function.
+ * @returns {Handle<REQ, OPTS>} A function that handles API requests and returns a Promise of Response.
  */
 export const createHandle =
-  <REQ extends object, RES>({
+  <REQ extends object, RES, OPTS>({
     path,
     processApiRequest,
     processApiResponse,
     recoverResponseResult,
-  }: CreateHandleParams<REQ, RES>): Handle<REQ> =>
-  async (apiRequest) => {
+  }: CreateHandleParams<REQ, RES, OPTS>): Handle<REQ, OPTS> =>
+  async (apiRequest, options) => {
     const responseResult = await runAsyncCatching(async () => {
       const apiResponse = await processApiRequest(apiRequest);
 
-      return processApiResponse(apiResponse);
+      return processApiResponse(apiResponse, options);
     });
 
     return await recoverResponseResult(path, responseResult);

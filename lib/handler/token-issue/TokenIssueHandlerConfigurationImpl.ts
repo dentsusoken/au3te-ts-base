@@ -16,10 +16,10 @@
  */
 
 import {
-  PushedAuthReqRequest,
-  PushedAuthReqResponse,
-  pushedAuthReqResponseSchema,
-} from 'au3te-ts-common/schemas.par';
+  TokenIssueRequest,
+  TokenIssueResponse,
+  tokenIssueResponseSchema,
+} from 'au3te-ts-common/schemas.token-issue';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
@@ -27,52 +27,47 @@ import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
-import { ParHandlerConfiguration } from './ParHandlerConfiguration';
+import { TokenIssueHandlerConfiguration } from './TokenIssueHandlerConfiguration';
+import { Headers } from '../../utils/responseFactory';
 
 /**
- * Implementation of the ParHandlerConfiguration interface.
- * This class configures and handles Pushed Authorization Requests (PAR).
+ * Implementation of the TokenIssueHandlerConfiguration interface.
+ * This class configures and handles Token Issue requests.
  */
-export class ParHandlerConfigurationImpl implements ParHandlerConfiguration {
-  /** The path for the PAR endpoint. */
-  path: string = '/api/par';
+export class TokenIssueHandlerConfigurationImpl
+  implements TokenIssueHandlerConfiguration
+{
+  /** The path for the token issue endpoint. */
+  path: string = '/api/token/issue';
 
-  /** Function to process the API request for PAR. */
-  processApiRequest: ProcessApiRequest<
-    PushedAuthReqRequest,
-    PushedAuthReqResponse
-  >;
+  /** Function to process the API request for token issuance. */
+  processApiRequest: ProcessApiRequest<TokenIssueRequest, TokenIssueResponse>;
 
-  /** Function to process the API response for PAR. */
-  processApiResponse: ProcessApiResponse<PushedAuthReqResponse>;
+  /** Function to process the API response for token issuance. */
+  processApiResponse: ProcessApiResponse<TokenIssueResponse, Headers>;
 
-  /** Function to handle the PAR request. */
-  handle: Handle<PushedAuthReqRequest>;
+  /** Function to handle the token issuance request. */
+  handle: Handle<TokenIssueRequest, Headers>;
 
   /**
-   * Creates an instance of ParHandlerConfigurationImpl.
+   * Creates an instance of TokenIssueHandlerConfigurationImpl.
    * @param {BaseHandlerConfiguration<SessionSchemas>} baseHandlerConfiguration - The base handler configuration.
    */
   constructor(
     baseHandlerConfiguration: BaseHandlerConfiguration<SessionSchemas>
   ) {
-    const {
-      apiClient,
-      buildUnknownActionMessage,
-      recoverResponseResult,
-      prepareHeaders,
-    } = baseHandlerConfiguration;
+    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
+      baseHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
-      apiClient.pushAuthorizationRequestPath,
-      pushedAuthReqResponseSchema,
+      apiClient.tokenIssuePath,
+      tokenIssueResponseSchema,
       apiClient
     );
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
-      prepareHeaders,
     });
 
     this.handle = createHandle({

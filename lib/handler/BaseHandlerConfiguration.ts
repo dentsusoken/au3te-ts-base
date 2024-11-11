@@ -20,6 +20,7 @@ import { RecoverResponseResult } from './recoverResponseResult';
 import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
 import { ApiClient } from 'au3te-ts-common/api';
+import { PrepareHeaders } from './prepareHeaders';
 
 /**
  * Interface representing the base configuration for handlers.
@@ -42,4 +43,9 @@ export interface BaseHandlerConfiguration<SS extends SessionSchemas>
    * Function to recover from response errors.
    */
   recoverResponseResult: RecoverResponseResult;
+
+  /**
+   * Function to prepare response headers.
+   */
+  prepareHeaders: PrepareHeaders;
 }

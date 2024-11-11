@@ -4,6 +4,7 @@ import { BaseHandlerConfigurationImpl } from './BaseHandlerConfigurationImpl';
 import { ApiClient } from 'au3te-ts-common/api';
 import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
+import { defaultPrepareHeaders } from './prepareHeaders';
 
 // Mock ApiClient and Session
 const mockApiClient = {
@@ -20,6 +21,7 @@ describe('BaseHandlerConfigurationImpl', () => {
     expect(config.apiClient).toBe(mockApiClient);
     expect(config.session).toBe(mockSession);
     expect(config.recoverResponseResult).toBeDefined();
+    expect(config.prepareHeaders).toBe(defaultPrepareHeaders);
   });
 
   // Test inheritance

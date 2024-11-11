@@ -15,6 +15,6 @@
  * License.
  */
 
-export * from './ParHandlerConfiguration';
-export * from './ParHandlerConfigurationImpl';
+export * from './TokenFailHandlerConfiguration';
+export * from './TokenFailHandlerConfigurationImpl';
 export * from './processApiResponse';

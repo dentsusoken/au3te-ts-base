@@ -14,6 +14,10 @@ import {
   AuthorizationIssueRequest,
   authorizationIssueResponseSchema,
 } from 'au3te-ts-common/schemas.authorization-issue';
+import {
+  TokenRequest,
+  tokenResponseSchema,
+} from 'au3te-ts-common/schemas.token';
 
 const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
@@ -109,7 +113,32 @@ const testAuthorizationIssue = async (ticket: string) => {
   ).toBe(true);
   expect(response.authorizationCode).toBeDefined();
 
-  return response;
+  return response.authorizationCode!;
+};
+
+const testToken = async (code: string) => {
+  const request: TokenRequest = {
+    parameters: new URLSearchParams({
+      code,
+      redirect_uri: 'eudi-openid4ci://authorize/',
+      grant_type: 'authorization_code',
+      client_id: 'tw24.wallet.dentsusoken.com',
+    }).toString(),
+  };
+
+  const response = await apiClient.callPostApi(
+    apiClient.tokenPath,
+    tokenResponseSchema,
+    request
+  );
+  console.log(response);
+
+  expect(response).toBeDefined();
+  expect(response.resultCode).toBe('A050001');
+  expect(response.action).toBe('OK');
+  expect(response.accessToken).toBeDefined();
+
+  return response.accessToken!;
 };
 
 describe('AbstractApiClient', () => {
@@ -139,6 +168,15 @@ describe('AbstractApiClient', () => {
       const requestUri = await testPushAuthorizationRequest();
       const ticket = await testAuthorization(requestUri);
       await testAuthorizationIssue(ticket);
+    }, 10000);
+  });
+
+  describe('token', () => {
+    it('should successfully process a token request', async () => {
+      const requestUri = await testPushAuthorizationRequest();
+      const ticket = await testAuthorization(requestUri);
+      const code = await testAuthorizationIssue(ticket);
+      await testToken(code);
     }, 10000);
   });
 });

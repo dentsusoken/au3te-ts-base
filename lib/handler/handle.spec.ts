@@ -3,6 +3,7 @@ import { createHandle } from './handle';
 
 describe('createHandle', () => {
   const path = 'path';
+  const options = { someOption: 'test-option' };
 
   it('should process request and response successfully', async () => {
     const mockProcessApiRequest = vi
@@ -23,13 +24,14 @@ describe('createHandle', () => {
     });
 
     const apiRequest = { key: 'value' };
-    const response = await handle(apiRequest);
+    const response = await handle(apiRequest, options);
     console.log('response:', response);
 
     expect(mockProcessApiRequest).toHaveBeenCalledWith(apiRequest);
-    expect(mockProcessApiResponse).toHaveBeenCalledWith({
-      data: 'response data',
-    });
+    expect(mockProcessApiResponse).toHaveBeenCalledWith(
+      { data: 'response data' },
+      options
+    );
     expect(mockRecoverResponseResult).toHaveBeenCalled();
     expect(response.status).toBe(200);
     expect(await response.text()).toBe('Success');
@@ -52,7 +54,7 @@ describe('createHandle', () => {
     });
 
     const apiRequest = { key: 'value' };
-    const response = await handle(apiRequest);
+    const response = await handle(apiRequest, options);
 
     expect(mockProcessApiRequest).toHaveBeenCalledWith(apiRequest);
     expect(mockProcessApiResponse).not.toHaveBeenCalled();
@@ -80,12 +82,13 @@ describe('createHandle', () => {
     });
 
     const apiRequest = { key: 'value' };
-    const response = await handle(apiRequest);
+    const response = await handle(apiRequest, options);
 
     expect(mockProcessApiRequest).toHaveBeenCalledWith(apiRequest);
-    expect(mockProcessApiResponse).toHaveBeenCalledWith({
-      data: 'response data',
-    });
+    expect(mockProcessApiResponse).toHaveBeenCalledWith(
+      { data: 'response data' },
+      options
+    );
     expect(mockRecoverResponseResult).toHaveBeenCalled();
     expect(response.status).toBe(500);
     expect(await response.text()).toBe('Error');
