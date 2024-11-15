@@ -19,7 +19,7 @@ import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 import { Session } from '../../session/Session';
 import { CheckAuthAge } from './checkAuthAge';
-import { BuildAuthorizationFailError } from './buildAuthorizationFailError';
+import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
 import { Handle } from '../handle';

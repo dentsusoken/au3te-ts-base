@@ -58,6 +58,9 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for failed token requests */
   readonly tokenFailPath: string;
 
+  /** The path for token create requests */
+  readonly tokenCreatePath: string;
+
   /**
    * Creates an instance of ApiClientImpl.
    * @param {AuthleteConfiguration} configuration - The configuration object for Authlete service.
@@ -95,6 +98,10 @@ export class ApiClientImpl extends AbstractApiClient {
     );
 
     this.tokenFailPath = apiPath.tokenFailPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.tokenCreatePath = apiPath.tokenCreatePath(
       this.configuration.serviceApiKey
     );
   }

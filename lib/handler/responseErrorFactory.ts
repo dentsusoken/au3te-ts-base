@@ -25,10 +25,25 @@ import * as responseFactory from '../utils/responseFactory';
  * @returns {ResponseError} A ResponseError instance with a 400 Bad Request response
  */
 export const badRequestError = (message: string): ResponseError => {
-  const errorBody = JSON.stringify({
-    error: 'invalid_request',
+  const body = JSON.stringify({
+    error: 'bad_request',
     error_description: message,
   });
 
-  return new ResponseError(message, responseFactory.badRequest(errorBody));
+  return new ResponseError(message, responseFactory.badRequest(body));
+};
+
+/**
+ * Creates a ResponseError for an internal server error with the given error message.
+ *
+ * @param {string} message - The error message describing the internal server error
+ * @returns {ResponseError} A ResponseError instance with a 500 Internal Server Error response
+ */
+export const internalServerErrorError = (message: string): ResponseError => {
+  const body = JSON.stringify({
+    error: 'internal_server_error',
+    error_description: message,
+  });
+
+  return new ResponseError(message, responseFactory.internalServerError(body));
 };

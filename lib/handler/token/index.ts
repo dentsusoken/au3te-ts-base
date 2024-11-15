@@ -15,7 +15,12 @@
  * License.
  */
 
-export * from './AuthorizationFailHandlerConfiguration';
-export * from './AuthorizationFailHandlerConfigurationImpl';
-export * from './buildAuthorizationFailError';
+export * from './determineSubject';
+export * from './determineSubject4JwtBearer';
+export * from './determineSubject4TokenExchange';
+export * from './handlePassword';
+export * from './handleTokenCreate';
 export * from './processApiResponse';
+export * from './responseToCreateRequest';
+export * from './TokenHandlerConfiguration';
+export * from './TokenHandlerConfigurationImpl';

@@ -17,7 +17,6 @@
 
 export * from './AuthorizationHandlerConfiguration';
 export * from './AuthorizationHandlerConfigurationImpl';
-export * from './buildAuthorizationFailError';
 export * from './buildResponse';
 export * from './calcSub';
 export * from './checkAuthAge';

@@ -16,10 +16,10 @@
  */
 
 import {
-  TokenFailRequest,
-  TokenFailResponse,
-  tokenFailResponseSchema,
-} from 'au3te-ts-common/schemas.token-fail';
+  TokenCreateRequest,
+  TokenCreateResponse,
+  tokenCreateResponseSchema,
+} from 'au3te-ts-common/schemas.token-create';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
@@ -27,37 +27,29 @@ import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
-import { TokenFailHandlerConfiguration } from './TokenFailHandlerConfiguration';
-import { Headers } from '../../utils/responseFactory';
-import {
-  BuildTokenFailError,
-  createBuildTokenFailError,
-} from './buildTokenFailError';
+import { TokenCreateHandlerConfiguration } from './TokenCreateHandlerConfiguration';
 
 /**
- * Implementation of the TokenFailHandlerConfiguration interface.
- * This class configures and handles Token Fail requests.
+ * Implementation of the TokenCreateHandlerConfiguration interface.
+ * This class configures and handles Token Create requests.
  */
-export class TokenFailHandlerConfigurationImpl
-  implements TokenFailHandlerConfiguration
+export class TokenCreateHandlerConfigurationImpl
+  implements TokenCreateHandlerConfiguration
 {
-  /** The path for the token fail endpoint. */
-  path: string = '/api/token/fail';
+  /** The path for the token create endpoint. */
+  path: string = '/api/token/create';
 
-  /** Function to process the API request for token fail. */
-  processApiRequest: ProcessApiRequest<TokenFailRequest, TokenFailResponse>;
+  /** Function to process the API request for token creation. */
+  processApiRequest: ProcessApiRequest<TokenCreateRequest, TokenCreateResponse>;
 
-  /** Function to process the API response for token fail. */
-  processApiResponse: ProcessApiResponse<TokenFailResponse, Headers>;
+  /** Function to process the API response for token creation. */
+  processApiResponse: ProcessApiResponse<TokenCreateResponse>;
 
-  /** Function to handle the token fail request. */
-  handle: Handle<TokenFailRequest, Headers>;
-
-  /** Function to build a token fail error. */
-  buildTokenFailError: BuildTokenFailError;
+  /** Function to handle the token creation request. */
+  handle: Handle<TokenCreateRequest>;
 
   /**
-   * Creates an instance of TokenFailHandlerConfigurationImpl.
+   * Creates an instance of TokenCreateHandlerConfigurationImpl.
    * @param {BaseHandlerConfiguration<SessionSchemas>} baseHandlerConfiguration - The base handler configuration.
    */
   constructor(
@@ -67,8 +59,8 @@ export class TokenFailHandlerConfigurationImpl
       baseHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
-      apiClient.tokenFailPath,
-      tokenFailResponseSchema,
+      apiClient.tokenCreatePath,
+      tokenCreateResponseSchema,
       apiClient
     );
 
@@ -83,7 +75,5 @@ export class TokenFailHandlerConfigurationImpl
       processApiResponse: this.processApiResponse,
       recoverResponseResult,
     });
-
-    this.buildTokenFailError = createBuildTokenFailError(this.handle);
   }
 }

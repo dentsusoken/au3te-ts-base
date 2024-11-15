@@ -24,7 +24,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 import { badRequestError } from '../../handler/responseErrorFactory';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 import { parseQueryString } from 'au3te-ts-common/utils';
-import { BuildAuthorizationFailError } from '../../handler/authorization/buildAuthorizationFailError';
+import { BuildAuthorizationFailError } from '../../handler/authorization-fail/buildAuthorizationFailError';
 import { CalcSub } from '../../handler/authorization/calcSub';
 import { CollectClaims } from './collectClaims';
 

@@ -22,23 +22,40 @@ import {
 } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 import { PrepareHeaders } from '../prepareHeaders';
+import { HandlePassword } from './handlePassword';
+import { HandleTokenCreate } from './handleTokenCreate';
+
+/**
+ * The WWW-Authenticate challenge value for Basic authentication.
+ * Used in authentication error responses to indicate that Basic auth is required.
+ */
+const CHALLENGE = 'Basic realm="token"';
 
 /**
  * Parameters for creating a token API response processor.
  *
- * @typedef {Object} TokenCreateProcessApiResponseParams
+ * @interface TokenCreateProcessApiResponseParams
+ * @extends {CreateProcessApiResponseParams}
  * @property {PrepareHeaders} prepareHeaders - Function to prepare response headers.
  *   Must handle the required dpopNonce parameter from the API response.
- * @extends {CreateProcessApiResponseParams}
+ * @property {HandlePassword} handlePassword - Function to handle Resource Owner Password Credentials flow.
+ * @property {HandleTokenCreate} handleTokenExchange - Function to handle Token Exchange requests (RFC 8693).
+ * @property {HandleTokenCreate} handleJwtBearer - Function to handle JWT Bearer Token requests (RFC 7523).
  */
 type TokenCreateProcessApiResponseParams = {
+  path: string;
+  buildUnknownActionMessage: (path: string, action: string) => string;
   prepareHeaders: PrepareHeaders;
+  handlePassword: HandlePassword;
+  handleTokenExchange: HandleTokenCreate;
+  handleJwtBearer: HandleTokenCreate;
 } & CreateProcessApiResponseParams;
 
 /**
  * Creates a function to process API responses for Token requests.
  *
- * @param {TokenCreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @function createProcessApiResponse
+ * @param {TokenCreateProcessApiResponseParams} params - Configuration parameters for the processor.
  * @returns {ProcessApiResponse<TokenResponse>} A function that processes Token API responses.
  */
 export const createProcessApiResponse =
@@ -46,17 +63,28 @@ export const createProcessApiResponse =
     path,
     buildUnknownActionMessage,
     prepareHeaders,
+    handlePassword,
+    handleTokenExchange,
+    handleJwtBearer,
   }: TokenCreateProcessApiResponseParams): ProcessApiResponse<TokenResponse> =>
   /**
    * Processes the API response for Token requests.
    *
-   * @param {TokenResponse} apiResponse - The response from the Authlete API for Token endpoint.
-   *   The apiResponse object must contain:
-   *   - action: The action to be taken
-   *   - responseContent: The content to be included in the response
-   *   - dpopNonce: The DPoP nonce value (optional)
-   *   Other optional properties may be included as defined in TokenResponse
-   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   * @function
+   * @param {TokenResponse} apiResponse - The response from the Authlete API.
+   * @param {string} apiResponse.action - The action to be taken based on the API response.
+   * @param {string} apiResponse.responseContent - The content to be included in the response.
+   * @param {string} [apiResponse.dpopNonce] - The DPoP nonce value for DPoP-bound access tokens.
+   * @returns {Promise<Response>} The HTTP response to be sent to the client.
+   *
+   * @throws {Error} If the action is unknown or processing fails.
+   *
+   * @example
+   * const response = await processApiResponse({
+   *   action: 'OK',
+   *   responseContent: '{"access_token": "..."}',
+   *   dpopNonce: 'nonce123'
+   * });
    */
   async (apiResponse: TokenResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
@@ -64,29 +92,27 @@ export const createProcessApiResponse =
 
     switch (action) {
       case 'OK':
+      case 'ID_TOKEN_REISSUABLE':
         return responseFactory.ok(responseContent, headers);
       case 'BAD_REQUEST':
         return responseFactory.badRequest(responseContent, headers);
       case 'INVALID_CLIENT':
         return responseFactory.unauthorized(
           responseContent,
-          undefined,
+          CHALLENGE,
           headers
         );
       case 'INTERNAL_SERVER_ERROR':
         return responseFactory.internalServerError(responseContent, headers);
       case 'PASSWORD':
         // Handle Resource Owner Password Credentials flow
-        return responseFactory.ok(responseContent, headers);
+        return handlePassword(apiResponse, headers);
       case 'TOKEN_EXCHANGE':
         // Handle token exchange request (RFC 8693)
-        return responseFactory.ok(responseContent, headers);
+        return handleTokenExchange(apiResponse, headers);
       case 'JWT_BEARER':
         // Handle JWT Bearer token request (RFC 7523)
-        return responseFactory.ok(responseContent, headers);
-      case 'ID_TOKEN_REISSUABLE':
-        // Handle ID token reissuance in refresh token flow
-        return responseFactory.ok(responseContent, headers);
+        return handleJwtBearer(apiResponse, headers);
       default:
         return responseFactory.internalServerError(
           buildUnknownActionMessage(path, action)

@@ -15,6 +15,7 @@
  * License.
  */
 
+export * from './buildTokenFailError';
 export * from './TokenFailHandlerConfiguration';
 export * from './TokenFailHandlerConfigurationImpl';
 export * from './processApiResponse';

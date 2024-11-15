@@ -56,7 +56,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import {
   BuildAuthorizationFailError,
   createBuildAuthorizationFailError,
-} from './buildAuthorizationFailError';
+} from '../authorization-fail/buildAuthorizationFailError';
 import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';

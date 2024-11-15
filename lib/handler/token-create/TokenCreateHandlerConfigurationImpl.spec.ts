@@ -1,25 +1,26 @@
 import { describe, it, expect } from 'vitest';
-import { TokenFailHandlerConfigurationImpl } from './TokenFailHandlerConfigurationImpl';
+import { TokenCreateHandlerConfigurationImpl } from './TokenCreateHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ApiClient } from 'au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
 
-describe('TokenFailHandlerConfigurationImpl', () => {
+describe('TokenCreateHandlerConfigurationImpl', () => {
+  // Mock API client
   const mockApiClient = {
-    tokenFailPath: '/token/fail',
+    tokenCreatePath: '/token/create',
   } as ApiClient;
 
+  // Use SessionSchemas as the type parameter
   const mockBaseConfig = {
     apiClient: mockApiClient,
   } as BaseHandlerConfiguration<SessionSchemas>;
 
   it('should initialize with required properties', () => {
-    const config = new TokenFailHandlerConfigurationImpl(mockBaseConfig);
+    const config = new TokenCreateHandlerConfigurationImpl(mockBaseConfig);
 
-    expect(config.path).toBe('/api/token/fail');
+    expect(config.path).toBe('/api/token/create');
     expect(config.processApiRequest).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
-    expect(config.buildTokenFailError).toBeDefined();
   });
 });

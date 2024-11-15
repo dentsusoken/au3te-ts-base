@@ -100,6 +100,15 @@ const AUTH_TOKEN_ISSUE_API_PATH = '/api/%d/auth/token/issue';
 const AUTH_TOKEN_FAIL_API_PATH = '/api/%d/auth/token/fail';
 
 /**
+ * Path template for Authlete's token create API endpoint.
+ *
+ * This constant represents the path template for the token create API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ */
+const AUTH_TOKEN_CREATE_API_PATH = '/api/%d/auth/token/create';
+
+/**
  * The path template for the service configuration API endpoint.
  *
  * This constant represents the URL path for getting service configuration.
@@ -243,3 +252,13 @@ export const tokenIssuePath = (serviceId: string) =>
  */
 export const tokenFailPath = (serviceId: string) =>
   AUTH_TOKEN_FAIL_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the token create API path for a given service ID.
+ *
+ * This function creates the specific path for the token create API endpoint
+ * by replacing the '%d' placeholder in the AUTH_TOKEN_CREATE_API_PATH constant
+ * with the provided service ID.
+ */
+export const tokenCreatePath = (serviceId: string) =>
+  AUTH_TOKEN_CREATE_API_PATH.replace(/%d/, serviceId);

@@ -15,7 +15,6 @@
  * License.
  */
 
-export * from './AuthorizationFailHandlerConfiguration';
-export * from './AuthorizationFailHandlerConfigurationImpl';
-export * from './buildAuthorizationFailError';
+export * from './TokenCreateHandlerConfiguration';
+export * from './TokenCreateHandlerConfigurationImpl';
 export * from './processApiResponse';

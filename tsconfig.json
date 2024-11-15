@@ -26,5 +26,6 @@
 
     //"jsx": "react-jsx"
   },
-  "include": ["lib"]
+  "include": ["lib"],
+  "exclude": ["node_modules"]
 }

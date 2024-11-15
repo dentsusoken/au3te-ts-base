@@ -91,6 +91,11 @@
       "import": "./dist/handler/token-fail/index.js",
       "require": "./dist/handler/token-fail/index.cjs"
     },
+    "./handler.token-create": {
+      "types": "./dist/handler/token-create/index.d.ts",
+      "import": "./dist/handler/token-create/index.js",
+      "require": "./dist/handler/token-create/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",

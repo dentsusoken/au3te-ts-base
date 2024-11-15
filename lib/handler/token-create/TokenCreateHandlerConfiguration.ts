@@ -16,41 +16,34 @@
  */
 
 import {
-  TokenFailRequest,
-  TokenFailResponse,
-} from 'au3te-ts-common/schemas.token-fail';
+  TokenCreateRequest,
+  TokenCreateResponse,
+} from 'au3te-ts-common/schemas.token-create';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
-import { Headers } from '../../utils/responseFactory';
-import { BuildTokenFailError } from './buildTokenFailError';
 
 /**
- * Configuration interface for the Token Fail handler.
+ * Configuration interface for the Token Create handler.
  */
-export interface TokenFailHandlerConfiguration {
+export interface TokenCreateHandlerConfiguration {
   /**
-   * The path for the token fail endpoint.
+   * The path for the token endpoint.
    */
   path: string;
 
   /**
-   * Function to build a token fail error.
+   * Function to process the API request for token creation.
    */
-  buildTokenFailError: BuildTokenFailError;
+  processApiRequest: ProcessApiRequest<TokenCreateRequest, TokenCreateResponse>;
 
   /**
-   * Function to process the API request for token fail.
+   * Function to process the API response for token creation.
    */
-  processApiRequest: ProcessApiRequest<TokenFailRequest, TokenFailResponse>;
+  processApiResponse: ProcessApiResponse<TokenCreateResponse>;
 
   /**
-   * Function to process the API response for token fail.
+   * Function to handle the token creation request.
    */
-  processApiResponse: ProcessApiResponse<TokenFailResponse, Headers>;
-
-  /**
-   * Function to handle the token fail request.
-   */
-  handle: Handle<TokenFailRequest, Headers>;
+  handle: Handle<TokenCreateRequest>;
 }

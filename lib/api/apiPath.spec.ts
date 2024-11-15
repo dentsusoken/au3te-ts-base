@@ -7,6 +7,7 @@ import {
   tokenPath,
   tokenIssuePath,
   tokenFailPath,
+  tokenCreatePath,
 } from './apiPath';
 
 describe('API path functions', () => {
@@ -42,5 +43,9 @@ describe('API path functions', () => {
 
   it('should generate the correct tokenFailPath', () => {
     expect(tokenFailPath(serviceId)).toBe('/api/123/auth/token/fail');
+  });
+
+  it('should generate the correct tokenCreatePath', () => {
+    expect(tokenCreatePath(serviceId)).toBe('/api/123/auth/token/create');
   });
 });

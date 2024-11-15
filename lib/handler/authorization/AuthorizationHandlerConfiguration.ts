@@ -33,7 +33,7 @@ import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
-import { BuildAuthorizationFailError } from './buildAuthorizationFailError';
+import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 
 /**
  * Configuration interface for the Authorization handler.

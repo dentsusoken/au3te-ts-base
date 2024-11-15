@@ -15,7 +15,13 @@
  * License.
  */
 
-export * from './AuthorizationFailHandlerConfiguration';
-export * from './AuthorizationFailHandlerConfigurationImpl';
-export * from './buildAuthorizationFailError';
-export * from './processApiResponse';
+import { TokenResponse } from 'au3te-ts-common/schemas.token';
+
+/**
+ * Function type for determining the subject from a token response.
+ *
+ * @param apiResponse - The token response from the authorization server
+ * @returns A promise that resolves to the subject identifier string
+ * @throws {Error} If the subject cannot be determined from the response
+ */
+export type DetermineSubject = (apiResponse: TokenResponse) => Promise<string>;
