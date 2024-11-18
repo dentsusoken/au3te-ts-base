@@ -11,6 +11,7 @@ export default defineConfig({
         'endpoint/authorization': './lib/endpoint/authorization/index.ts',
         'endpoint/authorization-decision':
           './lib/endpoint/authorization-decision/index.ts',
+        'endpoint/token': './lib/endpoint/token/index.ts',
         'endpoint/service-configuration':
           './lib/endpoint/service-configuration/index.ts',
         'endpoint/credential-metadata':
@@ -22,6 +23,7 @@ export default defineConfig({
           './lib/handler/authorization-fail/index.ts',
         'handler/authorization-issue':
           './lib/handler/authorization-issue/index.ts',
+        'handler/token': './lib/handler/token/index.ts',
         'handler/token-issue': './lib/handler/token-issue/index.ts',
         'handler/token-fail': './lib/handler/token-fail/index.ts',
         'handler/token-create': './lib/handler/token-create/index.ts',

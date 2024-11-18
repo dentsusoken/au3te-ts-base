@@ -22,7 +22,7 @@ import { SessionSchemas } from '../../session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
 import { ParEndpointConfiguration } from './ParEndpointConfiguration';
-import { createToApiRequest } from './toApiRequest';
+import { createToApiRequest } from '../toClientAuthRequest';
 import { ToApiRequest } from '../toApiRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 

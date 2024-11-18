@@ -36,6 +36,11 @@
       "import": "./dist/endpoint/authorization-decision/index.js",
       "require": "./dist/endpoint/authorization-decision/index.cjs"
     },
+    "./endpoint.token": {
+      "types": "./dist/endpoint/token/index.d.ts",
+      "import": "./dist/endpoint/token/index.js",
+      "require": "./dist/endpoint/token/index.cjs"
+    },
     "./endpoint.service-configuration": {
       "types": "./dist/endpoint/service-configuration/index.d.ts",
       "import": "./dist/endpoint/service-configuration/index.js",
@@ -80,6 +85,11 @@
       "types": "./dist/handler/authorization-issue/index.d.ts",
       "import": "./dist/handler/authorization-issue/index.js",
       "require": "./dist/handler/authorization-issue/index.cjs"
+    },
+    "./handler.token": {
+      "types": "./dist/handler/token/index.d.ts",
+      "import": "./dist/handler/token/index.js",
+      "require": "./dist/handler/token/index.cjs"
     },
     "./handler.token-issue": {
       "types": "./dist/handler/token-issue/index.d.ts",

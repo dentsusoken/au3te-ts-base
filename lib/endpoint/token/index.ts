@@ -15,5 +15,5 @@
  * License.
  */
 
-export * from './ParEndpointConfiguration';
-export * from './ParEndpointConfigurationImpl';
+export * from './TokenEndpointConfiguration';
+export * from './TokenEndpointConfigurationImpl';

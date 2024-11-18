@@ -3,11 +3,12 @@ import { ApiClientImpl } from '../../api/ApiClientImpl';
 import { AuthleteConfiguration } from 'au3te-ts-common/conf';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { InMemorySession } from '../../session/InMemorySession';
-import { BaseHandlerConfigurationImpl } from '../BaseHandlerConfigurationImpl';
-import { TokenHandlerConfigurationImpl } from './TokenHandlerConfigurationImpl';
-import { TokenFailHandlerConfigurationImpl } from '../token-fail/TokenFailHandlerConfigurationImpl';
-import { TokenIssueHandlerConfigurationImpl } from '../token-issue/TokenIssueHandlerConfigurationImpl';
-import { TokenCreateHandlerConfigurationImpl } from '../token-create/TokenCreateHandlerConfigurationImpl';
+import { BaseHandlerConfigurationImpl } from '../../handler/BaseHandlerConfigurationImpl';
+import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
+import { TokenEndpointConfigurationImpl } from './TokenEndpointConfigurationImpl';
+import { TokenFailHandlerConfigurationImpl } from '../../handler/token-fail/TokenFailHandlerConfigurationImpl';
+import { TokenIssueHandlerConfigurationImpl } from '../../handler/token-issue/TokenIssueHandlerConfigurationImpl';
+import { TokenCreateHandlerConfigurationImpl } from '../../handler/token-create/TokenCreateHandlerConfigurationImpl';
 import { UserConfigurationImpl } from 'au3te-ts-common/user';
 import {
   PushedAuthReqRequest,
@@ -17,13 +18,12 @@ import {
   AuthorizationRequest,
   authorizationResponseSchema,
 } from 'au3te-ts-common/schemas.authorization';
-import { TokenRequest } from 'au3te-ts-common/schemas.token';
 import {
   AuthorizationIssueRequest,
   authorizationIssueResponseSchema,
 } from 'au3te-ts-common/schemas.authorization-issue';
 
-describe('TokenHandlerConfigurationImpl.handle', () => {
+describe('TokenEndpointConfiguration.processRequest', () => {
   const configuration: AuthleteConfiguration = {
     apiVersion: process.env.API_VERSION || '',
     baseUrl: process.env.API_BASE_URL || '',
@@ -37,6 +37,7 @@ describe('TokenHandlerConfigurationImpl.handle', () => {
     apiClient,
     session
   );
+  const extractorConfiguration = new ExtractorConfigurationImpl();
   const userConfiguration = new UserConfigurationImpl();
   const tokenFailHandlerConfiguration = new TokenFailHandlerConfigurationImpl(
     baseHandlerConfiguration
@@ -46,18 +47,26 @@ describe('TokenHandlerConfigurationImpl.handle', () => {
   );
   const tokenCreateHandlerConfiguration =
     new TokenCreateHandlerConfigurationImpl(baseHandlerConfiguration);
-  const tokenHandlerConfiguration = new TokenHandlerConfigurationImpl({
+
+  const tokenEndpointConfiguration = new TokenEndpointConfigurationImpl({
     baseHandlerConfiguration,
+    extractorConfiguration,
     userConfiguration,
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
     tokenCreateHandlerConfiguration,
   });
 
-  const testPushAuthorizationRequest = async () => {
+  const testPar = async () => {
+    const params = new URLSearchParams({
+      scope: 'org.iso.18013.5.1.mDL openid',
+      redirect_uri: 'eudi-openid4ci://authorize/',
+      response_type: 'code',
+      client_id: 'tw24.wallet.dentsusoken.com',
+    });
+
     const request: PushedAuthReqRequest = {
-      parameters:
-        'scope=org.iso.18013.5.1.mDL+openid&redirect_uri=eudi-openid4ci%3A%2F%2Fauthorize%2F&response_type=code&client_id=tw24.wallet.dentsusoken.com',
+      parameters: params.toString(),
     };
 
     const response = await apiClient.callPostApi(
@@ -114,7 +123,6 @@ describe('TokenHandlerConfigurationImpl.handle', () => {
       authorizationIssueResponseSchema,
       request
     );
-    console.log(response);
 
     expect(response).toBeDefined();
     expect(response.action).toBe('LOCATION');
@@ -127,23 +135,29 @@ describe('TokenHandlerConfigurationImpl.handle', () => {
   };
 
   const testToken = async (code: string) => {
-    const request: TokenRequest = {
-      parameters: new URLSearchParams({
-        code,
-        redirect_uri: 'eudi-openid4ci://authorize/',
-        grant_type: 'authorization_code',
-        client_id: 'tw24.wallet.dentsusoken.com',
-      }).toString(),
-    };
+    const formData = new URLSearchParams({
+      code,
+      redirect_uri: 'eudi-openid4ci://authorize/',
+      grant_type: 'authorization_code',
+      client_id: 'tw24.wallet.dentsusoken.com',
+    });
 
-    const response = await tokenHandlerConfiguration.handle(request);
+    const request = new Request('http://localhost/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData,
+    });
+
+    const response = await tokenEndpointConfiguration.processRequest(request);
     expect(response.status).toBe(200);
     const json = await response.json();
     expect(json.access_token).toBeDefined();
   };
 
-  it('should successfully handle()', async () => {
-    const requestUri = await testPushAuthorizationRequest();
+  it('should successfully process token request', async () => {
+    const requestUri = await testPar();
     const ticket = await testAuthorization(requestUri);
     const code = await testAuthorizationIssue(ticket);
     await testToken(code);

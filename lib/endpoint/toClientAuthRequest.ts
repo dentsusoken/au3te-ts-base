@@ -15,11 +15,11 @@
  * License.
  */
 
-import { PushedAuthReqRequest } from 'au3te-ts-common/schemas.par';
-import { ExtractParameters } from '../../extractor/extractParameters';
-import { ExtractClientCredentials } from '../../extractor/extractClientCredentials';
-import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCertificateAndPath';
-import { ToApiRequest } from '../toApiRequest';
+import { BaseClientAuthRequest } from 'au3te-ts-common/schemas.common';
+import { ExtractParameters } from '../extractor/extractParameters';
+import { ExtractClientCredentials } from '../extractor/extractClientCredentials';
+import { ExtractClientCertificateAndPath } from '../extractor/extractClientCertificateAndPath';
+import { ToApiRequest } from './toApiRequest';
 
 /**
  * Parameters required to create a PAR API request converter.
@@ -43,12 +43,12 @@ type CreateToApiRequestParams = {
  * @returns {ToApiRequest<PushedAuthReqRequest>} A function that converts Request to PushedAuthReqRequest
  */
 export const createToApiRequest =
-  ({
+  <T extends BaseClientAuthRequest>({
     extractParameters,
     extractClientCredentials,
     extractClientCertificateAndPath,
-  }: CreateToApiRequestParams): ToApiRequest<PushedAuthReqRequest> =>
-  async (request: Request): Promise<PushedAuthReqRequest> => {
+  }: CreateToApiRequestParams): ToApiRequest<T> =>
+  async (request: Request): Promise<T> => {
     const parameters = await extractParameters(request);
     const { clientId, clientSecret } = await extractClientCredentials(request);
     const { clientCertificate, clientCertificatePath } =
@@ -62,7 +62,7 @@ export const createToApiRequest =
       'OAuth-Client-Attestation-PoP'
     );
 
-    const apiRequest: PushedAuthReqRequest = {
+    const apiRequest = {
       parameters,
       clientId,
       clientSecret,
@@ -72,7 +72,7 @@ export const createToApiRequest =
       htm,
       oauthClientAttestation,
       oauthClientAttestationPop,
-    };
+    } as T;
 
     return apiRequest;
   };

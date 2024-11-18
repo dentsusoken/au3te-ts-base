@@ -1,18 +1,24 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createToApiRequest } from './toApiRequest';
+import { createToApiRequest } from './toClientAuthRequest';
+import { BaseClientAuthRequest } from 'au3te-ts-common/schemas.common';
+
+// Extend BaseClientAuthRequest for testing purposes
+interface TestClientAuthRequest extends BaseClientAuthRequest {
+  customField?: string;
+}
 
 describe('createToApiRequest', () => {
   const mockExtractParameters = vi.fn();
   const mockExtractClientCredentials = vi.fn();
   const mockExtractClientCertificateAndPath = vi.fn();
 
-  const toApiRequest = createToApiRequest({
+  const toApiRequest = createToApiRequest<TestClientAuthRequest>({
     extractParameters: mockExtractParameters,
     extractClientCredentials: mockExtractClientCredentials,
     extractClientCertificateAndPath: mockExtractClientCertificateAndPath,
   });
 
-  it('should create a PushedAuthReqRequest from a Request', async () => {
+  it('should create a valid request when all headers are present', async () => {
     const mockRequest = {
       headers: new Headers({
         DPoP: 'dpop-token',
@@ -33,7 +39,7 @@ describe('createToApiRequest', () => {
 
     const result = await toApiRequest(mockRequest);
 
-    expect(result).toEqual({
+    expect(result).toEqual<TestClientAuthRequest>({
       parameters: 'param1=value1&param2=value2',
       clientId: 'client123',
       clientSecret: 'secret456',
@@ -52,7 +58,7 @@ describe('createToApiRequest', () => {
     );
   });
 
-  it('should handle missing headers', async () => {
+  it('should create a request with null or undefined values when headers are missing', async () => {
     const mockRequest = {
       headers: new Headers(),
     } as Request;
@@ -69,7 +75,7 @@ describe('createToApiRequest', () => {
 
     const result = await toApiRequest(mockRequest);
 
-    expect(result).toEqual({
+    expect(result).toEqual<TestClientAuthRequest>({
       parameters: '',
       clientId: undefined,
       clientSecret: undefined,
