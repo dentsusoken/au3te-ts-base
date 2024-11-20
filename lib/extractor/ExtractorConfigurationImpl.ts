@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import {
   ExtractClientCertificateAndPath,
 } from './extractClientCertificateAndPath';
 import { ExtractorConfiguration } from './ExtractorConfiguration';
+import { defaultExtractAccessToken } from './extractAccessToken';
+import { ExtractAccessToken } from './extractAccessToken';
 
 /**
  * Configuration interface for extractors used in endpoint processing.
@@ -49,4 +51,9 @@ export class ExtractorConfigurationImpl implements ExtractorConfiguration {
    */
   extractClientCertificateAndPath: ExtractClientCertificateAndPath =
     defaultExtractClientCertificateAndPath;
+
+  /**
+   * Extracts an access token from the request.
+   */
+  extractAccessToken: ExtractAccessToken = defaultExtractAccessToken;
 }

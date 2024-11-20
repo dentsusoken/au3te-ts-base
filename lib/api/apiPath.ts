@@ -109,6 +109,16 @@ const AUTH_TOKEN_FAIL_API_PATH = '/api/%d/auth/token/fail';
 const AUTH_TOKEN_CREATE_API_PATH = '/api/%d/auth/token/create';
 
 /**
+ * Path template for Authlete's introspection API endpoint.
+ *
+ * This constant represents the path template for the introspection API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant {string}
+ */
+const AUTH_INTROSPECTION_API_PATH = '/api/%d/auth/introspection';
+/**
  * The path template for the service configuration API endpoint.
  *
  * This constant represents the URL path for getting service configuration.
@@ -189,32 +199,6 @@ export const authorizationIssuePath = (serviceId: string) =>
   AUTH_AUTHORIZATION_ISSUE_API_PATH.replace(/%d/, serviceId);
 
 /**
- * Generates the service configuration API path for a given service ID.
- *
- * This function creates the specific path for the service configuration API endpoint
- * by replacing the '%d' placeholder in the SERVICE_CONFIGURATION_API_PATH constant
- * with the provided service ID.
- *
- * @param {string} serviceId - The unique identifier for the service.
- * @returns {string} The complete API path for the authorization issue endpoint.
- */
-export const serviceConfigurationPath = (serviceId: string) =>
-  SERVICE_CONFIGURATION_API_PATH.replace(/%d/, serviceId);
-
-/**
- * Generates the credential issuer metadata API path for a given service ID.
- *
- * This function creates the specific path for the service configuration API endpoint
- * by replacing the '%d' placeholder in the CREDENTIAL_ISSUER_METADATA_API_PATH constant
- * with the provided service ID.
- *
- * @param {string} serviceId - The unique identifier for the service.
- * @returns {string} The complete API path for the authorization issue endpoint.
- */
-export const credentialIssuerMetadataPath = (serviceId: string) =>
-  CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);
-
-/**
  * Generates the token API path for a given service ID.
  *
  * This function creates the specific path for the token API endpoint
@@ -262,3 +246,42 @@ export const tokenFailPath = (serviceId: string) =>
  */
 export const tokenCreatePath = (serviceId: string) =>
   AUTH_TOKEN_CREATE_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the introspection API path for a given service ID.
+ *
+ * This function creates the specific path for the introspection API endpoint
+ * by replacing the '%d' placeholder in the AUTH_INTROSPECTION_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the introspection endpoint.
+ */
+export const introspectionPath = (serviceId: string) =>
+  AUTH_INTROSPECTION_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the service configuration API path for a given service ID.
+ *
+ * This function creates the specific path for the service configuration API endpoint
+ * by replacing the '%d' placeholder in the SERVICE_CONFIGURATION_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the authorization issue endpoint.
+ */
+export const serviceConfigurationPath = (serviceId: string) =>
+  SERVICE_CONFIGURATION_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the credential issuer metadata API path for a given service ID.
+ *
+ * This function creates the specific path for the service configuration API endpoint
+ * by replacing the '%d' placeholder in the CREDENTIAL_ISSUER_METADATA_API_PATH constant
+ * with the provided service ID.
+ *
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the authorization issue endpoint.
+ */
+export const credentialIssuerMetadataPath = (serviceId: string) =>
+  CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);

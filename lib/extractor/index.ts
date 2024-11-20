@@ -15,6 +15,7 @@
  * License.
  */
 
+export * from './extractAccessToken';
 export * from './extractClientCertificateAndPath';
 export * from './extractClientCredentials';
 export * from './extractParameters';

@@ -43,12 +43,6 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for authorization issue requests */
   readonly authorizationIssuePath: string;
 
-  /** The path for service configuration requests */
-  readonly serviceConfigurationPath: string;
-
-  /** The path for credential issuer metadata requests */
-  readonly credentialIssuerMetadataPath: string;
-
   /** The path for token requests */
   readonly tokenPath: string;
 
@@ -60,6 +54,15 @@ export class ApiClientImpl extends AbstractApiClient {
 
   /** The path for token create requests */
   readonly tokenCreatePath: string;
+
+  /** The path for introspection requests */
+  readonly introspectionPath: string;
+
+  /** The path for service configuration requests */
+  readonly serviceConfigurationPath: string;
+
+  /** The path for credential issuer metadata requests */
+  readonly credentialIssuerMetadataPath: string;
 
   /**
    * Creates an instance of ApiClientImpl.
@@ -83,14 +86,6 @@ export class ApiClientImpl extends AbstractApiClient {
       this.configuration.serviceApiKey
     );
 
-    this.serviceConfigurationPath = apiPath.serviceConfigurationPath(
-      this.configuration.serviceApiKey
-    );
-
-    this.credentialIssuerMetadataPath = apiPath.credentialIssuerMetadataPath(
-      this.configuration.serviceApiKey
-    );
-
     this.tokenPath = apiPath.tokenPath(this.configuration.serviceApiKey);
 
     this.tokenIssuePath = apiPath.tokenIssuePath(
@@ -102,6 +97,18 @@ export class ApiClientImpl extends AbstractApiClient {
     );
 
     this.tokenCreatePath = apiPath.tokenCreatePath(
+      this.configuration.serviceApiKey
+    );
+
+    this.introspectionPath = apiPath.introspectionPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.serviceConfigurationPath = apiPath.serviceConfigurationPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.credentialIssuerMetadataPath = apiPath.credentialIssuerMetadataPath(
       this.configuration.serviceApiKey
     );
   }

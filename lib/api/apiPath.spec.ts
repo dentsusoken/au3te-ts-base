@@ -8,6 +8,7 @@ import {
   tokenIssuePath,
   tokenFailPath,
   tokenCreatePath,
+  introspectionPath,
 } from './apiPath';
 
 describe('API path functions', () => {
@@ -47,5 +48,21 @@ describe('API path functions', () => {
 
   it('should generate the correct tokenCreatePath', () => {
     expect(tokenCreatePath(serviceId)).toBe('/api/123/auth/token/create');
+  });
+
+  describe('introspectionPath', () => {
+    it('should generate the correct introspection API path', () => {
+      const serviceId = '1234567890';
+      const expected = '/api/1234567890/auth/introspection';
+      const actual = introspectionPath(serviceId);
+      expect(actual).toBe(expected);
+    });
+
+    it('should handle numeric service IDs', () => {
+      const serviceId = '123';
+      const expected = '/api/123/auth/introspection';
+      const actual = introspectionPath(serviceId);
+      expect(actual).toBe(expected);
+    });
   });
 });
