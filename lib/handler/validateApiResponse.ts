@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +18,20 @@
 import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
 
 /**
- * Represents a function that processes an API response and returns a Response object.
- * @template RES - Type of the API response
- * @template T - Type of the optional parameters
- * @param {RES} apiResponse - The API response to be processed
- * @param {T} [options] - Additional optional parameters
- * @returns {Promise<Response>} A Promise that resolves to a Response object
+ * Parameters for creating a validate API response function.
  */
-export type ProcessApiResponse<RES, T = unknown> = (
-  apiResponse: RES,
-  options?: T
-) => Promise<Response>;
-
-/**
- * Parameters for creating a process API response function.
- */
-export type CreateProcessApiResponseParams = {
+export type CreateValidateApiResponseParams = {
   /** The path of the API endpoint. */
   path: string;
   /** Function to build an unknown action message. */
   buildUnknownActionMessage: BuildUnknownActionMessage;
 };
+
+/**
+ * Type representing a function that validates an API response
+ * @template RES - The type of the API response
+ * @param {RES} apiResponse - The API response to validate
+ * @returns {Promise<void>} A Promise that resolves with no value if validation succeeds
+ * @throws {Error} If validation fails
+ */
+export type ValidateApiResponse<RES> = (apiResponse: RES) => Promise<void>;

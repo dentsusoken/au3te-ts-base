@@ -28,6 +28,12 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { CredentialMetadataHandlerConfiguration } from './CredentialMetadataHandlerConfiguration';
+import { ValidateApiResponse } from '../validateApiResponse';
+import {
+  createProcessApiRequestWithValidation,
+  ProcessApiRequestWithValidation,
+} from '../processApiRequestWithValidation';
+import { createValidateApiResponse } from './validateApiResponse';
 
 /**
  * Implementation of the CredentialMetadataHandlerConfiguration interface.
@@ -42,6 +48,15 @@ export class CredentialMetadataHandlerConfigurationImpl<
 
   /** Function to process the API request for credential metadata. */
   processApiRequest: ProcessApiRequest<
+    CredentialIssuerMetadataRequest,
+    CredentialIssuerMetadataResponse
+  >;
+
+  /** Function to validate the API response for credential metadata. */
+  validateApiResponse: ValidateApiResponse<CredentialIssuerMetadataResponse>;
+
+  /** Function to process the API request with validation. */
+  processApiRequestWithValidation: ProcessApiRequestWithValidation<
     CredentialIssuerMetadataRequest,
     CredentialIssuerMetadataResponse
   >;
@@ -65,6 +80,17 @@ export class CredentialMetadataHandlerConfigurationImpl<
       credentialIssuerMetadataResponseSchema,
       apiClient
     );
+
+    this.validateApiResponse = createValidateApiResponse({
+      path: this.path,
+      buildUnknownActionMessage,
+    });
+
+    this.processApiRequestWithValidation =
+      createProcessApiRequestWithValidation({
+        processApiRequest: this.processApiRequest,
+        validateApiResponse: this.validateApiResponse,
+      });
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,

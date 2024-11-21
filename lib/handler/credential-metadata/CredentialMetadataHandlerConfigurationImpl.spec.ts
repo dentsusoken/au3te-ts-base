@@ -22,6 +22,8 @@ describe('CredentialMetadataHandlerConfigurationImpl', () => {
 
     expect(config.path).toBe('/.well-known/openid-credential-issuer');
     expect(config.processApiRequest).toBeDefined();
+    expect(config.validateApiResponse).toBeDefined();
+    expect(config.processApiRequestWithValidation).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
   });

@@ -22,28 +22,101 @@ import * as responseFactory from '../utils/responseFactory';
  * Creates a ResponseError for a bad request with the given error message.
  *
  * @param {string} message - The error message describing why the request was bad
+ * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 400 Bad Request response
  */
-export const badRequestError = (message: string): ResponseError => {
+export const badRequestError = (
+  message: string,
+  headers?: responseFactory.Headers
+): ResponseError => {
   const body = JSON.stringify({
     error: 'bad_request',
     error_description: message,
   });
 
-  return new ResponseError(message, responseFactory.badRequest(body));
+  return new ResponseError(message, responseFactory.badRequest(body, headers));
 };
 
 /**
  * Creates a ResponseError for an internal server error with the given error message.
  *
  * @param {string} message - The error message describing the internal server error
+ * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 500 Internal Server Error response
  */
-export const internalServerErrorError = (message: string): ResponseError => {
+export const internalServerErrorError = (
+  message: string,
+  headers?: responseFactory.Headers
+): ResponseError => {
   const body = JSON.stringify({
     error: 'internal_server_error',
     error_description: message,
   });
 
-  return new ResponseError(message, responseFactory.internalServerError(body));
+  return new ResponseError(
+    message,
+    responseFactory.internalServerError(body, headers)
+  );
+};
+
+/**
+ * Creates a ResponseError for a not found error with the given error message.
+ *
+ * @param {string} message - The error message describing why the resource was not found
+ * @param {Headers} [headers] - Optional additional headers to include in the response
+ * @returns {ResponseError} A ResponseError instance with a 404 Not Found response
+ */
+export const notFoundError = (
+  message: string,
+  headers?: responseFactory.Headers
+): ResponseError => {
+  const body = JSON.stringify({
+    error: 'not_found',
+    error_description: message,
+  });
+
+  return new ResponseError(message, responseFactory.notFound(body, headers));
+};
+
+/**
+ * Creates a ResponseError for an unauthorized request with the given error message.
+ *
+ * @param {string} message - The error message describing why the request was unauthorized
+ * @param {string} [challenge] - Optional WWW-Authenticate challenge value
+ * @param {Headers} [headers] - Optional additional headers to include in the response
+ * @returns {ResponseError} A ResponseError instance with a 401 Unauthorized response
+ */
+export const unauthorizedError = (
+  message: string,
+  challenge?: string,
+  headers?: responseFactory.Headers
+): ResponseError => {
+  const body = JSON.stringify({
+    error: 'unauthorized',
+    error_description: message,
+  });
+
+  return new ResponseError(
+    message,
+    responseFactory.unauthorized(body, challenge, headers)
+  );
+};
+
+/**
+ * Creates a ResponseError for a forbidden request with the given error message.
+ *
+ * @param {string} message - The error message describing why the request was forbidden
+ * @param {Headers} [headers] - Optional additional headers to include in the response
+ * @returns {ResponseError} A ResponseError instance with a 403 Forbidden response
+ */
+export const forbiddenError = (
+  message: string,
+  headers?: responseFactory.Headers
+): ResponseError => {
+  const body = JSON.stringify({
+    error: 'forbidden',
+    error_description: message,
+  });
+
+  return new ResponseError(message, responseFactory.forbidden(body, headers));
 };

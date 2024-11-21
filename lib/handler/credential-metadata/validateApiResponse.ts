@@ -17,44 +17,45 @@
 
 import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
 import {
-  CreateProcessApiResponseParams,
-  ProcessApiResponse,
-} from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+  CreateValidateApiResponseParams,
+  ValidateApiResponse,
+} from '../validateApiResponse';
+import {
+  notFoundError,
+  internalServerErrorError,
+} from '../responseErrorFactory';
 
 /**
- * Creates a ProcessApiResponse function that handles different API response actions.
+ * Creates a ValidateApiResponse function that handles different API response actions.
  *
- * @function createProcessApiResponse
- * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @function createValidateApiResponse
+ * @param {CreateValidateApiResponseParams} params - The parameters for creating the validate function.
  * @param {string} params.path - The path of the API endpoint.
  * @param {Function} params.buildUnknownActionMessage - Function to build an unknown action message.
- * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
+ * @returns {ValidateApiResponse} A function that validates API responses.
  */
-export const createProcessApiResponse =
+export const createValidateApiResponse =
   ({
     path,
     buildUnknownActionMessage,
-  }: CreateProcessApiResponseParams): ProcessApiResponse<CredentialIssuerMetadataResponse> =>
+  }: CreateValidateApiResponseParams): ValidateApiResponse<CredentialIssuerMetadataResponse> =>
   /**
-   * Processes the API response for Credential Issuer Metadata requests.
+   * Validates the API response for Credential Issuer Metadata requests.
    *
    * @param {CredentialIssuerMetadataResponse} apiResponse - The response from the Authlete API.
-   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   * @returns {Promise<void>} A promise that resolves with no value if validation succeeds.
    */
-  async (apiResponse: CredentialIssuerMetadataResponse): Promise<Response> => {
+  async (apiResponse: CredentialIssuerMetadataResponse) => {
     const { action, responseContent } = apiResponse;
 
     switch (action) {
       case 'OK':
-        return responseFactory.ok(responseContent);
+        return;
       case 'NOT_FOUND':
-        return responseFactory.notFound(responseContent);
+        throw notFoundError(responseContent!);
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent);
+        throw internalServerErrorError(responseContent!);
       default:
-        return responseFactory.internalServerError(
-          buildUnknownActionMessage(path, action)
-        );
+        throw internalServerErrorError(buildUnknownActionMessage(path, action));
     }
   };

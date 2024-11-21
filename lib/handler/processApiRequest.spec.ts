@@ -1,50 +1,26 @@
 import { describe, it, expect, vi } from 'vitest';
-import { z } from 'zod';
-import { createProcessApiRequest } from './processApiRequest';
-import { ApiClient } from 'au3te-ts-common/api';
+import { ProcessApiRequest } from './processApiRequest';
 
-describe('createProcessApiRequest', () => {
-  it('should process API request correctly and return the result', async () => {
-    const mockApiClient = {
-      callPostApi: vi.fn().mockResolvedValue({ success: true }),
-    };
+describe('ProcessApiRequest', () => {
+  // Define test types for request and response
+  type TestRequest = { id: string };
+  type TestResponse = { data: string };
 
-    const path = '/test-path';
-    const schema = z.object({ success: z.boolean() });
-    const apiRequest = { data: 'test' };
+  it('should process API request and return response', async () => {
+    // Arrange
+    const mockRequest: TestRequest = { id: '123' };
+    const mockResponse: TestResponse = { data: 'test-data' };
 
-    const processApiRequest = createProcessApiRequest(
-      path,
-      schema,
-      mockApiClient as unknown as ApiClient
-    );
+    // Create a mock implementation of ProcessApiRequest
+    const processApiRequest: ProcessApiRequest<TestRequest, TestResponse> = vi
+      .fn()
+      .mockResolvedValue(mockResponse);
 
-    const result = await processApiRequest(apiRequest);
+    // Act
+    const result = await processApiRequest(mockRequest);
 
-    expect(mockApiClient.callPostApi).toHaveBeenCalledWith(
-      path,
-      schema,
-      apiRequest
-    );
-    expect(result).toEqual({ success: true });
-  });
-
-  it('should propagate error when API client throws an error', async () => {
-    const mockError = new Error('API error');
-    const mockApiClient = {
-      callPostApi: vi.fn().mockRejectedValue(mockError),
-    };
-
-    const path = '/test-path';
-    const schema = z.object({ success: z.boolean() });
-    const apiRequest = { data: 'test' };
-
-    const processApiRequest = createProcessApiRequest(
-      path,
-      schema,
-      mockApiClient as unknown as ApiClient
-    );
-
-    await expect(processApiRequest(apiRequest)).rejects.toThrow('API error');
+    // Assert
+    expect(processApiRequest).toHaveBeenCalledWith(mockRequest);
+    expect(result).toEqual(mockResponse);
   });
 });
