@@ -15,6 +15,10 @@ import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-con
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
 import { ServiceConfigurationHandlerConfigurationImpl } from '../handler/service-configuration/ServiceConfigurationHandlerConfigurationImpl';
 import { CredentialMetadataHandlerConfigurationImpl } from '../handler/credential-metadata/CredentialMetadataHandlerConfigurationImpl';
+import { AuthorizationHandlerConfigurationImpl } from '../handler/authorization/AuthorizationHandlerConfigurationImpl';
+import { AuthorizationIssueHandlerConfigurationImpl } from '../handler/authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
+import { AuthorizationFailHandlerConfigurationImpl } from '../handler/authorization-fail/AuthorizationFailHandlerConfigurationImpl';
+import { AuthorizationPageModelConfigurationImpl } from 'au3te-ts-common/page-model.authorization';
 
 export const setupIntegrationTest = () => {
   const configuration: AuthleteConfiguration = {
@@ -35,6 +39,20 @@ export const setupIntegrationTest = () => {
     baseHandlerConfiguration,
     extractorConfiguration,
   });
+  const authorizationIssueHandlerConfiguration =
+    new AuthorizationIssueHandlerConfigurationImpl(baseHandlerConfiguration);
+  const authorizationFailHandlerConfiguration =
+    new AuthorizationFailHandlerConfigurationImpl(baseHandlerConfiguration);
+  const authorizationPageModelConfiguration =
+    new AuthorizationPageModelConfigurationImpl();
+  const authorizationHandlerConfiguration =
+    new AuthorizationHandlerConfigurationImpl({
+      baseHandlerConfiguration,
+      authorizationIssueHandlerConfiguration,
+      authorizationFailHandlerConfiguration,
+      authorizationPageModelConfiguration,
+      extractorConfiguration,
+    });
   const serviceConfigurationHandlerConfiguration =
     new ServiceConfigurationHandlerConfigurationImpl(baseHandlerConfiguration);
   const credentialMetadataHandlerConfiguration =
@@ -55,6 +73,24 @@ export const setupIntegrationTest = () => {
 
     return request;
   };
+  const createParPostRequest = () => {
+    const request = new Request('http://localhost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: createParParameters(),
+    });
+
+    return request;
+  };
+  const processParPostRequest = async () => {
+    const request = createParPostRequest();
+    const response = await parHandlerConfiguration.processRequest(request);
+    const body = await response.json();
+
+    return body.request_uri!;
+  };
 
   const createAuthorizationParameters = (requestUri: string) => {
     return new URLSearchParams({
@@ -66,6 +102,13 @@ export const setupIntegrationTest = () => {
     const request: AuthorizationRequest = {
       parameters: createAuthorizationParameters(requestUri),
     };
+
+    return request;
+  };
+  const createAuthorizationGetRequest = (requestUri: string) => {
+    const request = new Request(
+      `http://localhost?${createAuthorizationParameters(requestUri)}`
+    );
 
     return request;
   };
@@ -127,12 +170,19 @@ export const setupIntegrationTest = () => {
     baseHandlerConfiguration,
     extractorConfiguration,
     parHandlerConfiguration,
+    authorizationIssueHandlerConfiguration,
+    authorizationFailHandlerConfiguration,
+    authorizationPageModelConfiguration,
+    authorizationHandlerConfiguration,
     serviceConfigurationHandlerConfiguration,
     credentialMetadataHandlerConfiguration,
     createParParameters,
     createParRequest,
+    createParPostRequest,
+    processParPostRequest,
     createAuthorizationParameters,
     createAuthorizationRequest,
+    createAuthorizationGetRequest,
     createAuthorizationFailRequest,
     createAuthorizationIssueRequest,
     createTokenRequest,

@@ -27,3 +27,5 @@ export * from './clearCurrentUserInfoInSessionIfNecessary';
 export * from './generateAuthorizationPage';
 export * from './handleNoInteraction';
 export * from './processApiResponse';
+export * from './responseToDecisionParams';
+export * from './toApiRequest';

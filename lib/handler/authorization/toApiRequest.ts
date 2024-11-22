@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 import { AuthorizationRequest } from 'au3te-ts-common/schemas.authorization';
 import { ExtractParameters } from '../../extractor/extractParameters';
-import { ToApiRequest } from '../../handler/toApiRequest';
+import { ToApiRequest } from '../toApiRequest';
 
 /**
  * Parameters required to create an authorization API request converter.

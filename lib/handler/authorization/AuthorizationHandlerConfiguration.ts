@@ -34,6 +34,8 @@ import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Authorization handler.
@@ -116,4 +118,14 @@ export interface AuthorizationHandlerConfiguration<SS extends SessionSchemas> {
    * Function to handle the authorization request
    */
   handle: Handle<AuthorizationRequest>;
+
+  /**
+   * Function to convert an HTTP request to an AuthorizationRequest.
+   */
+  toApiRequest: ToApiRequest<AuthorizationRequest>;
+
+  /**
+   * Function to process incoming HTTP requests to the authorization endpoint.
+   */
+  processRequest: ProcessRequest;
 }

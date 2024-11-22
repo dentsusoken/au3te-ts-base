@@ -62,6 +62,12 @@ import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/A
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
 import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/page-model.authorization';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
+import { createToApiRequest } from './toApiRequest';
+import { createProcessRequest } from '../processRequest';
+import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 type AuthorizationHandlerConfigurationImplConstructorParams<
   SS extends SessionSchemas
@@ -70,10 +76,12 @@ type AuthorizationHandlerConfigurationImplConstructorParams<
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
   authorizationPageModelConfiguration: AuthorizationPageModelConfiguration;
+  extractorConfiguration: ExtractorConfiguration;
 };
 
-export class AuthorizationHandlerConfigurationImpl<SS extends SessionSchemas>
-  implements AuthorizationHandlerConfiguration<SS>
+export class AuthorizationHandlerConfigurationImpl<
+  SS extends SessionSchemas = typeof sessionSchemas
+> implements AuthorizationHandlerConfiguration<SS>
 {
   path = '/api/authorization';
 
@@ -108,11 +116,18 @@ export class AuthorizationHandlerConfigurationImpl<SS extends SessionSchemas>
 
   handle: Handle<AuthorizationRequest>;
 
+  /** Function to convert HTTP requests to Authorization API requests */
+  toApiRequest: ToApiRequest<AuthorizationRequest>;
+
+  /** Function to process incoming HTTP requests */
+  processRequest: ProcessRequest;
+
   constructor({
     baseHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
     authorizationPageModelConfiguration,
+    extractorConfiguration,
   }: AuthorizationHandlerConfigurationImplConstructorParams<SS>) {
     const {
       apiClient,
@@ -182,6 +197,17 @@ export class AuthorizationHandlerConfigurationImpl<SS extends SessionSchemas>
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
+      recoverResponseResult,
+    });
+
+    this.toApiRequest = createToApiRequest({
+      extractParameters: extractorConfiguration.extractParameters,
+    });
+
+    this.processRequest = createProcessRequest({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
       recoverResponseResult,
     });
   }
