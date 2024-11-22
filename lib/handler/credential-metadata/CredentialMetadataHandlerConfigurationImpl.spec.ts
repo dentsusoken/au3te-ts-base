@@ -26,5 +26,7 @@ describe('CredentialMetadataHandlerConfigurationImpl', () => {
     expect(config.processApiRequestWithValidation).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
+    expect(config.toApiRequest).toBeDefined();
+    expect(config.processRequest).toBeDefined();
   });
 });

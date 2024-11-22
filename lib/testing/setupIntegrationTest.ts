@@ -14,6 +14,7 @@ import { IntrospectionRequest } from 'au3te-ts-common/schemas.introspection';
 import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-configuration';
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
 import { ServiceConfigurationHandlerConfigurationImpl } from '../handler/service-configuration/ServiceConfigurationHandlerConfigurationImpl';
+import { CredentialMetadataHandlerConfigurationImpl } from '../handler/credential-metadata/CredentialMetadataHandlerConfigurationImpl';
 
 export const setupIntegrationTest = () => {
   const configuration: AuthleteConfiguration = {
@@ -36,6 +37,8 @@ export const setupIntegrationTest = () => {
   });
   const serviceConfigurationHandlerConfiguration =
     new ServiceConfigurationHandlerConfigurationImpl(baseHandlerConfiguration);
+  const credentialMetadataHandlerConfiguration =
+    new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
 
   const createParParameters = () => {
     return new URLSearchParams({
@@ -125,6 +128,7 @@ export const setupIntegrationTest = () => {
     extractorConfiguration,
     parHandlerConfiguration,
     serviceConfigurationHandlerConfiguration,
+    credentialMetadataHandlerConfiguration,
     createParParameters,
     createParRequest,
     createAuthorizationParameters,

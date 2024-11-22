@@ -34,13 +34,18 @@ import {
   ProcessApiRequestWithValidation,
 } from '../processApiRequestWithValidation';
 import { createValidateApiResponse } from './validateApiResponse';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
+import { defaultToApiRequest } from './toApiRequest';
+import { createProcessRequest } from '../processRequest';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 /**
  * Implementation of the CredentialMetadataHandlerConfiguration interface.
  * This class configures the handling of credential metadata requests.
  */
 export class CredentialMetadataHandlerConfigurationImpl<
-  SS extends SessionSchemas
+  SS extends SessionSchemas = typeof sessionSchemas
 > implements CredentialMetadataHandlerConfiguration
 {
   /** The path for the credential metadata endpoint. */
@@ -67,9 +72,14 @@ export class CredentialMetadataHandlerConfigurationImpl<
   /** Function to handle the credential metadata request. */
   handle: Handle<CredentialIssuerMetadataRequest>;
 
+  /** Function to convert HTTP requests to credential metadata API requests */
+  toApiRequest: ToApiRequest<CredentialIssuerMetadataRequest>;
+
+  /** Function to process incoming HTTP requests */
+  processRequest: ProcessRequest;
+
   /**
    * Creates an instance of CredentialMetadataHandlerConfigurationImpl.
-   * @param {BaseHandlerConfiguration<SS>} baseHandlerConfiguration - The base handler configuration.
    */
   constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
     const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
@@ -101,6 +111,15 @@ export class CredentialMetadataHandlerConfigurationImpl<
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
+      recoverResponseResult,
+    });
+
+    this.toApiRequest = defaultToApiRequest;
+
+    this.processRequest = createProcessRequest({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
       recoverResponseResult,
     });
   }

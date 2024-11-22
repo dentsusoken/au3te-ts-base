@@ -24,6 +24,8 @@ import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
 import { ValidateApiResponse } from '../validateApiResponse';
 import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Credential Metadata handler.
@@ -65,4 +67,14 @@ export interface CredentialMetadataHandlerConfiguration {
    * Function to handle the credential metadata request.
    */
   handle: Handle<CredentialIssuerMetadataRequest>;
+
+  /**
+   * Function to convert an HTTP request to a CredentialIssuerMetadataRequest.
+   */
+  toApiRequest: ToApiRequest<CredentialIssuerMetadataRequest>;
+
+  /**
+   * Function to process incoming HTTP requests to the credential metadata endpoint.
+   */
+  processRequest: ProcessRequest;
 }

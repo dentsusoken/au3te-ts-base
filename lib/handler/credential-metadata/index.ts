@@ -18,4 +18,5 @@
 export * from './CredentialMetadataHandlerConfiguration';
 export * from './CredentialMetadataHandlerConfigurationImpl';
 export * from './processApiResponse';
+export * from './toApiRequest';
 export * from './validateApiResponse';
