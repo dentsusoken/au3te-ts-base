@@ -28,12 +28,21 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ParHandlerConfiguration } from './ParHandlerConfiguration';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
+import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
+import { createToApiRequest } from '../toClientAuthRequest';
+import { createProcessRequest } from '../processRequest';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 /**
  * Implementation of the ParHandlerConfiguration interface.
  * This class configures and handles Pushed Authorization Requests (PAR).
  */
-export class ParHandlerConfigurationImpl implements ParHandlerConfiguration {
+export class ParHandlerConfigurationImpl<
+  SS extends SessionSchemas = typeof sessionSchemas
+> implements ParHandlerConfiguration
+{
   /** The path for the PAR endpoint. */
   path: string = '/api/par';
 
@@ -49,13 +58,22 @@ export class ParHandlerConfigurationImpl implements ParHandlerConfiguration {
   /** Function to handle the PAR request. */
   handle: Handle<PushedAuthReqRequest>;
 
+  /** Function to convert HTTP requests to PAR API requests */
+  toApiRequest: ToApiRequest<PushedAuthReqRequest>;
+
+  /** Function to process incoming HTTP requests */
+  processRequest: ProcessRequest;
+
   /**
    * Creates an instance of ParHandlerConfigurationImpl.
-   * @param {BaseHandlerConfiguration<SessionSchemas>} baseHandlerConfiguration - The base handler configuration.
    */
-  constructor(
-    baseHandlerConfiguration: BaseHandlerConfiguration<SessionSchemas>
-  ) {
+  constructor({
+    baseHandlerConfiguration,
+    extractorConfiguration,
+  }: {
+    baseHandlerConfiguration: BaseHandlerConfiguration<SS>;
+    extractorConfiguration: ExtractorConfiguration;
+  }) {
     const {
       apiClient,
       buildUnknownActionMessage,
@@ -79,6 +97,20 @@ export class ParHandlerConfigurationImpl implements ParHandlerConfiguration {
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
+      recoverResponseResult,
+    });
+
+    this.toApiRequest = createToApiRequest({
+      extractParameters: extractorConfiguration.extractParameters,
+      extractClientCredentials: extractorConfiguration.extractClientCredentials,
+      extractClientCertificateAndPath:
+        extractorConfiguration.extractClientCertificateAndPath,
+    });
+
+    this.processRequest = createProcessRequest({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
       recoverResponseResult,
     });
   }

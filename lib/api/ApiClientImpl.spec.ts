@@ -1,50 +1,31 @@
 import { describe, it, expect } from 'vitest';
-import { ApiClientImpl } from './ApiClientImpl';
-import { AuthleteConfiguration } from 'au3te-ts-common/conf';
-import {
-  PushedAuthReqRequest,
-  pushedAuthReqResponseSchema,
-} from 'au3te-ts-common/schemas.par';
+import { pushedAuthReqResponseSchema } from 'au3te-ts-common/schemas.par';
 import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
-import {
-  AuthorizationFailRequest,
-  authorizationFailResponseSchema,
-} from 'au3te-ts-common/schemas.authorization-fail';
-import {
-  AuthorizationIssueRequest,
-  authorizationIssueResponseSchema,
-} from 'au3te-ts-common/schemas.authorization-issue';
-import {
-  TokenRequest,
-  tokenResponseSchema,
-} from 'au3te-ts-common/schemas.token';
-import {
-  IntrospectionRequest,
-  introspectionResponseSchema,
-} from 'au3te-ts-common/schemas.introspection';
+import { authorizationFailResponseSchema } from 'au3te-ts-common/schemas.authorization-fail';
+import { authorizationIssueResponseSchema } from 'au3te-ts-common/schemas.authorization-issue';
+import { tokenResponseSchema } from 'au3te-ts-common/schemas.token';
+import { introspectionResponseSchema } from 'au3te-ts-common/schemas.introspection';
+import { setupIntegrationTest } from '../testing/setupIntegrationTest';
+import { serviceConfigurationResponseSchema } from 'au3te-ts-common/schemas.service-configuration';
+import { credentialIssuerMetadataResponseSchema } from 'au3te-ts-common/schemas.credential-metadata';
 
-const configuration: AuthleteConfiguration = {
-  apiVersion: process.env.API_VERSION || '',
-  baseUrl: process.env.API_BASE_URL || '',
-  serviceApiKey: process.env.API_KEY || '',
-  serviceAccessToken: process.env.ACCESS_TOKEN || '',
-};
-const apiClient = new ApiClientImpl(configuration);
+const {
+  apiClient,
+  createParRequest,
+  createAuthorizationRequest,
+  createAuthorizationFailRequest,
+  createAuthorizationIssueRequest,
+  createTokenRequest,
+  createIntrospectionRequest,
+  createServiceConfigurationRequest,
+  createCredentialIssuerMetadataRequest,
+} = setupIntegrationTest();
 
 const testPar = async () => {
-  const request: PushedAuthReqRequest = {
-    parameters: new URLSearchParams({
-      scope: 'org.iso.18013.5.1.mDL openid',
-      redirect_uri: 'eudi-openid4ci://authorize/',
-      response_type: 'code',
-      client_id: 'tw24.wallet.dentsusoken.com',
-    }).toString(),
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.pushAuthorizationRequestPath,
     pushedAuthReqResponseSchema,
-    request
+    createParRequest()
   );
 
   expect(response).toBeDefined();
@@ -60,17 +41,10 @@ const testPar = async () => {
 };
 
 const testAuthorization = async (requestUri: string) => {
-  const request: PushedAuthReqRequest = {
-    parameters: new URLSearchParams({
-      client_id: 'tw24.wallet.dentsusoken.com',
-      request_uri: requestUri,
-    }).toString(),
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.authorizationPath,
     authorizationResponseSchema,
-    request
+    createAuthorizationRequest(requestUri)
   );
 
   expect(response).toBeDefined();
@@ -83,36 +57,23 @@ const testAuthorization = async (requestUri: string) => {
 };
 
 const testAuthorizationFail = async (ticket: string) => {
-  const request: AuthorizationFailRequest = {
-    reason: 'NOT_LOGGED_IN',
-    ticket: ticket,
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.authorizationFailPath,
     authorizationFailResponseSchema,
-    request
+    createAuthorizationFailRequest(ticket)
   );
 
   expect(response).toBeDefined();
   expect(response.resultCode).toBe('A060301');
   expect(response.action).toBe('LOCATION');
-
-  return response;
 };
 
 const testAuthorizationIssue = async (ticket: string) => {
-  const request: AuthorizationIssueRequest = {
-    ticket,
-    subject: '1004',
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.authorizationIssuePath,
     authorizationIssueResponseSchema,
-    request
+    createAuthorizationIssueRequest(ticket)
   );
-  console.log(response);
 
   expect(response).toBeDefined();
   expect(response.resultCode).toBe('A040001');
@@ -126,21 +87,11 @@ const testAuthorizationIssue = async (ticket: string) => {
 };
 
 const testToken = async (code: string) => {
-  const request: TokenRequest = {
-    parameters: new URLSearchParams({
-      code,
-      redirect_uri: 'eudi-openid4ci://authorize/',
-      grant_type: 'authorization_code',
-      client_id: 'tw24.wallet.dentsusoken.com',
-    }).toString(),
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.tokenPath,
     tokenResponseSchema,
-    request
+    createTokenRequest(code)
   );
-  console.log(response);
 
   expect(response).toBeDefined();
   expect(response.resultCode).toBe('A050001');
@@ -151,41 +102,55 @@ const testToken = async (code: string) => {
 };
 
 const testIntrospection = async (accessToken: string) => {
-  const request: IntrospectionRequest = {
-    token: accessToken,
-  };
-
   const response = await apiClient.callPostApi(
     apiClient.introspectionPath,
     introspectionResponseSchema,
-    request
+    createIntrospectionRequest(accessToken)
   );
-  //console.log(response);
 
   expect(response).toBeDefined();
-  // expect(response.resultCode).toBe('A050001');
   expect(response.action).toBe('OK');
-  // expect(response.accessToken).toBeDefined();
+};
 
-  // return response.accessToken!;
+const testServiceConfiguration = async () => {
+  const response = await apiClient.callPostApi(
+    apiClient.serviceConfigurationPath,
+    serviceConfigurationResponseSchema,
+    createServiceConfigurationRequest()
+  );
+
+  expect(response).toBeDefined();
+  expect(response.issuer).toBeDefined();
+};
+
+const testCredentialIssuerMetadata = async () => {
+  const response = await apiClient.callPostApi(
+    apiClient.credentialIssuerMetadataPath,
+    credentialIssuerMetadataResponseSchema,
+    createCredentialIssuerMetadataRequest()
+  );
+  console.log(response);
+
+  expect(response).toBeDefined();
+  expect(response.action).toBe('OK');
 };
 
 describe('ApiClientImpl', () => {
   describe('par', () => {
-    it('should successfully push an authorization request', async () => {
+    it('should successfully handle a par request', async () => {
       await testPar();
     }, 10000);
   });
 
   describe('authorization', () => {
-    it('should successfully post an authorization', async () => {
+    it('should successfully handle an authorization request', async () => {
       const requestUri = await testPar();
       await testAuthorization(requestUri);
     }, 10000);
   });
 
   describe('authorizationFail', () => {
-    it('should successfully post an authorization fail', async () => {
+    it('should successfully handle an authorization fail request', async () => {
       const requestUri = await testPar();
       const ticket = await testAuthorization(requestUri);
       await testAuthorizationFail(ticket);
@@ -193,7 +158,7 @@ describe('ApiClientImpl', () => {
   });
 
   describe('authorizationIssue', () => {
-    it('should successfully post an authorization issue', async () => {
+    it('should successfully handle an authorization issue request', async () => {
       const requestUri = await testPar();
       const ticket = await testAuthorization(requestUri);
       await testAuthorizationIssue(ticket);
@@ -201,7 +166,7 @@ describe('ApiClientImpl', () => {
   });
 
   describe('token', () => {
-    it('should successfully process a token request', async () => {
+    it('should successfully handle a token request', async () => {
       const requestUri = await testPar();
       const ticket = await testAuthorization(requestUri);
       const code = await testAuthorizationIssue(ticket);
@@ -210,12 +175,24 @@ describe('ApiClientImpl', () => {
   });
 
   describe('introspection', () => {
-    it('should successfully work for introspection', async () => {
+    it('should successfully handle an introspection request', async () => {
       const requestUri = await testPar();
       const ticket = await testAuthorization(requestUri);
       const code = await testAuthorizationIssue(ticket);
       const accessToken = await testToken(code);
       await testIntrospection(accessToken);
+    }, 10000);
+  });
+
+  describe('serviceConfiguration', () => {
+    it('should successfully handle a service configuration request', async () => {
+      await testServiceConfiguration();
+    }, 10000);
+  });
+
+  describe('credentialIssuerMetadata', () => {
+    it('should successfully handle a credential issuer metadata request', async () => {
+      await testCredentialIssuerMetadata();
     }, 10000);
   });
 });

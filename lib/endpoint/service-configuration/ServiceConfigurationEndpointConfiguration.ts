@@ -17,7 +17,7 @@
 
 import { ServiceConfigurationRequest } from 'au3te-ts-common/schemas.service-configuration';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Interface defining the configuration for the service configuration endpoint.

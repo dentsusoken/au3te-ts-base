@@ -17,8 +17,8 @@
 
 import { runAsyncCatching } from 'oid4vc-core/utils';
 import { ToApiRequest } from './toApiRequest';
-import { Handle } from '../handler/handle';
-import { RecoverResponseResult } from '../handler/recoverResponseResult';
+import { Handle } from './handle';
+import { RecoverResponseResult } from './recoverResponseResult';
 
 export type ProcessRequest = (request: Request) => Promise<Response>;
 

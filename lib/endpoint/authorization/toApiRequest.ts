@@ -17,7 +17,7 @@
 
 import { AuthorizationRequest } from 'au3te-ts-common/schemas.authorization';
 import { ExtractParameters } from '../../extractor/extractParameters';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Parameters required to create an authorization API request converter.

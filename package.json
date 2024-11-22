@@ -16,16 +16,6 @@
       "import": "./dist/api/index.js",
       "require": "./dist/api/index.cjs"
     },
-    "./endpoint": {
-      "types": "./dist/endpoint/index.d.ts",
-      "import": "./dist/dendpoint/index.js",
-      "require": "./dist/endpoint/index.cjs"
-    },
-    "./endpoint.par": {
-      "types": "./dist/endpoint/par/index.d.ts",
-      "import": "./dist/endpoint/par/index.js",
-      "require": "./dist/endpoint/par/index.cjs"
-    },
     "./endpoint.authorization": {
       "types": "./dist/endpoint/authorization/index.d.ts",
       "import": "./dist/endpoint/authorization/index.js",

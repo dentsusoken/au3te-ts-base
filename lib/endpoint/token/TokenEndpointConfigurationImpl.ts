@@ -23,7 +23,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
 import { TokenEndpointConfiguration } from './TokenEndpointConfiguration';
 import { createToApiRequest } from '../toClientAuthRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { UserConfiguration } from 'au3te-ts-common/user';
 import { TokenFailHandlerConfiguration } from '../../handler/token-fail/TokenFailHandlerConfiguration';

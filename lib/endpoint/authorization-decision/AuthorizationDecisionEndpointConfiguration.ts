@@ -17,7 +17,7 @@
 
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 import { CollectClaims } from './collectClaims';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 

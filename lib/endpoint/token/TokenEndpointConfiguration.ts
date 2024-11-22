@@ -17,7 +17,7 @@
 
 import { TokenRequest } from 'au3te-ts-common/schemas.token';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Interface defining the configuration for the Token endpoint.

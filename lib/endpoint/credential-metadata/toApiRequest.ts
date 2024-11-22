@@ -16,7 +16,7 @@
  */
 
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Default function to convert an HTTP request to a CredentialIssuerMetadataRequest.

@@ -23,7 +23,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
 import { ServiceConfigurationEndpointConfiguration } from './ServiceConfigurationEndpointConfiguration';
 import { defaultToApiRequest } from './toApiRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 export class ServiceConfigurationEndpointConfigurationImpl<
   SS extends SessionSchemas = typeof sessionSchemas

@@ -17,7 +17,7 @@
 
 import { AuthorizationRequest } from 'au3te-ts-common/schemas.authorization';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Interface defining the configuration for the Authorization endpoint.

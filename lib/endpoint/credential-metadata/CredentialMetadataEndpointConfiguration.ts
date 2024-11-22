@@ -17,7 +17,7 @@
 
 import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Interface defining the configuration for the credential metadata endpoint.

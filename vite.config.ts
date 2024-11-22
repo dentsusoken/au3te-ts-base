@@ -6,8 +6,6 @@ export default defineConfig({
     lib: {
       entry: {
         api: './lib/api/index.ts',
-        endpoint: './lib/endpoint/index.ts',
-        'endpoint/par': './lib/endpoint/par/index.ts',
         'endpoint/authorization': './lib/endpoint/authorization/index.ts',
         'endpoint/authorization-decision':
           './lib/endpoint/authorization-decision/index.ts',

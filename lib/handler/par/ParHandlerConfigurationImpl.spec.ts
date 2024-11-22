@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { ParHandlerConfigurationImpl } from './ParHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ApiClient } from 'au3te-ts-common/api';
-import { SessionSchemas } from '../../session/types';
+import { Session } from '../../session/Session';
+import { sessionSchemas } from '../../session/sessionSchemas';
+import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
 
 describe('ParHandlerConfigurationImpl', () => {
   // Mock API client
@@ -10,17 +12,29 @@ describe('ParHandlerConfigurationImpl', () => {
     pushAuthorizationRequestPath: '/par',
   } as ApiClient;
 
-  // Use SessionSchemas as the type parameter
+  // Mock Session
+  const mockSession = {} as Session<typeof sessionSchemas>;
+
+  // Create a mock BaseHandlerConfiguration
   const mockBaseConfig = {
     apiClient: mockApiClient,
-  } as BaseHandlerConfiguration<SessionSchemas>;
+    session: mockSession,
+  } as BaseHandlerConfiguration<typeof sessionSchemas>;
 
-  it('should initialize with required properties', () => {
-    const config = new ParHandlerConfigurationImpl(mockBaseConfig);
+  // Create ExtractorConfiguration instance
+  const extractorConfiguration = new ExtractorConfigurationImpl();
+
+  it('should initialize with all required properties', () => {
+    const config = new ParHandlerConfigurationImpl({
+      baseHandlerConfiguration: mockBaseConfig,
+      extractorConfiguration,
+    });
 
     expect(config.path).toBe('/api/par');
     expect(config.processApiRequest).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
+    expect(config.toApiRequest).toBeDefined();
+    expect(config.processRequest).toBeDefined();
   });
 });

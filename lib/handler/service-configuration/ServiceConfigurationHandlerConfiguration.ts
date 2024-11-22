@@ -22,6 +22,8 @@ import {
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Service Configuration handler.
@@ -49,4 +51,14 @@ export interface ServiceConfigurationHandlerConfiguration {
    * Function to handle the service configuration request.
    */
   handle: Handle<ServiceConfigurationRequest>;
+
+  /**
+   * Function to convert an HTTP request to a ServiceConfigurationRequest.
+   */
+  toApiRequest: ToApiRequest<ServiceConfigurationRequest>;
+
+  /**
+   * Function to process incoming HTTP requests to the service configuration endpoint.
+   */
+  processRequest: ProcessRequest;
 }

@@ -22,6 +22,8 @@ import {
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Pushed Authorization Request (PAR) handler.
@@ -49,4 +51,14 @@ export interface ParHandlerConfiguration {
    * Function to handle the PAR request.
    */
   handle: Handle<PushedAuthReqRequest>;
+
+  /**
+   * Function to convert an HTTP request to a PushedAuthReqRequest.
+   */
+  toApiRequest: ToApiRequest<PushedAuthReqRequest>;
+
+  /**
+   * Function to process incoming HTTP requests to the PAR endpoint.
+   */
+  processRequest: ProcessRequest;
 }

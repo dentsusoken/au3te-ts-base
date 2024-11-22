@@ -26,7 +26,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
 import { AuthorizationEndpointConfiguration } from './AuthorizationEndpointConfiguration';
 import { createToApiRequest } from './toApiRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 /**

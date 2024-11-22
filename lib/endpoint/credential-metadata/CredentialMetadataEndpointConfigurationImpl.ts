@@ -23,7 +23,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
 import { CredentialMetadataEndpointConfiguration } from './CredentialMetadataEndpointConfiguration';
 import { defaultToApiRequest } from './toApiRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 
 /**
  * Implementation of the CredentialMetadataEndpointConfiguration interface.

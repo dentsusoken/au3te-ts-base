@@ -28,13 +28,18 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ServiceConfigurationHandlerConfiguration } from './ServiceConfigurationHandlerConfiguration';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
+import { defaultToApiRequest } from './toApiRequest';
+import { createProcessRequest } from '../processRequest';
+import { sessionSchemas } from '../../session/sessionSchemas';
 
 /**
  * Implementation of the ServiceConfigurationHandlerConfiguration interface.
  * This class configures the handling of service configuration requests.
  */
 export class ServiceConfigurationHandlerConfigurationImpl<
-  SS extends SessionSchemas
+  SS extends SessionSchemas = typeof sessionSchemas
 > implements ServiceConfigurationHandlerConfiguration
 {
   /** The path for the service configuration endpoint. */
@@ -52,9 +57,14 @@ export class ServiceConfigurationHandlerConfigurationImpl<
   /** Function to handle the service configuration request. */
   handle: Handle<ServiceConfigurationRequest>;
 
+  /** Function to convert HTTP requests to service configuration API requests */
+  toApiRequest: ToApiRequest<ServiceConfigurationRequest>;
+
+  /** Function to process incoming HTTP requests */
+  processRequest: ProcessRequest;
+
   /**
    * Creates an instance of ServiceConfigurationHandlerConfigurationImpl.
-   * @param {BaseHandlerConfiguration<SS>} baseHandlerConfiguration - The base handler configuration.
    */
   constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
     const { apiClient, recoverResponseResult } = baseHandlerConfiguration;
@@ -71,6 +81,15 @@ export class ServiceConfigurationHandlerConfigurationImpl<
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
+      recoverResponseResult,
+    });
+
+    this.toApiRequest = defaultToApiRequest;
+
+    this.processRequest = createProcessRequest({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
       recoverResponseResult,
     });
   }

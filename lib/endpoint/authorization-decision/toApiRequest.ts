@@ -17,7 +17,7 @@
 
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 import { ExtractParameters } from '../../extractor/extractParameters';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../../handler/toApiRequest';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
