@@ -18,3 +18,4 @@
 export * from './ServiceConfigurationHandlerConfiguration';
 export * from './ServiceConfigurationHandlerConfigurationImpl';
 export * from './processApiResponse';
+export * from './toApiRequest';
