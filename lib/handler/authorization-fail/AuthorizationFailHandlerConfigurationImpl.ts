@@ -28,6 +28,10 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from './AuthorizationFailHandlerConfiguration';
+import {
+  BuildAuthorizationFailError,
+  createBuildAuthorizationFailError,
+} from './buildAuthorizationFailError';
 
 /**
  * Implementation of the AuthorizationFailHandlerConfiguration interface.
@@ -50,6 +54,9 @@ export class AuthorizationFailHandlerConfigurationImpl
 
   /** Function to handle the authorization fail request. */
   handle: Handle<AuthorizationFailRequest>;
+
+  /** Function to build an error response for authorization fail. */
+  buildAuthorizationFailError: BuildAuthorizationFailError;
 
   /**
    * Creates an instance of AuthorizationFailHandlerConfigurationImpl.
@@ -78,5 +85,9 @@ export class AuthorizationFailHandlerConfigurationImpl
       processApiResponse: this.processApiResponse,
       recoverResponseResult,
     });
+
+    this.buildAuthorizationFailError = createBuildAuthorizationFailError(
+      this.handle
+    );
   }
 }

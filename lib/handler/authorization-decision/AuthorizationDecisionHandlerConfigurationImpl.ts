@@ -16,13 +16,13 @@
  */
 
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
-import { BaseHandlerConfiguration } from '../../handler/BaseHandlerConfiguration';
-import { AuthorizationIssueHandlerConfiguration } from '../../handler/authorization-issue';
+import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
-import { AuthorizationDecisionEndpointConfiguration } from './AuthorizationDecisionEndpointConfiguration';
+import { AuthorizationDecisionHandlerConfiguration } from './AuthorizationDecisionHandlerConfiguration';
 import { createToApiRequest } from './toApiRequest';
-import { ToApiRequest } from '../../handler/toApiRequest';
+import { ToApiRequest } from '../toApiRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { CollectClaims, defaultCollectClaims } from './collectClaims';
 import {
@@ -30,10 +30,11 @@ import {
   createGetOrAuthenticateUser,
 } from './getOrAuthenticateUser';
 import { UserConfiguration } from 'au3te-ts-common/user';
-import { AuthorizationHandlerConfiguration } from '../../handler/authorization/AuthorizationHandlerConfiguration';
+import { AuthorizationHandlerConfiguration } from '../authorization/AuthorizationHandlerConfiguration';
 import { SessionSchemas } from '../../session/types';
+import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';
 
-type CreateAuthorizationDecisionEndpointConfigurationImplConstructorParams<
+type CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<
   SS extends SessionSchemas
 > = {
   baseHandlerConfiguration: BaseHandlerConfiguration<typeof sessionSchemas>;
@@ -41,18 +42,22 @@ type CreateAuthorizationDecisionEndpointConfigurationImplConstructorParams<
   userConfiguration: UserConfiguration;
   authorizationHandlerConfiguration: AuthorizationHandlerConfiguration<SS>;
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
+  authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
 };
 
 /**
- * Implementation of the Authorization Decision endpoint configuration.
+ * Implementation of the Authorization Decision handler configuration.
  * Handles conversion of HTTP requests to Authorization Decision API requests and processes them.
  *
- * @implements {AuthorizationDecisionEndpointConfiguration}
+ * @implements {AuthorizationDecisionHandlerConfiguration}
  */
-export class AuthorizationDecisionEndpointConfigurationImpl<
+export class AuthorizationDecisionHandlerConfigurationImpl<
   SS extends SessionSchemas = typeof sessionSchemas
-> implements AuthorizationDecisionEndpointConfiguration
+> implements AuthorizationDecisionHandlerConfiguration
 {
+  /** The path for the authorization decision endpoint */
+  path: string = '/api/authorization/decision';
+
   /** Function to collect claims for the user based on requested scopes and claim names */
   collectClaims: CollectClaims = defaultCollectClaims;
 
@@ -76,7 +81,8 @@ export class AuthorizationDecisionEndpointConfigurationImpl<
     userConfiguration,
     authorizationHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
-  }: CreateAuthorizationDecisionEndpointConfigurationImplConstructorParams<SS>) {
+    authorizationFailHandlerConfiguration,
+  }: CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<SS>) {
     this.getOrAuthenticateUser = createGetOrAuthenticateUser(
       userConfiguration.getByCredentials
     );
@@ -86,13 +92,13 @@ export class AuthorizationDecisionEndpointConfigurationImpl<
       extractParameters: extractorConfiguration.extractParameters,
       getOrAuthenticateUser: this.getOrAuthenticateUser,
       buildAuthorizationFailError:
-        authorizationHandlerConfiguration.buildAuthorizationFailError,
+        authorizationFailHandlerConfiguration.buildAuthorizationFailError,
       calcSub: authorizationHandlerConfiguration.calcSub,
       collectClaims: this.collectClaims,
     });
 
     this.processRequest = createProcessRequest({
-      path: authorizationIssueHandlerConfiguration.path,
+      path: this.path,
       toApiRequest: this.toApiRequest,
       handle: authorizationIssueHandlerConfiguration.handle,
       recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,

@@ -100,11 +100,6 @@ export interface AuthorizationHandlerConfiguration<SS extends SessionSchemas> {
   calcSub: CalcSub;
 
   /**
-   * Function to construct an error response for authorization failures
-   */
-  buildAuthorizationFailError: BuildAuthorizationFailError;
-
-  /**
    * Function to handle no-interaction authorization requests
    */
   handleNoInteraction: HandleNoInteraction<SS>;

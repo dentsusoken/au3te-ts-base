@@ -17,15 +17,19 @@
 
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 import { ProcessRequest } from '../processRequest';
-import { ToApiRequest } from '../../handler/toApiRequest';
+import { ToApiRequest } from '../toApiRequest';
 import { CollectClaims } from './collectClaims';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 
 /**
- * Interface defining the configuration for the Authorization Decision endpoint.
- * This endpoint handles user decisions on authorization requests.
+ * Interface defining the configuration for the Authorization Decision handler.
+ * This handler handles user decisions on authorization requests.
  */
-export interface AuthorizationDecisionEndpointConfiguration {
+export interface AuthorizationDecisionHandlerConfiguration {
+  /**
+   * The path for the authorization decision endpoint.
+   */
+  path: string;
   /**
    * Function to collect claims for the user based on requested scopes and claim names.
    */

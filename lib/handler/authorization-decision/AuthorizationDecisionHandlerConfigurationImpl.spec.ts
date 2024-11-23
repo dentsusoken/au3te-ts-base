@@ -16,16 +16,16 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { AuthorizationDecisionEndpointConfigurationImpl } from './AuthorizationDecisionEndpointConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../handler/BaseHandlerConfiguration';
+import { AuthorizationDecisionHandlerConfigurationImpl } from './AuthorizationDecisionHandlerConfigurationImpl';
+import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ApiClient } from 'au3te-ts-common/api';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
 import { UserConfiguration } from 'au3te-ts-common/user';
-import { AuthorizationHandlerConfiguration } from '../../handler/authorization';
-import { AuthorizationIssueHandlerConfiguration } from '../../handler/authorization-issue';
-
+import { AuthorizationHandlerConfiguration } from '../authorization';
+import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
+import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';
 // Mock ApiClient and Session
 const mockApiClient = {} as unknown as ApiClient;
 const mockSession = {} as unknown as Session<typeof sessionSchemas>;
@@ -40,8 +40,13 @@ const mockAuthorizationIssueHandlerConfiguration = {
   path: '/authorization/issue',
   handle: async () => new Response(),
 } as unknown as AuthorizationIssueHandlerConfiguration;
+const mockAuthorizationFailHandlerConfiguration = {
+  buildAuthorizationFailError: () => {
+    throw new Error();
+  },
+} as unknown as AuthorizationFailHandlerConfiguration;
 
-describe('AuthorizationDecisionEndpointConfigurationImpl', () => {
+describe('AuthorizationDecisionHandlerConfigurationImpl', () => {
   // Create a mock BaseHandlerConfiguration
   const baseHandlerConfiguration = {
     apiClient: mockApiClient,
@@ -53,16 +58,19 @@ describe('AuthorizationDecisionEndpointConfigurationImpl', () => {
   const extractorConfiguration = new ExtractorConfigurationImpl();
 
   it('should initialize with required properties', () => {
-    const config = new AuthorizationDecisionEndpointConfigurationImpl({
+    const config = new AuthorizationDecisionHandlerConfigurationImpl({
       baseHandlerConfiguration,
       extractorConfiguration,
       userConfiguration: mockUserConfiguration,
       authorizationHandlerConfiguration: mockAuthorizationHandlerConfiguration,
       authorizationIssueHandlerConfiguration:
         mockAuthorizationIssueHandlerConfiguration,
+      authorizationFailHandlerConfiguration:
+        mockAuthorizationFailHandlerConfiguration,
     });
 
     // Check if required properties are defined
+    expect(config.path).toBe('/api/authorization/decision');
     expect(config.toApiRequest).toBeDefined();
     expect(config.processRequest).toBeDefined();
     expect(config.collectClaims).toBeDefined();

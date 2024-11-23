@@ -108,8 +108,6 @@ export class AuthorizationHandlerConfigurationImpl<
 
   calcSub: CalcSub;
 
-  buildAuthorizationFailError: BuildAuthorizationFailError;
-
   handleNoInteraction: HandleNoInteraction<SS>;
 
   processApiResponse: ProcessApiResponse<AuthorizationResponse>;
@@ -173,15 +171,12 @@ export class AuthorizationHandlerConfigurationImpl<
 
     this.calcSub = defaultCalcSub;
 
-    this.buildAuthorizationFailError = createBuildAuthorizationFailError(
-      authorizationFailHandlerConfiguration.handle
-    );
-
     this.handleNoInteraction = createHandleNoInteraction({
       checkAuthAge: this.checkAuthAge,
       checkSubject: this.checkSubject,
       calcSub: this.calcSub,
-      buildAuthorizationFailError: this.buildAuthorizationFailError,
+      buildAuthorizationFailError:
+        authorizationFailHandlerConfiguration.buildAuthorizationFailError,
       handle4AuthorizationIssue: authorizationIssueHandlerConfiguration.handle,
     });
 

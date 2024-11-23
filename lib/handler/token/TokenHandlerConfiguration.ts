@@ -23,6 +23,8 @@ import { DetermineSubject } from './determineSubject';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Token endpoint handler.
@@ -89,4 +91,14 @@ export interface TokenHandlerConfiguration {
    * Function to handle the token request.
    */
   handle: Handle<TokenRequest>;
+
+  /**
+   * Function to convert an HTTP request to a TokenRequest.
+   */
+  toApiRequest: ToApiRequest<TokenRequest>;
+
+  /**
+   * Function to process incoming HTTP requests to the token endpoint.
+   */
+  processRequest: ProcessRequest;
 }

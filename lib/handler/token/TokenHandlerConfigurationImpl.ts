@@ -41,6 +41,11 @@ import { UserConfiguration } from 'au3te-ts-common/user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';
+import { ToApiRequest } from '../toApiRequest';
+import { ProcessRequest } from '../processRequest';
+import { createToApiRequest } from '../toClientAuthRequest';
+import { createProcessRequest } from '../processRequest';
+import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 /**
  * Configuration parameters for TokenHandlerConfigurationImpl constructor.
@@ -61,6 +66,9 @@ type TokenHandlerConfigurationImplConstructorParams = {
 
   /** Configuration for token creation operations */
   tokenCreateHandlerConfiguration: TokenCreateHandlerConfiguration;
+
+  /** Configuration for converting HTTP requests to Token API requests */
+  extractorConfiguration: ExtractorConfiguration;
 };
 
 /**
@@ -113,6 +121,12 @@ export class TokenHandlerConfigurationImpl
   /** Function to handle the token request */
   handle: Handle<TokenRequest>;
 
+  /** Function to convert HTTP requests to Token API requests */
+  toApiRequest: ToApiRequest<TokenRequest>;
+
+  /** Function to process incoming HTTP requests */
+  processRequest: ProcessRequest;
+
   /**
    * Creates an instance of TokenHandlerConfigurationImpl.
    * @param {TokenHandlerConfigurationImplConstructorParams} params - Configuration parameters
@@ -123,6 +137,7 @@ export class TokenHandlerConfigurationImpl
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
     tokenCreateHandlerConfiguration,
+    extractorConfiguration,
   }: TokenHandlerConfigurationImplConstructorParams) {
     const {
       apiClient,
@@ -182,6 +197,20 @@ export class TokenHandlerConfigurationImpl
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
+      recoverResponseResult,
+    });
+
+    this.toApiRequest = createToApiRequest({
+      extractParameters: extractorConfiguration.extractParameters,
+      extractClientCredentials: extractorConfiguration.extractClientCredentials,
+      extractClientCertificateAndPath:
+        extractorConfiguration.extractClientCertificateAndPath,
+    });
+
+    this.processRequest = createProcessRequest({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
       recoverResponseResult,
     });
   }

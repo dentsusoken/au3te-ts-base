@@ -24,5 +24,6 @@ describe('AuthorizationFailHandlerConfigurationImpl', () => {
     expect(config.processApiRequest).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();
+    expect(config.buildAuthorizationFailError).toBeDefined();
   });
 });

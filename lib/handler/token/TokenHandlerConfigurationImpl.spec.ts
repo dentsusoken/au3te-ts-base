@@ -7,6 +7,7 @@ import { UserConfiguration } from 'au3te-ts-common/user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';
+import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 describe('TokenHandlerConfigurationImpl', () => {
   // Mock API client
@@ -39,6 +40,13 @@ describe('TokenHandlerConfigurationImpl', () => {
     handle: async () => new Response(),
   } as unknown as TokenCreateHandlerConfiguration;
 
+  // Mock extractor configuration
+  const mockExtractorConfig = {
+    extractParameters: () => ({}),
+    extractClientCredentials: () => ({}),
+    extractClientCertificateAndPath: () => ({}),
+  } as unknown as ExtractorConfiguration;
+
   it('should initialize with required properties', () => {
     const config = new TokenHandlerConfigurationImpl({
       baseHandlerConfiguration: mockBaseConfig,
@@ -46,6 +54,7 @@ describe('TokenHandlerConfigurationImpl', () => {
       tokenFailHandlerConfiguration: mockTokenFailConfig,
       tokenIssueHandlerConfiguration: mockTokenIssueConfig,
       tokenCreateHandlerConfiguration: mockTokenCreateConfig,
+      extractorConfiguration: mockExtractorConfig,
     });
 
     expect(config.path).toBe('/api/token');
@@ -59,5 +68,7 @@ describe('TokenHandlerConfigurationImpl', () => {
     expect(config.handleJwtBearer).toBeDefined();
     expect(config.responseToCreateRequest4TokenExchange).toBeDefined();
     expect(config.responseToCreateRequest4JwtBearer).toBeDefined();
+    expect(config.toApiRequest).toBeDefined();
+    expect(config.processRequest).toBeDefined();
   });
 });

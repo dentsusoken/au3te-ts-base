@@ -15,8 +15,8 @@
  * License.
  */
 
-export * from './AuthorizationDecisionEndpointConfiguration';
-export * from './AuthorizationDecisionEndpointConfigurationImpl';
+export * from './AuthorizationDecisionHandlerConfiguration';
+export * from './AuthorizationDecisionHandlerConfigurationImpl';
 export * from './collectClaims';
 export * from './getOrAuthenticateUser';
 export * from './toApiRequest';

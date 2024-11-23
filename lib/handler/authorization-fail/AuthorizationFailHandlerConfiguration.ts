@@ -22,6 +22,7 @@ import {
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
+import { BuildAuthorizationFailError } from './buildAuthorizationFailError';
 
 /**
  * Configuration interface for the Authorization Fail handler.
@@ -49,4 +50,9 @@ export interface AuthorizationFailHandlerConfiguration {
    * Function to handle the authorization fail request.
    */
   handle: Handle<AuthorizationFailRequest>;
+
+  /**
+   * Function to build an error response for authorization fail.
+   */
+  buildAuthorizationFailError: BuildAuthorizationFailError;
 }

@@ -17,15 +17,15 @@
 
 import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
 import { ExtractParameters } from '../../extractor/extractParameters';
-import { ToApiRequest } from '../../handler/toApiRequest';
+import { ToApiRequest } from '../toApiRequest';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { badRequestError } from '../../handler/responseErrorFactory';
+import { badRequestError } from '../responseErrorFactory';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 import { parseQueryString } from 'au3te-ts-common/utils';
-import { BuildAuthorizationFailError } from '../../handler/authorization-fail/buildAuthorizationFailError';
-import { CalcSub } from '../../handler/authorization/calcSub';
+import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
+import { CalcSub } from '../authorization/calcSub';
 import { CollectClaims } from './collectClaims';
 
 /**
