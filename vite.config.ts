@@ -6,17 +6,11 @@ export default defineConfig({
     lib: {
       entry: {
         api: './lib/api/index.ts',
-        'endpoint/authorization': './lib/endpoint/authorization/index.ts',
-        'endpoint/authorization-decision':
-          './lib/endpoint/authorization-decision/index.ts',
-        'endpoint/token': './lib/endpoint/token/index.ts',
-        'endpoint/service-configuration':
-          './lib/endpoint/service-configuration/index.ts',
-        'endpoint/credential-metadata':
-          './lib/endpoint/credential-metadata/index.ts',
         handler: './lib/handler/index.ts',
         'handler/par': './lib/handler/par/index.ts',
         'handler/authorization': './lib/handler/authorization/index.ts',
+        'handler/authorization-decision':
+          './lib/handler/authorization-decision/index.ts',
         'handler/authorization-fail':
           './lib/handler/authorization-fail/index.ts',
         'handler/authorization-issue':

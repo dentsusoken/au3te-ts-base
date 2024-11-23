@@ -53,10 +53,6 @@ import {
 import { CheckSubject, defaultCheckSubject } from './checkSubject';
 import { CalcSub, defaultCalcSub } from './calcSub';
 import { createProcessApiResponse } from './processApiResponse';
-import {
-  BuildAuthorizationFailError,
-  createBuildAuthorizationFailError,
-} from '../authorization-fail/buildAuthorizationFailError';
 import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';

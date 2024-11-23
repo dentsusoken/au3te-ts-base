@@ -33,7 +33,6 @@ import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
-import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
 

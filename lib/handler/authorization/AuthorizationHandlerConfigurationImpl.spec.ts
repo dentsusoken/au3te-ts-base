@@ -55,7 +55,6 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
     expect(config.generateAuthorizationPage).toBeDefined();
     expect(config.checkSubject).toBeDefined();
     expect(config.calcSub).toBeDefined();
-    expect(config.buildAuthorizationFailError).toBeDefined();
     expect(config.handleNoInteraction).toBeDefined();
     expect(config.processApiResponse).toBeDefined();
     expect(config.handle).toBeDefined();

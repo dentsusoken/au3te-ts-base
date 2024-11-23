@@ -16,31 +16,6 @@
       "import": "./dist/api/index.js",
       "require": "./dist/api/index.cjs"
     },
-    "./endpoint.authorization": {
-      "types": "./dist/endpoint/authorization/index.d.ts",
-      "import": "./dist/endpoint/authorization/index.js",
-      "require": "./dist/endpoint/authorization/index.cjs"
-    },
-    "./endpoint.authorization-decision": {
-      "types": "./dist/endpoint/authorization-decision/index.d.ts",
-      "import": "./dist/endpoint/authorization-decision/index.js",
-      "require": "./dist/endpoint/authorization-decision/index.cjs"
-    },
-    "./endpoint.token": {
-      "types": "./dist/endpoint/token/index.d.ts",
-      "import": "./dist/endpoint/token/index.js",
-      "require": "./dist/endpoint/token/index.cjs"
-    },
-    "./endpoint.service-configuration": {
-      "types": "./dist/endpoint/service-configuration/index.d.ts",
-      "import": "./dist/endpoint/service-configuration/index.js",
-      "require": "./dist/endpoint/service-configuration/index.cjs"
-    },
-    "./endpoint.credential-metadata": {
-      "types": "./dist/endpoint/credential-metadata/index.d.ts",
-      "import": "./dist/endpoint/credential-metadata/index.js",
-      "require": "./dist/endpoint/credential-metadata/index.cjs"
-    },
     "./handler": {
       "types": "./dist/handler/index.d.ts",
       "import": "./dist/handler/index.js",
@@ -51,30 +26,25 @@
       "import": "./dist/handler/par/index.js",
       "require": "./dist/handler/par/index.cjs"
     },
-    "./handler.service-configuration": {
-      "types": "./dist/handler/service-configuration/index.d.ts",
-      "import": "./dist/handler/service-configuration/index.js",
-      "require": "./dist/handler/service-configuration/index.cjs"
-    },
-    "./handler.credential-metadata": {
-      "types": "./dist/handler/credential-metadata/index.d.ts",
-      "import": "./dist/handler/credential-metadata/index.js",
-      "require": "./dist/handler/credential-metadata/index.cjs"
-    },
     "./handler.authorization": {
       "types": "./dist/handler/authorization/index.d.ts",
       "import": "./dist/handler/authorization/index.js",
       "require": "./dist/handler/authorization/index.cjs"
     },
-    "./handler.authorization-fail": {
-      "types": "./dist/handler/authorization-fail/index.d.ts",
-      "import": "./dist/handler/authorization-fail/index.js",
-      "require": "./dist/handler/authorization-fail/index.cjs"
+    "./handler.authorization-decision": {
+      "types": "./dist/handler/authorization-decision/index.d.ts",
+      "import": "./dist/handler/authorization-decision/index.js",
+      "require": "./dist/handler/authorization-decision/index.cjs"
     },
     "./handler.authorization-issue": {
       "types": "./dist/handler/authorization-issue/index.d.ts",
       "import": "./dist/handler/authorization-issue/index.js",
       "require": "./dist/handler/authorization-issue/index.cjs"
+    },
+    "./handler.authorization-fail": {
+      "types": "./dist/handler/authorization-fail/index.d.ts",
+      "import": "./dist/handler/authorization-fail/index.js",
+      "require": "./dist/handler/authorization-fail/index.cjs"
     },
     "./handler.token": {
       "types": "./dist/handler/token/index.d.ts",
@@ -95,6 +65,16 @@
       "types": "./dist/handler/token-create/index.d.ts",
       "import": "./dist/handler/token-create/index.js",
       "require": "./dist/handler/token-create/index.cjs"
+    },
+    "./handler.service-configuration": {
+      "types": "./dist/handler/service-configuration/index.d.ts",
+      "import": "./dist/handler/service-configuration/index.js",
+      "require": "./dist/handler/service-configuration/index.cjs"
+    },
+    "./handler.credential-metadata": {
+      "types": "./dist/handler/credential-metadata/index.d.ts",
+      "import": "./dist/handler/credential-metadata/index.js",
+      "require": "./dist/handler/credential-metadata/index.cjs"
     },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
