@@ -2,19 +2,19 @@ import { describe, it, expect } from 'vitest';
 import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
 
 const {
-  authorizationIssueHandlerConfiguration,
+  authorizationFailHandlerConfiguration,
   processParPostRequest,
   processAuthorizationGetRequest,
-  createAuthorizationIssueRequest,
+  createAuthorizationFailRequest,
 } = setupIntegrationTest();
 
-describe('AuthorizationIssueHandlerConfiguration Integration Tests', () => {
+describe('AuthorizationFailHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
     const requestUri = await processParPostRequest();
     const ticket = await processAuthorizationGetRequest(requestUri);
 
-    const request = createAuthorizationIssueRequest(ticket);
-    const response = await authorizationIssueHandlerConfiguration.handle(
+    const request = createAuthorizationFailRequest(ticket);
+    const response = await authorizationFailHandlerConfiguration.handle(
       request
     );
 
@@ -22,7 +22,7 @@ describe('AuthorizationIssueHandlerConfiguration Integration Tests', () => {
     expect(
       response.headers
         .get('Location')
-        ?.startsWith('eudi-openid4ci://authorize/?code=')
+        ?.startsWith('eudi-openid4ci://authorize/?error=login_require')
     ).toBe(true);
   }, 10000);
 });

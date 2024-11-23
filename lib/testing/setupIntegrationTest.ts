@@ -112,6 +112,13 @@ export const setupIntegrationTest = () => {
 
     return request;
   };
+  const processAuthorizationGetRequest = async (requestUri: string) => {
+    const request = createAuthorizationGetRequest(requestUri);
+    await authorizationHandlerConfiguration.processRequest(request);
+    const decisionParams = await session.get('authorizationDecisionParams');
+
+    return decisionParams!.ticket!;
+  };
 
   const createAuthorizationFailRequest = (ticket: string) => {
     const request: AuthorizationFailRequest = {
@@ -183,6 +190,7 @@ export const setupIntegrationTest = () => {
     createAuthorizationParameters,
     createAuthorizationRequest,
     createAuthorizationGetRequest,
+    processAuthorizationGetRequest,
     createAuthorizationFailRequest,
     createAuthorizationIssueRequest,
     createTokenRequest,
