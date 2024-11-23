@@ -19,6 +19,7 @@ export default defineConfig({
         'handler/token-issue': './lib/handler/token-issue/index.ts',
         'handler/token-fail': './lib/handler/token-fail/index.ts',
         'handler/token-create': './lib/handler/token-create/index.ts',
+        'handler/introspection': './lib/handler/introspection/index.ts',
         'handler/service-configuration':
           './lib/handler/service-configuration/index.ts',
         'handler/credential-metadata':

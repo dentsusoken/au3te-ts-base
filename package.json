@@ -66,6 +66,11 @@
       "import": "./dist/handler/token-create/index.js",
       "require": "./dist/handler/token-create/index.cjs"
     },
+    "./handler.introspection": {
+      "types": "./dist/handler/introspection/index.d.ts",
+      "import": "./dist/handler/introspection/index.js",
+      "require": "./dist/handler/introspection/index.cjs"
+    },
     "./handler.service-configuration": {
       "types": "./dist/handler/service-configuration/index.d.ts",
       "import": "./dist/handler/service-configuration/index.js",

@@ -25,6 +25,7 @@ import { TokenHandlerConfigurationImpl } from '../handler/token/TokenHandlerConf
 import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/TokenCreateHandlerConfigurationImpl';
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
 import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/TokenIssueHandlerConfigurationImpl';
+import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
 
 export const setupIntegrationTest = () => {
   const configuration: AuthleteConfiguration = {
@@ -89,6 +90,8 @@ export const setupIntegrationTest = () => {
     new ServiceConfigurationHandlerConfigurationImpl(baseHandlerConfiguration);
   const credentialMetadataHandlerConfiguration =
     new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
+  const introspectionHandlerConfiguration =
+    new IntrospectionHandlerConfigurationImpl(baseHandlerConfiguration);
 
   const createParParameters = () => {
     return new URLSearchParams({
@@ -236,6 +239,13 @@ export const setupIntegrationTest = () => {
 
     return request;
   };
+  const processTokenPostRequest = async (code: string) => {
+    const request = createTokenPostRequest(code);
+    const response = await tokenHandlerConfiguration.processRequest(request);
+    const body = await response.json();
+
+    return body.access_token!;
+  };
 
   const createIntrospectionRequest = (accessToken: string) => {
     const request: IntrospectionRequest = {
@@ -275,6 +285,7 @@ export const setupIntegrationTest = () => {
     tokenHandlerConfiguration,
     serviceConfigurationHandlerConfiguration,
     credentialMetadataHandlerConfiguration,
+    introspectionHandlerConfiguration,
     createParParameters,
     createParRequest,
     createParPostRequest,
@@ -291,6 +302,7 @@ export const setupIntegrationTest = () => {
     processAuthorizationDecisionPostRequest,
     createTokenRequest,
     createTokenPostRequest,
+    processTokenPostRequest,
     createIntrospectionRequest,
     createServiceConfigurationRequest,
     createCredentialIssuerMetadataRequest,
