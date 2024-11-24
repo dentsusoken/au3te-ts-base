@@ -17,7 +17,18 @@
 
 /**
  * The base path for the pushed authentication request API.
+ *
+ * This constant represents the path template for the pushed authentication request API endpoint.
+ * The '%d' placeholder should be replaced with the appropriate API version number
+ * when constructing the full URL.
+ *
+ * @constant
  * @type {string}
+ * @example
+ * // Usage example:
+ * const serviceId = '1234';
+ * const path = PUSHED_AUTH_REQ_API_PATH.replace('%d', serviceId);
+ * // Result: '/api/1234/pushed_auth_req'
  */
 const PUSHED_AUTH_REQ_API_PATH = '/api/%d/pushed_auth_req';
 
@@ -151,9 +162,27 @@ const SERVICE_CONFIGURATION_API_PATH = '/api/%d/service/configuration';
 const CREDENTIAL_ISSUER_METADATA_API_PATH = '/api/%d/vci/metadata';
 
 /**
+ * The path template for the credential single parse API endpoint.
+ *
+ * This constant represents the URL path for credential single parse.
+ */
+const CREDENTIAL_SINGLE_PARSE_API_PATH = '/api/%d/vci/single/parse';
+
+/**
  * Generates the path for the pushed authentication request API.
- * @param {string} serviceId - The service ID.
- * @returns {string} The generated path.
+ *
+ * This function creates the specific path for the pushed authentication request API endpoint
+ * by replacing the '%d' placeholder in the PUSHED_AUTH_REQ_API_PATH constant
+ * with the provided service ID.
+ *
+ * @function
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the pushed authentication request endpoint.
+ * @example
+ * // Usage example:
+ * const serviceId = '1234';
+ * const path = pushedAuthReqPath(serviceId);
+ * // Result: '/api/1234/pushed_auth_req'
  */
 export const pushedAuthReqPath = (serviceId: string) =>
   PUSHED_AUTH_REQ_API_PATH.replace(/%d/, serviceId);
@@ -285,3 +314,22 @@ export const serviceConfigurationPath = (serviceId: string) =>
  */
 export const credentialIssuerMetadataPath = (serviceId: string) =>
   CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the credential single parse API path for a given service ID.
+ *
+ * This function creates the specific path for the credential single parse API endpoint
+ * by replacing the '%d' placeholder in the CREDENTIAL_SINGLE_PARSE_API_PATH constant
+ * with the provided service ID.
+ *
+ * @function
+ * @param {string} serviceId - The unique identifier for the service.
+ * @returns {string} The complete API path for the credential single parse endpoint.
+ * @example
+ * // Usage example:
+ * const serviceId = '1234';
+ * const path = credentialSingleParsePath(serviceId);
+ * // Result: '/api/1234/vci/single/parse'
+ */
+export const credentialSingleParsePath = (serviceId: string) =>
+  CREDENTIAL_SINGLE_PARSE_API_PATH.replace(/%d/, serviceId);

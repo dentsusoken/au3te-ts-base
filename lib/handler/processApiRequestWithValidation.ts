@@ -24,23 +24,30 @@ import { ValidateApiResponse } from './validateApiResponse';
  *
  * @template REQ - The type of the API request object
  * @template RES - The type of the API response
+ * @template T - The type of additional options
  */
 export type ProcessApiRequestWithValidation<
   REQ extends object,
-  RES
-> = ProcessApiRequest<REQ, RES>;
+  RES,
+  T = unknown
+> = (apiRequest: REQ, options?: T) => Promise<RES>;
 
 /**
  * Parameters for creating a process API request function with validation.
  *
  * @template REQ - The type of the API request object
  * @template RES - The type of the API response
+ * @template T - The type of additional options
  */
-type CreateProcessApiRequestWithValidationParams<REQ extends object, RES> = {
+type CreateProcessApiRequestWithValidationParams<
+  REQ extends object,
+  RES,
+  T = unknown
+> = {
   /** Function to process the API request */
   processApiRequest: ProcessApiRequest<REQ, RES>;
   /** Function to validate the API response */
-  validateApiResponse: ValidateApiResponse<RES>;
+  validateApiResponse: ValidateApiResponse<RES, T>;
 };
 
 /**
@@ -48,23 +55,25 @@ type CreateProcessApiRequestWithValidationParams<REQ extends object, RES> = {
  *
  * @template REQ - The type of the API request object
  * @template RES - The type of the API response
- * @param {CreateProcessApiRequestWithValidationParams<REQ, RES>} params - Configuration parameters
- * @param {ProcessApiRequest<REQ, RES>} params.processApiRequest - Function to process the API request
- * @param {ValidateApiResponse<RES>} params.validateApiResponse - Function to validate the API response
- * @returns {ProcessApiRequestWithValidation<REQ, RES>} A function that processes the request and validates the response
+ * @template T - The type of additional options
+ * @param params - Configuration parameters
+ * @returns A function that processes the request and validates the response
  */
-export const createProcessApiRequestWithValidation = <REQ extends object, RES>({
+export const createProcessApiRequestWithValidation = <
+  REQ extends object,
+  RES,
+  T = unknown
+>({
   processApiRequest,
   validateApiResponse,
 }: CreateProcessApiRequestWithValidationParams<
   REQ,
-  RES
->): ProcessApiRequestWithValidation<REQ, RES> => {
-  return async (apiRequest: REQ) => {
+  RES,
+  T
+>): ProcessApiRequestWithValidation<REQ, RES, T> => {
+  return async (apiRequest: REQ, options?: T) => {
     const apiResponse = await processApiRequest(apiRequest);
-
-    await validateApiResponse(apiResponse);
-
+    await validateApiResponse(apiResponse, options);
     return apiResponse;
   };
 };

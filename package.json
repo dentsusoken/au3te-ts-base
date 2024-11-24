@@ -81,6 +81,11 @@
       "import": "./dist/handler/credential-metadata/index.js",
       "require": "./dist/handler/credential-metadata/index.cjs"
     },
+    "./handler.credential-single-parse": {
+      "types": "./dist/handler/credential-single-parse/index.d.ts",
+      "import": "./dist/handler/credential-single-parse/index.js",
+      "require": "./dist/handler/credential-single-parse/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",

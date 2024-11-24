@@ -18,8 +18,11 @@ describe('IntrospectionHandlerConfiguration Integration Tests', () => {
     const accessToken = await processTokenPostRequest(code);
 
     const request = createIntrospectionRequest(accessToken);
-    await expect(
-      introspectionHandlerConfiguration.processApiRequestWithValidation(request)
-    ).resolves.not.toThrow();
+    const response =
+      await introspectionHandlerConfiguration.processApiRequestWithValidation(
+        request
+      );
+
+    expect(response.action).toBe('OK');
   }, 10000);
 });

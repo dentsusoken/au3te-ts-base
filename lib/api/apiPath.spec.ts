@@ -9,6 +9,9 @@ import {
   tokenFailPath,
   tokenCreatePath,
   introspectionPath,
+  serviceConfigurationPath,
+  credentialIssuerMetadataPath,
+  credentialSingleParsePath,
 } from './apiPath';
 
 describe('API path functions', () => {
@@ -62,6 +65,30 @@ describe('API path functions', () => {
       const serviceId = '123';
       const expected = '/api/123/auth/introspection';
       const actual = introspectionPath(serviceId);
+      expect(actual).toBe(expected);
+    });
+  });
+
+  describe('serviceConfigurationPath', () => {
+    it('should generate the correct service configuration API path', () => {
+      const expected = '/api/123/service/configuration';
+      const actual = serviceConfigurationPath(serviceId);
+      expect(actual).toBe(expected);
+    });
+  });
+
+  describe('credentialIssuerMetadataPath', () => {
+    it('should generate the correct credential issuer metadata API path', () => {
+      const expected = '/api/123/vci/metadata';
+      const actual = credentialIssuerMetadataPath(serviceId);
+      expect(actual).toBe(expected);
+    });
+  });
+
+  describe('credentialSingleParsePath', () => {
+    it('should generate the correct credential single parse API path', () => {
+      const expected = '/api/123/vci/single/parse';
+      const actual = credentialSingleParsePath(serviceId);
       expect(actual).toBe(expected);
     });
   });

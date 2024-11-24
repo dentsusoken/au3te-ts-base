@@ -64,6 +64,9 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for credential issuer metadata requests */
   readonly credentialIssuerMetadataPath: string;
 
+  /** The path for credential single parse requests */
+  readonly credentialSingleParsePath: string;
+
   /**
    * Creates an instance of ApiClientImpl.
    * @param {AuthleteConfiguration} configuration - The configuration object for Authlete service.
@@ -109,6 +112,10 @@ export class ApiClientImpl extends AbstractApiClient {
     );
 
     this.credentialIssuerMetadataPath = apiPath.credentialIssuerMetadataPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.credentialSingleParsePath = apiPath.credentialSingleParsePath(
       this.configuration.serviceApiKey
     );
   }

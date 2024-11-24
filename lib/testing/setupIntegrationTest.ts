@@ -26,6 +26,8 @@ import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/Tok
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
 import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/TokenIssueHandlerConfigurationImpl';
 import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
+import { CredentialSingleParseRequest } from 'au3te-ts-common/schemas.credential-single-parse';
+import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
 
 export const setupIntegrationTest = () => {
   const configuration: AuthleteConfiguration = {
@@ -86,12 +88,14 @@ export const setupIntegrationTest = () => {
     tokenCreateHandlerConfiguration,
     extractorConfiguration,
   });
+  const introspectionHandlerConfiguration =
+    new IntrospectionHandlerConfigurationImpl(baseHandlerConfiguration);
   const serviceConfigurationHandlerConfiguration =
     new ServiceConfigurationHandlerConfigurationImpl(baseHandlerConfiguration);
   const credentialMetadataHandlerConfiguration =
     new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
-  const introspectionHandlerConfiguration =
-    new IntrospectionHandlerConfigurationImpl(baseHandlerConfiguration);
+  const credentialSingleParseHandlerConfiguration =
+    new CredentialSingleParseHandlerConfigurationImpl(baseHandlerConfiguration);
 
   const createParParameters = () => {
     return new URLSearchParams({
@@ -267,6 +271,30 @@ export const setupIntegrationTest = () => {
     return request;
   };
 
+  const createCredentialSingleParseRequest = (accessToken: string) => {
+    const request: CredentialSingleParseRequest = {
+      accessToken,
+      requestContent: JSON.stringify({
+        format: 'mso_mdoc',
+        doctype: 'org.iso.18013.5.1.mDL',
+        claims: {
+          'org.iso.18013.5.1': {
+            family_name: {},
+            given_name: {},
+            birth_date: {},
+            issue_date: {},
+            expiry_date: {},
+            issuing_country: {},
+            document_number: {},
+            driving_privileges: {},
+          },
+        },
+      }),
+    };
+
+    return request;
+  };
+
   return {
     apiClient,
     session,
@@ -283,9 +311,10 @@ export const setupIntegrationTest = () => {
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
     tokenHandlerConfiguration,
+    introspectionHandlerConfiguration,
     serviceConfigurationHandlerConfiguration,
     credentialMetadataHandlerConfiguration,
-    introspectionHandlerConfiguration,
+    credentialSingleParseHandlerConfiguration,
     createParParameters,
     createParRequest,
     createParPostRequest,
@@ -306,5 +335,6 @@ export const setupIntegrationTest = () => {
     createIntrospectionRequest,
     createServiceConfigurationRequest,
     createCredentialIssuerMetadataRequest,
+    createCredentialSingleParseRequest,
   };
 };

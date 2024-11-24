@@ -8,6 +8,7 @@ import { introspectionResponseSchema } from 'au3te-ts-common/schemas.introspecti
 import { setupIntegrationTest } from '../testing/setupIntegrationTest';
 import { serviceConfigurationResponseSchema } from 'au3te-ts-common/schemas.service-configuration';
 import { credentialIssuerMetadataResponseSchema } from 'au3te-ts-common/schemas.credential-metadata';
+import { credentialSingleParseResponseSchema } from 'au3te-ts-common/schemas.credential-single-parse';
 
 const {
   apiClient,
@@ -19,6 +20,7 @@ const {
   createIntrospectionRequest,
   createServiceConfigurationRequest,
   createCredentialIssuerMetadataRequest,
+  createCredentialSingleParseRequest,
 } = setupIntegrationTest();
 
 const testPar = async () => {
@@ -135,6 +137,23 @@ const testCredentialIssuerMetadata = async () => {
   expect(response.action).toBe('OK');
 };
 
+const testCredentialSingleParse = async (accessToken: string) => {
+  const response = await apiClient.callPostApi(
+    apiClient.credentialSingleParsePath,
+    credentialSingleParseResponseSchema,
+    createCredentialSingleParseRequest(accessToken)
+  );
+
+  expect(response).toBeDefined();
+  expect(response.action).toBe('OK');
+
+  const info = response.info;
+  expect(info).toBeDefined();
+  expect(info?.identifier).toBeDefined();
+  expect(info?.format).toBeDefined();
+  expect(info?.details).toBeDefined();
+};
+
 describe('ApiClientImpl', () => {
   describe('par', () => {
     it('should successfully handle a par request', async () => {
@@ -193,6 +212,16 @@ describe('ApiClientImpl', () => {
   describe('credentialIssuerMetadata', () => {
     it('should successfully handle a credential issuer metadata request', async () => {
       await testCredentialIssuerMetadata();
+    }, 10000);
+  });
+
+  describe('credentialSingleParse', () => {
+    it('should successfully handle a credential single parse request', async () => {
+      const requestUri = await testPar();
+      const ticket = await testAuthorization(requestUri);
+      const code = await testAuthorizationIssue(ticket);
+      const accessToken = await testToken(code);
+      await testCredentialSingleParse(accessToken);
     }, 10000);
   });
 });

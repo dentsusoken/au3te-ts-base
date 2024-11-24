@@ -34,4 +34,16 @@ export type CreateValidateApiResponseParams = {
  * @returns {Promise<void>} A Promise that resolves with no value if validation succeeds
  * @throws {Error} If validation fails
  */
-export type ValidateApiResponse<RES> = (apiResponse: RES) => Promise<void>;
+/**
+ * Type representing a function that validates an API response
+ * @template RES - The type of the API response
+ * @template T - Optional type parameter for additional validation options, defaults to unknown
+ * @param {RES} apiResponse - The API response to validate
+ * @param {T} [options] - Optional validation options
+ * @returns {Promise<void>} A Promise that resolves with no value if validation succeeds
+ * @throws {Error} If validation fails
+ */
+export type ValidateApiResponse<RES, T = unknown> = (
+  apiResponse: RES,
+  options?: T
+) => Promise<void>;
