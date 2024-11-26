@@ -5,7 +5,7 @@ import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
 // Mock dependencies
-vi.mock('au3te-ts-common/page-model.authorization');
+vi.mock('au3te-ts-common/handler.authorization-page');
 
 describe('createGenerateAuthorizationPage', () => {
   const mockSession = {

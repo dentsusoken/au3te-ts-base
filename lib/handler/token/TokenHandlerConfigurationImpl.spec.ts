@@ -3,7 +3,7 @@ import { TokenHandlerConfigurationImpl } from './TokenHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ApiClient } from 'au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
-import { UserConfiguration } from 'au3te-ts-common/user';
+import { UserConfiguration } from 'au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';

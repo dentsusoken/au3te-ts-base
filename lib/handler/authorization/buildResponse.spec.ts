@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { simpleBuildResponse } from './buildResponse';
-import { AuthorizationPageModel } from 'au3te-ts-common/page-model.authorization';
+import { AuthorizationPageModel } from 'au3te-ts-common/handler.authorization-page';
 
 describe('simpleBuildResponse', () => {
   it('should return a Response with JSON stringified AuthorizationPageModel', async () => {

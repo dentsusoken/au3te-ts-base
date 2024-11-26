@@ -37,7 +37,7 @@ import { DetermineSubject } from './determineSubject';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
-import { UserConfiguration } from 'au3te-ts-common/user';
+import { UserConfiguration } from 'au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';

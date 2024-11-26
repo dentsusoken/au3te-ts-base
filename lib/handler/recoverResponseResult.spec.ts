@@ -3,6 +3,7 @@ import { Result } from 'oid4vc-core/utils';
 import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
 import { createRecoverResponseResult } from './recoverResponseResult';
+import { toErrorJson } from 'au3te-ts-common/utils';
 
 describe('createRecoverResponseResult', () => {
   // Mock the processError function
@@ -47,7 +48,7 @@ describe('createRecoverResponseResult', () => {
     expect(response.status).toBe(500);
     expect(mockProcessError).toHaveBeenCalledWith('path', genericError);
     expect(responseFactory.internalServerError).toHaveBeenCalledWith(
-      'Generic error'
+      toErrorJson('internal_server_error', 'Generic error')
     );
   });
 });

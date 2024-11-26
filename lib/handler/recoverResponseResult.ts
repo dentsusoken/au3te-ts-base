@@ -16,6 +16,7 @@
  */
 
 import { Result } from 'oid4vc-core/utils';
+import { toErrorJson } from 'au3te-ts-common/utils';
 import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
 import { ProcessError } from 'au3te-ts-common/handler';
@@ -36,7 +37,9 @@ export const createRecoverResponseResult =
           return error.response;
         }
 
-        return responseFactory.internalServerError(error.message);
+        return responseFactory.internalServerError(
+          toErrorJson('internal_server_error', error.message)
+        );
       }
     );
 

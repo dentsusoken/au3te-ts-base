@@ -56,7 +56,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/page-model.authorization';
+import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/handler.authorization-page';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';

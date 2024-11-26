@@ -5,7 +5,7 @@ import { ApiClient } from 'au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/page-model.authorization';
+import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/handler.authorization-page';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 describe('AuthorizationHandlerConfigurationImpl', () => {

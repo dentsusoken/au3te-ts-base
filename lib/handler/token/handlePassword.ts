@@ -16,7 +16,7 @@
  */
 
 import { TokenResponse } from 'au3te-ts-common/schemas.token';
-import { GetByCredentials } from 'au3te-ts-common/user';
+import { GetByCredentials } from 'au3te-ts-common/handler.user';
 import { Headers } from '../../utils/responseFactory';
 import { Handle } from '../handle';
 import { TokenIssueRequest } from 'au3te-ts-common/schemas.token-issue';

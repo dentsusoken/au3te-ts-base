@@ -109,6 +109,7 @@ const testIntrospection = async (accessToken: string) => {
     introspectionResponseSchema,
     createIntrospectionRequest(accessToken)
   );
+  //console.log(response);
 
   expect(response).toBeDefined();
   expect(response.action).toBe('OK');
@@ -131,7 +132,7 @@ const testCredentialIssuerMetadata = async () => {
     credentialIssuerMetadataResponseSchema,
     createCredentialIssuerMetadataRequest()
   );
-  console.log(response);
+  //console.log(response);
 
   expect(response).toBeDefined();
   expect(response.action).toBe('OK');

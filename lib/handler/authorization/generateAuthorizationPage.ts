@@ -15,7 +15,7 @@
  * License.
  */
 
-import { BuildAuthorizationPageModel } from 'au3te-ts-common/page-model.authorization';
+import { BuildAuthorizationPageModel } from 'au3te-ts-common/handler.authorization-page';
 import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';

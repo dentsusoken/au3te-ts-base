@@ -22,7 +22,7 @@ import { ApiClient } from 'au3te-ts-common/api';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
-import { UserConfiguration } from 'au3te-ts-common/user';
+import { UserConfiguration } from 'au3te-ts-common/handler.user';
 import { AuthorizationHandlerConfiguration } from '../authorization';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';

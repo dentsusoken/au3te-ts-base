@@ -29,7 +29,7 @@ import {
   GetOrAuthenticateUser,
   createGetOrAuthenticateUser,
 } from './getOrAuthenticateUser';
-import { UserConfiguration } from 'au3te-ts-common/user';
+import { UserConfiguration } from 'au3te-ts-common/handler.user';
 import { AuthorizationHandlerConfiguration } from '../authorization/AuthorizationHandlerConfiguration';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';

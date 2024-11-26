@@ -18,7 +18,7 @@
 import { User } from 'au3te-ts-common/schemas.common';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { GetByCredentials } from 'au3te-ts-common/user';
+import { GetByCredentials } from 'au3te-ts-common/handler.user';
 
 /**
  * Type definition for a function that retrieves or authenticates a user.

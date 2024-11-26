@@ -18,9 +18,9 @@ import { CredentialMetadataHandlerConfigurationImpl } from '../handler/credentia
 import { AuthorizationHandlerConfigurationImpl } from '../handler/authorization/AuthorizationHandlerConfigurationImpl';
 import { AuthorizationIssueHandlerConfigurationImpl } from '../handler/authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
 import { AuthorizationFailHandlerConfigurationImpl } from '../handler/authorization-fail/AuthorizationFailHandlerConfigurationImpl';
-import { AuthorizationPageModelConfigurationImpl } from 'au3te-ts-common/page-model.authorization';
+import { AuthorizationPageModelConfigurationImpl } from 'au3te-ts-common/handler.authorization-page';
 import { AuthorizationDecisionHandlerConfigurationImpl } from '../handler/authorization-decision/AuthorizationDecisionHandlerConfigurationImpl';
-import { UserConfigurationImpl } from 'au3te-ts-common/user';
+import { UserConfigurationImpl } from 'au3te-ts-common/handler.user';
 import { TokenHandlerConfigurationImpl } from '../handler/token/TokenHandlerConfigurationImpl';
 import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/TokenCreateHandlerConfigurationImpl';
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
