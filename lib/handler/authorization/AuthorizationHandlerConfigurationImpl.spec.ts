@@ -5,7 +5,7 @@ import { ApiClient } from 'au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfiguration } from 'au3te-ts-common/handler.authorization-page';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 describe('AuthorizationHandlerConfigurationImpl', () => {
@@ -29,7 +29,7 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
 
   const mockAuthorizationPageModelConfig = {
     buildAuthorizationPageModel: vi.fn(),
-  } as unknown as AuthorizationPageModelConfiguration;
+  } as unknown as AuthorizationPageHandlerConfiguration;
 
   const mockExtractorConfig = {
     extractParameters: vi.fn(),
@@ -40,7 +40,7 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
       baseHandlerConfiguration: mockBaseConfig,
       authorizationIssueHandlerConfiguration: mockAuthorizationIssueConfig,
       authorizationFailHandlerConfiguration: mockAuthorizationFailConfig,
-      authorizationPageModelConfiguration: mockAuthorizationPageModelConfig,
+      authorizationPageHandlerConfiguration: mockAuthorizationPageModelConfig,
       extractorConfiguration: mockExtractorConfig,
     });
 

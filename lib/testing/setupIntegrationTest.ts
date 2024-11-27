@@ -18,9 +18,9 @@ import { CredentialMetadataHandlerConfigurationImpl } from '../handler/credentia
 import { AuthorizationHandlerConfigurationImpl } from '../handler/authorization/AuthorizationHandlerConfigurationImpl';
 import { AuthorizationIssueHandlerConfigurationImpl } from '../handler/authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
 import { AuthorizationFailHandlerConfigurationImpl } from '../handler/authorization-fail/AuthorizationFailHandlerConfigurationImpl';
-import { AuthorizationPageModelConfigurationImpl } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfigurationImpl } from 'au3te-ts-common/handler.authorization-page';
 import { AuthorizationDecisionHandlerConfigurationImpl } from '../handler/authorization-decision/AuthorizationDecisionHandlerConfigurationImpl';
-import { UserConfigurationImpl } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfigurationImpl } from 'au3te-ts-common/handler.user';
 import { TokenHandlerConfigurationImpl } from '../handler/token/TokenHandlerConfigurationImpl';
 import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/TokenCreateHandlerConfigurationImpl';
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
@@ -52,22 +52,22 @@ export const setupIntegrationTest = () => {
     new AuthorizationIssueHandlerConfigurationImpl(baseHandlerConfiguration);
   const authorizationFailHandlerConfiguration =
     new AuthorizationFailHandlerConfigurationImpl(baseHandlerConfiguration);
-  const authorizationPageModelConfiguration =
-    new AuthorizationPageModelConfigurationImpl();
+  const authorizationPageHandlerConfiguration =
+    new AuthorizationPageHandlerConfigurationImpl();
   const authorizationHandlerConfiguration =
     new AuthorizationHandlerConfigurationImpl({
       baseHandlerConfiguration,
       authorizationIssueHandlerConfiguration,
       authorizationFailHandlerConfiguration,
-      authorizationPageModelConfiguration,
+      authorizationPageHandlerConfiguration,
       extractorConfiguration,
     });
-  const userConfiguration = new UserConfigurationImpl();
+  const userHandlerConfiguration = new UserHandlerConfigurationImpl();
   const authorizationDecisionHandlerConfiguration =
     new AuthorizationDecisionHandlerConfigurationImpl({
       baseHandlerConfiguration,
       extractorConfiguration,
-      userConfiguration,
+      userHandlerConfiguration,
       authorizationHandlerConfiguration,
       authorizationIssueHandlerConfiguration,
       authorizationFailHandlerConfiguration,
@@ -82,7 +82,7 @@ export const setupIntegrationTest = () => {
   );
   const tokenHandlerConfiguration = new TokenHandlerConfigurationImpl({
     baseHandlerConfiguration,
-    userConfiguration,
+    userHandlerConfiguration,
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
     tokenCreateHandlerConfiguration,
@@ -300,11 +300,11 @@ export const setupIntegrationTest = () => {
     session,
     baseHandlerConfiguration,
     extractorConfiguration,
-    userConfiguration,
+    userHandlerConfiguration,
     parHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
-    authorizationPageModelConfiguration,
+    authorizationPageHandlerConfiguration,
     authorizationHandlerConfiguration,
     authorizationDecisionHandlerConfiguration,
     tokenCreateHandlerConfiguration,

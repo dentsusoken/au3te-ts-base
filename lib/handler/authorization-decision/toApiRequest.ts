@@ -89,9 +89,12 @@ export const createToApiRequest =
 
     const sub = await calcSub(subject, client);
     const acr = acrs?.[0];
-    const claims = collectClaims(authorizationDecisionParams.claimNames, user);
+    const claims = collectClaims(
+      authorizationDecisionParams.claimNames ?? undefined,
+      user
+    );
     const claimsForTx = collectClaims(
-      authorizationDecisionParams.requestedClaimsForTx,
+      authorizationDecisionParams.requestedClaimsForTx ?? undefined,
       user
     );
 

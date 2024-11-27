@@ -56,7 +56,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageModelConfiguration } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfiguration } from 'au3te-ts-common/handler.authorization-page';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
@@ -71,7 +71,7 @@ type AuthorizationHandlerConfigurationImplConstructorParams<
   baseHandlerConfiguration: BaseHandlerConfiguration<SS>;
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
-  authorizationPageModelConfiguration: AuthorizationPageModelConfiguration;
+  authorizationPageHandlerConfiguration: AuthorizationPageHandlerConfiguration;
   extractorConfiguration: ExtractorConfiguration;
 };
 
@@ -120,7 +120,7 @@ export class AuthorizationHandlerConfigurationImpl<
     baseHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
-    authorizationPageModelConfiguration,
+    authorizationPageHandlerConfiguration,
     extractorConfiguration,
   }: AuthorizationHandlerConfigurationImplConstructorParams<SS>) {
     const {
@@ -157,7 +157,7 @@ export class AuthorizationHandlerConfigurationImpl<
     this.generateAuthorizationPage = createGenerateAuthorizationPage({
       responseToDecisionParams: this.responseToDecisionParams,
       buildAuthorizationPageModel:
-        authorizationPageModelConfiguration.buildAuthorizationPageModel,
+        authorizationPageHandlerConfiguration.buildAuthorizationPageModel,
       clearCurrentUserInfoInSessionIfNecessary:
         this.clearCurrentUserInfoInSessionIfNecessary,
       buildResponse: this.buildResponse,

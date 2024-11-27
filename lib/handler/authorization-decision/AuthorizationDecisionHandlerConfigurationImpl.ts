@@ -29,7 +29,7 @@ import {
   GetOrAuthenticateUser,
   createGetOrAuthenticateUser,
 } from './getOrAuthenticateUser';
-import { UserConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
 import { AuthorizationHandlerConfiguration } from '../authorization/AuthorizationHandlerConfiguration';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';
@@ -39,7 +39,7 @@ type CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<
 > = {
   baseHandlerConfiguration: BaseHandlerConfiguration<typeof sessionSchemas>;
   extractorConfiguration: ExtractorConfiguration;
-  userConfiguration: UserConfiguration;
+  userHandlerConfiguration: UserHandlerConfiguration;
   authorizationHandlerConfiguration: AuthorizationHandlerConfiguration<SS>;
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
@@ -78,13 +78,13 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
   constructor({
     baseHandlerConfiguration,
     extractorConfiguration,
-    userConfiguration,
+    userHandlerConfiguration,
     authorizationHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
   }: CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<SS>) {
     this.getOrAuthenticateUser = createGetOrAuthenticateUser(
-      userConfiguration.getByCredentials
+      userHandlerConfiguration.getByCredentials
     );
 
     this.toApiRequest = createToApiRequest({

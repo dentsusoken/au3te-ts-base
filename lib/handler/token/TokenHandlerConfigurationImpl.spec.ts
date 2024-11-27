@@ -3,7 +3,7 @@ import { TokenHandlerConfigurationImpl } from './TokenHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ApiClient } from 'au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
-import { UserConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';
@@ -23,7 +23,7 @@ describe('TokenHandlerConfigurationImpl', () => {
   // Mock user configuration
   const mockUserConfig = {
     getByCredentials: async () => ({ subject: 'test-subject' }),
-  } as unknown as UserConfiguration;
+  } as unknown as UserHandlerConfiguration;
 
   // Mock token fail configuration
   const mockTokenFailConfig = {
@@ -50,7 +50,7 @@ describe('TokenHandlerConfigurationImpl', () => {
   it('should initialize with required properties', () => {
     const config = new TokenHandlerConfigurationImpl({
       baseHandlerConfiguration: mockBaseConfig,
-      userConfiguration: mockUserConfig,
+      userHandlerConfiguration: mockUserConfig,
       tokenFailHandlerConfiguration: mockTokenFailConfig,
       tokenIssueHandlerConfiguration: mockTokenIssueConfig,
       tokenCreateHandlerConfiguration: mockTokenCreateConfig,

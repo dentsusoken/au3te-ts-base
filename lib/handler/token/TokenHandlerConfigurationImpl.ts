@@ -37,7 +37,7 @@ import { DetermineSubject } from './determineSubject';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
-import { UserConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';
@@ -56,7 +56,7 @@ type TokenHandlerConfigurationImplConstructorParams = {
   baseHandlerConfiguration: BaseHandlerConfiguration<SessionSchemas>;
 
   /** Configuration for user authentication and management */
-  userConfiguration: UserConfiguration;
+  userHandlerConfiguration: UserHandlerConfiguration;
 
   /** Configuration for handling token operation failures */
   tokenFailHandlerConfiguration: TokenFailHandlerConfiguration;
@@ -73,58 +73,61 @@ type TokenHandlerConfigurationImplConstructorParams = {
 
 /**
  * Implementation of the TokenHandlerConfiguration interface.
+ * Handles token endpoint operations according to OAuth 2.0 and OpenID Connect specifications.
  *
- * This class configures and handles Token endpoint requests, supporting:
- * - Resource Owner Password Credentials grant
+ * Supports the following grant types:
+ * - Resource Owner Password Credentials grant (RFC 6749)
  * - Token Exchange (RFC 8693)
  * - JWT Bearer Token (RFC 7523)
  *
- * It coordinates between different token-related operations:
- * - User authentication
- * - Token creation
- * - Token issuance
- * - Error handling
+ * This class coordinates various token-related operations:
+ * - User authentication and validation
+ * - Token creation and exchange
+ * - Token issuance and response handling
+ * - Error handling and recovery
+ *
+ * @implements {TokenHandlerConfiguration}
  */
 export class TokenHandlerConfigurationImpl
   implements TokenHandlerConfiguration
 {
-  /** The path for the token endpoint. */
+  /** The path for the token endpoint. Default is '/api/token'. */
   path: string = '/api/token';
 
-  /** Function to determine subject from token exchange response */
+  /** Function to determine the subject identifier from a token exchange response. */
   determineSubject4TokenExchange: DetermineSubject;
 
-  /** Function to determine subject from JWT Bearer token response */
+  /** Function to determine the subject identifier from a JWT Bearer token response. */
   determineSubject4JwtBearer: DetermineSubject;
 
-  /** Handler for password grant type requests */
+  /** Handler for processing Resource Owner Password Credentials grant requests. */
   handlePassword: HandlePassword;
 
-  /** Handler for token exchange requests */
+  /** Handler for processing token exchange requests according to RFC 8693. */
   handleTokenExchange: HandleTokenCreate;
 
-  /** Handler for JWT Bearer token requests */
+  /** Handler for processing JWT Bearer token requests according to RFC 7523. */
   handleJwtBearer: HandleTokenCreate;
 
-  /** Function to convert token exchange responses to creation requests */
+  /** Function to convert token exchange responses to token creation requests. */
   responseToCreateRequest4TokenExchange: ResponseToCreateRequest;
 
-  /** Function to convert JWT Bearer responses to creation requests */
+  /** Function to convert JWT Bearer responses to token creation requests. */
   responseToCreateRequest4JwtBearer: ResponseToCreateRequest;
 
-  /** Function to process the API request for token operations */
+  /** Function to process and validate token API requests before sending to the authorization server. */
   processApiRequest: ProcessApiRequest<TokenRequest, TokenResponse>;
 
-  /** Function to process the API response for token operations */
+  /** Function to process token API responses and handle different grant type scenarios. */
   processApiResponse: ProcessApiResponse<TokenResponse>;
 
-  /** Function to handle the token request */
+  /** Main handler function that orchestrates the token request processing flow. */
   handle: Handle<TokenRequest>;
 
-  /** Function to convert HTTP requests to Token API requests */
+  /** Function to convert HTTP requests to standardized Token API request format. */
   toApiRequest: ToApiRequest<TokenRequest>;
 
-  /** Function to process incoming HTTP requests */
+  /** Function to process incoming HTTP requests and prepare them for token operations. */
   processRequest: ProcessRequest;
 
   /**
@@ -133,7 +136,7 @@ export class TokenHandlerConfigurationImpl
    */
   constructor({
     baseHandlerConfiguration,
-    userConfiguration,
+    userHandlerConfiguration,
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
     tokenCreateHandlerConfiguration,
@@ -169,7 +172,7 @@ export class TokenHandlerConfigurationImpl
 
     // Create handlers using the initialized functions
     this.handlePassword = createHandlePassword({
-      getByCredentials: userConfiguration.getByCredentials,
+      getByCredentials: userHandlerConfiguration.getByCredentials,
       handle4TokenIssue: tokenIssueHandlerConfiguration.handle,
       buildTokenFailError: tokenFailHandlerConfiguration.buildTokenFailError,
     });

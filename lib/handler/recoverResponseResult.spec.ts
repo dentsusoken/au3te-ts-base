@@ -4,6 +4,7 @@ import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
 import { createRecoverResponseResult } from './recoverResponseResult';
 import { toErrorJson } from 'au3te-ts-common/utils';
+import { BadRequestError } from 'au3te-ts-common/handler';
 
 describe('createRecoverResponseResult', () => {
   // Mock the processError function
@@ -32,6 +33,27 @@ describe('createRecoverResponseResult', () => {
 
     expect(response).toBe(errorResponse);
     expect(mockProcessError).toHaveBeenCalledWith('path', responseError);
+  });
+
+  it('should handle BadRequestError and return a bad request response', async () => {
+    const recoverResponse = createRecoverResponseResult(mockProcessError);
+    const badRequestError = new BadRequestError(
+      'invalid_request',
+      'Invalid request parameter'
+    );
+    const result = Result.failure<Response>(badRequestError);
+
+    vi.spyOn(responseFactory, 'badRequest').mockReturnValue(
+      new Response('Bad Request', { status: 400 })
+    );
+
+    const response = await recoverResponse('path', result);
+
+    expect(response.status).toBe(400);
+    expect(mockProcessError).toHaveBeenCalledWith('path', badRequestError);
+    expect(responseFactory.badRequest).toHaveBeenCalledWith(
+      '{"error":"invalid_request","error_description":"Invalid request parameter"}'
+    );
   });
 
   it('should handle generic errors and return an internal server error response', async () => {
