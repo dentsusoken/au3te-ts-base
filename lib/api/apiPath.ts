@@ -162,6 +162,22 @@ const SERVICE_CONFIGURATION_API_PATH = '/api/%d/service/configuration';
 const CREDENTIAL_ISSUER_METADATA_API_PATH = '/api/%d/vci/metadata';
 
 /**
+ * The path template for the credential single issue API endpoint.
+ *
+ * This constant represents the URL path for issuing a single credential.
+ * The '%d' placeholder should be replaced with the appropriate service API key or version number.
+ *
+ * @constant
+ * @type {string}
+ * @example
+ * // Usage example:
+ * const serviceApiKey = '1234';
+ * const path = CREDENTIAL_SINGLE_ISSUE_API_PATH.replace('%d', serviceApiKey);
+ * // Result: '/api/1234/vci/single/issue'
+ */
+const CREDENTIAL_SINGLE_ISSUE_API_PATH = '/api/%d/vci/single/issue';
+
+/**
  * The path template for the credential single parse API endpoint.
  *
  * This constant represents the URL path for credential single parse.
@@ -314,6 +330,16 @@ export const serviceConfigurationPath = (serviceId: string) =>
  */
 export const credentialIssuerMetadataPath = (serviceId: string) =>
   CREDENTIAL_ISSUER_METADATA_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the credential single issue API path for a given service ID.
+ *
+ * This function creates the specific path for the credential single issue API endpoint
+ * by replacing the '%d' placeholder in the CREDENTIAL_SINGLE_ISSUE_API_PATH constant
+ * with the provided service ID.
+ */
+export const credentialSingleIssuePath = (serviceId: string) =>
+  CREDENTIAL_SINGLE_ISSUE_API_PATH.replace(/%d/, serviceId);
 
 /**
  * Generates the credential single parse API path for a given service ID.

@@ -46,6 +46,11 @@
       "import": "./dist/handler/authorization-fail/index.js",
       "require": "./dist/handler/authorization-fail/index.cjs"
     },
+    "./handler.credential": {
+      "types": "./dist/handler/credential/index.d.ts",
+      "import": "./dist/handler/credential/index.js",
+      "require": "./dist/handler/credential/index.cjs"
+    },
     "./handler.token": {
       "types": "./dist/handler/token/index.d.ts",
       "import": "./dist/handler/token/index.js",

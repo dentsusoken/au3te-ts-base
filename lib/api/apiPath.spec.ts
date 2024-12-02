@@ -11,6 +11,7 @@ import {
   introspectionPath,
   serviceConfigurationPath,
   credentialIssuerMetadataPath,
+  credentialSingleIssuePath,
   credentialSingleParsePath,
 } from './apiPath';
 
@@ -81,6 +82,14 @@ describe('API path functions', () => {
     it('should generate the correct credential issuer metadata API path', () => {
       const expected = '/api/123/vci/metadata';
       const actual = credentialIssuerMetadataPath(serviceId);
+      expect(actual).toBe(expected);
+    });
+  });
+
+  describe('credentialSingleIssuePath', () => {
+    it('should generate the correct credential single issue API path', () => {
+      const expected = '/api/123/vci/single/issue';
+      const actual = credentialSingleIssuePath(serviceId);
       expect(actual).toBe(expected);
     });
   });

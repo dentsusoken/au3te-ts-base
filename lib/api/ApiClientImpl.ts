@@ -64,6 +64,9 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for credential issuer metadata requests */
   readonly credentialIssuerMetadataPath: string;
 
+  /** The path for credential single issue requests */
+  readonly credentialSingleIssuePath: string;
+
   /** The path for credential single parse requests */
   readonly credentialSingleParsePath: string;
 
@@ -112,6 +115,10 @@ export class ApiClientImpl extends AbstractApiClient {
     );
 
     this.credentialIssuerMetadataPath = apiPath.credentialIssuerMetadataPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.credentialSingleIssuePath = apiPath.credentialSingleIssuePath(
       this.configuration.serviceApiKey
     );
 

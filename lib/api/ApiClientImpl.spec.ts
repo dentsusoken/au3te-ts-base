@@ -9,6 +9,7 @@ import { setupIntegrationTest } from '../testing/setupIntegrationTest';
 import { serviceConfigurationResponseSchema } from 'au3te-ts-common/schemas.service-configuration';
 import { credentialIssuerMetadataResponseSchema } from 'au3te-ts-common/schemas.credential-metadata';
 import { credentialSingleParseResponseSchema } from 'au3te-ts-common/schemas.credential-single-parse';
+import { credentialSingleIssueResponseSchema } from 'au3te-ts-common/schemas.credential-single-issue';
 
 const {
   apiClient,
@@ -21,6 +22,8 @@ const {
   createServiceConfigurationRequest,
   createCredentialIssuerMetadataRequest,
   createCredentialSingleParseRequest,
+  createCredentialSingleIssueRequest,
+  commonCredentialHandlerConfiguration,
 } = setupIntegrationTest();
 
 const testPar = async () => {
@@ -113,6 +116,8 @@ const testIntrospection = async (accessToken: string) => {
 
   expect(response).toBeDefined();
   expect(response.action).toBe('OK');
+
+  return response;
 };
 
 const testServiceConfiguration = async () => {
@@ -153,6 +158,36 @@ const testCredentialSingleParse = async (accessToken: string) => {
   expect(info?.identifier).toBeDefined();
   expect(info?.format).toBeDefined();
   expect(info?.details).toBeDefined();
+
+  return info!;
+};
+
+const testCredentialSingleIssue = async (accessToken: string) => {
+  const introspectionResponse = await testIntrospection(accessToken);
+  const credentialRequestInfo = await testCredentialSingleParse(accessToken);
+  const toOrder = commonCredentialHandlerConfiguration.getToOrder(
+    credentialRequestInfo.format
+  );
+  const order = await toOrder({
+    credentialType: 'single',
+    credentialRequestInfo,
+    introspectionResponse,
+  });
+  const response = await apiClient.callPostApi(
+    apiClient.credentialSingleIssuePath,
+    credentialSingleIssueResponseSchema,
+    createCredentialSingleIssueRequest(accessToken, order)
+  );
+  console.log(response);
+
+  expect(response).toBeDefined();
+  // expect(response.action).toBe('OK');
+
+  // const info = response.info;
+  // expect(info).toBeDefined();
+  // expect(info?.identifier).toBeDefined();
+  // expect(info?.format).toBeDefined();
+  // expect(info?.details).toBeDefined();
 };
 
 describe('ApiClientImpl', () => {
@@ -223,6 +258,16 @@ describe('ApiClientImpl', () => {
       const code = await testAuthorizationIssue(ticket);
       const accessToken = await testToken(code);
       await testCredentialSingleParse(accessToken);
+    }, 10000);
+  });
+
+  describe('credentialSingleIssue', () => {
+    it('should successfully handle a credential single issue request', async () => {
+      const requestUri = await testPar();
+      const ticket = await testAuthorization(requestUri);
+      const code = await testAuthorizationIssue(ticket);
+      const accessToken = await testToken(code);
+      await testCredentialSingleIssue(accessToken);
     }, 10000);
   });
 });

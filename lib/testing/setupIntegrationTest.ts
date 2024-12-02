@@ -26,9 +26,11 @@ import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/Tok
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
 import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/TokenIssueHandlerConfigurationImpl';
 import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
+import { CredentialIssuanceOrder } from 'au3te-ts-common/schemas.credential';
+import { CredentialSingleIssueRequest } from 'au3te-ts-common/schemas.credential-single-issue';
 import { CredentialSingleParseRequest } from 'au3te-ts-common/schemas.credential-single-parse';
 import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
-
+import { CommonCredentialHandlerConfigurationImpl } from 'au3te-ts-common/handler.credential';
 export const setupIntegrationTest = () => {
   const configuration: AuthleteConfiguration = {
     apiVersion: process.env.API_VERSION || '',
@@ -96,6 +98,10 @@ export const setupIntegrationTest = () => {
     new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
   const credentialSingleParseHandlerConfiguration =
     new CredentialSingleParseHandlerConfigurationImpl(baseHandlerConfiguration);
+  const commonCredentialHandlerConfiguration =
+    new CommonCredentialHandlerConfigurationImpl({
+      userHandlerConfiguration,
+    });
 
   const createParParameters = () => {
     return new URLSearchParams({
@@ -295,6 +301,18 @@ export const setupIntegrationTest = () => {
     return request;
   };
 
+  const createCredentialSingleIssueRequest = (
+    accessToken: string,
+    order: CredentialIssuanceOrder
+  ) => {
+    const request: CredentialSingleIssueRequest = {
+      accessToken,
+      order,
+    };
+
+    return request;
+  };
+
   return {
     apiClient,
     session,
@@ -315,6 +333,7 @@ export const setupIntegrationTest = () => {
     serviceConfigurationHandlerConfiguration,
     credentialMetadataHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,
+    commonCredentialHandlerConfiguration,
     createParParameters,
     createParRequest,
     createParPostRequest,
@@ -336,5 +355,6 @@ export const setupIntegrationTest = () => {
     createServiceConfigurationRequest,
     createCredentialIssuerMetadataRequest,
     createCredentialSingleParseRequest,
+    createCredentialSingleIssueRequest,
   };
 };
