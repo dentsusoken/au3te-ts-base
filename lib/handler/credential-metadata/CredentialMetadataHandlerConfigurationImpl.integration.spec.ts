@@ -1,10 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
-
-const {
-  credentialMetadataHandlerConfiguration,
-  createCredentialIssuerMetadataRequest,
-} = setupIntegrationTest();
+import { credentialMetadataHandlerConfiguration } from '../../testing/configurations';
+import { createCredentialIssuerMetadataRequest } from '../../testing/credentialIssuerMetadata';
 
 describe('CredentialMetadataHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {

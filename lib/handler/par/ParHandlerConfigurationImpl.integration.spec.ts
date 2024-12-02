@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
-
-const { parHandlerConfiguration, createParRequest, createParPostRequest } =
-  setupIntegrationTest();
+import { parHandlerConfiguration } from '../../testing/configurations';
+import { createParRequest, createParPostRequest } from '../../testing/par';
 
 describe('ParHandlerConfigurationImpl Integration Tests', () => {
   it('should successfully handle API request', async () => {

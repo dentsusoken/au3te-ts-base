@@ -5,26 +5,25 @@ import { authorizationFailResponseSchema } from 'au3te-ts-common/schemas.authori
 import { authorizationIssueResponseSchema } from 'au3te-ts-common/schemas.authorization-issue';
 import { tokenResponseSchema } from 'au3te-ts-common/schemas.token';
 import { introspectionResponseSchema } from 'au3te-ts-common/schemas.introspection';
-import { setupIntegrationTest } from '../testing/setupIntegrationTest';
 import { serviceConfigurationResponseSchema } from 'au3te-ts-common/schemas.service-configuration';
 import { credentialIssuerMetadataResponseSchema } from 'au3te-ts-common/schemas.credential-metadata';
 import { credentialSingleParseResponseSchema } from 'au3te-ts-common/schemas.credential-single-parse';
 import { credentialSingleIssueResponseSchema } from 'au3te-ts-common/schemas.credential-single-issue';
 
-const {
+import {
   apiClient,
-  createParRequest,
-  createAuthorizationRequest,
-  createAuthorizationFailRequest,
-  createAuthorizationIssueRequest,
-  createTokenRequest,
-  createIntrospectionRequest,
-  createServiceConfigurationRequest,
-  createCredentialIssuerMetadataRequest,
-  createCredentialSingleParseRequest,
-  createCredentialSingleIssueRequest,
   commonCredentialHandlerConfiguration,
-} = setupIntegrationTest();
+} from '../testing/configurations';
+import { createParRequest } from '../testing/par';
+import { createAuthorizationRequest } from '../testing/authorization';
+import { createAuthorizationFailRequest } from '../testing/authorizationFail';
+import { createAuthorizationIssueRequest } from '../testing/authorizationIssue';
+import { createTokenRequest } from '../testing/token';
+import { createIntrospectionRequest } from '../testing/introspection';
+import { createServiceConfigurationRequest } from '../testing/serviceConfiguration';
+import { createCredentialIssuerMetadataRequest } from '../testing/credentialIssuerMetadata';
+import { createCredentialSingleParseRequest } from '../testing/credentialSingleParse';
+import { createCredentialSingleIssueRequest } from '../testing/credentialSingleIssue';
 
 const testPar = async () => {
   const response = await apiClient.callPostApi(
@@ -178,7 +177,7 @@ const testCredentialSingleIssue = async (accessToken: string) => {
     credentialSingleIssueResponseSchema,
     createCredentialSingleIssueRequest(accessToken, order)
   );
-  console.log(response);
+  //console.log(response);
 
   expect(response).toBeDefined();
   // expect(response.action).toBe('OK');

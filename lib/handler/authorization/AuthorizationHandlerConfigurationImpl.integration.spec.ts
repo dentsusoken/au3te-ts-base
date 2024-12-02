@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
-
-const {
+import {
   authorizationHandlerConfiguration,
-  createAuthorizationRequest,
-  processParPostRequest,
-  createAuthorizationGetRequest,
   session,
-} = setupIntegrationTest();
+} from '../../testing/configurations';
+import { processParPostRequest } from '../../testing/par';
+import {
+  createAuthorizationRequest,
+  createAuthorizationGetRequest,
+} from '../../testing/authorization';
 
 describe('AuthorizationHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {

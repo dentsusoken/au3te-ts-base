@@ -1,10 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
-
-const {
-  serviceConfigurationHandlerConfiguration,
-  createServiceConfigurationRequest,
-} = setupIntegrationTest();
+import { serviceConfigurationHandlerConfiguration } from '../../testing/configurations';
+import { createServiceConfigurationRequest } from '../../testing/serviceConfiguration';
 
 describe('ServiceConfigurationHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {

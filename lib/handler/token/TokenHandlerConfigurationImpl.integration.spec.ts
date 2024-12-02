@@ -1,14 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { setupIntegrationTest } from '../../testing/setupIntegrationTest';
-
-const {
-  tokenHandlerConfiguration,
-  processParPostRequest,
-  processAuthorizationGetRequest,
-  processAuthorizationDecisionPostRequest,
+import { tokenHandlerConfiguration } from '../../testing/configurations';
+import { processParPostRequest } from '../../testing/par';
+import { processAuthorizationGetRequest } from '../../testing/authorization';
+import { processAuthorizationDecisionPostRequest } from '../../testing/authorizationDecision';
+import {
   createTokenRequest,
   createTokenPostRequest,
-} = setupIntegrationTest();
+} from '../../testing/token';
 
 describe('TokenHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
