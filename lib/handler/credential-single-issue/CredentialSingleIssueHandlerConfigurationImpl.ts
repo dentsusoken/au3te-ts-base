@@ -15,7 +15,6 @@
  * License.
  */
 
-import { CredentialSingleIssueHandlerConfiguration } from './CredentialSingleIssueHandlerConfiguration';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { BaseCredentialHandlerConfiguration } from '../credential/BaseCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
@@ -27,6 +26,9 @@ import { CredentialSingleParseHandlerConfiguration } from '../credential-single-
 import { CommonCredentialHandlerConfiguration } from 'au3te-ts-common/handler.credential';
 import { createProcessApiRequest } from '../processApiRequest';
 import { credentialSingleIssueResponseSchema } from 'au3te-ts-common/schemas.credential-single-issue';
+import { createProcessApiResponse } from './processApiResponse';
+import { createHandleWithOptions } from '../handleWithOptions';
+import { createProcessRequestWithOptions } from '../processRequestWithOptions';
 
 type CreateCredentialSingleIssueHandlerConfigurationImplParams<
   SS extends SessionSchemas
@@ -47,11 +49,18 @@ type CreateCredentialSingleIssueHandlerConfigurationImplParams<
  */
 export class CredentialSingleIssueHandlerConfigurationImpl<
   SS extends SessionSchemas = typeof sessionSchemas
-> implements CredentialSingleIssueHandlerConfiguration
-{
+> {
+  readonly path = '/api/credential';
+
   readonly toApiRequest;
 
   readonly processApiRequest;
+
+  readonly processApiResponse;
+
+  readonly handle;
+
+  readonly processRequest;
 
   constructor({
     extractorConfiguration,
@@ -80,5 +89,25 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
       credentialSingleIssueResponseSchema,
       baseHandlerConfiguration.apiClient
     );
+
+    this.processApiResponse = createProcessApiResponse({
+      path: this.path,
+      buildUnknownActionMessage:
+        baseHandlerConfiguration.buildUnknownActionMessage,
+    });
+
+    this.handle = createHandleWithOptions({
+      path: this.path,
+      processApiRequest: this.processApiRequest,
+      processApiResponse: this.processApiResponse,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
+    });
+
+    this.processRequest = createProcessRequestWithOptions({
+      path: this.path,
+      toApiRequest: this.toApiRequest,
+      handle: this.handle,
+      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
+    });
   }
 }

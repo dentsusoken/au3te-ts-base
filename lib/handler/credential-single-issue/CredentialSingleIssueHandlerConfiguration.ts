@@ -21,8 +21,11 @@ import {
 } from 'au3te-ts-common/schemas.credential-single-issue';
 import { ToApiRequest } from '../toApiRequest';
 import { CredentialApiOptions } from '../credential/types';
-import { ApiRequestWithOptions } from '../types';
+import { ApiRequestWithOptions, ApiResponseWithOptions } from '../types';
 import { ProcessApiRequest } from '../processApiRequest';
+import { ProcessApiResponse } from '../processApiResponse';
+import { HandleWithOptions } from '../handleWithOptions';
+import { ProcessRequest } from '../processRequest';
 
 /**
  * Configuration interface for the Credential Single Issue Handler.
@@ -31,6 +34,8 @@ import { ProcessApiRequest } from '../processApiRequest';
  * @property {ToApiRequest<CredentialSingleIssueRequest>} toApiRequest - Function to convert an HTTP request to a Credential Single Issue API request
  */
 export interface CredentialSingleIssueHandlerConfiguration {
+  path: string;
+
   toApiRequest: ToApiRequest<
     ApiRequestWithOptions<CredentialSingleIssueRequest, CredentialApiOptions>
   >;
@@ -39,4 +44,12 @@ export interface CredentialSingleIssueHandlerConfiguration {
     CredentialSingleIssueResponse,
     CredentialSingleIssueResponse
   >;
+
+  processApiResponse: ProcessApiResponse<
+    ApiResponseWithOptions<CredentialSingleIssueResponse, CredentialApiOptions>
+  >;
+
+  handle: HandleWithOptions<CredentialSingleIssueRequest, CredentialApiOptions>;
+
+  processRequest: ProcessRequest;
 }

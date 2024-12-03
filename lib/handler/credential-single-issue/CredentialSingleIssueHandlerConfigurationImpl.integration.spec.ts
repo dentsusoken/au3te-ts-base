@@ -24,7 +24,7 @@ import { processTokenPostRequest } from '../../testing/token';
 import { createCredentialSingleIssuePostRequest } from '../../testing/credentialSingleIssue';
 
 describe('CredentialSingleIssueHandlerConfigurationImpl Integration Tests', () => {
-  it('should work with toApiRequest', async () => {
+  it('should work with processRequest', async () => {
     // Arrange
     const requestUri = await processParPostRequest();
     await processAuthorizationGetRequest(requestUri);
@@ -33,39 +33,17 @@ describe('CredentialSingleIssueHandlerConfigurationImpl Integration Tests', () =
     const request = createCredentialSingleIssuePostRequest(accessToken);
 
     // Act
-    const apiRequestWithOptions =
-      await credentialSingleIssueHandlerConfiguration.toApiRequest(request);
-    //console.log(apiRequest);
-
+    const response =
+      await credentialSingleIssueHandlerConfiguration.processRequest(request);
+    console.log(response);
+    const responseBody = await response.json();
+    console.log(responseBody);
     // Assert
-    expect(apiRequestWithOptions).toBeDefined();
-    const { apiRequest, options } = apiRequestWithOptions;
-    expect(apiRequest).toBeDefined();
-    expect(options).toBeDefined();
-    expect(apiRequest.accessToken).toBeDefined();
-    expect(apiRequest.order).toBeDefined();
-    expect(options.accessToken).toBeDefined();
-    expect(options.headers).toBeDefined();
-  }, 10000);
-
-  it('should work with processApiRequest', async () => {
-    // Arrange
-    const requestUri = await processParPostRequest();
-    await processAuthorizationGetRequest(requestUri);
-    const code = await processAuthorizationDecisionPostRequest();
-    const accessToken = await processTokenPostRequest(code);
-    const request = createCredentialSingleIssuePostRequest(accessToken);
-
-    // Act
-    const apiRequestWithOptions =
-      await credentialSingleIssueHandlerConfiguration.toApiRequest(request);
-    const apiResponse =
-      await credentialSingleIssueHandlerConfiguration.processApiRequest(
-        apiRequestWithOptions.apiRequest
-      );
-    console.log(apiResponse);
-
-    // Assert
-    expect(apiResponse).toBeDefined();
+    expect(response).toBeDefined();
+    expect(response.status).toBe(200);
+    expect(responseBody).toBeDefined();
+    expect(responseBody.credential).toBeDefined();
+    expect(responseBody.c_nonce).toBeDefined();
+    expect(responseBody.c_nonce_expires_in).toBeDefined();
   }, 10000);
 });

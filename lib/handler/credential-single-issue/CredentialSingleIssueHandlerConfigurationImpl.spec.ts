@@ -16,7 +16,6 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
   const mockExtractClientCredentials = vi.fn();
   const mockComputeHtu = vi.fn();
   const mockProcessApiRequestWithValidation = vi.fn();
-  const mockPrepareHeaders = vi.fn();
   const mockGetToOrder = vi.fn();
 
   // Mock configurations
@@ -37,13 +36,12 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
 
   const mockApiClient = {
     credentialSingleIssuePath: '/some/path',
-    // ... other properties ...
   };
 
   const baseHandlerConfiguration = {
     apiClient: mockApiClient,
-    // ... other properties ...
-  };
+    buildUnknownActionMessage: vi.fn(),
+  } as unknown as BaseHandlerConfiguration<typeof sessionSchemas>;
 
   const mockCredentialSingleParseHandlerConfiguration = {
     processApiRequestWithValidation: mockProcessApiRequestWithValidation,
@@ -78,5 +76,11 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
     );
     expect(configuration.toApiRequest).toBeDefined();
     expect(typeof configuration.toApiRequest).toBe('function');
+    expect(configuration.processApiRequest).toBeDefined();
+    expect(typeof configuration.processApiRequest).toBe('function');
+    expect(configuration.processApiResponse).toBeDefined();
+    expect(typeof configuration.processApiResponse).toBe('function');
+    expect(configuration.processRequest).toBeDefined();
+    expect(typeof configuration.processRequest).toBe('function');
   });
 });

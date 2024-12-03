@@ -20,8 +20,7 @@ import { ToApiRequest } from './toApiRequest';
 import { RecoverResponseResult } from './recoverResponseResult';
 import { HandleWithOptions } from './handleWithOptions';
 import { ApiRequestWithOptions } from './types';
-
-export type ProcessRequestWithOptions = (request: Request) => Promise<Response>;
+import { ProcessRequest } from './processRequest';
 
 type CreateProcessRequestWithOptionsParams<REQ extends object, OPTS> = {
   path: string;
@@ -36,10 +35,7 @@ export const createProcessRequestWithOptions =
     toApiRequest,
     handle,
     recoverResponseResult,
-  }: CreateProcessRequestWithOptionsParams<
-    REQ,
-    OPTS
-  >): ProcessRequestWithOptions =>
+  }: CreateProcessRequestWithOptionsParams<REQ, OPTS>): ProcessRequest =>
   async (request) => {
     const responseResult = await runAsyncCatching(async () => {
       const apiRequestWithOptions = await toApiRequest(request);
