@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createComputeHtu } from './computeHtu';
-import { internalServerErrorError } from '../responseErrorFactory';
+import { internalServerErrorResponseError } from '../responseErrorFactory';
 
 describe('computeHtu', () => {
   // Mock process API request function
@@ -49,7 +49,7 @@ describe('computeHtu', () => {
   it('should throw error when API response is not OK', async () => {
     const errorContent = 'API Error';
     mockProcessApiRequest.mockRejectedValueOnce(
-      internalServerErrorError(JSON.stringify({ error: errorContent }))
+      internalServerErrorResponseError(JSON.stringify({ error: errorContent }))
     );
 
     const computeHtu = createComputeHtu({
@@ -60,7 +60,7 @@ describe('computeHtu', () => {
     await expect(
       computeHtu('dummy-dpop-token', testEndpointName)
     ).rejects.toEqual(
-      internalServerErrorError(JSON.stringify({ error: errorContent }))
+      internalServerErrorResponseError(JSON.stringify({ error: errorContent }))
     );
   });
 

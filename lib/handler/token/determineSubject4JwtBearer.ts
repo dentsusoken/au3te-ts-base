@@ -18,7 +18,7 @@
 import { TokenResponse } from 'au3te-ts-common/schemas.token';
 import { runAsyncCatching } from 'oid4vc-core/utils';
 import { getSubFromJwt } from 'au3te-ts-common/utils';
-import { badRequestError } from '../responseErrorFactory';
+import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
 
 /**
@@ -48,7 +48,7 @@ export const defaultDetermineSubject4JwtBearer: DetermineSubject = async (
   const { assertion } = apiResponse;
 
   if (!assertion) {
-    throw badRequestError(
+    throw badRequestResponseError(
       'Assertion is missing. ' +
         'The assertion must be provided by the token endpoint.'
     );
@@ -57,6 +57,6 @@ export const defaultDetermineSubject4JwtBearer: DetermineSubject = async (
   const result = await runAsyncCatching(async () => getSubFromJwt(assertion));
 
   return result.getOrElse((e) => {
-    throw badRequestError(e.message);
+    throw badRequestResponseError(e.message);
   });
 };

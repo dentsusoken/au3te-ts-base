@@ -18,7 +18,7 @@
 import { TokenResponse } from 'au3te-ts-common/schemas.token';
 import { runAsyncCatching } from 'oid4vc-core/utils';
 import { getSubFromJwt } from 'au3te-ts-common/utils';
-import { badRequestError } from '../responseErrorFactory';
+import { badRequestResponseError } from '../responseErrorFactory';
 import { TokenInfo } from 'au3te-ts-common/schemas.common';
 import { DetermineSubject } from './determineSubject';
 
@@ -37,14 +37,14 @@ export const determineSubjectBySubjectTokenInfo = async (
   subjectTokenInfo: TokenInfo | undefined
 ): Promise<string> => {
   if (!subjectTokenInfo) {
-    throw badRequestError(
+    throw badRequestResponseError(
       'Subject token info is missing. ' +
         'For access tokens and refresh tokens, subject token info must be provided by the token endpoint.'
     );
   }
 
   if (!subjectTokenInfo.subject) {
-    throw badRequestError(
+    throw badRequestResponseError(
       'Subject is missing in the token info. ' +
         'The token introspection endpoint must return the subject associated with the token.'
     );
@@ -68,7 +68,7 @@ export const determineSubjectBySubjectToken = async (
   subjectToken: string | undefined
 ): Promise<string> => {
   if (!subjectToken) {
-    throw badRequestError(
+    throw badRequestResponseError(
       'Subject token is missing. ' +
         'The subject token must be provided by the token endpoint.'
     );
@@ -79,7 +79,7 @@ export const determineSubjectBySubjectToken = async (
   );
 
   return result.getOrElse((e) => {
-    throw badRequestError(e.message);
+    throw badRequestResponseError(e.message);
   });
 };
 
@@ -116,7 +116,7 @@ export const defaultDetermineSubject4TokenExchange: DetermineSubject = async (
       return determineSubjectBySubjectToken(subjectToken);
   }
 
-  throw badRequestError(
+  throw badRequestResponseError(
     'Unsupported subject token type. ' +
       'The subject token type must be one of: ' +
       'access_token, refresh_token, jwt, or id_token. ' +

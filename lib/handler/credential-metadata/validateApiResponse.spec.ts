@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { createValidateApiResponse } from './validateApiResponse';
 import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
 import {
-  notFoundError,
-  internalServerErrorError,
+  notFoundResponseError,
+  internalServerErrorResponseError,
 } from '../responseErrorFactory';
 
 describe('credential-metadata/validateApiResponse', () => {
@@ -39,7 +39,7 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        notFoundError(errorMessage).message
+        notFoundResponseError(errorMessage).message
       );
     });
 
@@ -53,7 +53,7 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        internalServerErrorError(errorMessage).message
+        internalServerErrorResponseError(errorMessage).message
       );
     });
 
@@ -67,8 +67,9 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        internalServerErrorError(buildUnknownActionMessage(path, unknownAction))
-          .message
+        internalServerErrorResponseError(
+          buildUnknownActionMessage(path, unknownAction)
+        ).message
       );
     });
   });

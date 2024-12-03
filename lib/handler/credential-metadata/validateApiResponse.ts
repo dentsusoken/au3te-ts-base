@@ -21,8 +21,8 @@ import {
   ValidateApiResponse,
 } from '../validateApiResponse';
 import {
-  notFoundError,
-  internalServerErrorError,
+  notFoundResponseError,
+  internalServerErrorResponseError,
 } from '../responseErrorFactory';
 
 /**
@@ -52,10 +52,12 @@ export const createValidateApiResponse =
       case 'OK':
         return;
       case 'NOT_FOUND':
-        throw notFoundError(responseContent!);
+        throw notFoundResponseError(responseContent!);
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorError(responseContent!);
+        throw internalServerErrorResponseError(responseContent!);
       default:
-        throw internalServerErrorError(buildUnknownActionMessage(path, action));
+        throw internalServerErrorResponseError(
+          buildUnknownActionMessage(path, action)
+        );
     }
   };

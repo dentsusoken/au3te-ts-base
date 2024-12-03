@@ -21,7 +21,7 @@ import { ToApiRequest } from '../toApiRequest';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { badRequestError } from '../responseErrorFactory';
+import { badRequestResponseError } from '../responseErrorFactory';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 import { parseQueryString } from 'au3te-ts-common/utils';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
@@ -66,7 +66,7 @@ export const createToApiRequest =
       );
 
     if (!authorizationDecisionParams) {
-      throw badRequestError(
+      throw badRequestResponseError(
         'Authorization decision session data not found. The session may have expired or the authorization request has not been initiated.'
       );
     }

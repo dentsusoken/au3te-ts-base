@@ -21,22 +21,12 @@ import {
   ValidateApiResponse,
 } from '../validateApiResponse';
 import {
-  internalServerErrorError,
-  badRequestError,
-  unauthorizedError,
-  forbiddenError,
+  internalServerErrorResponseError,
+  badRequestResponseError,
+  unauthorizedResponseError,
+  forbiddenResponseError,
 } from '../responseErrorFactory';
-import { Headers } from '../../utils/responseFactory';
-
-/**
- * Options required for validating credential single parse responses.
- */
-export type ValidateCredentialSingleParseResponseOptions = {
-  /** HTTP headers to be included in the response */
-  headers: Headers;
-  /** Access token used for authentication */
-  accessToken: string;
-};
+import { CredentialApiOptions } from '../credential/types';
 
 /**
  * Creates a validation function for credential single parse endpoint responses.
@@ -52,7 +42,7 @@ export const createValidateApiResponse =
     buildUnknownActionMessage,
   }: CreateValidateApiResponseParams): ValidateApiResponse<
     CredentialSingleParseResponse,
-    ValidateCredentialSingleParseResponseOptions
+    CredentialApiOptions
   > =>
   /**
    * Validates a credential single parse response and handles various response actions.
@@ -66,12 +56,9 @@ export const createValidateApiResponse =
    * @throws {ForbiddenError} For permission issues (action: 'FORBIDDEN')
    * @throws {InternalServerError} For server errors or unknown actions
    */
-  async (
-    apiResponse: CredentialSingleParseResponse,
-    options?: ValidateCredentialSingleParseResponseOptions
-  ) => {
+  async (apiResponse, options) => {
     if (!options) {
-      throw internalServerErrorError('Options are required');
+      throw internalServerErrorResponseError('Options are required');
     }
 
     const { headers, accessToken } = options;
@@ -79,21 +66,21 @@ export const createValidateApiResponse =
 
     switch (action) {
       case 'BAD_REQUEST':
-        throw badRequestError(responseContent!, headers);
+        throw badRequestResponseError(responseContent!, headers);
       case 'UNAUTHORIZED':
-        throw unauthorizedError(
+        throw unauthorizedResponseError(
           accessToken,
           responseContent ?? undefined,
           headers
         );
       case 'FORBIDDEN':
-        throw forbiddenError(responseContent!, headers);
+        throw forbiddenResponseError(responseContent!, headers);
       case 'OK':
         return;
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorError(responseContent!, headers);
+        throw internalServerErrorResponseError(responseContent!, headers);
       default:
-        throw internalServerErrorError(
+        throw internalServerErrorResponseError(
           buildUnknownActionMessage(path, action),
           headers
         );

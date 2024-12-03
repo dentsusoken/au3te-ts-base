@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2014-2024 Authlete, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,16 @@
  * License.
  */
 
-export * from './BaseHandlerConfiguration';
-export * from './BaseHandlerConfigurationImpl';
-export * from './constants';
-export * from './handle';
-export * from './processApiRequest';
-export * from './processApiResponse';
-export * from './recoverResponseResult';
-export * from './ResponseError';
+import { Headers } from '../../utils/responseFactory';
+
+/**
+ * Options for making credential API requests.
+ *
+ * @interface CredentialApiOptions
+ * @property {string} accessToken - The access token used to authorize the API request
+ * @property {Headers} headers - HTTP headers to include with the API request
+ */
+export type CredentialApiOptions = {
+  accessToken: string;
+  headers: Headers;
+};

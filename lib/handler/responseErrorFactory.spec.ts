@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import {
-  badRequestError,
-  internalServerErrorError,
-  notFoundError,
-  unauthorizedError,
-  forbiddenError,
+  badRequestResponseError,
+  internalServerErrorResponseError,
+  notFoundResponseError,
+  unauthorizedResponseError,
+  forbiddenResponseError,
 } from './responseErrorFactory';
 import { ResponseError } from './ResponseError';
 
@@ -15,7 +15,7 @@ describe('responseErrorFactory', () => {
       const errorMessage = 'Invalid request parameter';
 
       // Act
-      const error = badRequestError(errorMessage);
+      const error = badRequestResponseError(errorMessage);
       const responseBody = await error.response.json();
 
       // Assert
@@ -35,7 +35,7 @@ describe('responseErrorFactory', () => {
       const errorMessage = 'Internal server error occurred';
 
       // Act
-      const error = internalServerErrorError(errorMessage);
+      const error = internalServerErrorResponseError(errorMessage);
       const responseBody = await error.response.json();
 
       // Assert
@@ -54,7 +54,7 @@ describe('responseErrorFactory', () => {
       const headers = { 'X-Custom-Header': 'test' };
 
       // Act
-      const error = internalServerErrorError(errorMessage, headers);
+      const error = internalServerErrorResponseError(errorMessage, headers);
 
       // Assert
       expect(error.response.headers.get('X-Custom-Header')).toBe('test');
@@ -67,7 +67,7 @@ describe('responseErrorFactory', () => {
       const errorMessage = 'Resource not found';
 
       // Act
-      const error = notFoundError(errorMessage);
+      const error = notFoundResponseError(errorMessage);
       const responseBody = await error.response.json();
 
       // Assert
@@ -86,7 +86,7 @@ describe('responseErrorFactory', () => {
       const headers = { 'X-Custom-Header': 'test' };
 
       // Act
-      const error = notFoundError(errorMessage, headers);
+      const error = notFoundResponseError(errorMessage, headers);
 
       // Assert
       expect(error.response.headers.get('X-Custom-Header')).toBe('test');
@@ -99,7 +99,7 @@ describe('responseErrorFactory', () => {
       const errorMessage = 'Authentication required';
 
       // Act
-      const error = unauthorizedError(errorMessage);
+      const error = unauthorizedResponseError(errorMessage);
       const responseBody = await error.response.json();
 
       // Assert
@@ -118,7 +118,7 @@ describe('responseErrorFactory', () => {
       const challenge = 'Bearer realm="example"';
 
       // Act
-      const error = unauthorizedError(errorMessage, challenge);
+      const error = unauthorizedResponseError(errorMessage, challenge);
       const responseBody = await error.response.json();
 
       // Assert
@@ -139,7 +139,7 @@ describe('responseErrorFactory', () => {
       const headers = { 'X-Custom-Header': 'test' };
 
       // Act
-      const error = unauthorizedError(errorMessage, challenge, headers);
+      const error = unauthorizedResponseError(errorMessage, challenge, headers);
 
       // Assert
       expect(error.response.headers.get('X-Custom-Header')).toBe('test');
@@ -152,7 +152,7 @@ describe('responseErrorFactory', () => {
       const errorMessage = 'Access denied';
 
       // Act
-      const error = forbiddenError(errorMessage);
+      const error = forbiddenResponseError(errorMessage);
       const responseBody = await error.response.json();
 
       // Assert
@@ -171,7 +171,7 @@ describe('responseErrorFactory', () => {
       const headers = { 'X-Custom-Header': 'test' };
 
       // Act
-      const error = forbiddenError(errorMessage, headers);
+      const error = forbiddenResponseError(errorMessage, headers);
 
       // Assert
       expect(error.response.headers.get('X-Custom-Header')).toBe('test');

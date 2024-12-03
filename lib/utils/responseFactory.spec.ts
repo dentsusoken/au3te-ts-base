@@ -12,6 +12,9 @@ import {
   notFound,
   tooLarge,
   internalServerError,
+  okJwt,
+  accepted,
+  acceptedJwt,
 } from './responseFactory';
 import { HttpStatus, MediaType, getStatusText } from 'au3te-ts-common/utils';
 
@@ -193,6 +196,80 @@ describe('Response creation functions', () => {
       expect(await response.text()).toBe('{"error":"Internal Server Error"}');
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+  });
+
+  describe('okJwt', () => {
+    it('should create a 200 OK response with JWT content type', async () => {
+      const jwtString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+      const response = okJwt(jwtString);
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe(jwtString);
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
+      );
+    });
+
+    it('should create a 200 OK response with empty body when no JWT is provided', async () => {
+      const response = okJwt();
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
+      );
+    });
+  });
+
+  describe('accepted', () => {
+    it('should create a 202 Accepted response with JSON content', async () => {
+      const response = accepted('{"status":"processing"}');
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.json()).toEqual({ status: 'processing' });
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+
+    it('should create a 202 Accepted response with empty body when no content is provided', async () => {
+      const response = accepted();
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+  });
+
+  describe('acceptedJwt', () => {
+    it('should create a 202 Accepted response with JWT content type', async () => {
+      const jwtString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+      const response = acceptedJwt(jwtString);
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.text()).toBe(jwtString);
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
+      );
+    });
+
+    it('should create a 202 Accepted response with empty body when no JWT is provided', async () => {
+      const response = acceptedJwt();
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
       );
     });
   });

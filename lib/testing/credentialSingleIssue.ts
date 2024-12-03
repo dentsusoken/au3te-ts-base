@@ -15,6 +15,12 @@
  * License.
  */
 
+import {
+  CLAIMS,
+  DOCTYPE,
+  FORMAT,
+  MSO_MDOC,
+} from 'au3te-ts-common/handler.credential';
 import { CredentialIssuanceOrder } from 'au3te-ts-common/schemas.credential';
 import { CredentialSingleIssueRequest } from 'au3te-ts-common/schemas.credential-single-issue';
 
@@ -26,6 +32,28 @@ export const createCredentialSingleIssueRequest = (
     accessToken,
     order,
   };
+
+  return request;
+};
+
+export const createCredentialSingleIssuePostRequest = (accessToken: string) => {
+  const request = new Request('https://example.com/credential', {
+    method: 'POST',
+    headers: new Headers({
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      [FORMAT]: MSO_MDOC,
+      [DOCTYPE]: 'org.iso.18013.5.1.mDL',
+      [CLAIMS]: {
+        'org.iso.18013.5.1': {
+          family_name: {},
+          given_name: {},
+        },
+      },
+    }),
+  });
 
   return request;
 };

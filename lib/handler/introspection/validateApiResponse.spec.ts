@@ -1,26 +1,26 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createValidateApiResponse } from './validateApiResponse';
 import {
-  internalServerErrorError,
-  badRequestError,
-  unauthorizedError,
-  forbiddenError,
+  internalServerErrorResponseError,
+  badRequestResponseError,
+  unauthorizedResponseError,
+  forbiddenResponseError,
 } from '../responseErrorFactory';
 import { IntrospectionResponse } from 'au3te-ts-common/schemas.introspection';
 
 // Configure mock functions to throw errors
 const mockError = new Error('Test error');
 vi.mock('../responseErrorFactory', () => ({
-  internalServerErrorError: vi.fn().mockImplementation(() => {
+  internalServerErrorResponseError: vi.fn().mockImplementation(() => {
     throw mockError;
   }),
-  badRequestError: vi.fn().mockImplementation(() => {
+  badRequestResponseError: vi.fn().mockImplementation(() => {
     throw mockError;
   }),
-  unauthorizedError: vi.fn().mockImplementation(() => {
+  unauthorizedResponseError: vi.fn().mockImplementation(() => {
     throw mockError;
   }),
-  forbiddenError: vi.fn().mockImplementation(() => {
+  forbiddenResponseError: vi.fn().mockImplementation(() => {
     throw mockError;
   }),
 }));
@@ -60,7 +60,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(badRequestError).toHaveBeenCalledWith(
+    expect(badRequestResponseError).toHaveBeenCalledWith(
       response.responseContent,
       headers
     );
@@ -76,7 +76,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(unauthorizedError).toHaveBeenCalledWith(
+    expect(unauthorizedResponseError).toHaveBeenCalledWith(
       response.responseContent,
       undefined,
       headers
@@ -93,7 +93,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(forbiddenError).toHaveBeenCalledWith(
+    expect(forbiddenResponseError).toHaveBeenCalledWith(
       response.responseContent,
       headers
     );
@@ -109,7 +109,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(internalServerErrorError).toHaveBeenCalledWith(
+    expect(internalServerErrorResponseError).toHaveBeenCalledWith(
       response.responseContent,
       headers
     );
@@ -128,7 +128,7 @@ describe('validateApiResponse for introspection', () => {
       mockPath,
       'UNKNOWN_ACTION'
     );
-    expect(internalServerErrorError).toHaveBeenCalledWith(
+    expect(internalServerErrorResponseError).toHaveBeenCalledWith(
       `Unknown action 'UNKNOWN_ACTION' for /api/introspection`
     );
   });

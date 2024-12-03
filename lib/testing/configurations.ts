@@ -37,6 +37,8 @@ import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/Token
 import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
 import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
 import { CommonCredentialHandlerConfigurationImpl } from 'au3te-ts-common/handler.credential';
+import { BaseCredentialHandlerConfigurationImpl } from '../handler/credential/BaseCredentialHandlerConfigurationImpl';
+import { CredentialSingleIssueHandlerConfigurationImpl } from '../handler/credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
 
 export const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
@@ -105,4 +107,17 @@ export const credentialSingleParseHandlerConfiguration =
 export const commonCredentialHandlerConfiguration =
   new CommonCredentialHandlerConfigurationImpl({
     userHandlerConfiguration,
+  });
+export const baseCredentialHandlerConfiguration =
+  new BaseCredentialHandlerConfigurationImpl({
+    credentialMetadataHandlerConfiguration,
+  });
+export const credentialSingleIssueHandlerConfiguration =
+  new CredentialSingleIssueHandlerConfigurationImpl({
+    extractorConfiguration,
+    baseCredentialHandlerConfiguration,
+    introspectionHandlerConfiguration,
+    baseHandlerConfiguration,
+    credentialSingleParseHandlerConfiguration,
+    commonCredentialHandlerConfiguration,
   });

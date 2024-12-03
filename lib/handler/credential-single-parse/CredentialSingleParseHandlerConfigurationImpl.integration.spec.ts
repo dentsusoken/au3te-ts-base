@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { ValidateCredentialSingleParseResponseOptions } from './validateApiResponse';
 import { credentialSingleParseHandlerConfiguration } from '../../testing/configurations';
 import { processParPostRequest } from '../../testing/par';
 import { processAuthorizationGetRequest } from '../../testing/authorization';
 import { processAuthorizationDecisionPostRequest } from '../../testing/authorizationDecision';
 import { processTokenPostRequest } from '../../testing/token';
 import { createCredentialSingleParseRequest } from '../../testing/credentialSingleParse';
+import { CredentialApiOptions } from '../credential/types';
 
 describe('CredentialSingleParseHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
@@ -16,7 +16,7 @@ describe('CredentialSingleParseHandlerConfiguration Integration Tests', () => {
     const accessToken = await processTokenPostRequest(code);
 
     // Test the credential single parse endpoint
-    const options: ValidateCredentialSingleParseResponseOptions = {
+    const options: CredentialApiOptions = {
       headers: {},
       accessToken,
     };

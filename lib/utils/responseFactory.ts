@@ -69,6 +69,19 @@ export const ok = (body?: string, headers?: Headers) =>
   createResponse(HttpStatus.OK, MediaType.APPLICATION_JSON_UTF8, body, headers);
 
 /**
+ * Creates a 200 OK response with JWT content type.
+ *
+ * @param {string} [body] - Optional JWT string to include in response body
+ * @param {Headers} [headers] - Optional additional headers to include in response
+ * @returns {Response} A Response object with:
+ *                     - Status: 200 OK
+ *                     - Content-Type: application/jwt
+ *                     - Body: The provided JWT string or empty if not provided
+ */
+export const okJwt = (body?: string, headers?: Headers) =>
+  createResponse(HttpStatus.OK, MediaType.APPLICATION_JWT, body, headers);
+
+/**
  * Creates an HTTP response with a 200 OK status and HTML content.
  *
  * This function is typically used to generate responses for form-based
@@ -100,6 +113,37 @@ export const created = (body?: string, headers?: Headers) =>
     body,
     headers
   );
+
+/**
+ * Creates a 202 Accepted response with JSON content type.
+ *
+ * @param {string} [body] - Optional JSON string to include in response body
+ * @param {Headers} [headers] - Optional additional headers to include in response
+ * @returns {Response} A Response object with:
+ *                     - Status: 202 Accepted
+ *                     - Content-Type: application/json;charset=UTF-8
+ *                     - Body: The provided JSON string or empty if not provided
+ */
+export const accepted = (body?: string, headers?: Headers) =>
+  createResponse(
+    HttpStatus.ACCEPTED,
+    MediaType.APPLICATION_JSON_UTF8,
+    body,
+    headers
+  );
+
+/**
+ * Creates a 202 Accepted response with JWT content type.
+ *
+ * @param {string} [body] - Optional JWT string to include in response body
+ * @param {Headers} [headers] - Optional additional headers to include in response
+ * @returns {Response} A Response object with:
+ *                     - Status: 202 Accepted
+ *                     - Content-Type: application/jwt
+ *                     - Body: The provided JWT string or empty if not provided
+ */
+export const acceptedJwt = (body?: string, headers?: Headers) =>
+  createResponse(HttpStatus.ACCEPTED, MediaType.APPLICATION_JWT, body, headers);
 
 /**
  * Creates a 204 No Content response.

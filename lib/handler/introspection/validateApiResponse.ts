@@ -21,10 +21,10 @@ import {
   ValidateApiResponse,
 } from '../validateApiResponse';
 import {
-  internalServerErrorError,
-  badRequestError,
-  unauthorizedError,
-  forbiddenError,
+  internalServerErrorResponseError,
+  badRequestResponseError,
+  unauthorizedResponseError,
+  forbiddenResponseError,
 } from '../responseErrorFactory';
 import { PrepareHeaders } from '../prepareHeaders';
 
@@ -68,16 +68,18 @@ export const createValidateApiResponse =
 
     switch (action) {
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorError(responseContent!, headers);
+        throw internalServerErrorResponseError(responseContent!, headers);
       case 'BAD_REQUEST':
-        throw badRequestError(responseContent!, headers);
+        throw badRequestResponseError(responseContent!, headers);
       case 'UNAUTHORIZED':
-        throw unauthorizedError(responseContent!, undefined, headers);
+        throw unauthorizedResponseError(responseContent!, undefined, headers);
       case 'FORBIDDEN':
-        throw forbiddenError(responseContent!, headers);
+        throw forbiddenResponseError(responseContent!, headers);
       case 'OK':
         return;
       default:
-        throw internalServerErrorError(buildUnknownActionMessage(path, action));
+        throw internalServerErrorResponseError(
+          buildUnknownActionMessage(path, action)
+        );
     }
   };

@@ -29,12 +29,10 @@ import {
   createProcessApiRequestWithValidation,
   ProcessApiRequestWithValidation,
 } from '../processApiRequestWithValidation';
-import {
-  createValidateApiResponse,
-  ValidateCredentialSingleParseResponseOptions,
-} from './validateApiResponse';
+import { createValidateApiResponse } from './validateApiResponse';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
+import { CredentialApiOptions } from '../credential/types';
 
 /**
  * Implementation of the CredentialSingleParseHandlerConfiguration interface.
@@ -64,7 +62,7 @@ export class CredentialSingleParseHandlerConfigurationImpl<
    */
   validateApiResponse: ValidateApiResponse<
     CredentialSingleParseResponse,
-    ValidateCredentialSingleParseResponseOptions
+    CredentialApiOptions
   >;
 
   /**
@@ -74,7 +72,7 @@ export class CredentialSingleParseHandlerConfigurationImpl<
   processApiRequestWithValidation: ProcessApiRequestWithValidation<
     CredentialSingleParseRequest,
     CredentialSingleParseResponse,
-    ValidateCredentialSingleParseResponseOptions
+    CredentialApiOptions
   >;
 
   /**
@@ -100,7 +98,7 @@ export class CredentialSingleParseHandlerConfigurationImpl<
       createProcessApiRequestWithValidation<
         CredentialSingleParseRequest,
         CredentialSingleParseResponse,
-        ValidateCredentialSingleParseResponseOptions
+        CredentialApiOptions
       >({
         processApiRequest: this.processApiRequest,
         validateApiResponse: this.validateApiResponse,

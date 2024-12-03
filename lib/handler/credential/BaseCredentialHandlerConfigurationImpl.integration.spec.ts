@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2024 Dentsusoken, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,20 @@
  * License.
  */
 
-export * from './BaseHandlerConfiguration';
-export * from './BaseHandlerConfigurationImpl';
-export * from './constants';
-export * from './handle';
-export * from './processApiRequest';
-export * from './processApiResponse';
-export * from './recoverResponseResult';
-export * from './ResponseError';
+import { describe, it, expect } from 'vitest';
+import { baseCredentialHandlerConfiguration } from '../../testing/configurations';
+
+describe('BaseCredentialHandlerConfiguration Integration Tests', () => {
+  it('should compute HTU correctly from request', async () => {
+    // Arrange
+
+    // Act
+    const htu = await baseCredentialHandlerConfiguration.computeHtu(
+      'dpop',
+      'credential_endpoint'
+    );
+
+    // Assert
+    expect(htu).toBeDefined();
+  }, 10000);
+});

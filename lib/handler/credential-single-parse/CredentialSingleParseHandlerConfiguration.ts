@@ -22,7 +22,7 @@ import {
 import { ProcessApiRequest } from '../processApiRequest';
 import { ValidateApiResponse } from '../validateApiResponse';
 import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
-import { ValidateCredentialSingleParseResponseOptions } from './validateApiResponse';
+import { CredentialApiOptions } from '../credential/types';
 
 /**
  * Configuration interface for handling credential single parse operations.
@@ -51,7 +51,7 @@ export interface CredentialSingleParseHandlerConfiguration {
    */
   validateApiResponse: ValidateApiResponse<
     CredentialSingleParseResponse,
-    ValidateCredentialSingleParseResponseOptions
+    CredentialApiOptions
   >;
 
   /**
@@ -62,6 +62,6 @@ export interface CredentialSingleParseHandlerConfiguration {
   processApiRequestWithValidation: ProcessApiRequestWithValidation<
     CredentialSingleParseRequest,
     CredentialSingleParseResponse,
-    ValidateCredentialSingleParseResponseOptions
+    CredentialApiOptions
   >;
 }

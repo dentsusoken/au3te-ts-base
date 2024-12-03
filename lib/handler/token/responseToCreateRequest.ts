@@ -18,7 +18,7 @@
 import { TokenResponse } from 'au3te-ts-common/schemas.token';
 import { GrantType } from 'au3te-ts-common/schemas.common';
 import { TokenCreateRequest } from 'au3te-ts-common/schemas.token-create';
-import { badRequestError } from '../responseErrorFactory';
+import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
 
 /**
@@ -46,7 +46,7 @@ export const createResponseToCreateRequest =
     const { clientId, scopes, resources } = apiResponse;
 
     if (!clientId || clientId === 0) {
-      throw badRequestError(
+      throw badRequestResponseError(
         'This authorization server does not allow unidentifiable clients to make token exchange requests.'
       );
     }

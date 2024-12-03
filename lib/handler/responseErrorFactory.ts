@@ -25,7 +25,7 @@ import * as responseFactory from '../utils/responseFactory';
  * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 400 Bad Request response
  */
-export const badRequestError = (
+export const badRequestResponseError = (
   message: string,
   headers?: responseFactory.Headers
 ): ResponseError => {
@@ -44,7 +44,7 @@ export const badRequestError = (
  * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 500 Internal Server Error response
  */
-export const internalServerErrorError = (
+export const internalServerErrorResponseError = (
   message: string,
   headers?: responseFactory.Headers
 ): ResponseError => {
@@ -66,7 +66,7 @@ export const internalServerErrorError = (
  * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 404 Not Found response
  */
-export const notFoundError = (
+export const notFoundResponseError = (
   message: string,
   headers?: responseFactory.Headers
 ): ResponseError => {
@@ -86,7 +86,7 @@ export const notFoundError = (
  * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 401 Unauthorized response
  */
-export const unauthorizedError = (
+export const unauthorizedResponseError = (
   message: string,
   challenge?: string,
   headers?: responseFactory.Headers
@@ -109,7 +109,7 @@ export const unauthorizedError = (
  * @param {Headers} [headers] - Optional additional headers to include in the response
  * @returns {ResponseError} A ResponseError instance with a 403 Forbidden response
  */
-export const forbiddenError = (
+export const forbiddenResponseError = (
   message: string,
   headers?: responseFactory.Headers
 ): ResponseError => {

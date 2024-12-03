@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2024 Dentsusoken, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,15 @@
  * License.
  */
 
-export * from './BaseHandlerConfiguration';
-export * from './BaseHandlerConfigurationImpl';
-export * from './constants';
-export * from './handle';
-export * from './processApiRequest';
-export * from './processApiResponse';
-export * from './recoverResponseResult';
-export * from './ResponseError';
+import { ComputeHtu } from './computeHtu';
+
+/**
+ * Base configuration interface for credential handlers.
+ *
+ * @interface BaseCredentialHandlerConfiguration
+ * @property {ComputeHtu} computeHtu - Function to compute the 'htu' (HTTPS Token Usage) parameter
+ *                                     for DPoP-bound access tokens
+ */
+export interface BaseCredentialHandlerConfiguration {
+  computeHtu: ComputeHtu;
+}

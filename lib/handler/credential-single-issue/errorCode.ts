@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Authlete, Inc.
+ * Copyright (C) 2024 Dentsusoken, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,9 @@
  * License.
  */
 
-export * from './BaseHandlerConfiguration';
-export * from './BaseHandlerConfigurationImpl';
-export * from './constants';
-export * from './handle';
-export * from './processApiRequest';
-export * from './processApiResponse';
-export * from './recoverResponseResult';
-export * from './ResponseError';
+/**
+ * Error code indicating an invalid credential single issue request.
+ * This error occurs when the request to issue a single credential is malformed or missing required parameters.
+ */
+export const INVALID_CREDENTIAL_SINGLE_ISSUE_REQUEST =
+  'invalid_credential_single_issue_request';
