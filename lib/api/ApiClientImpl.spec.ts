@@ -127,6 +127,7 @@ const testServiceConfiguration = async () => {
   );
 
   expect(response).toBeDefined();
+  expect(response).toBeTypeOf('string');
   expect(JSON.parse(response).issuer).toBeDefined();
 };
 
