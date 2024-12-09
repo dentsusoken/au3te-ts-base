@@ -19,3 +19,5 @@ export * from './extractAccessToken';
 export * from './extractClientCertificateAndPath';
 export * from './extractClientCredentials';
 export * from './extractParameters';
+export * from './ExtractorConfiguration';
+export * from './ExtractorConfigurationImpl';

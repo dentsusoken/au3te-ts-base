@@ -27,6 +27,8 @@ export default defineConfig({
           './lib/handler/credential-metadata/index.ts',
         'handler/credential-single-parse':
           './lib/handler/credential-single-parse/index.ts',
+        'handler/credential-single-issue':
+          './lib/handler/credential-single-issue/index.ts',
         extractor: './lib/extractor/index.ts',
         session: './lib/session/index.ts',
         utils: './lib/utils/index.ts',

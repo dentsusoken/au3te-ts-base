@@ -18,3 +18,4 @@
 export * from './Session';
 export * from './InMemorySession';
 export * from './types';
+export * from './sessionSchemas';

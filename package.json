@@ -91,6 +91,11 @@
       "import": "./dist/handler/credential-single-parse/index.js",
       "require": "./dist/handler/credential-single-parse/index.cjs"
     },
+    "./handler.credential-single-issue": {
+      "types": "./dist/handler/credential-single-issue/index.d.ts",
+      "import": "./dist/handler/credential-single-issue/index.js",
+      "require": "./dist/handler/credential-single-issue/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",
