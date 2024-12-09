@@ -120,14 +120,14 @@ const testIntrospection = async (accessToken: string) => {
 };
 
 const testServiceConfiguration = async () => {
-  const response = await apiClient.callPostApi(
+  const response = await apiClient.callGetApi(
     apiClient.serviceConfigurationPath,
     serviceConfigurationResponseSchema,
     createServiceConfigurationRequest()
   );
 
   expect(response).toBeDefined();
-  expect(response.issuer).toBeDefined();
+  expect(JSON.parse(response).issuer).toBeDefined();
 };
 
 const testCredentialIssuerMetadata = async () => {

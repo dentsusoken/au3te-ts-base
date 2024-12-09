@@ -22,5 +22,5 @@ import * as responseFactory from '../../utils/responseFactory';
 export const defaultProcessApiResponse: ProcessApiResponse<
   ServiceConfigurationResponse
 > = async (apiResponse: ServiceConfigurationResponse): Promise<Response> => {
-  return responseFactory.ok(JSON.stringify(apiResponse));
+  return responseFactory.ok(apiResponse);
 };

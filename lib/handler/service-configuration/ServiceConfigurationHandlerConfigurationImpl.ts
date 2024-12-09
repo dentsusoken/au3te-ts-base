@@ -20,12 +20,14 @@ import {
   ServiceConfigurationResponse,
   serviceConfigurationResponseSchema,
 } from 'au3te-ts-common/schemas.service-configuration';
-import { ProcessApiRequest } from '../processApiRequest';
+import {
+  createProcessGetApiRequest,
+  ProcessApiRequest,
+} from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { defaultProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ServiceConfigurationHandlerConfiguration } from './ServiceConfigurationHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
@@ -69,7 +71,7 @@ export class ServiceConfigurationHandlerConfigurationImpl<
   constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
     const { apiClient, recoverResponseResult } = baseHandlerConfiguration;
 
-    this.processApiRequest = createProcessApiRequest(
+    this.processApiRequest = createProcessGetApiRequest(
       apiClient.serviceConfigurationPath,
       serviceConfigurationResponseSchema,
       apiClient

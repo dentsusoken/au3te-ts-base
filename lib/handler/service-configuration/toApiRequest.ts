@@ -30,9 +30,9 @@ export const defaultToApiRequest: ToApiRequest<
 > = async (request: Request): Promise<ServiceConfigurationRequest> => {
   const searchParams = new URL(request.url).searchParams;
   const { pretty, patch } =
-    searchParams.get('pretty') === 'true'
-      ? { pretty: true, patch: searchParams.get('patch') }
-      : { pretty: false, patch: searchParams.get('patch') };
+    searchParams.get('pretty') === 'false'
+      ? { pretty: false, patch: searchParams.get('patch') }
+      : { pretty: true, patch: searchParams.get('patch') };
   const apiRequest: ServiceConfigurationRequest = { pretty, patch };
 
   return apiRequest;

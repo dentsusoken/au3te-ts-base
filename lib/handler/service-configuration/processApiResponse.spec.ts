@@ -6,7 +6,7 @@ describe('defaultProcessApiResponse', () => {
   const processApiResponse = defaultProcessApiResponse;
 
   it('should handle response', async () => {
-    const apiResponse = {
+    const apiResponse = `{
       issuer: 'https://example.com',
       authorization_endpoint: 'https://example.com/api/authorization',
       prompt_values_supported: [
@@ -391,9 +391,9 @@ describe('defaultProcessApiResponse', () => {
       organization_name: 'Dentsusoken',
       request_authentication_signing_alg_values_supported: ['ES256'],
       'pre-authorized_grant_anonymous_access_supported': false,
-    } as ServiceConfigurationResponse;
+    }` as ServiceConfigurationResponse;
     const response = await processApiResponse(apiResponse);
     expect(response.status).toBe(200);
-    expect(await response.json()).toStrictEqual(apiResponse);
+    expect(await response.text()).toStrictEqual(apiResponse);
   });
 });

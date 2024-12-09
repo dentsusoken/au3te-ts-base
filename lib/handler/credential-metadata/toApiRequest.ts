@@ -29,7 +29,9 @@ export const defaultToApiRequest: ToApiRequest<
   CredentialIssuerMetadataRequest
 > = async (request: Request): Promise<CredentialIssuerMetadataRequest> => {
   const serachParams = new URL(request.url).searchParams;
-  const pretty = Boolean(serachParams.get('pretty'));
+  const pretty = !serachParams.get('pretty')
+    ? true
+    : Boolean(serachParams.get('pretty'));
 
   const apiRequest: CredentialIssuerMetadataRequest = {
     pretty,
