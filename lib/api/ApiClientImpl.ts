@@ -70,6 +70,12 @@ export class ApiClientImpl extends AbstractApiClient {
   /** The path for credential single parse requests */
   readonly credentialSingleParsePath: string;
 
+  /** The path for get service JWKS requests */
+  readonly serviceJwksPath: string;
+
+  /** The path for credential issuer JWKS requests */
+  readonly credentialIssuerJwksPath: string;
+
   /**
    * Creates an instance of ApiClientImpl.
    * @param {AuthleteConfiguration} configuration - The configuration object for Authlete service.
@@ -123,6 +129,13 @@ export class ApiClientImpl extends AbstractApiClient {
     );
 
     this.credentialSingleParsePath = apiPath.credentialSingleParsePath(
+      this.configuration.serviceApiKey
+    );
+    this.serviceJwksPath = apiPath.serviceJwksPath(
+      this.configuration.serviceApiKey
+    );
+
+    this.credentialIssuerJwksPath = apiPath.credentialIssuerJwksPath(
       this.configuration.serviceApiKey
     );
   }

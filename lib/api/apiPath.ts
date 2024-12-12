@@ -185,6 +185,20 @@ const CREDENTIAL_SINGLE_ISSUE_API_PATH = '/api/%d/vci/single/issue';
 const CREDENTIAL_SINGLE_PARSE_API_PATH = '/api/%d/vci/single/parse';
 
 /**
+ * The path template for the get service JWKS API endpoint.
+ *
+ * This constant represents the URL path for get service JWKS.
+ */
+const GET_SERVICE_JWKS_API_PATH = '/api/%d/service/jwks/get';
+
+/**
+ * The path template for the get service JWKS API endpoint.
+ *
+ * This constant represents the URL path for get service JWKS.
+ */
+const CREDENTIAL_ISSUER_JWKS_API_PATH = '/api/%d/vci/jwks';
+
+/**
  * Generates the path for the pushed authentication request API.
  *
  * This function creates the specific path for the pushed authentication request API endpoint
@@ -359,3 +373,23 @@ export const credentialSingleIssuePath = (serviceId: string) =>
  */
 export const credentialSingleParsePath = (serviceId: string) =>
   CREDENTIAL_SINGLE_PARSE_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the get service JWKS API path for a given service ID.
+ *
+ * This function creates the specific path for the get service JWKS API endpoint
+ * by replacing the '%d' placeholder in the GET_SERVICE_JWKS_API_PATH constant
+ * with the provided service ID.
+ */
+export const serviceJwksPath = (serviceId: string) =>
+  GET_SERVICE_JWKS_API_PATH.replace(/%d/, serviceId);
+
+/**
+ * Generates the credential issuer JWKS API path for a given service ID.
+ *
+ * This function creates the specific path for the credential issuer JWKS API endpoint
+ * by replacing the '%d' placeholder in the CREDENTIAL_ISSUER_JWKS_API_PATH constant
+ * with the provided service ID.
+ */
+export const credentialIssuerJwksPath = (serviceId: string) =>
+  CREDENTIAL_ISSUER_JWKS_API_PATH.replace(/%d/, serviceId);

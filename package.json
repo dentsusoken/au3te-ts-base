@@ -96,6 +96,16 @@
       "import": "./dist/handler/credential-single-issue/index.js",
       "require": "./dist/handler/credential-single-issue/index.cjs"
     },
+    "./handler.credential-issuer-jwks": {
+      "types": "./dist/handler/credential-issuer-jwks/index.d.ts",
+      "import": "./dist/handler/credential-issuer-jwks/index.js",
+      "require": "./dist/handler/credential-issuer-jwks/index.cjs"
+    },
+    "./handler.service-jwks": {
+      "types": "./dist/handler/service-jwks/index.d.ts",
+      "import": "./dist/handler/service-jwks/index.js",
+      "require": "./dist/handler/service-jwks/index.cjs"
+    },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
       "import": "./dist/extractor/index.js",

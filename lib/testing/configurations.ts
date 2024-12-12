@@ -39,6 +39,8 @@ import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/creden
 import { CommonCredentialHandlerConfigurationImpl } from 'au3te-ts-common/handler.credential';
 import { BaseCredentialHandlerConfigurationImpl } from '../handler/credential/BaseCredentialHandlerConfigurationImpl';
 import { CredentialSingleIssueHandlerConfigurationImpl } from '../handler/credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
+import { ServiceJwksHandlerConfigurationImpl } from '../handler/service-jwks/ServiceJwksHandlerConfigurationImpl';
+import { CredentialIssuerJwksHandlerConfigurationImpl } from '../handler/credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
 
 export const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
@@ -121,3 +123,7 @@ export const credentialSingleIssueHandlerConfiguration =
     credentialSingleParseHandlerConfiguration,
     commonCredentialHandlerConfiguration,
   });
+export const serviceJwksHandlerConfiguration =
+  new ServiceJwksHandlerConfigurationImpl(baseHandlerConfiguration);
+export const credentialIssuerJwksHandlerConfiguration =
+  new CredentialIssuerJwksHandlerConfigurationImpl(baseHandlerConfiguration);

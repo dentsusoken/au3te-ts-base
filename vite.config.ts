@@ -29,6 +29,9 @@ export default defineConfig({
           './lib/handler/credential-single-parse/index.ts',
         'handler/credential-single-issue':
           './lib/handler/credential-single-issue/index.ts',
+        'handler/credential-issuer-jwks':
+          './lib/handler/credential-issuer-jwks/index.ts',
+        'handler/service-jwks': './lib/handler/service-jwks/index.ts',
         extractor: './lib/extractor/index.ts',
         session: './lib/session/index.ts',
         utils: './lib/utils/index.ts',
