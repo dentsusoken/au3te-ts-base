@@ -13,7 +13,7 @@ import {
   credentialIssuerMetadataPath,
   credentialSingleIssuePath,
   credentialSingleParsePath,
-} from './apiPath';
+} from '../apiPath';
 
 describe('API path functions', () => {
   const serviceId = '123';
