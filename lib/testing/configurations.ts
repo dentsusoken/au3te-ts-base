@@ -41,24 +41,6 @@ import { BaseCredentialHandlerConfigurationImpl } from '../handler/credential/Ba
 import { CredentialSingleIssueHandlerConfigurationImpl } from '../handler/credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
 import { ServiceJwksHandlerConfigurationImpl } from '../handler/service-jwks/ServiceJwksHandlerConfigurationImpl';
 import { CredentialIssuerJwksHandlerConfigurationImpl } from '../handler/credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
-import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
-
-/**
- * Converts IntrospectionResponse from input type to output type to resolve zod type incompatibility
- */
-export const convertIntrospectionResponse = (
-  response: IntrospectionResponse
-): IntrospectionResponse => {
-  return {
-    ...response,
-    authorizationDetails: response.authorizationDetails
-      ? {
-          ...response.authorizationDetails,
-          elements: response.authorizationDetails.elements || [],
-        }
-      : null,
-  } as IntrospectionResponse;
-};
 
 export const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',
