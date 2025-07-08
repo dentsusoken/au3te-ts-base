@@ -15,10 +15,14 @@ describe('AuthorizationIssueHandlerConfiguration Integration Tests', () => {
     );
 
     expect(response.status).toBe(302);
-    expect(
-      response.headers
-        .get('Location')
-        ?.startsWith('eudi-openid4ci://authorize/?code=')
-    ).toBe(true);
+    const locationHeader = response.headers.get('Location');
+    expect(locationHeader).toBeDefined();
+    expect(locationHeader?.startsWith('eudi-openid4ci://authorize/?')).toBe(
+      true
+    );
+    const searchParams = new URL(locationHeader!).searchParams;
+    expect(searchParams.get('state')).toBe('1234567890');
+    expect(searchParams.get('code')).toBeDefined();
+    expect(searchParams.get('iss')).toBeDefined();
   }, 10000);
 });

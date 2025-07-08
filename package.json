@@ -1,11 +1,14 @@
 {
-  "name": "au3te-ts-base",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@vecrea/au3te-ts-base",
+  "version": "0.1.0",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/dentsusoken/au3te-ts-base"
+  },
+  "homepage": "https://github.com/dentsusoken/au3te-ts-base#readme",
+  "bugs": {
+    "url": "https://github.com/dentsusoken/au3te-ts-base/issues"
   },
   "files": [
     "dist"
@@ -140,5 +143,9 @@
   },
   "dependencies": {
     "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "@vecrea/au3te-ts-common": "^0.1.0",
+    "@vecrea/oid4vc-core": "^0.1.0"
   }
 }

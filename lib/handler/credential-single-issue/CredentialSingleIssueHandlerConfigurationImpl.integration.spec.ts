@@ -35,7 +35,6 @@ describe('CredentialSingleIssueHandlerConfigurationImpl Integration Tests', () =
     // Act
     const response =
       await credentialSingleIssueHandlerConfiguration.processRequest(request);
-    console.log(response);
     const responseBody = await response.json();
     console.log(responseBody);
     // Assert

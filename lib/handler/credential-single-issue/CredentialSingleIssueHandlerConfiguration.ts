@@ -31,7 +31,12 @@ import { ProcessRequest } from '../processRequest';
  * Configuration interface for the Credential Single Issue Handler.
  *
  * @interface CredentialSingleIssueHandlerConfiguration
- * @property {ToApiRequest<CredentialSingleIssueRequest>} toApiRequest - Function to convert an HTTP request to a Credential Single Issue API request
+ * @property {string} path - The API endpoint path for the Credential Single Issue.
+ * @property {ToApiRequest<ApiRequestWithOptions<CredentialSingleIssueRequest, CredentialApiOptions>>} toApiRequest - Function to convert an HTTP request to a Credential Single Issue API request.
+ * @property {ProcessApiRequest<CredentialSingleIssueResponse, CredentialSingleIssueResponse>} processApiRequest - Function to process the API request for Credential Single Issue.
+ * @property {ProcessApiResponse<ApiResponseWithOptions<CredentialSingleIssueResponse, CredentialApiOptions>>} processApiResponse - Function to process the API response for Credential Single Issue.
+ * @property {HandleWithOptions<CredentialSingleIssueRequest, CredentialApiOptions>} handle - Function to handle API requests with options for Credential Single Issue.
+ * @property {ProcessRequest} processRequest - Function to process the request for Credential Single Issue.
  */
 export interface CredentialSingleIssueHandlerConfiguration {
   path: string;
