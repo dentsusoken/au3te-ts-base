@@ -1,4 +1,4 @@
-import { TokenRequest } from 'au3te-ts-common/schemas.token';
+import { TokenRequest } from '@vecrea/au3te-ts-common/schemas.token';
 import { tokenHandlerConfiguration } from './configurations';
 
 export const createTokenRequest = (code: string) => {

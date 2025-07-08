@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
+import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
 import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,

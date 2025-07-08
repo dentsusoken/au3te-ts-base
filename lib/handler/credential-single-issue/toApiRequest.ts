@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialSingleIssueRequest } from 'au3te-ts-common/schemas.credential-single-issue';
+import { CredentialSingleIssueRequest } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { ExtractAccessToken } from '../../extractor/extractAccessToken';
 import { ToApiRequest } from '../toApiRequest';
 import { ComputeHtu } from '../credential/computeHtu';
@@ -23,8 +23,8 @@ import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCe
 import {
   IntrospectionRequest,
   IntrospectionResponse,
-} from 'au3te-ts-common/schemas.introspection';
-import { BadRequestError } from 'au3te-ts-common/handler';
+} from '@vecrea/au3te-ts-common/schemas.introspection';
+import { BadRequestError } from '@vecrea/au3te-ts-common/handler';
 import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
 import { PrepareHeaders } from '../prepareHeaders';
 import { CREDENTIAL_ENDPOINT, DEFERRED, DPOP, POST } from '../constants';
@@ -33,9 +33,9 @@ import { ExtractParameters } from '../../extractor/extractParameters';
 import {
   CredentialSingleParseRequest,
   CredentialSingleParseResponse,
-} from 'au3te-ts-common/schemas.credential-single-parse';
-import { GetToOrder } from 'au3te-ts-common/handler.credential';
-import { runAsyncCatching } from 'oid4vc-core/utils';
+} from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
+import { GetToOrder } from '@vecrea/au3te-ts-common/handler.credential';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { badRequestResponseError } from '../responseErrorFactory';
 import { CredentialApiOptions } from '../credential/types';
 import { ApiRequestWithOptions } from '../types';

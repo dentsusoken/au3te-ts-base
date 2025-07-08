@@ -15,8 +15,8 @@ import {
   okJwt,
   accepted,
   acceptedJwt,
-} from './responseFactory';
-import { HttpStatus, MediaType, getStatusText } from 'au3te-ts-common/utils';
+} from '../responseFactory';
+import { HttpStatus, MediaType, getStatusText } from '@vecrea/au3te-ts-common/utils';
 
 describe('Response creation functions', () => {
   describe('createResponse', () => {
@@ -48,6 +48,16 @@ describe('Response creation functions', () => {
       expect(response.statusText).toBe(getStatusText(HttpStatus.NO_CONTENT));
       expect(response.headers.get('Content-Type')).toBeNull();
     });
+
+    it('should handle null body correctly', async () => {
+      const response = createResponse(
+        HttpStatus.OK,
+        MediaType.APPLICATION_JSON_UTF8,
+        null
+      );
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(await response.text()).toBe('');
+    });
   });
 
   describe('ok', () => {
@@ -56,6 +66,16 @@ describe('Response creation functions', () => {
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
       expect(await response.json()).toEqual({ success: true });
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+
+    it('should create a 200 OK response with null body', async () => {
+      const response = ok(null);
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe('');
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
       );
@@ -85,6 +105,17 @@ describe('Response creation functions', () => {
         MediaType.TEXT_HTML_UTF8
       );
     });
+
+    it('should create a 200 OK response with null body', async () => {
+      const response = form(null);
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.TEXT_HTML_UTF8
+      );
+    });
   });
 
   describe('created', () => {
@@ -93,6 +124,16 @@ describe('Response creation functions', () => {
       expect(response.status).toBe(HttpStatus.CREATED);
       expect(response.statusText).toBe(getStatusText(HttpStatus.CREATED));
       expect(await response.json()).toEqual({ id: 1 });
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+
+    it('should create a 201 Created response with null body', async () => {
+      const response = created(null);
+      expect(response.status).toBe(HttpStatus.CREATED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.CREATED));
+      expect(await response.text()).toBe('');
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
       );
@@ -128,6 +169,16 @@ describe('Response creation functions', () => {
         MediaType.APPLICATION_JSON_UTF8
       );
     });
+
+    it('should create a 400 Bad Request response with null body', async () => {
+      const response = badRequest(null);
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.BAD_REQUEST));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
   });
 
   describe('unauthorized', () => {
@@ -146,6 +197,16 @@ describe('Response creation functions', () => {
         'Basic realm="example"'
       );
     });
+
+    it('should create a 401 Unauthorized response with null body', async () => {
+      const response = unauthorized(null);
+      expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.UNAUTHORIZED));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
   });
 
   describe('forbidden', () => {
@@ -158,6 +219,16 @@ describe('Response creation functions', () => {
         MediaType.APPLICATION_JSON_UTF8
       );
     });
+
+    it('should create a 403 Forbidden response with null body', async () => {
+      const response = forbidden(null);
+      expect(response.status).toBe(HttpStatus.FORBIDDEN);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.FORBIDDEN));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
   });
 
   describe('notFound', () => {
@@ -166,6 +237,16 @@ describe('Response creation functions', () => {
       expect(response.status).toBe(HttpStatus.NOT_FOUND);
       expect(response.statusText).toBe(getStatusText(HttpStatus.NOT_FOUND));
       expect(await response.json()).toEqual({ error: 'Resource not found' });
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+
+    it('should create a 404 Not Found response with null body', async () => {
+      const response = notFound(null);
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.NOT_FOUND));
+      expect(await response.text()).toBe('');
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
       );
@@ -184,6 +265,18 @@ describe('Response creation functions', () => {
         MediaType.APPLICATION_JSON_UTF8
       );
     });
+
+    it('should create a 413 Request Entity Too Large response with null body', async () => {
+      const response = tooLarge(null);
+      expect(response.status).toBe(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+      expect(response.statusText).toBe(
+        getStatusText(HttpStatus.REQUEST_ENTITY_TOO_LARGE)
+      );
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
   });
 
   describe('internalServerError', () => {
@@ -194,6 +287,18 @@ describe('Response creation functions', () => {
         getStatusText(HttpStatus.INTERNAL_SERVER_ERROR)
       );
       expect(await response.text()).toBe('{"error":"Internal Server Error"}');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
+
+    it('should create a 500 Internal Server Error response with null body', async () => {
+      const response = internalServerError(null);
+      expect(response.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
+      expect(response.statusText).toBe(
+        getStatusText(HttpStatus.INTERNAL_SERVER_ERROR)
+      );
+      expect(await response.text()).toBe('');
       expect(response.headers.get('Content-Type')).toBe(
         MediaType.APPLICATION_JSON_UTF8
       );
@@ -215,6 +320,17 @@ describe('Response creation functions', () => {
 
     it('should create a 200 OK response with empty body when no JWT is provided', async () => {
       const response = okJwt();
+
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
+      );
+    });
+
+    it('should create a 200 OK response with null JWT body', async () => {
+      const response = okJwt(null);
 
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.statusText).toBe(getStatusText(HttpStatus.OK));
@@ -247,6 +363,17 @@ describe('Response creation functions', () => {
         MediaType.APPLICATION_JSON_UTF8
       );
     });
+
+    it('should create a 202 Accepted response with null body', async () => {
+      const response = accepted(null);
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JSON_UTF8
+      );
+    });
   });
 
   describe('acceptedJwt', () => {
@@ -264,6 +391,17 @@ describe('Response creation functions', () => {
 
     it('should create a 202 Accepted response with empty body when no JWT is provided', async () => {
       const response = acceptedJwt();
+
+      expect(response.status).toBe(HttpStatus.ACCEPTED);
+      expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));
+      expect(await response.text()).toBe('');
+      expect(response.headers.get('Content-Type')).toBe(
+        MediaType.APPLICATION_JWT
+      );
+    });
+
+    it('should create a 202 Accepted response with null JWT body', async () => {
+      const response = acceptedJwt(null);
 
       expect(response.status).toBe(HttpStatus.ACCEPTED);
       expect(response.statusText).toBe(getStatusText(HttpStatus.ACCEPTED));

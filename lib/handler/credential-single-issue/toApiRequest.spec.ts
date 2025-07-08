@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createToApiRequest } from './toApiRequest';
-import { BadRequestError } from 'au3te-ts-common/handler';
+import { BadRequestError } from '@vecrea/au3te-ts-common/handler';
 import { INVALID_CREDENTIAL_SINGLE_ISSUE_REQUEST } from './errorCode';
-import { CredentialRequestInfo } from 'au3te-ts-common/schemas.credential';
-import { runAsyncCatching } from 'oid4vc-core/utils';
+import { CredentialRequestInfo } from '@vecrea/au3te-ts-common/schemas.credential';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 
 describe('createToApiRequest', () => {
   // Mock functions

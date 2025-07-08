@@ -15,7 +15,7 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
@@ -88,7 +88,9 @@ export const createProcessApiResponse =
    */
   async (apiResponse: TokenResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
-    const headers = prepareHeaders({ dpopNonce: apiResponse.dpopNonce });
+    const headers = prepareHeaders({
+      dpopNonce: apiResponse.dpopNonce ?? undefined,
+    });
 
     switch (action) {
       case 'OK':

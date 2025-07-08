@@ -15,7 +15,7 @@
  * License.
  */
 
-import { parseDpopToken, parseBearerToken } from 'au3te-ts-common/utils';
+import { parseDpopToken, parseBearerToken } from '@vecrea/au3te-ts-common/utils';
 
 /**
  * Function type for extracting an access token from a request.

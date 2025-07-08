@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationDecisionParams } from 'au3te-ts-common/schemas.authorization-decision';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
+import { AuthorizationDecisionParams } from '@vecrea/au3te-ts-common/schemas.authorization-decision';
 import { defaultResponseToDecisionParams } from './responseToDecisionParams';
 
 describe('defaultResponseToDecisionParams', () => {
@@ -51,6 +51,25 @@ describe('defaultResponseToDecisionParams', () => {
     });
   });
 
+  it('should handle null claims without adding txn', () => {
+    const mockResponse: AuthorizationResponse = {
+      action: 'INTERACTION',
+      ticket: 'test-ticket',
+      claims: null,
+    };
+
+    const result = defaultResponseToDecisionParams(mockResponse);
+
+    expect(result).toEqual({
+      ticket: 'test-ticket',
+      claimNames: undefined,
+      claimLocales: undefined,
+      idTokenClaims: undefined,
+      requestedClaimsForTx: undefined,
+      requestedVerifiedClaimsForTx: undefined,
+    });
+  });
+
   it('should add txn claim to empty claims array', () => {
     const mockResponse: AuthorizationResponse = {
       action: 'INTERACTION',
@@ -81,6 +100,18 @@ describe('defaultResponseToDecisionParams', () => {
         action: 'INTERACTION',
         ticket: 'test-ticket',
         claimsLocales: [],
+      };
+
+      const result = defaultResponseToDecisionParams(mockResponse);
+
+      expect(result.claimLocales).toBeUndefined();
+    });
+
+    it('should handle null claim locales', () => {
+      const mockResponse: AuthorizationResponse = {
+        action: 'INTERACTION',
+        ticket: 'test-ticket',
+        claimsLocales: null,
       };
 
       const result = defaultResponseToDecisionParams(mockResponse);

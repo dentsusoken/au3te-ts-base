@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialIssuerJwksResponse } from 'au3te-ts-common/schemas.credential-issuer-jwks';
+import { CredentialIssuerJwksResponse } from '@vecrea/au3te-ts-common/schemas.credential-issuer-jwks';
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,

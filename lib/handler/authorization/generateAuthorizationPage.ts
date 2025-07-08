@@ -15,8 +15,8 @@
  * License.
  */
 
-import { BuildAuthorizationPageModel } from 'au3te-ts-common/handler.authorization-page';
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
+import { BuildAuthorizationPageModel } from '@vecrea/au3te-ts-common/handler.authorization-page';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';

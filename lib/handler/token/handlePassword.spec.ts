@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createHandlePassword } from './handlePassword';
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { ResponseError } from '../ResponseError';
 import type { Headers } from '../../utils/responseFactory';
 

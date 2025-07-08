@@ -18,7 +18,7 @@
 import {
   TokenCreateRequest,
   TokenCreateResponse,
-} from 'au3te-ts-common/schemas.token-create';
+} from '@vecrea/au3te-ts-common/schemas.token-create';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';

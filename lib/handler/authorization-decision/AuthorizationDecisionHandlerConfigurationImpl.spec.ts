@@ -18,11 +18,11 @@
 import { describe, expect, it } from 'vitest';
 import { AuthorizationDecisionHandlerConfigurationImpl } from './AuthorizationDecisionHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
-import { ApiClient } from 'au3te-ts-common/api';
+import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
-import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.user';
 import { AuthorizationHandlerConfiguration } from '../authorization';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';

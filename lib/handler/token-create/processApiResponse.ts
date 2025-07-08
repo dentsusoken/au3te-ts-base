@@ -15,7 +15,7 @@
  * License.
  */
 
-import { TokenCreateResponse } from 'au3te-ts-common/schemas.token-create';
+import { TokenCreateResponse } from '@vecrea/au3te-ts-common/schemas.token-create';
 import * as responseFactory from '../../utils/responseFactory';
 import {
   ProcessApiResponse,

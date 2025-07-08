@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createToApiRequest } from './toClientAuthRequest';
-import { BaseClientAuthRequest } from 'au3te-ts-common/schemas.common';
+import { BaseClientAuthRequest } from '@vecrea/au3te-ts-common/schemas.common';
 
 // Extend BaseClientAuthRequest for testing purposes
 interface TestClientAuthRequest extends BaseClientAuthRequest {

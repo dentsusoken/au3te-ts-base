@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialSingleIssueResponse } from 'au3te-ts-common/schemas.credential-single-issue';
+import { CredentialSingleIssueResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,

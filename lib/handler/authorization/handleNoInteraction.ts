@@ -15,8 +15,8 @@
  * License.
  */
 
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
+import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { Session } from '../../session/Session';
 import { CheckAuthAge } from './checkAuthAge';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
@@ -75,7 +75,7 @@ export const createHandleNoInteraction = <SS extends SessionSchemas>({
       );
     }
 
-    if (checkAuthAge(authTime, response.maxAge)) {
+    if (checkAuthAge(authTime, response.maxAge ?? undefined)) {
       throw await buildAuthorizationFailError(
         response.ticket!,
         'EXCEEDS_MAX_AGE'
@@ -84,14 +84,14 @@ export const createHandleNoInteraction = <SS extends SessionSchemas>({
 
     const subject = response.subject;
 
-    if (checkSubject(subject, user.subject)) {
+    if (checkSubject(subject ?? undefined, user.subject)) {
       throw await buildAuthorizationFailError(
         response.ticket!,
         'DIFFERENT_SUBJECT'
       );
     }
 
-    const sub = await calcSub(subject, response.client);
+    const sub = await calcSub(subject ?? undefined, response.client);
     const ticket = response.ticket!;
     const authorizationIssueRequest: AuthorizationIssueRequest = {
       ticket,

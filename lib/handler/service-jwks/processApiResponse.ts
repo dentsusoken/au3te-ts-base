@@ -15,7 +15,7 @@
  * License.
  */
 
-import { ServiceJwksResponse } from 'au3te-ts-common/schemas.service-jwks';
+import { ServiceJwksResponse } from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 

@@ -18,7 +18,7 @@
 import {
   IntrospectionRequest,
   IntrospectionResponse,
-} from 'au3te-ts-common/schemas.introspection';
+} from '@vecrea/au3te-ts-common/schemas.introspection';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ValidateApiResponse } from '../validateApiResponse';
 import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';

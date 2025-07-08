@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationPageModel } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageModel } from '@vecrea/au3te-ts-common/handler.authorization-page';
 
 /**
  * A function that generates a Response from an AuthorizationPageModel.

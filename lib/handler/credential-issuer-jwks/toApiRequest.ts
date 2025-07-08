@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialIssuerJwksRequest } from 'au3te-ts-common/schemas.credential-issuer-jwks';
+import { CredentialIssuerJwksRequest } from '@vecrea/au3te-ts-common/schemas.credential-issuer-jwks';
 import { ToApiRequest } from '../toApiRequest';
 
 /**

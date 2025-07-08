@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { ProcessApiResponse } from '../processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
 import { GenerateAuthorizationPage } from './generateAuthorizationPage';

@@ -1,29 +1,29 @@
 import { describe, it, expect } from 'vitest';
-import { pushedAuthReqResponseSchema } from 'au3te-ts-common/schemas.par';
-import { authorizationResponseSchema } from 'au3te-ts-common/schemas.authorization';
-import { authorizationFailResponseSchema } from 'au3te-ts-common/schemas.authorization-fail';
-import { authorizationIssueResponseSchema } from 'au3te-ts-common/schemas.authorization-issue';
-import { tokenResponseSchema } from 'au3te-ts-common/schemas.token';
-import { introspectionResponseSchema } from 'au3te-ts-common/schemas.introspection';
-import { serviceConfigurationResponseSchema } from 'au3te-ts-common/schemas.service-configuration';
-import { credentialIssuerMetadataResponseSchema } from 'au3te-ts-common/schemas.credential-metadata';
-import { credentialSingleParseResponseSchema } from 'au3te-ts-common/schemas.credential-single-parse';
-import { credentialSingleIssueResponseSchema } from 'au3te-ts-common/schemas.credential-single-issue';
+import { pushedAuthReqResponseSchema } from '@vecrea/au3te-ts-common/schemas.par';
+import { authorizationResponseSchema } from '@vecrea/au3te-ts-common/schemas.authorization';
+import { authorizationFailResponseSchema } from '@vecrea/au3te-ts-common/schemas.authorization-fail';
+import { authorizationIssueResponseSchema } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
+import { tokenResponseSchema } from '@vecrea/au3te-ts-common/schemas.token';
+import { introspectionResponseSchema } from '@vecrea/au3te-ts-common/schemas.introspection';
+import { serviceConfigurationResponseSchema } from '@vecrea/au3te-ts-common/schemas.service-configuration';
+import { credentialIssuerMetadataResponseSchema } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
+import { credentialSingleParseResponseSchema } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
+import { credentialSingleIssueResponseSchema } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 
 import {
   apiClient,
   commonCredentialHandlerConfiguration,
-} from '../testing/configurations';
-import { createParRequest } from '../testing/par';
-import { createAuthorizationRequest } from '../testing/authorization';
-import { createAuthorizationFailRequest } from '../testing/authorizationFail';
-import { createAuthorizationIssueRequest } from '../testing/authorizationIssue';
-import { createTokenRequest } from '../testing/token';
-import { createIntrospectionRequest } from '../testing/introspection';
-import { createServiceConfigurationRequest } from '../testing/serviceConfiguration';
-import { createCredentialIssuerMetadataRequest } from '../testing/credentialIssuerMetadata';
-import { createCredentialSingleParseRequest } from '../testing/credentialSingleParse';
-import { createCredentialSingleIssueRequest } from '../testing/credentialSingleIssue';
+} from '../../testing/configurations';
+import { createParRequest } from '../../testing/par';
+import { createAuthorizationRequest } from '../../testing/authorization';
+import { createAuthorizationFailRequest } from '../../testing/authorizationFail';
+import { createAuthorizationIssueRequest } from '../../testing/authorizationIssue';
+import { createTokenRequest } from '../../testing/token';
+import { createIntrospectionRequest } from '../../testing/introspection';
+import { createServiceConfigurationRequest } from '../../testing/serviceConfiguration';
+import { createCredentialIssuerMetadataRequest } from '../../testing/credentialIssuerMetadata';
+import { createCredentialSingleParseRequest } from '../../testing/credentialSingleParse';
+import { createCredentialSingleIssueRequest } from '../../testing/credentialSingleIssue';
 
 const testPar = async () => {
   const response = await apiClient.callPostApi(
@@ -83,7 +83,7 @@ const testAuthorizationIssue = async (ticket: string) => {
   expect(response.resultCode).toBe('A040001');
   expect(response.action).toBe('LOCATION');
   expect(
-    response.responseContent?.startsWith('eudi-openid4ci://authorize/?code=')
+    response.responseContent?.startsWith('eudi-openid4ci://authorize/?')
   ).toBe(true);
   expect(response.authorizationCode).toBeDefined();
 

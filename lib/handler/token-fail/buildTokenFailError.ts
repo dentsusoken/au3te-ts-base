@@ -18,7 +18,7 @@
 import {
   TokenFailReason,
   TokenFailRequest,
-} from 'au3te-ts-common/schemas.token-fail';
+} from '@vecrea/au3te-ts-common/schemas.token-fail';
 import { Handle } from '../handle';
 import { ResponseError } from '../ResponseError';
 import { Headers } from '../../utils/responseFactory';

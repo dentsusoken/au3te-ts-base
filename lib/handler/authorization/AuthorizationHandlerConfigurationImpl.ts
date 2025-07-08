@@ -19,7 +19,7 @@ import {
   AuthorizationRequest,
   AuthorizationResponse,
   authorizationResponseSchema,
-} from 'au3te-ts-common/schemas.authorization';
+} from '@vecrea/au3te-ts-common/schemas.authorization';
 import {
   ProcessApiRequest,
   createProcessApiRequest,
@@ -56,7 +56,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageHandlerConfiguration } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.authorization-page';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';

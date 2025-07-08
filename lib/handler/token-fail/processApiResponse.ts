@@ -15,7 +15,7 @@
  * License.
  */
 
-import { TokenFailResponse } from 'au3te-ts-common/schemas.token-fail';
+import { TokenFailResponse } from '@vecrea/au3te-ts-common/schemas.token-fail';
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,

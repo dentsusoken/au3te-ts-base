@@ -20,9 +20,9 @@ import {
   DOCTYPE,
   FORMAT,
   MSO_MDOC,
-} from 'au3te-ts-common/handler.credential';
-import { CredentialIssuanceOrder } from 'au3te-ts-common/schemas.credential';
-import { CredentialSingleIssueRequest } from 'au3te-ts-common/schemas.credential-single-issue';
+} from '@vecrea/au3te-ts-common/handler.credential';
+import { CredentialIssuanceOrder } from '@vecrea/au3te-ts-common/schemas.credential';
+import { CredentialSingleIssueRequest } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 
 export const createCredentialSingleIssueRequest = (
   accessToken: string,

@@ -5,7 +5,7 @@ import { BaseCredentialHandlerConfiguration } from '../credential/BaseCredential
 import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from '../credential-single-parse/CredentialSingleParseHandlerConfiguration';
-import { CommonCredentialHandlerConfiguration } from 'au3te-ts-common/handler.credential';
+import { CommonCredentialHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.credential';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
 describe('CredentialSingleIssueHandlerConfigurationImpl', () => {

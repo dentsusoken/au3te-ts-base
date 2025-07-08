@@ -15,7 +15,7 @@
  * License.
  */
 
-import { TokenIssueResponse } from 'au3te-ts-common/schemas.token-issue';
+import { TokenIssueResponse } from '@vecrea/au3te-ts-common/schemas.token-issue';
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,

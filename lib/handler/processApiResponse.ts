@@ -15,7 +15,7 @@
  * License.
  */
 
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
+import { BuildUnknownActionMessage } from '@vecrea/au3te-ts-common/handler';
 
 /**
  * Represents a function that processes an API response and returns a Response object.

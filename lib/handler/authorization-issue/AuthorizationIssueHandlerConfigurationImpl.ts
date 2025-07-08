@@ -19,7 +19,7 @@ import {
   AuthorizationIssueRequest,
   AuthorizationIssueResponse,
   authorizationIssueResponseSchema,
-} from 'au3te-ts-common/schemas.authorization-issue';
+} from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';

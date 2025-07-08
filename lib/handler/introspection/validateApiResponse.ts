@@ -15,7 +15,7 @@
  * License.
  */
 
-import { IntrospectionResponse } from 'au3te-ts-common/schemas.introspection';
+import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
 import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,

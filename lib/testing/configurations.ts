@@ -16,7 +16,7 @@
  */
 
 import { ApiClientImpl } from '../api/ApiClientImpl';
-import { AuthleteConfiguration } from 'au3te-ts-common/conf';
+import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import { sessionSchemas } from '../session/sessionSchemas';
 import { InMemorySession } from '../session/InMemorySession';
 import { BaseHandlerConfigurationImpl } from '../handler/BaseHandlerConfigurationImpl';
@@ -27,20 +27,38 @@ import { CredentialMetadataHandlerConfigurationImpl } from '../handler/credentia
 import { AuthorizationHandlerConfigurationImpl } from '../handler/authorization/AuthorizationHandlerConfigurationImpl';
 import { AuthorizationIssueHandlerConfigurationImpl } from '../handler/authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
 import { AuthorizationFailHandlerConfigurationImpl } from '../handler/authorization-fail/AuthorizationFailHandlerConfigurationImpl';
-import { AuthorizationPageHandlerConfigurationImpl } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.authorization-page';
 import { AuthorizationDecisionHandlerConfigurationImpl } from '../handler/authorization-decision/AuthorizationDecisionHandlerConfigurationImpl';
-import { UserHandlerConfigurationImpl } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.user';
 import { TokenHandlerConfigurationImpl } from '../handler/token/TokenHandlerConfigurationImpl';
 import { TokenCreateHandlerConfigurationImpl } from '../handler/token-create/TokenCreateHandlerConfigurationImpl';
 import { TokenFailHandlerConfigurationImpl } from '../handler/token-fail/TokenFailHandlerConfigurationImpl';
 import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/TokenIssueHandlerConfigurationImpl';
 import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
 import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
-import { CommonCredentialHandlerConfigurationImpl } from 'au3te-ts-common/handler.credential';
+import { CommonCredentialHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.credential';
 import { BaseCredentialHandlerConfigurationImpl } from '../handler/credential/BaseCredentialHandlerConfigurationImpl';
 import { CredentialSingleIssueHandlerConfigurationImpl } from '../handler/credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
 import { ServiceJwksHandlerConfigurationImpl } from '../handler/service-jwks/ServiceJwksHandlerConfigurationImpl';
 import { CredentialIssuerJwksHandlerConfigurationImpl } from '../handler/credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
+import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
+
+/**
+ * Converts IntrospectionResponse from input type to output type to resolve zod type incompatibility
+ */
+export const convertIntrospectionResponse = (
+  response: IntrospectionResponse
+): IntrospectionResponse => {
+  return {
+    ...response,
+    authorizationDetails: response.authorizationDetails
+      ? {
+          ...response.authorizationDetails,
+          elements: response.authorizationDetails.elements || [],
+        }
+      : null,
+  } as IntrospectionResponse;
+};
 
 export const configuration: AuthleteConfiguration = {
   apiVersion: process.env.API_VERSION || '',

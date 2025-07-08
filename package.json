@@ -16,136 +16,133 @@
   "exports": {
     "./api": {
       "types": "./dist/api/index.d.ts",
-      "import": "./dist/api/index.js",
+      "import": "./dist/api/index.mjs",
       "require": "./dist/api/index.cjs"
     },
     "./handler": {
       "types": "./dist/handler/index.d.ts",
-      "import": "./dist/handler/index.js",
+      "import": "./dist/handler/index.mjs",
       "require": "./dist/handler/index.cjs"
     },
     "./handler.par": {
       "types": "./dist/handler/par/index.d.ts",
-      "import": "./dist/handler/par/index.js",
+      "import": "./dist/handler/par/index.mjs",
       "require": "./dist/handler/par/index.cjs"
     },
     "./handler.authorization": {
       "types": "./dist/handler/authorization/index.d.ts",
-      "import": "./dist/handler/authorization/index.js",
+      "import": "./dist/handler/authorization/index.mjs",
       "require": "./dist/handler/authorization/index.cjs"
     },
     "./handler.authorization-decision": {
       "types": "./dist/handler/authorization-decision/index.d.ts",
-      "import": "./dist/handler/authorization-decision/index.js",
+      "import": "./dist/handler/authorization-decision/index.mjs",
       "require": "./dist/handler/authorization-decision/index.cjs"
     },
     "./handler.authorization-issue": {
       "types": "./dist/handler/authorization-issue/index.d.ts",
-      "import": "./dist/handler/authorization-issue/index.js",
+      "import": "./dist/handler/authorization-issue/index.mjs",
       "require": "./dist/handler/authorization-issue/index.cjs"
     },
     "./handler.authorization-fail": {
       "types": "./dist/handler/authorization-fail/index.d.ts",
-      "import": "./dist/handler/authorization-fail/index.js",
+      "import": "./dist/handler/authorization-fail/index.mjs",
       "require": "./dist/handler/authorization-fail/index.cjs"
     },
     "./handler.credential": {
       "types": "./dist/handler/credential/index.d.ts",
-      "import": "./dist/handler/credential/index.js",
+      "import": "./dist/handler/credential/index.mjs",
       "require": "./dist/handler/credential/index.cjs"
     },
     "./handler.token": {
       "types": "./dist/handler/token/index.d.ts",
-      "import": "./dist/handler/token/index.js",
+      "import": "./dist/handler/token/index.mjs",
       "require": "./dist/handler/token/index.cjs"
     },
     "./handler.token-issue": {
       "types": "./dist/handler/token-issue/index.d.ts",
-      "import": "./dist/handler/token-issue/index.js",
+      "import": "./dist/handler/token-issue/index.mjs",
       "require": "./dist/handler/token-issue/index.cjs"
     },
     "./handler.token-fail": {
       "types": "./dist/handler/token-fail/index.d.ts",
-      "import": "./dist/handler/token-fail/index.js",
+      "import": "./dist/handler/token-fail/index.mjs",
       "require": "./dist/handler/token-fail/index.cjs"
     },
     "./handler.token-create": {
       "types": "./dist/handler/token-create/index.d.ts",
-      "import": "./dist/handler/token-create/index.js",
+      "import": "./dist/handler/token-create/index.mjs",
       "require": "./dist/handler/token-create/index.cjs"
     },
     "./handler.introspection": {
       "types": "./dist/handler/introspection/index.d.ts",
-      "import": "./dist/handler/introspection/index.js",
+      "import": "./dist/handler/introspection/index.mjs",
       "require": "./dist/handler/introspection/index.cjs"
     },
     "./handler.service-configuration": {
       "types": "./dist/handler/service-configuration/index.d.ts",
-      "import": "./dist/handler/service-configuration/index.js",
+      "import": "./dist/handler/service-configuration/index.mjs",
       "require": "./dist/handler/service-configuration/index.cjs"
     },
     "./handler.credential-metadata": {
       "types": "./dist/handler/credential-metadata/index.d.ts",
-      "import": "./dist/handler/credential-metadata/index.js",
+      "import": "./dist/handler/credential-metadata/index.mjs",
       "require": "./dist/handler/credential-metadata/index.cjs"
     },
     "./handler.credential-single-parse": {
       "types": "./dist/handler/credential-single-parse/index.d.ts",
-      "import": "./dist/handler/credential-single-parse/index.js",
+      "import": "./dist/handler/credential-single-parse/index.mjs",
       "require": "./dist/handler/credential-single-parse/index.cjs"
     },
     "./handler.credential-single-issue": {
       "types": "./dist/handler/credential-single-issue/index.d.ts",
-      "import": "./dist/handler/credential-single-issue/index.js",
+      "import": "./dist/handler/credential-single-issue/index.mjs",
       "require": "./dist/handler/credential-single-issue/index.cjs"
     },
     "./handler.credential-issuer-jwks": {
       "types": "./dist/handler/credential-issuer-jwks/index.d.ts",
-      "import": "./dist/handler/credential-issuer-jwks/index.js",
+      "import": "./dist/handler/credential-issuer-jwks/index.mjs",
       "require": "./dist/handler/credential-issuer-jwks/index.cjs"
     },
     "./handler.service-jwks": {
       "types": "./dist/handler/service-jwks/index.d.ts",
-      "import": "./dist/handler/service-jwks/index.js",
+      "import": "./dist/handler/service-jwks/index.mjs",
       "require": "./dist/handler/service-jwks/index.cjs"
     },
     "./extractor": {
       "types": "./dist/extractor/index.d.ts",
-      "import": "./dist/extractor/index.js",
+      "import": "./dist/extractor/index.mjs",
       "require": "./dist/extractor/index.cjs"
     },
     "./session": {
       "types": "./dist/session/index.d.ts",
-      "import": "./dist/session/index.js",
+      "import": "./dist/session/index.mjs",
       "require": "./dist/session/index.cjs"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js",
+      "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.cjs"
     }
   },
   "scripts": {
-    "build": "vite build && tsc",
-    "test": "vitest --run"
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest --run",
+    "prepublishOnly": "npm test && npm run build"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
-    "memfs": "^4.11.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
-    "vite-plugin-node-polyfills": "^0.21.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^1.4.0"
   },
-  "dependencies": {
-    "zod": "^3.23.8"
-  },
   "peerDependencies": {
-    "@vecrea/au3te-ts-common": "^0.1.0",
-    "@vecrea/oid4vc-core": "^0.1.0"
+    "@vecrea/au3te-ts-common": "^0.1.2",
+    "@vecrea/oid4vc-core": "^0.1.0",
+    "u8a-utils": "^1.0.12",
+    "zod": "^3.23.8"
   }
 }

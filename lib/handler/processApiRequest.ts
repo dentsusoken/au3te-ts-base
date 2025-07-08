@@ -16,7 +16,7 @@
  */
 
 import { z } from 'zod';
-import { ApiClient } from 'au3te-ts-common/api';
+import { ApiClient } from '@vecrea/au3te-ts-common/api';
 
 /**
  * Represents a function that processes an API request and returns a promise of the response.

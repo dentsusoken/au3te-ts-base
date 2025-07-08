@@ -15,7 +15,7 @@
  * License.
  */
 
-import { User } from 'au3te-ts-common/schemas.common';
+import { User } from '@vecrea/au3te-ts-common/schemas.common';
 
 /**
  * Type definition for a function that collects claims from a user

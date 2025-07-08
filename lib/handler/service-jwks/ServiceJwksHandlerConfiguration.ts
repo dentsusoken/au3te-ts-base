@@ -18,7 +18,7 @@
 import {
   ServiceJwksRequest,
   ServiceJwksResponse,
-} from 'au3te-ts-common/schemas.service-jwks';
+} from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';

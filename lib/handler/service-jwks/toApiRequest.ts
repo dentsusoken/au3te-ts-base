@@ -15,7 +15,7 @@
  * License.
  */
 
-import { ServiceJwksRequest } from 'au3te-ts-common/schemas.service-jwks';
+import { ServiceJwksRequest } from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import { ToApiRequest } from '../toApiRequest';
 
 /**

@@ -18,7 +18,7 @@
 import {
   CredentialIssuerMetadataRequest,
   CredentialIssuerMetadataResponse,
-} from 'au3te-ts-common/schemas.credential-metadata';
+} from '@vecrea/au3te-ts-common/schemas.credential-metadata';
 import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
 
 /**

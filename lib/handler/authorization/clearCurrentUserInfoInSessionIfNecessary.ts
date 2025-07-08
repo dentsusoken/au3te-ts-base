@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { CheckPrompts } from './checkPrompts';
 import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
@@ -64,7 +64,8 @@ export const createClearCurrentUserInfoInSessionIfNecessary =
   async (response, session) => {
     const authTime = (await session.get('authTime')) ?? 0;
     const shouldClearCurrentUserInfoInSession =
-      checkPrompts(response.prompts) || checkAuthAge(authTime, response.maxAge);
+      checkPrompts(response.prompts) ||
+      checkAuthAge(authTime, response.maxAge ?? undefined);
 
     if (shouldClearCurrentUserInfoInSession) {
       await clearCurrentUserInfoInSession(session);

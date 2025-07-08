@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createProcessApiResponse } from './processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { CredentialSingleIssueResponse } from 'au3te-ts-common/schemas.credential-single-issue';
+import { CredentialSingleIssueResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { ApiResponseWithOptions } from '../types';
 import { CredentialApiOptions } from '../credential/types';
 

@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationFailResponse } from 'au3te-ts-common/schemas.authorization-fail';
+import { AuthorizationFailResponse } from '@vecrea/au3te-ts-common/schemas.authorization-fail';
 import * as responseFactory from '../../utils/responseFactory';
 import {
   ProcessApiResponse,

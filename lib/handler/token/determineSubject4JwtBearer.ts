@@ -15,9 +15,9 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
-import { runAsyncCatching } from 'oid4vc-core/utils';
-import { getSubFromJwt } from 'au3te-ts-common/utils';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
+import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
 import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
 

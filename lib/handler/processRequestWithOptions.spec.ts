@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createProcessRequestWithOptions } from './processRequestWithOptions';
-import { Result } from 'oid4vc-core/utils';
+import { Result } from '@vecrea/oid4vc-core/utils';
 
 describe('createProcessRequestWithOptions', () => {
   // Mock functions

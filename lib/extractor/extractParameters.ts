@@ -15,7 +15,7 @@
  * License.
  */
 
-import { isJsonType, isFormUrlEncodedType } from 'au3te-ts-common/utils';
+import { isJsonType, isFormUrlEncodedType } from '@vecrea/au3te-ts-common/utils';
 
 /**
  * Represents a function that extracts parameters from a Request object.

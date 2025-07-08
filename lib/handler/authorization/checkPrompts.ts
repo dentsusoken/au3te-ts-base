@@ -17,10 +17,10 @@
 
 /**
  * Represents a function that checks if the 'login' prompt is included in the given array of prompts.
- * @param {string[] | undefined} prompts - An array of prompt strings or undefined.
+ * @param {string[] | undefined | null} prompts - An array of prompt strings or undefined or null.
  * @returns {boolean} True if 'login' is included in the prompts, false otherwise.
  */
-export type CheckPrompts = (prompts: string[] | undefined) => boolean;
+export type CheckPrompts = (prompts: string[] | undefined | null) => boolean;
 
 /**
  * Default implementation of the CheckPrompts function.

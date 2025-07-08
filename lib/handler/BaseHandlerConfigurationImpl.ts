@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CommonHandlerConfigurationImpl } from 'au3te-ts-common/handler';
+import { CommonHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler';
 import { BaseHandlerConfiguration } from './BaseHandlerConfiguration';
 import {
   createRecoverResponseResult,
@@ -23,7 +23,7 @@ import {
 } from './recoverResponseResult';
 import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
-import { ApiClient } from 'au3te-ts-common/api';
+import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { defaultPrepareHeaders, PrepareHeaders } from './prepareHeaders';
 
 /**

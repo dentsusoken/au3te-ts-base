@@ -19,7 +19,7 @@ import {
   TokenFailRequest,
   TokenFailResponse,
   tokenFailResponseSchema,
-} from 'au3te-ts-common/schemas.token-fail';
+} from '@vecrea/au3te-ts-common/schemas.token-fail';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';

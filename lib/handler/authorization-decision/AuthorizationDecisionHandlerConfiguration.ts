@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
+import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { ProcessRequest } from '../processRequest';
 import { ToApiRequest } from '../toApiRequest';
 import { CollectClaims } from './collectClaims';

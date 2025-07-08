@@ -15,7 +15,7 @@
  * License.
  */
 
-import { BuildUnknownActionMessage } from 'au3te-ts-common/handler';
+import { BuildUnknownActionMessage } from '@vecrea/au3te-ts-common/handler';
 
 /**
  * Parameters for creating a validate API response function.

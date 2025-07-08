@@ -15,7 +15,11 @@
  * License.
  */
 
-import { HttpStatus, MediaType, getStatusText } from 'au3te-ts-common/utils';
+import {
+  HttpStatus,
+  MediaType,
+  getStatusText,
+} from '@vecrea/au3te-ts-common/utils';
 
 /**
  * Fixed headers to be included in all responses.
@@ -40,7 +44,7 @@ export type Headers = Record<string, string>;
 export const createResponse = (
   status: HttpStatus,
   contentType: MediaType | undefined,
-  body: string | undefined,
+  body: string | undefined | null,
   headers: Headers = {}
 ) => {
   const newHeaders: Headers = {
@@ -65,7 +69,7 @@ export const createResponse = (
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 200 OK status.
  */
-export const ok = (body?: string, headers?: Headers) =>
+export const ok = (body?: string | null, headers?: Headers) =>
   createResponse(HttpStatus.OK, MediaType.APPLICATION_JSON_UTF8, body, headers);
 
 /**
@@ -78,7 +82,7 @@ export const ok = (body?: string, headers?: Headers) =>
  *                     - Content-Type: application/jwt
  *                     - Body: The provided JWT string or empty if not provided
  */
-export const okJwt = (body?: string, headers?: Headers) =>
+export const okJwt = (body?: string | null, headers?: Headers) =>
   createResponse(HttpStatus.OK, MediaType.APPLICATION_JWT, body, headers);
 
 /**
@@ -96,7 +100,7 @@ export const okJwt = (body?: string, headers?: Headers) =>
  *
  * @see {@link https://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html|OAuth 2.0 Form Post Response Mode}
  */
-export const form = (body?: string) =>
+export const form = (body?: string | null) =>
   createResponse(HttpStatus.OK, MediaType.TEXT_HTML_UTF8, body);
 
 /**
@@ -106,7 +110,7 @@ export const form = (body?: string) =>
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 201 Created status.
  */
-export const created = (body?: string, headers?: Headers) =>
+export const created = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.CREATED,
     MediaType.APPLICATION_JSON_UTF8,
@@ -124,7 +128,7 @@ export const created = (body?: string, headers?: Headers) =>
  *                     - Content-Type: application/json;charset=UTF-8
  *                     - Body: The provided JSON string or empty if not provided
  */
-export const accepted = (body?: string, headers?: Headers) =>
+export const accepted = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.ACCEPTED,
     MediaType.APPLICATION_JSON_UTF8,
@@ -142,7 +146,7 @@ export const accepted = (body?: string, headers?: Headers) =>
  *                     - Content-Type: application/jwt
  *                     - Body: The provided JWT string or empty if not provided
  */
-export const acceptedJwt = (body?: string, headers?: Headers) =>
+export const acceptedJwt = (body?: string | null, headers?: Headers) =>
   createResponse(HttpStatus.ACCEPTED, MediaType.APPLICATION_JWT, body, headers);
 
 /**
@@ -173,7 +177,7 @@ export const location = (location: string) =>
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 400 Bad Request status.
  */
-export const badRequest = (body?: string, headers?: Headers) =>
+export const badRequest = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.BAD_REQUEST,
     MediaType.APPLICATION_JSON_UTF8,
@@ -190,8 +194,8 @@ export const badRequest = (body?: string, headers?: Headers) =>
  * @returns A new Response object with 401 Unauthorized status.
  */
 export const unauthorized = (
-  body?: string,
-  challenge?: string,
+  body?: string | null,
+  challenge?: string | null,
   headers?: Headers
 ) =>
   createResponse(
@@ -211,7 +215,7 @@ export const unauthorized = (
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 403 Forbidden status.
  */
-export const forbidden = (body?: string, headers?: Headers) =>
+export const forbidden = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.FORBIDDEN,
     MediaType.APPLICATION_JSON_UTF8,
@@ -226,7 +230,7 @@ export const forbidden = (body?: string, headers?: Headers) =>
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 404 Not Found status.
  */
-export const notFound = (body?: string, headers?: Headers) =>
+export const notFound = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.NOT_FOUND,
     MediaType.APPLICATION_JSON_UTF8,
@@ -244,7 +248,7 @@ export const notFound = (body?: string, headers?: Headers) =>
  * @returns A new Response object with 413 Request Entity Too Large status
  *          and application/json;charset=utf-8 content type.
  */
-export const tooLarge = (body?: string, headers?: Headers) =>
+export const tooLarge = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.REQUEST_ENTITY_TOO_LARGE,
     MediaType.APPLICATION_JSON_UTF8,
@@ -259,7 +263,7 @@ export const tooLarge = (body?: string, headers?: Headers) =>
  * @param headers - Additional headers to include in the response.
  * @returns A new Response object with 500 Internal Server Error status.
  */
-export const internalServerError = (body?: string, headers?: Headers) =>
+export const internalServerError = (body?: string | null, headers?: Headers) =>
   createResponse(
     HttpStatus.INTERNAL_SERVER_ERROR,
     MediaType.APPLICATION_JSON_UTF8,

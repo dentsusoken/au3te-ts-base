@@ -18,7 +18,7 @@
 import {
   CredentialSingleIssueRequest,
   CredentialSingleIssueResponse,
-} from 'au3te-ts-common/schemas.credential-single-issue';
+} from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { ToApiRequest } from '../toApiRequest';
 import { CredentialApiOptions } from '../credential/types';
 import { ApiRequestWithOptions, ApiResponseWithOptions } from '../types';

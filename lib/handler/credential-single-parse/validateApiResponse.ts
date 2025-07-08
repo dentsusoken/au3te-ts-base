@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialSingleParseResponse } from 'au3te-ts-common/schemas.credential-single-parse';
+import { CredentialSingleParseResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
 import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,
@@ -68,11 +68,7 @@ export const createValidateApiResponse =
       case 'BAD_REQUEST':
         throw badRequestResponseError(responseContent!, headers);
       case 'UNAUTHORIZED':
-        throw unauthorizedResponseError(
-          accessToken,
-          responseContent ?? undefined,
-          headers
-        );
+        throw unauthorizedResponseError(accessToken, responseContent, headers);
       case 'FORBIDDEN':
         throw forbiddenResponseError(responseContent!, headers);
       case 'OK':

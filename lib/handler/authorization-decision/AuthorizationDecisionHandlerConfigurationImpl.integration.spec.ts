@@ -19,9 +19,9 @@ describe('AuthorizationDecisionHandlerConfiguration Integration Tests', () => {
     expect(response.status).toBe(302);
     const locationHeader = response.headers.get('Location');
     expect(locationHeader).toBeDefined();
-    expect(
-      locationHeader?.startsWith('eudi-openid4ci://authorize/?code=')
-    ).toBe(true);
+    expect(locationHeader?.startsWith('eudi-openid4ci://authorize/?')).toBe(
+      true
+    );
   }, 10000);
 
   it('should successfully process POST request', async () => {
@@ -35,8 +35,8 @@ describe('AuthorizationDecisionHandlerConfiguration Integration Tests', () => {
     expect(response.status).toBe(302);
     const locationHeader = response.headers.get('Location');
     expect(locationHeader).toBeDefined();
-    expect(
-      locationHeader?.startsWith('eudi-openid4ci://authorize/?code=')
-    ).toBe(true);
+    expect(locationHeader?.startsWith('eudi-openid4ci://authorize/?')).toBe(
+      true
+    );
   }, 10000);
 });

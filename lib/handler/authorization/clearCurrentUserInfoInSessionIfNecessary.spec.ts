@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createClearCurrentUserInfoInSessionIfNecessary } from './clearCurrentUserInfoInSessionIfNecessary';
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 

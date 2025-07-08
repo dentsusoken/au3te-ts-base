@@ -15,10 +15,10 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
 import { Handle } from '../handle';
-import { TokenCreateRequest } from 'au3te-ts-common/schemas.token-create';
+import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
 import { Headers } from '../../utils/responseFactory';
 
 /**

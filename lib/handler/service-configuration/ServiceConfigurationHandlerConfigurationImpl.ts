@@ -19,7 +19,7 @@ import {
   ServiceConfigurationRequest,
   ServiceConfigurationResponse,
   serviceConfigurationResponseSchema,
-} from 'au3te-ts-common/schemas.service-configuration';
+} from '@vecrea/au3te-ts-common/schemas.service-configuration';
 import {
   createProcessGetApiRequest,
   ProcessApiRequest,

@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { AuthorizationHandlerConfigurationImpl } from './AuthorizationHandlerConfigurationImpl';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
-import { ApiClient } from 'au3te-ts-common/api';
+import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
-import { AuthorizationPageHandlerConfiguration } from 'au3te-ts-common/handler.authorization-page';
+import { AuthorizationPageHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.authorization-page';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 describe('AuthorizationHandlerConfigurationImpl', () => {

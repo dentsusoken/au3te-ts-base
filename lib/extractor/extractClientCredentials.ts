@@ -15,7 +15,7 @@
  * License.
  */
 
-import { parseBasicCredentials } from 'au3te-ts-common/utils';
+import { parseBasicCredentials } from '@vecrea/au3te-ts-common/utils';
 
 /**
  * Type representing client credentials.

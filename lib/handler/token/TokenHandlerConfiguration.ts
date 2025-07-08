@@ -15,7 +15,10 @@
  * License.
  */
 
-import { TokenRequest, TokenResponse } from 'au3te-ts-common/schemas.token';
+import {
+  TokenRequest,
+  TokenResponse,
+} from '@vecrea/au3te-ts-common/schemas.token';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';

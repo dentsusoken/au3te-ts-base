@@ -15,7 +15,7 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 /**
  * Function type for determining the subject from a token response.

@@ -88,7 +88,7 @@ export const notFoundResponseError = (
  */
 export const unauthorizedResponseError = (
   message: string,
-  challenge?: string,
+  challenge?: string | null,
   headers?: responseFactory.Headers
 ): ResponseError => {
   const body = JSON.stringify({

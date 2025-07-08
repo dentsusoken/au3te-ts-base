@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationRequest } from 'au3te-ts-common/schemas.authorization';
+import { AuthorizationRequest } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { ExtractParameters } from '../../extractor/extractParameters';
 import { ToApiRequest } from '../toApiRequest';
 

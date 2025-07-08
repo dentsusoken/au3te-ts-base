@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { TokenIssueResponse } from 'au3te-ts-common/schemas.token-issue';
+import { TokenIssueResponse } from '@vecrea/au3te-ts-common/schemas.token-issue';
 import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {

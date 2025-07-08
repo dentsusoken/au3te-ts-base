@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createHandleWithOptions } from './handleWithOptions';
-import { Result } from 'oid4vc-core/utils';
+import { Result } from '@vecrea/oid4vc-core/utils';
 
 describe('createHandleWithOptions', () => {
   // Mock functions

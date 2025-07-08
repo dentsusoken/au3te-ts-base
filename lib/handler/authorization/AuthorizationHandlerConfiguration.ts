@@ -18,7 +18,7 @@
 import {
   AuthorizationRequest,
   AuthorizationResponse,
-} from 'au3te-ts-common/schemas.authorization';
+} from '@vecrea/au3te-ts-common/schemas.authorization';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';

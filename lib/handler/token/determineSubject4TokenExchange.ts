@@ -15,11 +15,11 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
-import { runAsyncCatching } from 'oid4vc-core/utils';
-import { getSubFromJwt } from 'au3te-ts-common/utils';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
+import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
 import { badRequestResponseError } from '../responseErrorFactory';
-import { TokenInfo } from 'au3te-ts-common/schemas.common';
+import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { DetermineSubject } from './determineSubject';
 
 /**
@@ -34,7 +34,7 @@ import { DetermineSubject } from './determineSubject';
  * @throws {Error} If token info is missing or doesn't contain a subject
  */
 export const determineSubjectBySubjectTokenInfo = async (
-  subjectTokenInfo: TokenInfo | undefined
+  subjectTokenInfo: TokenInfo | undefined | null
 ): Promise<string> => {
   if (!subjectTokenInfo) {
     throw badRequestResponseError(
@@ -65,7 +65,7 @@ export const determineSubjectBySubjectTokenInfo = async (
  * @throws {Error} If the token is invalid or the subject cannot be extracted
  */
 export const determineSubjectBySubjectToken = async (
-  subjectToken: string | undefined
+  subjectToken: string | undefined | null
 ): Promise<string> => {
   if (!subjectToken) {
     throw badRequestResponseError(

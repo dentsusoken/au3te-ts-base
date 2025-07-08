@@ -15,7 +15,7 @@
  * License.
  */
 
-import { runAsyncCatching } from 'oid4vc-core/utils';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { ToApiRequest } from './toApiRequest';
 import { RecoverResponseResult } from './recoverResponseResult';
 import { HandleWithOptions } from './handleWithOptions';

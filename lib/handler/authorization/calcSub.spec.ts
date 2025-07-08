@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { defaultCalcSub } from './calcSub';
-import { Client } from 'au3te-ts-common/schemas.common';
+import { Client } from '@vecrea/au3te-ts-common/schemas.common';
 
 // Mock the crypto.subtle.digest function
 const mockDigest = vi.fn();
@@ -17,9 +17,21 @@ describe('defaultCalcSub', () => {
     expect(result).toBeUndefined();
   });
 
+  // Test case for null subject
+  it('should return undefined for null subject', async () => {
+    const result = await defaultCalcSub(null, {} as Client);
+    expect(result).toBeUndefined();
+  });
+
   // Test case for undefined client
   it('should return undefined for undefined client', async () => {
     const result = await defaultCalcSub('subject', undefined);
+    expect(result).toBeUndefined();
+  });
+
+  // Test case for null client
+  it('should return undefined for null client', async () => {
+    const result = await defaultCalcSub('subject', null);
     expect(result).toBeUndefined();
   });
 

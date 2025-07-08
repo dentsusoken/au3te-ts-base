@@ -15,8 +15,8 @@
  * License.
  */
 
-import { AuthorizationResponse } from 'au3te-ts-common/schemas.authorization';
-import { AuthorizationDecisionParams } from 'au3te-ts-common/schemas.authorization-decision';
+import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
+import { AuthorizationDecisionParams } from '@vecrea/au3te-ts-common/schemas.authorization-decision';
 
 /**
  * Type definition for a function that converts AuthorizationResponse to AuthorizationDecisionParams
@@ -33,7 +33,7 @@ export type ResponseToDecisionParams = (
  * @returns {string[] | undefined} Updated claim names array with 'txn' added if applicable
  */
 const addTxnToClaimNames = (
-  claimNames: string[] | undefined
+  claimNames: string[] | undefined | null
 ): string[] | undefined => {
   if (!claimNames) {
     // if no claims were requested it can't be a connectid au request
@@ -45,7 +45,7 @@ const addTxnToClaimNames = (
 };
 
 const normalizeClaimLocales = (
-  claimLocales: string[] | undefined
+  claimLocales: string[] | undefined | null
 ): string[] | undefined => {
   if (!claimLocales || claimLocales.length === 0) {
     return undefined;

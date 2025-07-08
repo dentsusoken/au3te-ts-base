@@ -15,7 +15,7 @@
  * License.
  */
 
-import { PushedAuthReqResponse } from 'au3te-ts-common/schemas.par';
+import { PushedAuthReqResponse } from '@vecrea/au3te-ts-common/schemas.par';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
@@ -48,7 +48,9 @@ export const createProcessApiResponse =
   }: ParCreateProcessApiResponseParams): ProcessApiResponse<PushedAuthReqResponse> =>
   async (apiResponse: PushedAuthReqResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
-    const headers = prepareHeaders({ dpopNonce: apiResponse.dpopNonce });
+    const headers = prepareHeaders({
+      dpopNonce: apiResponse.dpopNonce ?? undefined,
+    });
 
     switch (action) {
       case 'CREATED':

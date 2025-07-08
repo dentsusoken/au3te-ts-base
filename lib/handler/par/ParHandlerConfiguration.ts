@@ -18,7 +18,7 @@
 import {
   PushedAuthReqRequest,
   PushedAuthReqResponse,
-} from 'au3te-ts-common/schemas.par';
+} from '@vecrea/au3te-ts-common/schemas.par';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';

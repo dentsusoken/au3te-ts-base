@@ -15,9 +15,9 @@
  * License.
  */
 
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
-import { GrantType } from 'au3te-ts-common/schemas.common';
-import { TokenCreateRequest } from 'au3te-ts-common/schemas.token-create';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { GrantType } from '@vecrea/au3te-ts-common/schemas.common';
+import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
 import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
 

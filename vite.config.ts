@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   build: {
@@ -38,21 +39,18 @@ export default defineConfig({
       },
       name: 'au3te-ts-base',
       fileName: (format, entry) => {
-        const ext = format === 'es' ? 'js' : format;
+        const ext = format === 'es' ? 'mjs' : format;
         return `${entry}/index.${ext}`;
       },
     },
+    rollupOptions: {
+      external: ['@vecrea/au3te-ts-common', '@vecrea/oid4vc-core'],
+    },
   },
   plugins: [
-    nodePolyfills({
-      globals: {
-        Buffer: 'build',
-        global: 'build',
-        process: 'build',
-      },
-      overrides: {
-        fs: 'memfs',
-      },
+    dts({
+      rollupTypes: false,
+      exclude: ['lib/testing/**'],
     }),
   ],
 });

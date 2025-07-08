@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { AuthorizationIssueResponse } from 'au3te-ts-common/schemas.authorization-issue';
+import { AuthorizationIssueResponse } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {

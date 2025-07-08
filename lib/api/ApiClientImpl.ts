@@ -15,8 +15,8 @@
  * License.
  */
 
-import { AbstractApiClient } from 'au3te-ts-common/api';
-import { AuthleteConfiguration } from 'au3te-ts-common/conf';
+import { AbstractApiClient } from '@vecrea/au3te-ts-common/api';
+import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import * as apiPath from './apiPath';
 
 /**

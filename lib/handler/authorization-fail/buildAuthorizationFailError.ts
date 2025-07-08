@@ -18,7 +18,7 @@
 import {
   AuthorizationFailReason,
   AuthorizationFailRequest,
-} from 'au3te-ts-common/schemas.authorization-fail';
+} from '@vecrea/au3te-ts-common/schemas.authorization-fail';
 import { Handle } from '../handle';
 import { ResponseError } from '../ResponseError';
 

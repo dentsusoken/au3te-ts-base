@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { createGetOrAuthenticateUser } from './getOrAuthenticateUser';
 import { Session } from '../../session/Session';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { User } from 'au3te-ts-common/schemas.common';
+import { User } from '@vecrea/au3te-ts-common/schemas.common';
 
 describe('getOrAuthenticateUser', () => {
   // Mock user data

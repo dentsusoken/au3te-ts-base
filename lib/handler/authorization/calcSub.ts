@@ -15,23 +15,23 @@
  * License.
  */
 
-import { Client } from 'au3te-ts-common/schemas.common';
+import { Client } from '@vecrea/au3te-ts-common/schemas.common';
 
 /**
  * Calculates a subject identifier (sub) based on the given subject and client information.
- * @param {string | undefined} subject - The original subject identifier.
- * @param {Client | undefined} client - The client object containing subject type and sector identifier.
+ * @param {string | undefined | null} subject - The original subject identifier.
+ * @param {Client | undefined | null} client - The client object containing subject type and sector identifier.
  * @returns {Promise<string | undefined>} A promise that resolves to the calculated sub or undefined.
  */
 export type CalcSub = (
-  subject: string | undefined,
-  client: Client | undefined
+  subject: string | undefined | null,
+  client: Client | undefined | null
 ) => Promise<string | undefined>;
 
 /**
  * Default implementation of the CalcSub function.
- * @param {string | undefined} subject - The original subject identifier.
- * @param {Client | undefined} client - The client object containing subject type and sector identifier.
+ * @param {string | undefined | null} subject - The original subject identifier.
+ * @param {Client | undefined | null} client - The client object containing subject type and sector identifier.
  * @returns {Promise<string | undefined>} A promise that resolves to the calculated sub or undefined.
  */
 export const defaultCalcSub: CalcSub = async (subject, client) => {

@@ -15,7 +15,7 @@
  * License.
  */
 
-import { CredentialIssuerMetadataRequest } from 'au3te-ts-common/schemas.credential-metadata';
+import { CredentialIssuerMetadataRequest } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
 import { ToApiRequest } from '../toApiRequest';
 
 /**

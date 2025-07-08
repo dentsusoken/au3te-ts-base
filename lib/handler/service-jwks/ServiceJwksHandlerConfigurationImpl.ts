@@ -19,7 +19,7 @@ import {
   ServiceJwksRequest,
   ServiceJwksResponse,
   serviceJwksResponseSchema,
-} from 'au3te-ts-common/schemas.service-jwks';
+} from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import {
   createProcessGetApiRequest,
   ProcessApiRequest,

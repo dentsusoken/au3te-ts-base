@@ -4,8 +4,8 @@ import {
   determineSubjectBySubjectTokenInfo,
   determineSubjectBySubjectToken,
 } from './determineSubject4TokenExchange';
-import { TokenInfo } from 'au3te-ts-common/schemas.common';
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 describe('Token Exchange Subject Determination', () => {
   // Test suite for determineSubjectBySubjectTokenInfo

@@ -15,11 +15,11 @@
  * License.
  */
 
-import { Result } from 'oid4vc-core/utils';
-import { toErrorJson } from 'au3te-ts-common/utils';
+import { Result } from '@vecrea/oid4vc-core/utils';
+import { toErrorJson } from '@vecrea/au3te-ts-common/utils';
 import { ResponseError } from './ResponseError';
 import * as responseFactory from '../utils/responseFactory';
-import { BadRequestError, ProcessError } from 'au3te-ts-common/handler';
+import { BadRequestError, ProcessError } from '@vecrea/au3te-ts-common/handler';
 
 export type RecoverResponseResult = (
   path: string,

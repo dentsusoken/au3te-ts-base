@@ -14,7 +14,7 @@
  * language governing permissions and limitations under the
  * License.
  */
-import { runAsyncCatching } from 'oid4vc-core/utils';
+import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { ProcessApiRequest } from './processApiRequest';
 import { ProcessApiResponse } from './processApiResponse';
 import { RecoverResponseResult } from './recoverResponseResult';

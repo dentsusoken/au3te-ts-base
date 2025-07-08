@@ -19,7 +19,7 @@ import {
   CredentialIssuerJwksRequest,
   CredentialIssuerJwksResponse,
   credentialIssuerJwksResponseSchema,
-} from 'au3te-ts-common/schemas.credential-issuer-jwks';
+} from '@vecrea/au3te-ts-common/schemas.credential-issuer-jwks';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';

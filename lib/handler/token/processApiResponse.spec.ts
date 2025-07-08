@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from './processApiResponse';
 import * as responseFactory from '../../utils/responseFactory';
-import { TokenResponse } from 'au3te-ts-common/schemas.token';
+import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 // Mock responseFactory methods
 vi.mock('../../utils/responseFactory', () => ({

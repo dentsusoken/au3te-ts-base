@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createValidateApiResponse } from './validateApiResponse';
-import { CredentialSingleParseResponse } from 'au3te-ts-common/schemas.credential-single-parse';
+import { CredentialSingleParseResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
 import {
   internalServerErrorResponseError,
   badRequestResponseError,

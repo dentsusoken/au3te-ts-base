@@ -19,7 +19,7 @@ import {
   TokenRequest,
   TokenResponse,
   tokenResponseSchema,
-} from 'au3te-ts-common/schemas.token';
+} from '@vecrea/au3te-ts-common/schemas.token';
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
@@ -37,7 +37,7 @@ import { DetermineSubject } from './determineSubject';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
-import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';

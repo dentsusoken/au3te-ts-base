@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { CredentialIssuerMetadataResponse } from 'au3te-ts-common/schemas.credential-metadata';
+import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
 import { createProcessApiResponse } from './processApiResponse';
 
 describe('createProcessApiResponse', () => {

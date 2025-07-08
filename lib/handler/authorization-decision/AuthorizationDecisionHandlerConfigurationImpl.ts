@@ -15,7 +15,7 @@
  * License.
  */
 
-import { AuthorizationIssueRequest } from 'au3te-ts-common/schemas.authorization-issue';
+import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { sessionSchemas } from '../../session/sessionSchemas';
@@ -29,7 +29,7 @@ import {
   GetOrAuthenticateUser,
   createGetOrAuthenticateUser,
 } from './getOrAuthenticateUser';
-import { UserHandlerConfiguration } from 'au3te-ts-common/handler.user';
+import { UserHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.user';
 import { AuthorizationHandlerConfiguration } from '../authorization/AuthorizationHandlerConfiguration';
 import { SessionSchemas } from '../../session/types';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';
