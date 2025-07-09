@@ -16,12 +16,12 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { credentialSingleIssueHandlerConfiguration } from '../../testing/configurations';
-import { processParPostRequest } from '../../testing/par';
-import { processAuthorizationGetRequest } from '../../testing/authorization';
-import { processAuthorizationDecisionPostRequest } from '../../testing/authorizationDecision';
-import { processTokenPostRequest } from '../../testing/token';
-import { createCredentialSingleIssuePostRequest } from '../../testing/credentialSingleIssue';
+import { credentialSingleIssueHandlerConfiguration } from '../../../testing/configurations';
+import { processParPostRequest } from '../../../testing/par';
+import { processAuthorizationGetRequest } from '../../../testing/authorization';
+import { processAuthorizationDecisionPostRequest } from '../../../testing/authorizationDecision';
+import { processTokenPostRequest } from '../../../testing/token';
+import { createCredentialSingleIssuePostRequest } from '../../../testing/credentialSingleIssue';
 
 describe('CredentialSingleIssueHandlerConfigurationImpl Integration Tests', () => {
   it('should work with processRequest', async () => {

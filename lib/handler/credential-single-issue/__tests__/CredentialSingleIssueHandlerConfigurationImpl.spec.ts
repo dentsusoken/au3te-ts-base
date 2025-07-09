@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
-import { CredentialSingleIssueHandlerConfigurationImpl } from './CredentialSingleIssueHandlerConfigurationImpl';
-import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
-import { BaseCredentialHandlerConfiguration } from '../credential/BaseCredentialHandlerConfiguration';
-import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
-import { CredentialSingleParseHandlerConfiguration } from '../credential-single-parse/CredentialSingleParseHandlerConfiguration';
+import { CredentialSingleIssueHandlerConfigurationImpl } from '../CredentialSingleIssueHandlerConfigurationImpl';
+import { ExtractorConfiguration } from '../../../extractor/ExtractorConfiguration';
+import { BaseCredentialHandlerConfiguration } from '../../credential/BaseCredentialHandlerConfiguration';
+import { IntrospectionHandlerConfiguration } from '../../introspection/IntrospectionHandlerConfiguration';
+import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { CredentialSingleParseHandlerConfiguration } from '../../credential-single-parse/CredentialSingleParseHandlerConfiguration';
 import { CommonCredentialHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.credential';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { sessionSchemas } from '../../../session/sessionSchemas';
 
 describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
   // Mock functions

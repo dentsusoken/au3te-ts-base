@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createProcessApiResponse } from './processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { createProcessApiResponse } from '../processApiResponse';
+import * as responseFactory from '../../../utils/responseFactory';
 import { CredentialSingleIssueResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
-import { ApiResponseWithOptions } from '../types';
-import { CredentialApiOptions } from '../credential/types';
+import { ApiResponseWithOptions } from '../../types';
+import { CredentialApiOptions } from '../../credential/types';
 
 describe('createProcessApiResponse', () => {
   // Mock functions
   const mockBuildUnknownActionMessage = vi.fn();
 
   // Mock responseFactory methods
-  vi.mock('../../utils/responseFactory', () => ({
+  vi.mock('../../../utils/responseFactory', () => ({
     internalServerError: vi.fn(),
     badRequest: vi.fn(),
     unauthorized: vi.fn(),
