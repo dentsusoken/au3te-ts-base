@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultDetermineSubject4JwtBearer } from './determineSubject4JwtBearer';
+import { defaultDetermineSubject4JwtBearer } from '../determineSubject4JwtBearer';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 describe('defaultDetermineSubject4JwtBearer', () => {

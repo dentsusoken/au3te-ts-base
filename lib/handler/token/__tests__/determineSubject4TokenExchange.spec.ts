@@ -3,7 +3,7 @@ import {
   defaultDetermineSubject4TokenExchange,
   determineSubjectBySubjectTokenInfo,
   determineSubjectBySubjectToken,
-} from './determineSubject4TokenExchange';
+} from '../determineSubject4TokenExchange';
 import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 

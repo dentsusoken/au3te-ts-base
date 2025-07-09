@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createResponseToCreateRequest } from './responseToCreateRequest';
+import { createResponseToCreateRequest } from '../responseToCreateRequest';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 /**
