@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { TokenCreateResponse } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { createProcessApiResponse, buildOkMessage } from './processApiResponse';
+import {
+  createProcessApiResponse,
+  buildOkMessage,
+} from '../processApiResponse';
 
 describe('createProcessApiResponse', () => {
   const path = '/token';
