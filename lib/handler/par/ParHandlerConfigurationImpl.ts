@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { ParHandlerConfiguration } from './ParHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
@@ -68,10 +68,10 @@ export class ParHandlerConfigurationImpl<
    * Creates an instance of ParHandlerConfigurationImpl.
    */
   constructor({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     extractorConfiguration,
   }: {
-    baseHandlerConfiguration: BaseHandlerConfiguration<SS>;
+    serverHandlerConfiguration: ServerHandlerConfiguration<SS>;
     extractorConfiguration: ExtractorConfiguration;
   }) {
     const {
@@ -79,7 +79,7 @@ export class ParHandlerConfigurationImpl<
       buildUnknownActionMessage,
       recoverResponseResult,
       prepareHeaders,
-    } = baseHandlerConfiguration;
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.pushAuthorizationRequestPath,

@@ -16,7 +16,7 @@
  */
 
 import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { createProcessRequest, ProcessRequest } from '../processRequest';
@@ -37,7 +37,7 @@ import { AuthorizationFailHandlerConfiguration } from '../authorization-fail';
 type CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<
   SS extends SessionSchemas
 > = {
-  baseHandlerConfiguration: BaseHandlerConfiguration<typeof sessionSchemas>;
+  serverHandlerConfiguration: ServerHandlerConfiguration<typeof sessionSchemas>;
   extractorConfiguration: ExtractorConfiguration;
   userHandlerConfiguration: UserHandlerConfiguration;
   authorizationHandlerConfiguration: AuthorizationHandlerConfiguration<SS>;
@@ -76,7 +76,7 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
    * @param params - Configuration parameters
    */
   constructor({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     extractorConfiguration,
     userHandlerConfiguration,
     authorizationHandlerConfiguration,
@@ -88,7 +88,7 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
     );
 
     this.toApiRequest = createToApiRequest({
-      session: baseHandlerConfiguration.session,
+      session: serverHandlerConfiguration.session,
       extractParameters: extractorConfiguration.extractParameters,
       getOrAuthenticateUser: this.getOrAuthenticateUser,
       buildAuthorizationFailError:
@@ -101,7 +101,7 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
       path: this.path,
       toApiRequest: this.toApiRequest,
       handle: authorizationIssueHandlerConfiguration.handle,
-      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
     });
   }
 }

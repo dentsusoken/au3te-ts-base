@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { AuthorizationHandlerConfigurationImpl } from '../AuthorizationHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 import { AuthorizationIssueHandlerConfiguration } from '../../authorization-issue/AuthorizationIssueHandlerConfiguration';
@@ -15,9 +15,9 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
   } as ApiClient;
 
   // Use SessionSchemas as the type parameter
-  const mockBaseConfig = {
+  const mockServerConfig = {
     apiClient: mockApiClient,
-  } as unknown as BaseHandlerConfiguration<SessionSchemas>;
+  } as unknown as ServerHandlerConfiguration<SessionSchemas>;
 
   const mockAuthorizationIssueConfig = {
     handle: vi.fn(),
@@ -37,7 +37,7 @@ describe('AuthorizationHandlerConfigurationImpl', () => {
 
   it('should initialize with all required properties', () => {
     const config = new AuthorizationHandlerConfigurationImpl({
-      baseHandlerConfiguration: mockBaseConfig,
+      serverHandlerConfiguration: mockServerConfig,
       authorizationIssueHandlerConfiguration: mockAuthorizationIssueConfig,
       authorizationFailHandlerConfiguration: mockAuthorizationFailConfig,
       authorizationPageHandlerConfiguration: mockAuthorizationPageModelConfig,

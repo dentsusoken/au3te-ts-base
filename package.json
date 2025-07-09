@@ -1,6 +1,6 @@
 {
   "name": "@vecrea/au3te-ts-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "repository": {
     "type": "git",

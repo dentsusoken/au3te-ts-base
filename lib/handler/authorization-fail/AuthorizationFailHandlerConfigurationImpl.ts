@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from './AuthorizationFailHandlerConfiguration';
 import {
   BuildAuthorizationFailError,
@@ -60,13 +60,13 @@ export class AuthorizationFailHandlerConfigurationImpl
 
   /**
    * Creates an instance of AuthorizationFailHandlerConfigurationImpl.
-   * @param {BaseHandlerConfiguration<SessionSchemas>} baseHandlerConfiguration - The base handler configuration.
+   * @param {ServerHandlerConfiguration<SessionSchemas>} serverHandlerConfiguration - The server handler configuration.
    */
   constructor(
-    baseHandlerConfiguration: BaseHandlerConfiguration<SessionSchemas>
+    serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>
   ) {
     const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      baseHandlerConfiguration;
+      serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.authorizationFailPath,

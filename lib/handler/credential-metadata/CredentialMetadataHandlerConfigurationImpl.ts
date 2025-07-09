@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { CredentialMetadataHandlerConfiguration } from './CredentialMetadataHandlerConfiguration';
 import { ValidateApiResponse } from '../validateApiResponse';
 import {
@@ -81,9 +81,8 @@ export class CredentialMetadataHandlerConfigurationImpl<
   /**
    * Creates an instance of CredentialMetadataHandlerConfigurationImpl.
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      baseHandlerConfiguration;
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
+    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialIssuerMetadataPath,
@@ -93,7 +92,8 @@ export class CredentialMetadataHandlerConfigurationImpl<
 
     this.validateApiResponse = createValidateApiResponse({
       path: this.path,
-      buildUnknownActionMessage,
+      buildUnknownActionMessage:
+        serverHandlerConfiguration.buildUnknownActionMessage,
     });
 
     this.processApiRequestWithValidation =
@@ -104,7 +104,8 @@ export class CredentialMetadataHandlerConfigurationImpl<
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
-      buildUnknownActionMessage,
+      buildUnknownActionMessage:
+        serverHandlerConfiguration.buildUnknownActionMessage,
     });
 
     this.handle = createHandle({

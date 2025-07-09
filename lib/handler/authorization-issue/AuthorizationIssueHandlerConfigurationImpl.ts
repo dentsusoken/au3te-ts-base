@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from './AuthorizationIssueHandlerConfiguration';
 
 /**
@@ -54,11 +54,11 @@ export class AuthorizationIssueHandlerConfigurationImpl<
 
   /**
    * Creates an instance of AuthorizationIssueHandlerConfigurationImpl.
-   * @param {BaseHandlerConfiguration<SS>} baseHandlerConfiguration - The base handler configuration.
+   * @param {ServerHandlerConfiguration<SS>} serverHandlerConfiguration - The server handler configuration.
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
     const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      baseHandlerConfiguration;
+      serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.authorizationIssuePath,

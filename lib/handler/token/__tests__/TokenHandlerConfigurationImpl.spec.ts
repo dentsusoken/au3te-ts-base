@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { TokenHandlerConfigurationImpl } from '../TokenHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 import { UserHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.user';
@@ -16,9 +16,9 @@ describe('TokenHandlerConfigurationImpl', () => {
   } as unknown as ApiClient;
 
   // Mock base configuration
-  const mockBaseConfig = {
+  const mockServerConfig = {
     apiClient: mockApiClient,
-  } as unknown as BaseHandlerConfiguration<SessionSchemas>;
+  } as unknown as ServerHandlerConfiguration<SessionSchemas>;
 
   // Mock user configuration
   const mockUserConfig = {
@@ -49,7 +49,7 @@ describe('TokenHandlerConfigurationImpl', () => {
 
   it('should initialize with required properties', () => {
     const config = new TokenHandlerConfigurationImpl({
-      baseHandlerConfiguration: mockBaseConfig,
+      serverHandlerConfiguration: mockServerConfig,
       userHandlerConfiguration: mockUserConfig,
       tokenFailHandlerConfiguration: mockTokenFailConfig,
       tokenIssueHandlerConfiguration: mockTokenIssueConfig,

@@ -22,7 +22,7 @@ import {
 } from '@vecrea/au3te-ts-common/schemas.introspection';
 import { ProcessApiRequest } from '../processApiRequest';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from './IntrospectionHandlerConfiguration';
 import { ValidateApiResponse } from '../validateApiResponse';
 import {
@@ -62,9 +62,9 @@ export class IntrospectionHandlerConfigurationImpl<
   /**
    * Creates an instance of IntrospectionHandlerConfigurationImpl.
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
     const { apiClient, buildUnknownActionMessage, prepareHeaders } =
-      baseHandlerConfiguration;
+      serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.introspectionPath,

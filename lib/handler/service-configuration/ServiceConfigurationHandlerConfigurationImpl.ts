@@ -28,7 +28,7 @@ import { ProcessApiResponse } from '../processApiResponse';
 import { defaultProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { ServiceConfigurationHandlerConfiguration } from './ServiceConfigurationHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
@@ -68,8 +68,8 @@ export class ServiceConfigurationHandlerConfigurationImpl<
   /**
    * Creates an instance of ServiceConfigurationHandlerConfigurationImpl.
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
-    const { apiClient, recoverResponseResult } = baseHandlerConfiguration;
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
+    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessGetApiRequest(
       apiClient.serviceConfigurationPath,

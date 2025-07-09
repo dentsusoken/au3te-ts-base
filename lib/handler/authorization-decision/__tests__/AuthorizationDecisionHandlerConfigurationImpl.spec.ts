@@ -17,7 +17,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { AuthorizationDecisionHandlerConfigurationImpl } from '../AuthorizationDecisionHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { Session } from '../../../session/Session';
 import { sessionSchemas } from '../../../session/sessionSchemas';
@@ -48,18 +48,18 @@ const mockAuthorizationFailHandlerConfiguration = {
 
 describe('AuthorizationDecisionHandlerConfigurationImpl', () => {
   // Create a mock BaseHandlerConfiguration
-  const baseHandlerConfiguration = {
+  const serverHandlerConfiguration = {
     apiClient: mockApiClient,
     session: mockSession,
     recoverResponseResult: async () => new Response(),
-  } as unknown as BaseHandlerConfiguration<typeof sessionSchemas>;
+  } as unknown as ServerHandlerConfiguration<typeof sessionSchemas>;
 
   // Create ExtractorConfiguration instance
   const extractorConfiguration = new ExtractorConfigurationImpl();
 
   it('should initialize with required properties', () => {
     const config = new AuthorizationDecisionHandlerConfigurationImpl({
-      baseHandlerConfiguration,
+      serverHandlerConfiguration: serverHandlerConfiguration,
       extractorConfiguration,
       userHandlerConfiguration: mockUserHandlerConfiguration,
       authorizationHandlerConfiguration: mockAuthorizationHandlerConfiguration,

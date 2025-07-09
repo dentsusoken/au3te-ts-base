@@ -22,7 +22,7 @@ import {
 } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
 import { ProcessApiRequest } from '../processApiRequest';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from './CredentialSingleParseHandlerConfiguration';
 import { ValidateApiResponse } from '../validateApiResponse';
 import {
@@ -78,10 +78,10 @@ export class CredentialSingleParseHandlerConfigurationImpl<
   /**
    * Creates an instance of CredentialSingleParseHandlerConfigurationImpl.
    *
-   * @param baseHandlerConfiguration - Base configuration containing API client and utility functions
+   * @param serverHandlerConfiguration - Base configuration containing API client and utility functions
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage } = baseHandlerConfiguration;
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
+    const { apiClient, buildUnknownActionMessage } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialSingleParsePath,

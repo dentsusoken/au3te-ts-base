@@ -19,7 +19,7 @@ import { ApiClientImpl } from '../api/ApiClientImpl';
 import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import { sessionSchemas } from '../session/sessionSchemas';
 import { InMemorySession } from '../session/InMemorySession';
-import { BaseHandlerConfigurationImpl } from '../handler/BaseHandlerConfigurationImpl';
+import { ServerHandlerConfigurationImpl } from '../handler/ServerHandlerConfigurationImpl';
 import { ExtractorConfigurationImpl } from '../extractor/ExtractorConfigurationImpl';
 import { ParHandlerConfigurationImpl } from '../handler/par/ParHandlerConfigurationImpl';
 import { ServiceConfigurationHandlerConfigurationImpl } from '../handler/service-configuration/ServiceConfigurationHandlerConfigurationImpl';
@@ -51,24 +51,24 @@ export const configuration: AuthleteConfiguration = {
 
 export const apiClient = new ApiClientImpl(configuration);
 export const session = new InMemorySession(sessionSchemas);
-export const baseHandlerConfiguration = new BaseHandlerConfigurationImpl(
+export const serverHandlerConfiguration = new ServerHandlerConfigurationImpl(
   apiClient,
   session
 );
 export const extractorConfiguration = new ExtractorConfigurationImpl();
 export const parHandlerConfiguration = new ParHandlerConfigurationImpl({
-  baseHandlerConfiguration,
+  serverHandlerConfiguration,
   extractorConfiguration,
 });
 export const authorizationIssueHandlerConfiguration =
-  new AuthorizationIssueHandlerConfigurationImpl(baseHandlerConfiguration);
+  new AuthorizationIssueHandlerConfigurationImpl(serverHandlerConfiguration);
 export const authorizationFailHandlerConfiguration =
-  new AuthorizationFailHandlerConfigurationImpl(baseHandlerConfiguration);
+  new AuthorizationFailHandlerConfigurationImpl(serverHandlerConfiguration);
 export const authorizationPageHandlerConfiguration =
   new AuthorizationPageHandlerConfigurationImpl();
 export const authorizationHandlerConfiguration =
   new AuthorizationHandlerConfigurationImpl({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
     authorizationPageHandlerConfiguration,
@@ -77,7 +77,7 @@ export const authorizationHandlerConfiguration =
 export const userHandlerConfiguration = new UserHandlerConfigurationImpl();
 export const authorizationDecisionHandlerConfiguration =
   new AuthorizationDecisionHandlerConfigurationImpl({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     extractorConfiguration,
     userHandlerConfiguration,
     authorizationHandlerConfiguration,
@@ -85,13 +85,13 @@ export const authorizationDecisionHandlerConfiguration =
     authorizationFailHandlerConfiguration,
   });
 export const tokenCreateHandlerConfiguration =
-  new TokenCreateHandlerConfigurationImpl(baseHandlerConfiguration);
+  new TokenCreateHandlerConfigurationImpl(serverHandlerConfiguration);
 export const tokenFailHandlerConfiguration =
-  new TokenFailHandlerConfigurationImpl(baseHandlerConfiguration);
+  new TokenFailHandlerConfigurationImpl(serverHandlerConfiguration);
 export const tokenIssueHandlerConfiguration =
-  new TokenIssueHandlerConfigurationImpl(baseHandlerConfiguration);
+  new TokenIssueHandlerConfigurationImpl(serverHandlerConfiguration);
 export const tokenHandlerConfiguration = new TokenHandlerConfigurationImpl({
-  baseHandlerConfiguration,
+  serverHandlerConfiguration,
   userHandlerConfiguration,
   tokenFailHandlerConfiguration,
   tokenIssueHandlerConfiguration,
@@ -99,13 +99,13 @@ export const tokenHandlerConfiguration = new TokenHandlerConfigurationImpl({
   extractorConfiguration,
 });
 export const introspectionHandlerConfiguration =
-  new IntrospectionHandlerConfigurationImpl(baseHandlerConfiguration);
+  new IntrospectionHandlerConfigurationImpl(serverHandlerConfiguration);
 export const serviceConfigurationHandlerConfiguration =
-  new ServiceConfigurationHandlerConfigurationImpl(baseHandlerConfiguration);
+  new ServiceConfigurationHandlerConfigurationImpl(serverHandlerConfiguration);
 export const credentialMetadataHandlerConfiguration =
-  new CredentialMetadataHandlerConfigurationImpl(baseHandlerConfiguration);
+  new CredentialMetadataHandlerConfigurationImpl(serverHandlerConfiguration);
 export const credentialSingleParseHandlerConfiguration =
-  new CredentialSingleParseHandlerConfigurationImpl(baseHandlerConfiguration);
+  new CredentialSingleParseHandlerConfigurationImpl(serverHandlerConfiguration);
 export const commonCredentialHandlerConfiguration =
   new CommonCredentialHandlerConfigurationImpl({
     userHandlerConfiguration,
@@ -119,11 +119,11 @@ export const credentialSingleIssueHandlerConfiguration =
     extractorConfiguration,
     baseCredentialHandlerConfiguration,
     introspectionHandlerConfiguration,
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,
     commonCredentialHandlerConfiguration,
   });
 export const serviceJwksHandlerConfiguration =
-  new ServiceJwksHandlerConfigurationImpl(baseHandlerConfiguration);
+  new ServiceJwksHandlerConfigurationImpl(serverHandlerConfiguration);
 export const credentialIssuerJwksHandlerConfiguration =
-  new CredentialIssuerJwksHandlerConfigurationImpl(baseHandlerConfiguration);
+  new CredentialIssuerJwksHandlerConfigurationImpl(serverHandlerConfiguration);

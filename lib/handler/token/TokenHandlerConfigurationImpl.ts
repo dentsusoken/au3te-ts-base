@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { TokenHandlerConfiguration } from './TokenHandlerConfiguration';
 import { createHandlePassword } from './handlePassword';
 import { createHandleTokenCreate } from './handleTokenCreate';
@@ -52,8 +52,8 @@ import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
  * Provides all necessary configurations for handling token endpoint operations.
  */
 type TokenHandlerConfigurationImplConstructorParams = {
-  /** Base configuration for common handler operations */
-  baseHandlerConfiguration: BaseHandlerConfiguration<SessionSchemas>;
+  /** Server configuration for common handler operations */
+  serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>;
 
   /** Configuration for user authentication and management */
   userHandlerConfiguration: UserHandlerConfiguration;
@@ -135,7 +135,7 @@ export class TokenHandlerConfigurationImpl
    * @param {TokenHandlerConfigurationImplConstructorParams} params - Configuration parameters
    */
   constructor({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     userHandlerConfiguration,
     tokenFailHandlerConfiguration,
     tokenIssueHandlerConfiguration,
@@ -147,7 +147,7 @@ export class TokenHandlerConfigurationImpl
       buildUnknownActionMessage,
       recoverResponseResult,
       prepareHeaders,
-    } = baseHandlerConfiguration;
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.tokenPath,

@@ -18,7 +18,7 @@
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { BaseCredentialHandlerConfiguration } from '../credential/BaseCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { SessionSchemas } from '../../session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { createToApiRequest } from './toApiRequest';
@@ -36,7 +36,7 @@ type CreateCredentialSingleIssueHandlerConfigurationImplParams<
   extractorConfiguration: ExtractorConfiguration;
   baseCredentialHandlerConfiguration: BaseCredentialHandlerConfiguration;
   introspectionHandlerConfiguration: IntrospectionHandlerConfiguration;
-  baseHandlerConfiguration: BaseHandlerConfiguration<SS>;
+  serverHandlerConfiguration: ServerHandlerConfiguration<SS>;
   credentialSingleParseHandlerConfiguration: CredentialSingleParseHandlerConfiguration;
   commonCredentialHandlerConfiguration: CommonCredentialHandlerConfiguration;
 };
@@ -66,7 +66,7 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
     extractorConfiguration,
     baseCredentialHandlerConfiguration,
     introspectionHandlerConfiguration,
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,
     commonCredentialHandlerConfiguration,
   }: CreateCredentialSingleIssueHandlerConfigurationImplParams<SS>) {
@@ -78,36 +78,36 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
       computeHtu: baseCredentialHandlerConfiguration.computeHtu,
       introspect:
         introspectionHandlerConfiguration.processApiRequestWithValidation,
-      prepareHeaders: baseHandlerConfiguration.prepareHeaders,
+      prepareHeaders: serverHandlerConfiguration.prepareHeaders,
       parseSingleCredential:
         credentialSingleParseHandlerConfiguration.processApiRequestWithValidation,
       getToOrder: commonCredentialHandlerConfiguration.getToOrder,
     });
 
     this.processApiRequest = createProcessApiRequest(
-      baseHandlerConfiguration.apiClient.credentialSingleIssuePath,
+      serverHandlerConfiguration.apiClient.credentialSingleIssuePath,
       credentialSingleIssueResponseSchema,
-      baseHandlerConfiguration.apiClient
+      serverHandlerConfiguration.apiClient
     );
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage:
-        baseHandlerConfiguration.buildUnknownActionMessage,
+        serverHandlerConfiguration.buildUnknownActionMessage,
     });
 
     this.handle = createHandleWithOptions({
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
-      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
     });
 
     this.processRequest = createProcessRequestWithOptions({
       path: this.path,
       toApiRequest: this.toApiRequest,
       handle: this.handle,
-      recoverResponseResult: baseHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
     });
   }
 }

@@ -26,7 +26,7 @@ import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
 import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { CredentialIssuerJwksHandlerConfiguration } from './CredentialIssuerJwksHandlerConfiguration';
 import { ValidateApiResponse } from '../validateApiResponse';
 import {
@@ -81,9 +81,8 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
   /**
    * Creates an instance of CredentialIssuerJwksHandlerConfigurationImpl.
    */
-  constructor(baseHandlerConfiguration: BaseHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      baseHandlerConfiguration;
+  constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
+    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialIssuerJwksPath,
@@ -93,7 +92,8 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
 
     this.validateApiResponse = createValidateApiResponse({
       path: this.path,
-      buildUnknownActionMessage,
+      buildUnknownActionMessage:
+        serverHandlerConfiguration.buildUnknownActionMessage,
     });
 
     this.processApiRequestWithValidation =
@@ -104,7 +104,8 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
-      buildUnknownActionMessage,
+      buildUnknownActionMessage:
+        serverHandlerConfiguration.buildUnknownActionMessage,
     });
 
     this.handle = createHandle({

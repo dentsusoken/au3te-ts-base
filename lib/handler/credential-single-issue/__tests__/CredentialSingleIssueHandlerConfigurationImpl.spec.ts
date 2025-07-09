@@ -3,7 +3,7 @@ import { CredentialSingleIssueHandlerConfigurationImpl } from '../CredentialSing
 import { ExtractorConfiguration } from '../../../extractor/ExtractorConfiguration';
 import { BaseCredentialHandlerConfiguration } from '../../credential/BaseCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../../introspection/IntrospectionHandlerConfiguration';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from '../../credential-single-parse/CredentialSingleParseHandlerConfiguration';
 import { CommonCredentialHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.credential';
 import { sessionSchemas } from '../../../session/sessionSchemas';
@@ -38,10 +38,11 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
     credentialSingleIssuePath: '/some/path',
   };
 
-  const baseHandlerConfiguration = {
+  const serverHandlerConfiguration = {
     apiClient: mockApiClient,
     buildUnknownActionMessage: vi.fn(),
-  } as unknown as BaseHandlerConfiguration<typeof sessionSchemas>;
+    prepareHeaders: vi.fn(),
+  } as unknown as ServerHandlerConfiguration<typeof sessionSchemas>;
 
   const mockCredentialSingleParseHandlerConfiguration = {
     processApiRequestWithValidation: mockProcessApiRequestWithValidation,
@@ -58,7 +59,7 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
       baseCredentialHandlerConfiguration:
         mockBaseCredentialHandlerConfiguration,
       introspectionHandlerConfiguration: mockIntrospectionHandlerConfiguration,
-      baseHandlerConfiguration: baseHandlerConfiguration,
+      serverHandlerConfiguration: serverHandlerConfiguration,
       credentialSingleParseHandlerConfiguration:
         mockCredentialSingleParseHandlerConfiguration,
       commonCredentialHandlerConfiguration:

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ParHandlerConfigurationImpl } from '../ParHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { Session } from '../../../session/Session';
 import { sessionSchemas } from '../../../session/sessionSchemas';
@@ -16,17 +16,17 @@ describe('ParHandlerConfigurationImpl', () => {
   const mockSession = {} as Session<typeof sessionSchemas>;
 
   // Create a mock BaseHandlerConfiguration
-  const mockBaseConfig = {
+  const mockServerConfig = {
     apiClient: mockApiClient,
     session: mockSession,
-  } as BaseHandlerConfiguration<typeof sessionSchemas>;
+  } as ServerHandlerConfiguration<typeof sessionSchemas>;
 
   // Create ExtractorConfiguration instance
   const extractorConfiguration = new ExtractorConfigurationImpl();
 
   it('should initialize with all required properties', () => {
     const config = new ParHandlerConfigurationImpl({
-      baseHandlerConfiguration: mockBaseConfig,
+      serverHandlerConfiguration: mockServerConfig,
       extractorConfiguration,
     });
 

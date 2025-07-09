@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ServiceJwksHandlerConfigurationImpl } from '../ServiceJwksHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 
@@ -11,12 +11,12 @@ describe('ServiceJwksHandlerConfigurationImpl', () => {
   } as ApiClient;
 
   // Use SessionSchemas as the type parameter
-  const mockBaseConfig = {
+  const mockServerConfig = {
     apiClient: mockApiClient,
-  } as BaseHandlerConfiguration<SessionSchemas>;
+  } as ServerHandlerConfiguration<SessionSchemas>;
 
   it('should initialize with required properties', () => {
-    const config = new ServiceJwksHandlerConfigurationImpl(mockBaseConfig);
+    const config = new ServiceJwksHandlerConfigurationImpl(mockServerConfig);
 
     expect(config.path).toBe('/api/jwks');
     expect(config.processApiRequest).toBeDefined();

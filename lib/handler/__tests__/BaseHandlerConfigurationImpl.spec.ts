@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { CommonHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler';
-import { BaseHandlerConfigurationImpl } from '../BaseHandlerConfigurationImpl';
+import { ServerHandlerConfigurationImpl } from '../ServerHandlerConfigurationImpl';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
@@ -15,7 +15,10 @@ const mockSession = {} as Session<SessionSchemas>;
 describe('BaseHandlerConfigurationImpl', () => {
   // Test constructor
   it('should correctly initialize with provided ApiClient and Session', () => {
-    const config = new BaseHandlerConfigurationImpl(mockApiClient, mockSession);
+    const config = new ServerHandlerConfigurationImpl(
+      mockApiClient,
+      mockSession
+    );
 
     // Check if apiClient and session are correctly set
     expect(config.apiClient).toBe(mockApiClient);
@@ -26,7 +29,10 @@ describe('BaseHandlerConfigurationImpl', () => {
 
   // Test inheritance
   it('should inherit from CommonHandlerConfigurationImpl', () => {
-    const config = new BaseHandlerConfigurationImpl(mockApiClient, mockSession);
+    const config = new ServerHandlerConfigurationImpl(
+      mockApiClient,
+      mockSession
+    );
 
     // Check if it's an instance of CommonHandlerConfigurationImpl
     expect(config).toBeInstanceOf(CommonHandlerConfigurationImpl);

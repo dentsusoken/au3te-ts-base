@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { TokenFailHandlerConfigurationImpl } from '../TokenFailHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 
@@ -9,12 +9,12 @@ describe('TokenFailHandlerConfigurationImpl', () => {
     tokenFailPath: '/token/fail',
   } as ApiClient;
 
-  const mockBaseConfig = {
+  const mockServerConfig = {
     apiClient: mockApiClient,
-  } as BaseHandlerConfiguration<SessionSchemas>;
+  } as ServerHandlerConfiguration<SessionSchemas>;
 
   it('should initialize with required properties', () => {
-    const config = new TokenFailHandlerConfigurationImpl(mockBaseConfig);
+    const config = new TokenFailHandlerConfigurationImpl(mockServerConfig);
 
     expect(config.path).toBe('/api/token/fail');
     expect(config.processApiRequest).toBeDefined();

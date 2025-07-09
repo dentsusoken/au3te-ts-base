@@ -21,7 +21,7 @@ import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
 import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import { sessionSchemas } from '@vecrea/au3te-ts-server/session';
 import { InMemorySession } from '@vecrea/au3te-ts-server/session';
-import { BaseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
 import { ExtractorConfigurationImpl } from '@vecrea/au3te-ts-server/extractor';
 import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
 import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
@@ -44,7 +44,7 @@ const configuration: AuthleteConfiguration = {
 // Base configurations
 const apiClient = new ApiClientImpl(configuration);
 const session = new InMemorySession(sessionSchemas);
-const baseHandlerConfiguration = new BaseHandlerConfigurationImpl(
+const serverHandlerConfiguration = new ServerHandlerConfigurationImpl(
   apiClient,
   session
 );
@@ -55,17 +55,17 @@ const userHandlerConfiguration = new UserHandlerConfigurationImpl();
 
 // Token-related configurations
 const tokenCreateHandlerConfiguration = new TokenCreateHandlerConfigurationImpl(
-  baseHandlerConfiguration
+  serverHandlerConfiguration
 );
 const tokenFailHandlerConfiguration = new TokenFailHandlerConfigurationImpl(
-  baseHandlerConfiguration
+  serverHandlerConfiguration
 );
 const tokenIssueHandlerConfiguration = new TokenIssueHandlerConfigurationImpl(
-  baseHandlerConfiguration
+  serverHandlerConfiguration
 );
 
 const tokenConfig = new TokenHandlerConfigurationImpl({
-  baseHandlerConfiguration,
+  serverHandlerConfiguration,
   userHandlerConfiguration,
   tokenFailHandlerConfiguration,
   tokenIssueHandlerConfiguration,
@@ -75,14 +75,14 @@ const tokenConfig = new TokenHandlerConfigurationImpl({
 
 // Authorization-related configurations
 const authorizationIssueHandlerConfiguration =
-  new AuthorizationIssueHandlerConfigurationImpl(baseHandlerConfiguration);
+  new AuthorizationIssueHandlerConfigurationImpl(serverHandlerConfiguration);
 const authorizationFailHandlerConfiguration =
-  new AuthorizationFailHandlerConfigurationImpl(baseHandlerConfiguration);
+  new AuthorizationFailHandlerConfigurationImpl(serverHandlerConfiguration);
 const authorizationPageHandlerConfiguration =
   new AuthorizationPageHandlerConfigurationImpl();
 
 const authorizationConfig = new AuthorizationHandlerConfigurationImpl({
-  baseHandlerConfiguration,
+  serverHandlerConfiguration,
   authorizationIssueHandlerConfiguration,
   authorizationFailHandlerConfiguration,
   authorizationPageHandlerConfiguration,
@@ -142,7 +142,7 @@ Handles OAuth 2.0 token endpoint.
 import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
 
 const tokenConfig = new TokenHandlerConfigurationImpl({
-  baseHandlerConfiguration: baseConfig,
+  serverHandlerConfiguration: serverConfig,
   userHandlerConfiguration: userConfig,
   tokenFailHandlerConfiguration: tokenFailConfig,
   tokenIssueHandlerConfiguration: tokenIssueConfig,
@@ -162,7 +162,7 @@ Handles OAuth 2.0 authorization endpoint.
 import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization';
 
 const authorizationConfig = new AuthorizationHandlerConfigurationImpl({
-  baseHandlerConfiguration: baseConfig,
+  serverHandlerConfiguration: serverConfig,
   userHandlerConfiguration: userConfig,
   authorizationFailHandlerConfiguration: authFailConfig,
   authorizationIssueHandlerConfiguration: authIssueConfig,
@@ -181,7 +181,7 @@ Handles authorization decision endpoint.
 import { AuthorizationDecisionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-decision';
 
 const authDecisionConfig = new AuthorizationDecisionHandlerConfigurationImpl({
-  baseHandlerConfiguration: baseConfig,
+  serverHandlerConfiguration: serverConfig,
   userHandlerConfiguration: userConfig,
   extractorConfiguration: extractorConfig,
 });
@@ -198,7 +198,7 @@ Handles authorization issue endpoint.
 import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-issue';
 
 const authIssueConfig = new AuthorizationIssueHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -213,7 +213,7 @@ Handles authorization fail endpoint.
 import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-fail';
 
 const authFailConfig = new AuthorizationFailHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -227,7 +227,7 @@ Handles token issue endpoint.
 ```typescript
 import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-issue';
 
-const tokenIssueConfig = new TokenIssueHandlerConfigurationImpl(baseConfig);
+const tokenIssueConfig = new TokenIssueHandlerConfigurationImpl(serverConfig);
 
 // Usage example
 const response = await tokenIssueConfig.processRequest(request);
@@ -240,7 +240,7 @@ Handles token create endpoint.
 ```typescript
 import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
 
-const tokenCreateConfig = new TokenCreateHandlerConfigurationImpl(baseConfig);
+const tokenCreateConfig = new TokenCreateHandlerConfigurationImpl(serverConfig);
 
 // Usage example
 const response = await tokenCreateConfig.processRequest(request);
@@ -253,7 +253,7 @@ Handles token fail endpoint.
 ```typescript
 import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-fail';
 
-const tokenFailConfig = new TokenFailHandlerConfigurationImpl(baseConfig);
+const tokenFailConfig = new TokenFailHandlerConfigurationImpl(serverConfig);
 
 // Usage example
 const response = await tokenFailConfig.processRequest(request);
@@ -267,7 +267,7 @@ Handles token introspection endpoint.
 import { IntrospectionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.introspection';
 
 const introspectionConfig = new IntrospectionHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -282,7 +282,7 @@ Handles Pushed Authorization Request endpoint.
 import { ParHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.par';
 
 const parConfig = new ParHandlerConfigurationImpl({
-  baseHandlerConfiguration: baseConfig,
+  serverHandlerConfiguration: serverConfig,
   extractorConfiguration: extractorConfig,
 });
 
@@ -324,7 +324,7 @@ const response = await baseCredentialConfig.processRequest(request);
 import { CredentialMetadataHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-metadata';
 
 const credentialMetadataConfig = new CredentialMetadataHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -337,7 +337,7 @@ const response = await credentialMetadataConfig.processRequest(request);
 import { CredentialSingleParseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-single-parse';
 
 const credentialParseConfig = new CredentialSingleParseHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -354,7 +354,7 @@ const credentialIssueConfig = new CredentialSingleIssueHandlerConfigurationImpl(
     extractorConfiguration,
     baseCredentialHandlerConfiguration,
     introspectionHandlerConfiguration,
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,
     commonCredentialHandlerConfiguration,
   }
@@ -370,7 +370,7 @@ const response = await credentialIssueConfig.processRequest(request);
 import { CredentialIssuerJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-issuer-jwks';
 
 const credentialJwksConfig = new CredentialIssuerJwksHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -385,7 +385,7 @@ const response = await credentialJwksConfig.processRequest(request);
 import { ServiceConfigurationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-configuration';
 
 const serviceConfig = new ServiceConfigurationHandlerConfigurationImpl(
-  baseConfig
+  serverConfig
 );
 
 // Usage example
@@ -397,7 +397,7 @@ const response = await serviceConfig.processRequest(request);
 ```typescript
 import { ServiceJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-jwks';
 
-const serviceJwksConfig = new ServiceJwksHandlerConfigurationImpl(baseConfig);
+const serviceJwksConfig = new ServiceJwksHandlerConfigurationImpl(serverConfig);
 
 // Usage example
 const response = await serviceJwksConfig.processRequest(request);
@@ -405,19 +405,19 @@ const response = await serviceJwksConfig.processRequest(request);
 
 ## Common Configuration
 
-### BaseHandlerConfiguration
+### ServerHandlerConfiguration
 
-Base configuration used by all endpoints:
+Server configuration used by all endpoints:
 
 ```typescript
-import { BaseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
 import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
 import { InMemorySession } from '@vecrea/au3te-ts-server/session';
 
 const apiClient = new ApiClientImpl(authleteConfig);
 const session = new InMemorySession();
 
-const baseConfig = new BaseHandlerConfigurationImpl(apiClient, session);
+const serverConfig = new ServerHandlerConfigurationImpl(apiClient, session);
 ```
 
 ### ExtractorConfiguration
@@ -472,7 +472,7 @@ Each HandlerConfiguration can be customized as needed:
 ```typescript
 // Create HandlerConfiguration with custom settings
 const customTokenConfig = new TokenHandlerConfigurationImpl({
-  baseHandlerConfiguration: baseConfig,
+  serverHandlerConfiguration: serverConfig,
   userHandlerConfiguration: customUserConfig,
   // ... other custom configurations
 });

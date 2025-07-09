@@ -57,7 +57,7 @@ import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfigu
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
 import { AuthorizationPageHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.authorization-page';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
 import { createToApiRequest } from './toApiRequest';
@@ -68,7 +68,7 @@ import { sessionSchemas } from '../../session/sessionSchemas';
 type AuthorizationHandlerConfigurationImplConstructorParams<
   SS extends SessionSchemas
 > = {
-  baseHandlerConfiguration: BaseHandlerConfiguration<SS>;
+  serverHandlerConfiguration: ServerHandlerConfiguration<SS>;
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
   authorizationPageHandlerConfiguration: AuthorizationPageHandlerConfiguration;
@@ -117,7 +117,7 @@ export class AuthorizationHandlerConfigurationImpl<
   processRequest: ProcessRequest;
 
   constructor({
-    baseHandlerConfiguration,
+    serverHandlerConfiguration,
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
     authorizationPageHandlerConfiguration,
@@ -128,7 +128,7 @@ export class AuthorizationHandlerConfigurationImpl<
       session,
       buildUnknownActionMessage,
       recoverResponseResult,
-    } = baseHandlerConfiguration;
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.authorizationPath,
