@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultExtractClientCredentials } from './extractClientCredentials';
+import { defaultExtractClientCredentials } from '../extractClientCredentials';
 
 describe('defaultExtractClientCredentials', () => {
   it('should extract client credentials from Authorization header', async () => {

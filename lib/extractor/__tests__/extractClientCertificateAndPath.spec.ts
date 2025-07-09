@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   defaultExtractClientCertificateAndPath,
   ClientCertificateAndPath,
-} from './extractClientCertificateAndPath';
+} from '../extractClientCertificateAndPath';
 
 describe('defaultExtractClientCertificateAndPath', () => {
   it('should return empty client certificate and path', async () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultExtractAccessToken } from './extractAccessToken';
+import { defaultExtractAccessToken } from '../extractAccessToken';
 
 describe('defaultExtractAccessToken', () => {
   it('should extract DPoP token from Authorization header', () => {

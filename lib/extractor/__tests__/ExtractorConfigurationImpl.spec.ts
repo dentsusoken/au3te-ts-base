@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { ExtractorConfigurationImpl } from './ExtractorConfigurationImpl';
-import { defaultExtractParameters } from './extractParameters';
-import { defaultExtractClientCredentials } from './extractClientCredentials';
-import { defaultExtractClientCertificateAndPath } from './extractClientCertificateAndPath';
-import { defaultExtractAccessToken } from './extractAccessToken';
+import { ExtractorConfigurationImpl } from '../ExtractorConfigurationImpl';
+import { defaultExtractParameters } from '../extractParameters';
+import { defaultExtractClientCredentials } from '../extractClientCredentials';
+import { defaultExtractClientCertificateAndPath } from '../extractClientCertificateAndPath';
+import { defaultExtractAccessToken } from '../extractAccessToken';
 
 describe('ExtractorConfigurationImpl', () => {
   it('should initialize with default extractors', () => {

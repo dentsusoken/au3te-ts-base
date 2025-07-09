@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultExtractParameters } from './extractParameters';
+import { defaultExtractParameters } from '../extractParameters';
 
 describe('defaultExtractParameters', () => {
   it('should extract parameters from JSON request', async () => {
