@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createValidateApiResponse } from './validateApiResponse';
+import { createValidateApiResponse } from '../validateApiResponse';
 import {
   internalServerErrorResponseError,
   badRequestResponseError,
   unauthorizedResponseError,
   forbiddenResponseError,
-} from '../responseErrorFactory';
+} from '../../responseErrorFactory';
 import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
 
 // Configure mock functions to throw errors
 const mockError = new Error('Test error');
-vi.mock('../responseErrorFactory', () => ({
+vi.mock('../../responseErrorFactory', () => ({
   internalServerErrorResponseError: vi.fn().mockImplementation(() => {
     throw mockError;
   }),
