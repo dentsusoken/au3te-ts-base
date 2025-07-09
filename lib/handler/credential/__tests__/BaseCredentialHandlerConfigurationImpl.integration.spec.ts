@@ -16,7 +16,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { baseCredentialHandlerConfiguration } from '../../testing/configurations';
+import { baseCredentialHandlerConfiguration } from '../../../testing/configurations';
 
 describe('BaseCredentialHandlerConfiguration Integration Tests', () => {
   it('should compute HTU correctly from request', async () => {
