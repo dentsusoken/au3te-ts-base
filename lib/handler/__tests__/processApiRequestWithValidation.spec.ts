@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createProcessApiRequestWithValidation } from './processApiRequestWithValidation';
+import { createProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
 
 describe('processApiRequestWithValidation', () => {
   // Define test types

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ResponseError } from './ResponseError';
+import { ResponseError } from '../ResponseError';
 
 describe('ResponseError', () => {
   it('should be instantiated correctly', () => {

@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Result } from '@vecrea/oid4vc-core/utils';
-import { ResponseError } from './ResponseError';
-import * as responseFactory from '../utils/responseFactory';
-import { createRecoverResponseResult } from './recoverResponseResult';
+import { ResponseError } from '../ResponseError';
+import * as responseFactory from '../../utils/responseFactory';
+import { createRecoverResponseResult } from '../recoverResponseResult';
 import { toErrorJson } from '@vecrea/au3te-ts-common/utils';
 import { BadRequestError } from '@vecrea/au3te-ts-common/handler';
 

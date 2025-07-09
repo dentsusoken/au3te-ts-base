@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { createProcessRequest } from './processRequest';
-import { RecoverResponseResult } from './recoverResponseResult';
+import { createProcessRequest } from '../processRequest';
+import { RecoverResponseResult } from '../recoverResponseResult';
 
 describe('createProcessRequest', () => {
   afterEach(() => {

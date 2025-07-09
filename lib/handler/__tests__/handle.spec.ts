@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createHandle } from './handle';
+import { createHandle } from '../handle';
 
 describe('createHandle', () => {
   const path = 'path';

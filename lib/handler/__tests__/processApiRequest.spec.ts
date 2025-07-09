@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ProcessApiRequest } from './processApiRequest';
+import { ProcessApiRequest } from '../processApiRequest';
 
 describe('ProcessApiRequest', () => {
   // Define test types for request and response

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultPrepareHeaders } from './prepareHeaders';
+import { defaultPrepareHeaders } from '../prepareHeaders';
 
 describe('defaultPrepareHeaders', () => {
   it('returns empty headers object when dpopNonce is undefined', () => {

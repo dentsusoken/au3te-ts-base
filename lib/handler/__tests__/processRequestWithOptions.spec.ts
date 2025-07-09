@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createProcessRequestWithOptions } from './processRequestWithOptions';
+import { createProcessRequestWithOptions } from '../processRequestWithOptions';
 import { Result } from '@vecrea/oid4vc-core/utils';
 
 describe('createProcessRequestWithOptions', () => {

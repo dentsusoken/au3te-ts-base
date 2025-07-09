@@ -5,8 +5,8 @@ import {
   notFoundResponseError,
   unauthorizedResponseError,
   forbiddenResponseError,
-} from './responseErrorFactory';
-import { ResponseError } from './ResponseError';
+} from '../responseErrorFactory';
+import { ResponseError } from '../ResponseError';
 
 describe('responseErrorFactory', () => {
   describe('badRequestError', () => {
