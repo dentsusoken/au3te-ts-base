@@ -1,4 +1,4 @@
-# au3te-ts-base
+# au3te-ts-server
 
 A TypeScript library for implementing OAuth 2.0 and OpenID Connect authorization servers using Authlete's API.
 
@@ -26,13 +26,13 @@ A TypeScript library for implementing OAuth 2.0 and OpenID Connect authorization
 ### Using npm
 
 ```bash
-npm install @vecrea/au3te-ts-base
+npm install @vecrea/au3te-ts-server
 ```
 
 ### Using yarn
 
 ```bash
-yarn add @vecrea/au3te-ts-base
+yarn add @vecrea/au3te-ts-server
 ```
 
 ### Peer Dependencies
@@ -103,8 +103,8 @@ cd ..
 ### Setup
 
 ```bash
-git clone https://github.com/dentsusoken/au3te-ts-base
-cd au3te-ts-base
+git clone https://github.com/dentsusoken/au3te-ts-server
+cd au3te-ts-server
 npm install
 npm link @vecrea/au3te-ts-common
 npm run build

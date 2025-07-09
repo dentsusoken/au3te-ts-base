@@ -17,19 +17,19 @@ Each endpoint follows this implementation pattern:
 Create HandlerConfiguration for each endpoint:
 
 ```typescript
-import { ApiClientImpl } from '../api/ApiClientImpl';
+import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
 import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
-import { sessionSchemas } from '../session/sessionSchemas';
-import { InMemorySession } from '../session/InMemorySession';
-import { BaseHandlerConfigurationImpl } from './BaseHandlerConfigurationImpl';
-import { ExtractorConfigurationImpl } from '../extractor/ExtractorConfigurationImpl';
-import { TokenHandlerConfigurationImpl } from './token/TokenHandlerConfigurationImpl';
-import { TokenCreateHandlerConfigurationImpl } from './token-create/TokenCreateHandlerConfigurationImpl';
-import { TokenFailHandlerConfigurationImpl } from './token-fail/TokenFailHandlerConfigurationImpl';
-import { TokenIssueHandlerConfigurationImpl } from './token-issue/TokenIssueHandlerConfigurationImpl';
-import { AuthorizationHandlerConfigurationImpl } from './authorization/AuthorizationHandlerConfigurationImpl';
-import { AuthorizationIssueHandlerConfigurationImpl } from './authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
-import { AuthorizationFailHandlerConfigurationImpl } from './authorization-fail/AuthorizationFailHandlerConfigurationImpl';
+import { sessionSchemas } from '@vecrea/au3te-ts-server/session';
+import { InMemorySession } from '@vecrea/au3te-ts-server/session';
+import { BaseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ExtractorConfigurationImpl } from '@vecrea/au3te-ts-server/extractor';
+import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
+import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
+import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-fail';
+import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-issue';
+import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization';
+import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-issue';
+import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-fail';
 import { AuthorizationPageHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.authorization-page';
 import { UserHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.user';
 
@@ -96,7 +96,7 @@ In actual endpoints (e.g., Hono), call `processRequest()`:
 
 ```typescript
 import { Hono } from 'hono';
-import { TokenHandlerConfiguration } from './handler/token/TokenHandlerConfiguration';
+import { TokenHandlerConfiguration } from '@vecrea/au3te-ts-server/handler.token';
 
 const app = new Hono();
 
@@ -139,7 +139,7 @@ app.get('/api/authorization', async (c) => {
 Handles OAuth 2.0 token endpoint.
 
 ```typescript
-import { TokenHandlerConfigurationImpl } from './token/TokenHandlerConfigurationImpl';
+import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
 
 const tokenConfig = new TokenHandlerConfigurationImpl({
   baseHandlerConfiguration: baseConfig,
@@ -159,7 +159,7 @@ const response = await tokenConfig.processRequest(request);
 Handles OAuth 2.0 authorization endpoint.
 
 ```typescript
-import { AuthorizationHandlerConfigurationImpl } from './authorization/AuthorizationHandlerConfigurationImpl';
+import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization';
 
 const authorizationConfig = new AuthorizationHandlerConfigurationImpl({
   baseHandlerConfiguration: baseConfig,
@@ -178,7 +178,7 @@ const response = await authorizationConfig.processRequest(request);
 Handles authorization decision endpoint.
 
 ```typescript
-import { AuthorizationDecisionHandlerConfigurationImpl } from './authorization-decision/AuthorizationDecisionHandlerConfigurationImpl';
+import { AuthorizationDecisionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-decision';
 
 const authDecisionConfig = new AuthorizationDecisionHandlerConfigurationImpl({
   baseHandlerConfiguration: baseConfig,
@@ -195,7 +195,7 @@ const response = await authDecisionConfig.processRequest(request);
 Handles authorization issue endpoint.
 
 ```typescript
-import { AuthorizationIssueHandlerConfigurationImpl } from './authorization-issue/AuthorizationIssueHandlerConfigurationImpl';
+import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-issue';
 
 const authIssueConfig = new AuthorizationIssueHandlerConfigurationImpl(
   baseConfig
@@ -210,7 +210,7 @@ const response = await authIssueConfig.processRequest(request);
 Handles authorization fail endpoint.
 
 ```typescript
-import { AuthorizationFailHandlerConfigurationImpl } from './authorization-fail/AuthorizationFailHandlerConfigurationImpl';
+import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-fail';
 
 const authFailConfig = new AuthorizationFailHandlerConfigurationImpl(
   baseConfig
@@ -225,7 +225,7 @@ const response = await authFailConfig.processRequest(request);
 Handles token issue endpoint.
 
 ```typescript
-import { TokenIssueHandlerConfigurationImpl } from './token-issue/TokenIssueHandlerConfigurationImpl';
+import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-issue';
 
 const tokenIssueConfig = new TokenIssueHandlerConfigurationImpl(baseConfig);
 
@@ -238,7 +238,7 @@ const response = await tokenIssueConfig.processRequest(request);
 Handles token create endpoint.
 
 ```typescript
-import { TokenCreateHandlerConfigurationImpl } from './token-create/TokenCreateHandlerConfigurationImpl';
+import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
 
 const tokenCreateConfig = new TokenCreateHandlerConfigurationImpl(baseConfig);
 
@@ -251,7 +251,7 @@ const response = await tokenCreateConfig.processRequest(request);
 Handles token fail endpoint.
 
 ```typescript
-import { TokenFailHandlerConfigurationImpl } from './token-fail/TokenFailHandlerConfigurationImpl';
+import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-fail';
 
 const tokenFailConfig = new TokenFailHandlerConfigurationImpl(baseConfig);
 
@@ -264,7 +264,7 @@ const response = await tokenFailConfig.processRequest(request);
 Handles token introspection endpoint.
 
 ```typescript
-import { IntrospectionHandlerConfigurationImpl } from './introspection/IntrospectionHandlerConfigurationImpl';
+import { IntrospectionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.introspection';
 
 const introspectionConfig = new IntrospectionHandlerConfigurationImpl(
   baseConfig
@@ -279,7 +279,7 @@ const response = await introspectionConfig.processRequest(request);
 Handles Pushed Authorization Request endpoint.
 
 ```typescript
-import { ParHandlerConfigurationImpl } from './par/ParHandlerConfigurationImpl';
+import { ParHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.par';
 
 const parConfig = new ParHandlerConfigurationImpl({
   baseHandlerConfiguration: baseConfig,
@@ -308,7 +308,7 @@ const response = await commonCredentialConfig.processRequest(request);
 #### Base Credential Handler (`/handler/credential/`)
 
 ```typescript
-import { BaseCredentialHandlerConfigurationImpl } from './credential/BaseCredentialHandlerConfigurationImpl';
+import { BaseCredentialHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential';
 
 const baseCredentialConfig = new BaseCredentialHandlerConfigurationImpl({
   credentialMetadataHandlerConfiguration,
@@ -321,7 +321,7 @@ const response = await baseCredentialConfig.processRequest(request);
 #### Credential Metadata (`/handler/credential-metadata/`)
 
 ```typescript
-import { CredentialMetadataHandlerConfigurationImpl } from './credential-metadata/CredentialMetadataHandlerConfigurationImpl';
+import { CredentialMetadataHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-metadata';
 
 const credentialMetadataConfig = new CredentialMetadataHandlerConfigurationImpl(
   baseConfig
@@ -334,7 +334,7 @@ const response = await credentialMetadataConfig.processRequest(request);
 #### Credential Single Parse (`/handler/credential-single-parse/`)
 
 ```typescript
-import { CredentialSingleParseHandlerConfigurationImpl } from './credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
+import { CredentialSingleParseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-single-parse';
 
 const credentialParseConfig = new CredentialSingleParseHandlerConfigurationImpl(
   baseConfig
@@ -347,7 +347,7 @@ const response = await credentialParseConfig.processRequest(request);
 #### Credential Single Issue (`/handler/credential-single-issue/`)
 
 ```typescript
-import { CredentialSingleIssueHandlerConfigurationImpl } from './credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
+import { CredentialSingleIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-single-issue';
 
 const credentialIssueConfig = new CredentialSingleIssueHandlerConfigurationImpl(
   {
@@ -367,7 +367,7 @@ const response = await credentialIssueConfig.processRequest(request);
 #### Credential Issuer JWKS (`/handler/credential-issuer-jwks/`)
 
 ```typescript
-import { CredentialIssuerJwksHandlerConfigurationImpl } from './credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
+import { CredentialIssuerJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-issuer-jwks';
 
 const credentialJwksConfig = new CredentialIssuerJwksHandlerConfigurationImpl(
   baseConfig
@@ -382,7 +382,7 @@ const response = await credentialJwksConfig.processRequest(request);
 #### Service Configuration (`/handler/service-configuration/`)
 
 ```typescript
-import { ServiceConfigurationHandlerConfigurationImpl } from './service-configuration/ServiceConfigurationHandlerConfigurationImpl';
+import { ServiceConfigurationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-configuration';
 
 const serviceConfig = new ServiceConfigurationHandlerConfigurationImpl(
   baseConfig
@@ -395,7 +395,7 @@ const response = await serviceConfig.processRequest(request);
 #### Service JWKS (`/handler/service-jwks/`)
 
 ```typescript
-import { ServiceJwksHandlerConfigurationImpl } from './service-jwks/ServiceJwksHandlerConfigurationImpl';
+import { ServiceJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-jwks';
 
 const serviceJwksConfig = new ServiceJwksHandlerConfigurationImpl(baseConfig);
 
@@ -410,9 +410,9 @@ const response = await serviceJwksConfig.processRequest(request);
 Base configuration used by all endpoints:
 
 ```typescript
-import { BaseHandlerConfigurationImpl } from './BaseHandlerConfigurationImpl';
-import { ApiClientImpl } from '../api/ApiClientImpl';
-import { InMemorySession } from '../session/InMemorySession';
+import { BaseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
+import { InMemorySession } from '@vecrea/au3te-ts-server/session';
 
 const apiClient = new ApiClientImpl(authleteConfig);
 const session = new InMemorySession();
@@ -425,7 +425,7 @@ const baseConfig = new BaseHandlerConfigurationImpl(apiClient, session);
 Configuration for extracting request parameters:
 
 ```typescript
-import { ExtractorConfigurationImpl } from '../extractor/ExtractorConfigurationImpl';
+import { ExtractorConfigurationImpl } from '@vecrea/au3te-ts-server/extractor';
 
 const extractorConfig = new ExtractorConfigurationImpl({
   // extraction configuration

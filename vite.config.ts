@@ -37,14 +37,19 @@ export default defineConfig({
         session: './lib/session/index.ts',
         utils: './lib/utils/index.ts',
       },
-      name: 'au3te-ts-base',
+      name: 'au3te-ts-server',
       fileName: (format, entry) => {
         const ext = format === 'es' ? 'mjs' : format;
         return `${entry}/index.${ext}`;
       },
     },
     rollupOptions: {
-      external: ['@vecrea/au3te-ts-common', '@vecrea/oid4vc-core'],
+      external: [
+        '@vecrea/au3te-ts-common',
+        '@vecrea/oid4vc-core',
+        'u8a-utils',
+        'zod',
+      ],
     },
   },
   plugins: [

@@ -1,14 +1,14 @@
 {
-  "name": "@vecrea/au3te-ts-base",
+  "name": "@vecrea/au3te-ts-server",
   "version": "0.1.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dentsusoken/au3te-ts-base"
+    "url": "https://github.com/dentsusoken/au3te-ts-server"
   },
-  "homepage": "https://github.com/dentsusoken/au3te-ts-base#readme",
+  "homepage": "https://github.com/dentsusoken/au3te-ts-server#readme",
   "bugs": {
-    "url": "https://github.com/dentsusoken/au3te-ts-base/issues"
+    "url": "https://github.com/dentsusoken/au3te-ts-server/issues"
   },
   "files": [
     "dist"
