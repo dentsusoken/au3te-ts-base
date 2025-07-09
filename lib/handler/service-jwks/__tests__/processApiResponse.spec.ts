@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ServiceJwksResponse } from '@vecrea/au3te-ts-common/schemas.service-jwks';
-import { defaultProcessApiResponse } from './processApiResponse';
+import { defaultProcessApiResponse } from '../processApiResponse';
 
 describe('defaultProcessApiResponse', () => {
   const processApiResponse = defaultProcessApiResponse;

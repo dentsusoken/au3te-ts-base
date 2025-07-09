@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { serviceJwksHandlerConfiguration } from '../../testing/configurations';
-import { createServiceJwksRequest } from '../../testing/serviceJwks';
+import { serviceJwksHandlerConfiguration } from '../../../testing/configurations';
+import { createServiceJwksRequest } from '../../../testing/serviceJwks';
 
 describe('ServiceConfigurationHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
