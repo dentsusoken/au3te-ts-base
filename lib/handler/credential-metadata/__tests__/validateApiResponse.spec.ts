@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { createValidateApiResponse } from './validateApiResponse';
+import { createValidateApiResponse } from '../validateApiResponse';
 import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
 import {
   notFoundResponseError,
   internalServerErrorResponseError,
-} from '../responseErrorFactory';
+} from '../../responseErrorFactory';
 
 describe('credential-metadata/validateApiResponse', () => {
   // Test setup

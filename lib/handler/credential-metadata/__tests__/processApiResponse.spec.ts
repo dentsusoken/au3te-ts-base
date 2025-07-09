@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import { createProcessApiResponse } from './processApiResponse';
+import { createProcessApiResponse } from '../processApiResponse';
 
 describe('createProcessApiResponse', () => {
   const mockBuildUnknownActionMessage = vi.fn(

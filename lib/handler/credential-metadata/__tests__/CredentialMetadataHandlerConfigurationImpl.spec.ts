@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { CredentialMetadataHandlerConfigurationImpl } from './CredentialMetadataHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { CredentialMetadataHandlerConfigurationImpl } from '../CredentialMetadataHandlerConfigurationImpl';
+import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
-import { SessionSchemas } from '../../session/types';
+import { SessionSchemas } from '../../../session/types';
 
 describe('CredentialMetadataHandlerConfigurationImpl', () => {
   // Mock API client
