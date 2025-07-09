@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createGetOrAuthenticateUser } from './getOrAuthenticateUser';
-import { Session } from '../../session/Session';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { createGetOrAuthenticateUser } from '../getOrAuthenticateUser';
+import { Session } from '../../../session/Session';
+import { sessionSchemas } from '../../../session/sessionSchemas';
 import { User } from '@vecrea/au3te-ts-common/schemas.common';
 
 describe('getOrAuthenticateUser', () => {

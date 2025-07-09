@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { defaultCollectClaims, getClaim } from './collectClaims';
+import { defaultCollectClaims, getClaim } from '../collectClaims';
 import { User } from '@vecrea/au3te-ts-common/schemas.common';
 
 describe('collectClaims', () => {

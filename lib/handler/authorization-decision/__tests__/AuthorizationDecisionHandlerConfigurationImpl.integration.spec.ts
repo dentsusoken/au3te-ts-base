@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { authorizationDecisionHandlerConfiguration } from '../../testing/configurations';
-import { processParPostRequest } from '../../testing/par';
-import { processAuthorizationGetRequest } from '../../testing/authorization';
+import { authorizationDecisionHandlerConfiguration } from '../../../testing/configurations';
+import { processParPostRequest } from '../../../testing/par';
+import { processAuthorizationGetRequest } from '../../../testing/authorization';
 import {
   createAuthorizationDecisionGetRequest,
   createAuthorizationDecisionPostRequest,
-} from '../../testing/authorizationDecision';
+} from '../../../testing/authorizationDecision';
 
 describe('AuthorizationDecisionHandlerConfiguration Integration Tests', () => {
   it('should successfully process GET request', async () => {
