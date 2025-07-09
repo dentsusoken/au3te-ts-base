@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { credentialSingleParseHandlerConfiguration } from '../../testing/configurations';
-import { processParPostRequest } from '../../testing/par';
-import { processAuthorizationGetRequest } from '../../testing/authorization';
-import { processAuthorizationDecisionPostRequest } from '../../testing/authorizationDecision';
-import { processTokenPostRequest } from '../../testing/token';
-import { createCredentialSingleParseRequest } from '../../testing/credentialSingleParse';
-import { CredentialApiOptions } from '../credential/types';
+import { credentialSingleParseHandlerConfiguration } from '../../../testing/configurations';
+import { processParPostRequest } from '../../../testing/par';
+import { processAuthorizationGetRequest } from '../../../testing/authorization';
+import { processAuthorizationDecisionPostRequest } from '../../../testing/authorizationDecision';
+import { processTokenPostRequest } from '../../../testing/token';
+import { createCredentialSingleParseRequest } from '../../../testing/credentialSingleParse';
+import { CredentialApiOptions } from '../../credential/types';
 
 describe('CredentialSingleParseHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
