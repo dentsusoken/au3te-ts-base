@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { z } from 'zod';
-import { InMemorySession } from './InMemorySession';
-import { sessionSchemas } from './sessionSchemas';
+import { InMemorySession } from '../InMemorySession';
+import { sessionSchemas } from '../sessionSchemas';
 
 describe('InMemorySession', () => {
   let session: InMemorySession<TestSchemas>;
