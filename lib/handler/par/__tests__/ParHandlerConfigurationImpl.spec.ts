@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { ParHandlerConfigurationImpl } from './ParHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ParHandlerConfigurationImpl } from '../ParHandlerConfigurationImpl';
+import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
-import { Session } from '../../session/Session';
-import { sessionSchemas } from '../../session/sessionSchemas';
-import { ExtractorConfigurationImpl } from '../../extractor/ExtractorConfigurationImpl';
+import { Session } from '../../../session/Session';
+import { sessionSchemas } from '../../../session/sessionSchemas';
+import { ExtractorConfigurationImpl } from '../../../extractor/ExtractorConfigurationImpl';
 
 describe('ParHandlerConfigurationImpl', () => {
   // Mock API client

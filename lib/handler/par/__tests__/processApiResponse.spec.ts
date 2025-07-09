@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { PushedAuthReqResponse } from '@vecrea/au3te-ts-common/schemas.par';
-import { createProcessApiResponse } from './processApiResponse';
-import type { Headers } from '../../utils/responseFactory';
+import { createProcessApiResponse } from '../processApiResponse';
+import type { Headers } from '../../../utils/responseFactory';
 
 describe('processApiResponse', () => {
   describe('createProcessApiResponse', () => {
