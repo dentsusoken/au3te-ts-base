@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { credentialIssuerJwksHandlerConfiguration } from '../../testing/configurations';
-import { createCredentialIssuerJwksRequest } from '../../testing/credentialIssuerJwks';
+import { credentialIssuerJwksHandlerConfiguration } from '../../../testing/configurations';
+import { createCredentialIssuerJwksRequest } from '../../../testing/credentialIssuerJwks';
 
 describe('CredentialMetadataHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
