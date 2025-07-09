@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { ServiceConfigurationHandlerConfigurationImpl } from './ServiceConfigurationHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { ServiceConfigurationHandlerConfigurationImpl } from '../ServiceConfigurationHandlerConfigurationImpl';
+import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
-import { SessionSchemas } from '../../session/types';
+import { SessionSchemas } from '../../../session/types';
 
 describe('ServiceConfigurationHandlerConfigurationImpl', () => {
   // Mock API client

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultToApiRequest } from './toApiRequest';
+import { defaultToApiRequest } from '../toApiRequest';
 
 describe('defaultToApiRequest', () => {
   const toApiRequest = defaultToApiRequest;
