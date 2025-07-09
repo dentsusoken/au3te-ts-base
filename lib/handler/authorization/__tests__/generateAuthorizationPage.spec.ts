@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createGenerateAuthorizationPage } from './generateAuthorizationPage';
+import { createGenerateAuthorizationPage } from '../generateAuthorizationPage';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
-import { Session } from '../../session/Session';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { Session } from '../../../session/Session';
+import { sessionSchemas } from '../../../session/sessionSchemas';
 
 // Mock dependencies
 vi.mock('@vecrea/au3te-ts-common/handler.authorization-page');

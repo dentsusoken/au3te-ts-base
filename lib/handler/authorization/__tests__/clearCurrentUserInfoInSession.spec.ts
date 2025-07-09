@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Session } from '../../session/Session';
-import { sessionSchemas } from '../../session/sessionSchemas';
-import { defaultClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
+import { Session } from '../../../session/Session';
+import { sessionSchemas } from '../../../session/sessionSchemas';
+import { defaultClearCurrentUserInfoInSession } from '../clearCurrentUserInfoInSession';
 
 describe('defaultClearCurrentUserInfoInSession', () => {
   it('should delete user and authTime from the session', async () => {

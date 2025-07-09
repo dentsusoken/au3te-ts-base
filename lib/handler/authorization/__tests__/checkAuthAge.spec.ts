@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { defaultCheckAuthAge } from './checkAuthAge';
+import { defaultCheckAuthAge } from '../checkAuthAge';
 
 describe('defaultCheckAuthAge', () => {
   // Mock the current time

@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createProcessApiResponse } from './processApiResponse';
+import { createProcessApiResponse } from '../processApiResponse';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
-import * as responseFactory from '../../utils/responseFactory';
-import { Session } from '../../session/Session';
-import { SessionSchemas } from '../../session/types';
+import * as responseFactory from '../../../utils/responseFactory';
+import { Session } from '../../../session/Session';
+import { SessionSchemas } from '../../../session/types';
 
 // Mock dependencies
 const mockSession = {} as Session<SessionSchemas>;

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { simpleBuildResponse } from './buildResponse';
+import { simpleBuildResponse } from '../buildResponse';
 import { AuthorizationPageModel } from '@vecrea/au3te-ts-common/handler.authorization-page';
 
 describe('simpleBuildResponse', () => {

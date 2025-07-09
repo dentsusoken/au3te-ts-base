@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultCheckSubject } from './checkSubject';
+import { defaultCheckSubject } from '../checkSubject';
 
 describe('defaultCheckSubject', () => {
   // Test case: both subjects are undefined

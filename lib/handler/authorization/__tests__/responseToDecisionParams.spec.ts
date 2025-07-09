@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { AuthorizationDecisionParams } from '@vecrea/au3te-ts-common/schemas.authorization-decision';
-import { defaultResponseToDecisionParams } from './responseToDecisionParams';
+import { defaultResponseToDecisionParams } from '../responseToDecisionParams';
 
 describe('defaultResponseToDecisionParams', () => {
   it('should correctly transform AuthorizationResponse to AuthorizationDecisionParams and add txn claim', () => {

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
-import { AuthorizationHandlerConfigurationImpl } from './AuthorizationHandlerConfigurationImpl';
-import { BaseHandlerConfiguration } from '../BaseHandlerConfiguration';
+import { AuthorizationHandlerConfigurationImpl } from '../AuthorizationHandlerConfigurationImpl';
+import { BaseHandlerConfiguration } from '../../BaseHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
-import { SessionSchemas } from '../../session/types';
-import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
-import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
+import { SessionSchemas } from '../../../session/types';
+import { AuthorizationIssueHandlerConfiguration } from '../../authorization-issue/AuthorizationIssueHandlerConfiguration';
+import { AuthorizationFailHandlerConfiguration } from '../../authorization-fail/AuthorizationFailHandlerConfiguration';
 import { AuthorizationPageHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.authorization-page';
-import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
+import { ExtractorConfiguration } from '../../../extractor/ExtractorConfiguration';
 
 describe('AuthorizationHandlerConfigurationImpl', () => {
   // Mock API client

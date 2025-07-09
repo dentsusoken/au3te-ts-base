@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createToApiRequest } from './toApiRequest';
+import { createToApiRequest } from '../toApiRequest';
 
 describe('createToApiRequest', () => {
   const mockExtractParameters = vi.fn();

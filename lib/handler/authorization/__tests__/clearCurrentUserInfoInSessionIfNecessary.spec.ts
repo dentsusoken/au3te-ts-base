@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createClearCurrentUserInfoInSessionIfNecessary } from './clearCurrentUserInfoInSessionIfNecessary';
+import { createClearCurrentUserInfoInSessionIfNecessary } from '../clearCurrentUserInfoInSessionIfNecessary';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
-import { Session } from '../../session/Session';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { Session } from '../../../session/Session';
+import { sessionSchemas } from '../../../session/sessionSchemas';
 
 describe('createClearCurrentUserInfoInSessionIfNecessary', () => {
   // Mock dependencies

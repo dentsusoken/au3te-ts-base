@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defaultCheckPrompts } from './checkPrompts';
+import { defaultCheckPrompts } from '../checkPrompts';
 
 describe('defaultCheckPrompts', () => {
   // Test when prompts is undefined

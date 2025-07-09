@@ -2,12 +2,12 @@ import { describe, it, expect } from 'vitest';
 import {
   authorizationHandlerConfiguration,
   session,
-} from '../../testing/configurations';
-import { processParPostRequest } from '../../testing/par';
+} from '../../../testing/configurations';
+import { processParPostRequest } from '../../../testing/par';
 import {
   createAuthorizationRequest,
   createAuthorizationGetRequest,
-} from '../../testing/authorization';
+} from '../../../testing/authorization';
 
 describe('AuthorizationHandlerConfiguration Integration Tests', () => {
   it('should successfully handle API request', async () => {
