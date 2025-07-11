@@ -19,13 +19,13 @@ import { User } from '@vecrea/au3te-ts-common/schemas.common';
 
 /**
  * Type definition for a function that collects claims from a user
- * @param {string[] | undefined} claimNames - Array of claim names to collect
- * @param {User | undefined} user - User object containing claim values
+ * @param {string[] | undefined | null} claimNames - Array of claim names to collect
+ * @param {User | undefined | null} user - User object containing claim values
  * @returns {Record<string, unknown> | undefined} Object containing collected claims or undefined if no claims
  */
 export type CollectClaims = (
-  claimNames: string[] | undefined,
-  user: User | undefined
+  claimNames: string[] | undefined | null,
+  user: User | undefined | null
 ) => Record<string, unknown> | undefined;
 
 /**
@@ -76,7 +76,10 @@ export const defaultCollectClaims: CollectClaims = (claimNames, user) => {
  * @param {User | undefined} user - User object containing claim values
  * @returns {unknown} The claim value, or undefined if not found
  */
-export const getClaim = (name: string, user: User | undefined): unknown => {
+export const getClaim = (
+  name: string,
+  user: User | undefined | null
+): unknown => {
   if (name === 'txn') {
     return crypto.randomUUID();
   }

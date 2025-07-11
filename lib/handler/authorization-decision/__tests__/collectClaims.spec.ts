@@ -9,8 +9,19 @@ describe('collectClaims', () => {
       expect(result).toBeUndefined();
     });
 
+    it('should return undefined when null claim names are provided', () => {
+      const result = defaultCollectClaims(null, undefined);
+      expect(result).toBeUndefined();
+    });
+
     it('should return undefined when empty claim names array is provided', () => {
       const result = defaultCollectClaims([], undefined);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when user is null', () => {
+      const claimNames = ['given_name', 'family_name'];
+      const result = defaultCollectClaims(claimNames, null);
       expect(result).toBeUndefined();
     });
 
@@ -77,6 +88,11 @@ describe('collectClaims', () => {
 
     it('should return undefined when user is not provided', () => {
       const result = getClaim('email', undefined);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when user is null', () => {
+      const result = getClaim('email', null);
       expect(result).toBeUndefined();
     });
 
