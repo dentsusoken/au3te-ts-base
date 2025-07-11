@@ -42,6 +42,11 @@ type CreateCredentialSingleIssueHandlerConfigurationImplParams<
 };
 
 /**
+ * The path for the credential single issue endpoint.
+ */
+export const CREDENTIAL_SINGLE_ISSUE_PATH = '/api/credential';
+
+/**
  * Implementation of the Credential Single Issue Handler Configuration.
  *
  * @class CredentialSingleIssueHandlerConfigurationImpl
@@ -50,7 +55,7 @@ type CreateCredentialSingleIssueHandlerConfigurationImplParams<
 export class CredentialSingleIssueHandlerConfigurationImpl<
   SS extends SessionSchemas = typeof sessionSchemas
 > {
-  readonly path = '/api/credential';
+  readonly path = CREDENTIAL_SINGLE_ISSUE_PATH;
 
   readonly toApiRequest;
 
