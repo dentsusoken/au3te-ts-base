@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2025-07-11
+
+### Changed
+
+- Refactored credential handler: renamed `BaseCredentialHandler` to `ServerCredentialHandler` and updated all references
+- Updated implementation and tests for `ServerCredentialHandler`
+- Refactored and updated related `HandlerConfigurationImpl` files (authorization, token, introspection, etc.)
+- Defined API paths as `XXX_PATH` constants in `HandlerConfigurationImpl` and referenced them in path definitions
+- Updated test files and `__tests__` directories accordingly
+- Removed obsolete `BaseCredentialHandler` files
+- Updated `tsconfig.json`, `vite.config.ts`, and `vitest.config.ts` as needed
+
 ## [0.1.1] - 2025-07-09
 
 ### Changed
