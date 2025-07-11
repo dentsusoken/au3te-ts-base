@@ -33,6 +33,8 @@ import { createValidateApiResponse } from './validateApiResponse';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
+/** The path for the introspection endpoint */
+export const INTROSPECTION_PATH = '/api/introspection';
 /**
  * Implementation of the IntrospectionHandlerConfiguration interface.
  * This class configures the handling of introspection requests.
@@ -42,7 +44,7 @@ export class IntrospectionHandlerConfigurationImpl<
 > implements IntrospectionHandlerConfiguration
 {
   /** The path for the introspection endpoint. */
-  path: string = '/api/introspection';
+  path: string = INTROSPECTION_PATH;
 
   /** Function to process the API request for introspection. */
   processApiRequest: ProcessApiRequest<

@@ -16,7 +16,7 @@
  */
 
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
-import { BaseCredentialHandlerConfiguration } from '../credential/BaseCredentialHandlerConfiguration';
+import { ServerCredentialHandlerConfiguration } from '../credential/ServerCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { SessionSchemas } from '../../session';
@@ -34,7 +34,7 @@ type CreateCredentialSingleIssueHandlerConfigurationImplParams<
   SS extends SessionSchemas
 > = {
   extractorConfiguration: ExtractorConfiguration;
-  baseCredentialHandlerConfiguration: BaseCredentialHandlerConfiguration;
+  serverCredentialHandlerConfiguration: ServerCredentialHandlerConfiguration;
   introspectionHandlerConfiguration: IntrospectionHandlerConfiguration;
   serverHandlerConfiguration: ServerHandlerConfiguration<SS>;
   credentialSingleParseHandlerConfiguration: CredentialSingleParseHandlerConfiguration;
@@ -64,7 +64,7 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
 
   constructor({
     extractorConfiguration,
-    baseCredentialHandlerConfiguration,
+    serverCredentialHandlerConfiguration,
     introspectionHandlerConfiguration,
     serverHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,
@@ -75,7 +75,7 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
       extractClientCertificateAndPath:
         extractorConfiguration.extractClientCertificateAndPath,
       extractParameters: extractorConfiguration.extractParameters,
-      computeHtu: baseCredentialHandlerConfiguration.computeHtu,
+      computeHtu: serverCredentialHandlerConfiguration.computeHtu,
       introspect:
         introspectionHandlerConfiguration.processApiRequestWithValidation,
       prepareHeaders: serverHandlerConfiguration.prepareHeaders,

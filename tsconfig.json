@@ -17,6 +17,12 @@
     "outDir": "./dist",
     "rootDir": "./lib",
 
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["lib/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

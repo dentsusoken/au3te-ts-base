@@ -24,7 +24,7 @@ import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
-import { SessionSchemas } from '../../session/types';
+import { SessionSchemas } from '@/session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { CredentialIssuerJwksHandlerConfiguration } from './CredentialIssuerJwksHandlerConfiguration';
@@ -38,7 +38,10 @@ import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
 import { defaultToApiRequest } from './toApiRequest';
 import { createProcessRequest } from '../processRequest';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { sessionSchemas } from '@/session/sessionSchemas';
+
+/** The path for the credential issuer JWKS endpoint */
+export const CREDENTIAL_ISSUER_JWKS_PATH = '/api/vci/jwks';
 
 /**
  * Implementation of the CredentialIssuerJwksHandlerConfiguration interface.
@@ -49,7 +52,7 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
 > implements CredentialIssuerJwksHandlerConfiguration
 {
   /** The path for the credential issuer JWKS endpoint. */
-  path: string = '/api/vci/jwks';
+  path: string = CREDENTIAL_ISSUER_JWKS_PATH;
 
   /** Function to process the API request for credential issuer JWKS. */
   processApiRequest: ProcessApiRequest<

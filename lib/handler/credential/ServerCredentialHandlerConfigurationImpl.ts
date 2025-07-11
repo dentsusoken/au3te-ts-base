@@ -15,22 +15,22 @@
  * License.
  */
 
-import { BaseCredentialHandlerConfiguration } from './BaseCredentialHandlerConfiguration';
+import { ServerCredentialHandlerConfiguration } from './ServerCredentialHandlerConfiguration';
 import { createComputeHtu } from './computeHtu';
 import { CredentialMetadataHandlerConfiguration } from '../credential-metadata/CredentialMetadataHandlerConfiguration';
 
-type BaseCredentialHandlerConfigurationImplConstructorParams = {
+type ServerCredentialHandlerConfigurationImplConstructorParams = {
   credentialMetadataHandlerConfiguration: CredentialMetadataHandlerConfiguration;
 };
 
 /**
- * Default implementation of the base credential handler configuration
+ * Default implementation of the server credential handler configuration
  *
- * @class BaseCredentialHandlerConfigurationImpl
- * @implements {BaseCredentialHandlerConfiguration}
+ * @class ServerCredentialHandlerConfigurationImpl
+ * @implements {ServerCredentialHandlerConfiguration}
  */
-export class BaseCredentialHandlerConfigurationImpl
-  implements BaseCredentialHandlerConfiguration
+export class ServerCredentialHandlerConfigurationImpl
+  implements ServerCredentialHandlerConfiguration
 {
   /**
    * Function to compute the HTU parameter
@@ -39,7 +39,7 @@ export class BaseCredentialHandlerConfigurationImpl
 
   constructor({
     credentialMetadataHandlerConfiguration,
-  }: BaseCredentialHandlerConfigurationImplConstructorParams) {
+  }: ServerCredentialHandlerConfigurationImplConstructorParams) {
     this.computeHtu = createComputeHtu({
       processCredentialIssuerMetadataRequestWithValidation:
         credentialMetadataHandlerConfiguration.processApiRequestWithValidation,

@@ -36,6 +36,9 @@ import { defaultToApiRequest } from './toApiRequest';
 import { createProcessRequest } from '../processRequest';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
+/** The path for the service configuration endpoint */
+export const SERVICE_CONFIGURATION_PATH = '/.well-known/openid-configuration';
+
 /**
  * Implementation of the ServiceConfigurationHandlerConfiguration interface.
  * This class configures the handling of service configuration requests.
@@ -45,7 +48,7 @@ export class ServiceConfigurationHandlerConfigurationImpl<
 > implements ServiceConfigurationHandlerConfiguration
 {
   /** The path for the service configuration endpoint. */
-  path: string = '/.well-known/openid-configuration';
+  path: string = SERVICE_CONFIGURATION_PATH;
 
   /** Function to process the API request for service configuration. */
   processApiRequest: ProcessApiRequest<

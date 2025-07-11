@@ -37,7 +37,7 @@ import { TokenIssueHandlerConfigurationImpl } from '../handler/token-issue/Token
 import { IntrospectionHandlerConfigurationImpl } from '../handler/introspection/IntrospectionHandlerConfigurationImpl';
 import { CredentialSingleParseHandlerConfigurationImpl } from '../handler/credential-single-parse/CredentialSingleParseHandlerConfigurationImpl';
 import { CommonCredentialHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.credential';
-import { BaseCredentialHandlerConfigurationImpl } from '../handler/credential/BaseCredentialHandlerConfigurationImpl';
+import { ServerCredentialHandlerConfigurationImpl } from '../handler/credential/ServerCredentialHandlerConfigurationImpl';
 import { CredentialSingleIssueHandlerConfigurationImpl } from '../handler/credential-single-issue/CredentialSingleIssueHandlerConfigurationImpl';
 import { ServiceJwksHandlerConfigurationImpl } from '../handler/service-jwks/ServiceJwksHandlerConfigurationImpl';
 import { CredentialIssuerJwksHandlerConfigurationImpl } from '../handler/credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
@@ -110,14 +110,14 @@ export const commonCredentialHandlerConfiguration =
   new CommonCredentialHandlerConfigurationImpl({
     userHandlerConfiguration,
   });
-export const baseCredentialHandlerConfiguration =
-  new BaseCredentialHandlerConfigurationImpl({
+export const serverCredentialHandlerConfiguration =
+  new ServerCredentialHandlerConfigurationImpl({
     credentialMetadataHandlerConfiguration,
   });
 export const credentialSingleIssueHandlerConfiguration =
   new CredentialSingleIssueHandlerConfigurationImpl({
     extractorConfiguration,
-    baseCredentialHandlerConfiguration,
+    serverCredentialHandlerConfiguration,
     introspectionHandlerConfiguration,
     serverHandlerConfiguration,
     credentialSingleParseHandlerConfiguration,

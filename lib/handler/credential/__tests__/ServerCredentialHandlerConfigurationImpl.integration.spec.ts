@@ -15,15 +15,20 @@
  * License.
  */
 
-import { ComputeHtu } from './computeHtu';
+import { describe, it, expect } from 'vitest';
+import { serverCredentialHandlerConfiguration } from '@/testing/configurations';
 
-/**
- * Base configuration interface for credential handlers.
- *
- * @interface BaseCredentialHandlerConfiguration
- * @property {ComputeHtu} computeHtu - Function to compute the 'htu' (HTTPS Token Usage) parameter
- *                                     for DPoP-bound access tokens
- */
-export interface BaseCredentialHandlerConfiguration {
-  computeHtu: ComputeHtu;
-}
+describe('ServerCredentialHandlerConfiguration Integration Tests', () => {
+  it('should compute HTU correctly from request', async () => {
+    // Arrange
+
+    // Act
+    const htu = await serverCredentialHandlerConfiguration.computeHtu(
+      'dpop',
+      'credential_endpoint'
+    );
+
+    // Assert
+    expect(htu).toBeDefined();
+  }, 10000);
+});

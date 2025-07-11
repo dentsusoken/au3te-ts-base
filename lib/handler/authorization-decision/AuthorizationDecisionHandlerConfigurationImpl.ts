@@ -45,6 +45,9 @@ type CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
 };
 
+/** The path for the authorization decision endpoint */
+export const AUTHORIZATION_DECISION_PATH = '/api/authorization/decision';
+
 /**
  * Implementation of the Authorization Decision handler configuration.
  * Handles conversion of HTTP requests to Authorization Decision API requests and processes them.
@@ -56,7 +59,7 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
 > implements AuthorizationDecisionHandlerConfiguration
 {
   /** The path for the authorization decision endpoint */
-  path: string = '/api/authorization/decision';
+  path: string = AUTHORIZATION_DECISION_PATH;
 
   /** Function to collect claims for the user based on requested scopes and claim names */
   collectClaims: CollectClaims = defaultCollectClaims;

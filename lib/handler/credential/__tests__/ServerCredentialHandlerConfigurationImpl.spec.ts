@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { BaseCredentialHandlerConfigurationImpl } from '../BaseCredentialHandlerConfigurationImpl';
+import { ServerCredentialHandlerConfigurationImpl } from '../ServerCredentialHandlerConfigurationImpl';
 import { CredentialMetadataHandlerConfiguration } from '../../credential-metadata/CredentialMetadataHandlerConfiguration';
 
-describe('BaseCredentialHandlerConfigurationImpl', () => {
+describe('ServerCredentialHandlerConfigurationImpl', () => {
   it('should properly initialize with credential metadata handler configuration', () => {
     // Arrange
     const mockProcessApiRequestWithValidation = vi.fn();
@@ -11,13 +11,13 @@ describe('BaseCredentialHandlerConfigurationImpl', () => {
     } as unknown as CredentialMetadataHandlerConfiguration;
 
     // Act
-    const config = new BaseCredentialHandlerConfigurationImpl({
+    const config = new ServerCredentialHandlerConfigurationImpl({
       credentialMetadataHandlerConfiguration:
         mockCredentialMetadataHandlerConfiguration,
     });
 
     // Assert
-    expect(config).toBeInstanceOf(BaseCredentialHandlerConfigurationImpl);
+    expect(config).toBeInstanceOf(ServerCredentialHandlerConfigurationImpl);
     expect(config.computeHtu).toBeTypeOf('function');
   });
 });

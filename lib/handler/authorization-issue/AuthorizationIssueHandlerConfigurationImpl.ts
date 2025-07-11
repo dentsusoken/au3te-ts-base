@@ -29,6 +29,8 @@ import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from './AuthorizationIssueHandlerConfiguration';
 
+/** The path for the authorization issue endpoint */
+export const AUTHORIZATION_ISSUE_PATH = '/api/authorization/issue';
 /**
  * Implementation of the AuthorizationIssueHandlerConfiguration interface.
  * This class configures the handling of authorization issue requests.
@@ -38,7 +40,7 @@ export class AuthorizationIssueHandlerConfigurationImpl<
 > implements AuthorizationIssueHandlerConfiguration
 {
   /** The path for the authorization issue endpoint. */
-  path: string = '/api/authorization/issue';
+  path: string = AUTHORIZATION_ISSUE_PATH;
 
   /** Function to process the API request for authorization issue. */
   processApiRequest: ProcessApiRequest<

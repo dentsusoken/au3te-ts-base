@@ -36,6 +36,8 @@ import { defaultToApiRequest } from './toApiRequest';
 import { createProcessRequest } from '../processRequest';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
+/** The path for the service JWKS endpoint */
+export const SERVICE_JWKS_PATH = '/api/jwks';
 /**
  * Implementation of the ServiceJwksHandlerConfiguration interface.
  * This class configures the handling of service configuration requests.
@@ -45,7 +47,7 @@ export class ServiceJwksHandlerConfigurationImpl<
 > implements ServiceJwksHandlerConfiguration
 {
   /** The path for the service configuration endpoint. */
-  path: string = '/api/jwks';
+  path: string = SERVICE_JWKS_PATH;
 
   /** Function to process the API request for service configuration. */
   processApiRequest: ProcessApiRequest<ServiceJwksRequest, ServiceJwksResponse>;

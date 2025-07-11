@@ -15,7 +15,7 @@
  * License.
  */
 
-export * from './BaseCredentialHandlerConfiguration';
-export * from './BaseCredentialHandlerConfigurationImpl';
+export * from './ServerCredentialHandlerConfiguration';
+export * from './ServerCredentialHandlerConfigurationImpl';
 export * from './computeHtu';
 export * from './types';

@@ -34,6 +34,8 @@ import {
   createBuildTokenFailError,
 } from './buildTokenFailError';
 
+/** The path for the token fail endpoint */
+export const TOKEN_FAIL_PATH = '/api/token/fail';
 /**
  * Implementation of the TokenFailHandlerConfiguration interface.
  * This class configures and handles Token Fail requests.
@@ -42,7 +44,7 @@ export class TokenFailHandlerConfigurationImpl
   implements TokenFailHandlerConfiguration
 {
   /** The path for the token fail endpoint. */
-  path: string = '/api/token/fail';
+  path: string = TOKEN_FAIL_PATH;
 
   /** Function to process the API request for token fail. */
   processApiRequest: ProcessApiRequest<TokenFailRequest, TokenFailResponse>;

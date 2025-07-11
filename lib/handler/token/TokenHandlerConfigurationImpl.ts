@@ -71,6 +71,9 @@ type TokenHandlerConfigurationImplConstructorParams = {
   extractorConfiguration: ExtractorConfiguration;
 };
 
+/** The path for the token endpoint */
+export const TOKEN_PATH = '/api/token';
+
 /**
  * Implementation of the TokenHandlerConfiguration interface.
  * Handles token endpoint operations according to OAuth 2.0 and OpenID Connect specifications.
@@ -92,7 +95,7 @@ export class TokenHandlerConfigurationImpl
   implements TokenHandlerConfiguration
 {
   /** The path for the token endpoint. Default is '/api/token'. */
-  path: string = '/api/token';
+  path: string = TOKEN_PATH;
 
   /** Function to determine the subject identifier from a token exchange response. */
   determineSubject4TokenExchange: DetermineSubject;

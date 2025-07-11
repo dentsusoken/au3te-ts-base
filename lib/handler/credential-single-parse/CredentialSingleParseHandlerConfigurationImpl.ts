@@ -30,9 +30,12 @@ import {
   ProcessApiRequestWithValidation,
 } from '../processApiRequestWithValidation';
 import { createValidateApiResponse } from './validateApiResponse';
-import { SessionSchemas } from '../../session/types';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { SessionSchemas } from '@/session/types';
+import { sessionSchemas } from '@/session/sessionSchemas';
 import { CredentialApiOptions } from '../credential/types';
+
+/** The path for the credential single parse endpoint */
+export const CREDENTIAL_SINGLE_PARSE_PATH = '/api/credential/single/parse';
 
 /**
  * Implementation of the CredentialSingleParseHandlerConfiguration interface.
@@ -45,7 +48,7 @@ export class CredentialSingleParseHandlerConfigurationImpl<
 > implements CredentialSingleParseHandlerConfiguration
 {
   /** The endpoint path for credential single parse operations */
-  path: string = '/api/credential/single/parse';
+  path: string = CREDENTIAL_SINGLE_PARSE_PATH;
 
   /**
    * Function to process the API request for credential single parse.

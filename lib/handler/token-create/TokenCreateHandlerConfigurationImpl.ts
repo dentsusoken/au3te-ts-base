@@ -29,6 +29,9 @@ import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from './TokenCreateHandlerConfiguration';
 
+/** The path for the token create endpoint */
+export const TOKEN_CREATE_PATH = '/api/token/create';
+
 /**
  * Implementation of the TokenCreateHandlerConfiguration interface.
  * This class configures and handles Token Create requests.
@@ -37,7 +40,7 @@ export class TokenCreateHandlerConfigurationImpl
   implements TokenCreateHandlerConfiguration
 {
   /** The path for the token create endpoint. */
-  path: string = '/api/token/create';
+  path: string = TOKEN_CREATE_PATH;
 
   /** Function to process the API request for token creation. */
   processApiRequest: ProcessApiRequest<TokenCreateRequest, TokenCreateResponse>;

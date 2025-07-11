@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { CredentialSingleIssueHandlerConfigurationImpl } from '../CredentialSingleIssueHandlerConfigurationImpl';
 import { ExtractorConfiguration } from '../../../extractor/ExtractorConfiguration';
-import { BaseCredentialHandlerConfiguration } from '../../credential/BaseCredentialHandlerConfiguration';
+import { ServerCredentialHandlerConfiguration } from '../../credential/ServerCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../../introspection/IntrospectionHandlerConfiguration';
 import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from '../../credential-single-parse/CredentialSingleParseHandlerConfiguration';
@@ -26,9 +26,9 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
     extractClientCredentials: mockExtractClientCredentials,
   } as unknown as ExtractorConfiguration;
 
-  const mockBaseCredentialHandlerConfiguration = {
+  const mockServerCredentialHandlerConfiguration = {
     computeHtu: mockComputeHtu,
-  } as unknown as BaseCredentialHandlerConfiguration;
+  } as unknown as ServerCredentialHandlerConfiguration;
 
   const mockIntrospectionHandlerConfiguration = {
     processApiRequestWithValidation: mockProcessApiRequestWithValidation,
@@ -56,8 +56,8 @@ describe('CredentialSingleIssueHandlerConfigurationImpl', () => {
     // Arrange
     const params = {
       extractorConfiguration: mockExtractorConfiguration,
-      baseCredentialHandlerConfiguration:
-        mockBaseCredentialHandlerConfiguration,
+      serverCredentialHandlerConfiguration:
+        mockServerCredentialHandlerConfiguration,
       introspectionHandlerConfiguration: mockIntrospectionHandlerConfiguration,
       serverHandlerConfiguration: serverHandlerConfiguration,
       credentialSingleParseHandlerConfiguration:

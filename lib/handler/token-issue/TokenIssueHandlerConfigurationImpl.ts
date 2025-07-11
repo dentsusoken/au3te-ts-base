@@ -31,6 +31,11 @@ import { TokenIssueHandlerConfiguration } from './TokenIssueHandlerConfiguration
 import { Headers } from '../../utils/responseFactory';
 
 /**
+ * The path for the token issue endpoint.
+ */
+export const TOKEN_ISSUE_PATH = '/api/token/issue';
+
+/**
  * Implementation of the TokenIssueHandlerConfiguration interface.
  * This class configures and handles Token Issue requests.
  */
@@ -38,7 +43,7 @@ export class TokenIssueHandlerConfigurationImpl
   implements TokenIssueHandlerConfiguration
 {
   /** The path for the token issue endpoint. */
-  path: string = '/api/token/issue';
+  path: string = TOKEN_ISSUE_PATH;
 
   /** Function to process the API request for token issuance. */
   processApiRequest: ProcessApiRequest<TokenIssueRequest, TokenIssueResponse>;

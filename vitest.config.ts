@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { loadEnv } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
@@ -8,6 +9,11 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'lib'),
+      },
+    },
     test: {
       globals: true,
     },

@@ -33,6 +33,9 @@ import {
   createBuildAuthorizationFailError,
 } from './buildAuthorizationFailError';
 
+/** The path for the authorization fail endpoint */
+export const AUTHORIZATION_FAIL_PATH = '/api/authorization/fail';
+
 /**
  * Implementation of the AuthorizationFailHandlerConfiguration interface.
  * This class configures and handles Authorization Fail requests.
@@ -41,7 +44,7 @@ export class AuthorizationFailHandlerConfigurationImpl
   implements AuthorizationFailHandlerConfiguration
 {
   /** The path for the authorization fail endpoint. */
-  path: string = '/api/authorization/fail';
+  path: string = AUTHORIZATION_FAIL_PATH;
 
   /** Function to process the API request for authorization fail. */
   processApiRequest: ProcessApiRequest<

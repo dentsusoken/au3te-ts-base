@@ -35,6 +35,9 @@ import { createToApiRequest } from '../toClientAuthRequest';
 import { createProcessRequest } from '../processRequest';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
+/** The path for the PAR endpoint */
+export const PAR_PATH = '/api/par';
+
 /**
  * Implementation of the ParHandlerConfiguration interface.
  * This class configures and handles Pushed Authorization Requests (PAR).
@@ -44,7 +47,7 @@ export class ParHandlerConfigurationImpl<
 > implements ParHandlerConfiguration
 {
   /** The path for the PAR endpoint. */
-  path: string = '/api/par';
+  path: string = PAR_PATH;
 
   /** Function to process the API request for PAR. */
   processApiRequest: ProcessApiRequest<

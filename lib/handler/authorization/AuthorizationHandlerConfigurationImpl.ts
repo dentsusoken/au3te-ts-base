@@ -65,57 +65,92 @@ import { createProcessRequest } from '../processRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
+/**
+ * Parameters for constructing AuthorizationHandlerConfigurationImpl.
+ * @template SS - The type of session schemas, extending SessionSchemas.
+ */
 type AuthorizationHandlerConfigurationImplConstructorParams<
   SS extends SessionSchemas
 > = {
+  /** Server handler configuration */
   serverHandlerConfiguration: ServerHandlerConfiguration<SS>;
+  /** Authorization issue handler configuration */
   authorizationIssueHandlerConfiguration: AuthorizationIssueHandlerConfiguration;
+  /** Authorization fail handler configuration */
   authorizationFailHandlerConfiguration: AuthorizationFailHandlerConfiguration;
+  /** Authorization page handler configuration */
   authorizationPageHandlerConfiguration: AuthorizationPageHandlerConfiguration;
+  /** Extractor configuration */
   extractorConfiguration: ExtractorConfiguration;
 };
 
+/** The path for the authorization endpoint */
+export const AUTHORIZATION_PATH = '/api/authorization';
+
+/**
+ * Implementation of the AuthorizationHandlerConfiguration interface.
+ * @template SS - The type of session schemas, extending SessionSchemas.
+ * @implements {AuthorizationHandlerConfiguration<SS>}
+ */
 export class AuthorizationHandlerConfigurationImpl<
   SS extends SessionSchemas = typeof sessionSchemas
 > implements AuthorizationHandlerConfiguration<SS>
 {
-  path = '/api/authorization';
+  /** The path for the authorization endpoint */
+  path = AUTHORIZATION_PATH;
 
+  /** Function to process the API request for authorization */
   processApiRequest: ProcessApiRequest<
     AuthorizationRequest,
     AuthorizationResponse
   >;
 
+  /** Parameters for response to decision */
   responseToDecisionParams: ResponseToDecisionParams;
 
+  /** Function to check prompts */
   checkPrompts: CheckPrompts;
 
+  /** Function to check authentication age */
   checkAuthAge: CheckAuthAge;
 
+  /** Function to clear current user info in session */
   clearCurrentUserInfoInSession: ClearCurrentUserInfoInSession<SS>;
 
+  /** Function to clear current user info in session if necessary */
   clearCurrentUserInfoInSessionIfNecessary: ClearCurrentUserInfoInSessionIfNecessary<SS>;
 
+  /** Function to build a response */
   buildResponse: BuildResponse;
 
+  /** Function to generate the authorization page */
   generateAuthorizationPage: GenerateAuthorizationPage<SS>;
 
+  /** Function to check the subject */
   checkSubject: CheckSubject;
 
+  /** Function to calculate the subject */
   calcSub: CalcSub;
 
+  /** Function to handle no interaction cases */
   handleNoInteraction: HandleNoInteraction<SS>;
 
+  /** Function to process the API response for authorization */
   processApiResponse: ProcessApiResponse<AuthorizationResponse>;
 
+  /** Function to handle the authorization request */
   handle: Handle<AuthorizationRequest>;
 
-  /** Function to convert HTTP requests to Authorization API requests */
+  /** Function to convert HTTP requests to API requests */
   toApiRequest: ToApiRequest<AuthorizationRequest>;
 
   /** Function to process incoming HTTP requests */
   processRequest: ProcessRequest;
 
+  /**
+   * Creates an instance of AuthorizationHandlerConfigurationImpl.
+   * @param {AuthorizationHandlerConfigurationImplConstructorParams<SS>} params - The parameters for constructing the instance.
+   */
   constructor({
     serverHandlerConfiguration,
     authorizationIssueHandlerConfiguration,

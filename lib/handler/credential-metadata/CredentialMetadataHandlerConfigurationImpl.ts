@@ -24,7 +24,7 @@ import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
-import { SessionSchemas } from '../../session/types';
+import { SessionSchemas } from '@/session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { CredentialMetadataHandlerConfiguration } from './CredentialMetadataHandlerConfiguration';
@@ -38,7 +38,10 @@ import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
 import { defaultToApiRequest } from './toApiRequest';
 import { createProcessRequest } from '../processRequest';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { sessionSchemas } from '@/session/sessionSchemas';
+
+/** The path for the credential metadata endpoint */
+export const CREDENTIAL_METADATA_PATH = '/.well-known/openid-credential-issuer';
 
 /**
  * Implementation of the CredentialMetadataHandlerConfiguration interface.
@@ -49,7 +52,7 @@ export class CredentialMetadataHandlerConfigurationImpl<
 > implements CredentialMetadataHandlerConfiguration
 {
   /** The path for the credential metadata endpoint. */
-  path: string = '/.well-known/openid-credential-issuer';
+  path: string = CREDENTIAL_METADATA_PATH;
 
   /** Function to process the API request for credential metadata. */
   processApiRequest: ProcessApiRequest<
