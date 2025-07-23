@@ -22,7 +22,7 @@ import {
 import { ProcessApiRequest } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
 import { Handle } from '../handle';
-import { Headers } from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 import { BuildTokenFailError } from './buildTokenFailError';
 
 /**

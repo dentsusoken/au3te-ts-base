@@ -20,7 +20,6 @@ import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
 import { CredentialApiOptions } from '../credential/types';
 import { ApiResponseWithOptions } from '../types';
 
@@ -28,6 +27,8 @@ export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<
     ApiResponseWithOptions<CredentialSingleIssueResponse, CredentialApiOptions>
   > =>
@@ -38,37 +39,49 @@ export const createProcessApiResponse =
 
     switch (action) {
       case 'CALLER_ERROR':
-        return responseFactory.internalServerError(responseContent!, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
 
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(responseContent!, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          responseContent,
+          headers
+        );
 
       case 'UNAUTHORIZED':
-        return responseFactory.unauthorized(
+        throw responseErrorFactory.unauthorizedResponseError(
           accessToken,
-          responseContent ?? undefined,
+          responseContent,
           headers
         );
 
       case 'FORBIDDEN':
-        return responseFactory.forbidden(responseContent!, headers);
+        throw responseErrorFactory.forbiddenResponseError(
+          responseContent,
+          headers
+        );
 
       case 'OK':
-        return responseFactory.ok(responseContent!, headers);
+        return responseFactory.ok(responseContent, headers);
 
       case 'OK_JWT':
-        return responseFactory.okJwt(responseContent!, headers);
+        return responseFactory.okJwt(responseContent, headers);
 
       case 'ACCEPTED':
-        return responseFactory.accepted(responseContent!, headers);
+        return responseFactory.accepted(responseContent, headers);
 
       case 'ACCEPTED_JWT':
-        return responseFactory.acceptedJwt(responseContent!, headers);
+        return responseFactory.acceptedJwt(responseContent, headers);
 
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent!, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action),
           headers
         );

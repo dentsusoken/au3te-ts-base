@@ -85,7 +85,12 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
    * Creates an instance of CredentialIssuerJwksHandlerConfigurationImpl.
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
+    const {
+      apiClient,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialIssuerJwksPath,
@@ -97,6 +102,7 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage:
         serverHandlerConfiguration.buildUnknownActionMessage,
+      responseErrorFactory,
     });
 
     this.processApiRequestWithValidation =
@@ -109,6 +115,8 @@ export class CredentialIssuerJwksHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage:
         serverHandlerConfiguration.buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

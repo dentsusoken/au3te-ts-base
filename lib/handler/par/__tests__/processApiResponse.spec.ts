@@ -1,7 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { PushedAuthReqResponse } from '@vecrea/au3te-ts-common/schemas.par';
 import { createProcessApiResponse } from '../processApiResponse';
-import type { Headers } from '../../../utils/responseFactory';
+import type { Headers } from '../../responseFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { ResponseError } from '../../ResponseError';
 
 describe('processApiResponse', () => {
   describe('createProcessApiResponse', () => {
@@ -13,8 +16,14 @@ describe('processApiResponse', () => {
         dpopNonce ? { 'DPoP-Nonce': dpopNonce } : {}
     );
 
+    const responseErrorFactory = createResponseErrorFactory(
+      defaultResponseFactory
+    );
+
     const processApiResponse = createProcessApiResponse({
       path: 'test-path',
+      responseFactory: defaultResponseFactory,
+      responseErrorFactory,
       buildUnknownActionMessage: mockBuildUnknownActionMessage,
       prepareHeaders: mockPrepareHeaders,
     });
@@ -39,9 +48,10 @@ describe('processApiResponse', () => {
         responseContent: 'Bad request content',
         dpopNonce: 'test-nonce',
       } as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(400);
-      expect(await response.text()).toBe('Bad request content');
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError('Bad request content', expect.any(Response))
+      );
       expect(mockPrepareHeaders).toHaveBeenCalledWith({
         dpopNonce: 'test-nonce',
       });
@@ -53,9 +63,10 @@ describe('processApiResponse', () => {
         responseContent: 'Unauthorized content',
         dpopNonce: 'test-nonce',
       } as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(401);
-      expect(await response.text()).toBe('Unauthorized content');
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError('Unauthorized content', expect.any(Response))
+      );
       expect(mockPrepareHeaders).toHaveBeenCalledWith({
         dpopNonce: 'test-nonce',
       });
@@ -67,9 +78,10 @@ describe('processApiResponse', () => {
         responseContent: 'Forbidden content',
         dpopNonce: 'test-nonce',
       } as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(403);
-      expect(await response.text()).toBe('Forbidden content');
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError('Forbidden content', expect.any(Response))
+      );
       expect(mockPrepareHeaders).toHaveBeenCalledWith({
         dpopNonce: 'test-nonce',
       });
@@ -81,9 +93,10 @@ describe('processApiResponse', () => {
         responseContent: 'Payload too large content',
         dpopNonce: 'test-nonce',
       } as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(413);
-      expect(await response.text()).toBe('Payload too large content');
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError('Payload too large content', expect.any(Response))
+      );
       expect(mockPrepareHeaders).toHaveBeenCalledWith({
         dpopNonce: 'test-nonce',
       });
@@ -95,9 +108,10 @@ describe('processApiResponse', () => {
         responseContent: 'Internal server error content',
         dpopNonce: 'test-nonce',
       } as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(500);
-      expect(await response.text()).toBe('Internal server error content');
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError('Internal server error content', expect.any(Response))
+      );
       expect(mockPrepareHeaders).toHaveBeenCalledWith({
         dpopNonce: 'test-nonce',
       });
@@ -108,11 +122,14 @@ describe('processApiResponse', () => {
         action: 'UNKNOWN_ACTION',
         dpopNonce: 'test-nonce',
       } as unknown as PushedAuthReqResponse;
-      const response = await processApiResponse(apiResponse);
-      expect(response.status).toBe(500);
-      expect(await response.text()).toBe(
-        'test-path: Unknown action: UNKNOWN_ACTION'
+
+      await expect(processApiResponse(apiResponse)).rejects.toThrow(
+        new ResponseError(
+          'test-path: Unknown action: UNKNOWN_ACTION',
+          expect.any(Response)
+        )
       );
+
       expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
         'test-path',
         'UNKNOWN_ACTION'

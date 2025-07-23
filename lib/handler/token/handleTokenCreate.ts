@@ -19,7 +19,7 @@ import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { ResponseToCreateRequest } from './responseToCreateRequest';
 import { Handle } from '../handle';
 import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { Headers } from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 
 /**
  * Function type for handling token creation operations.

@@ -4,6 +4,8 @@ import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { PrepareHeaders } from './prepareHeaders';
+import { ResponseFactory } from './responseFactory';
+import { ResponseErrorFactory } from './responseErrorFactory';
 
 /**
  * Interface representing the server configuration for handlers.
@@ -21,6 +23,16 @@ export interface ServerHandlerConfiguration<SS extends SessionSchemas>
    * The session object for managing user sessions.
    */
   session: Session<SS>;
+
+  /**
+   * The response factory for creating responses.
+   */
+  responseFactory: ResponseFactory;
+
+  /**
+   * The response error factory for creating response errors.
+   */
+  responseErrorFactory: ResponseErrorFactory;
 
   /**
    * Function to recover from response errors.

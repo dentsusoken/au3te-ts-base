@@ -150,6 +150,8 @@ export class TokenHandlerConfigurationImpl
       buildUnknownActionMessage,
       recoverResponseResult,
       prepareHeaders,
+      responseFactory,
+      responseErrorFactory,
     } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
@@ -197,6 +199,8 @@ export class TokenHandlerConfigurationImpl
       handlePassword: this.handlePassword,
       handleTokenExchange: this.handleTokenExchange,
       handleJwtBearer: this.handleJwtBearer,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

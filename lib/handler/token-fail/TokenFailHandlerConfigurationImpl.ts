@@ -28,7 +28,7 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { TokenFailHandlerConfiguration } from './TokenFailHandlerConfiguration';
-import { Headers } from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 import {
   BuildTokenFailError,
   createBuildTokenFailError,
@@ -65,8 +65,13 @@ export class TokenFailHandlerConfigurationImpl
   constructor(
     serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>
   ) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.tokenFailPath,
@@ -77,6 +82,8 @@ export class TokenFailHandlerConfigurationImpl
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

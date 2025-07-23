@@ -20,10 +20,6 @@ import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,
 } from '../validateApiResponse';
-import {
-  notFoundResponseError,
-  internalServerErrorResponseError,
-} from '../responseErrorFactory';
 
 /**
  * Creates a ValidateApiResponse function that handles different API response actions.
@@ -32,12 +28,14 @@ import {
  * @param {CreateValidateApiResponseParams} params - The parameters for creating the validate function.
  * @param {string} params.path - The path of the API endpoint.
  * @param {Function} params.buildUnknownActionMessage - Function to build an unknown action message.
+ * @param {Object} params.responseErrorFactory - Factory for creating error responses.
  * @returns {ValidateApiResponse} A function that validates API responses.
  */
 export const createValidateApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseErrorFactory,
   }: CreateValidateApiResponseParams): ValidateApiResponse<CredentialIssuerMetadataResponse> =>
   /**
    * Validates the API response for Credential Issuer Metadata requests.
@@ -52,11 +50,13 @@ export const createValidateApiResponse =
       case 'OK':
         return;
       case 'NOT_FOUND':
-        throw notFoundResponseError(responseContent!);
+        throw responseErrorFactory.notFoundResponseError(responseContent!);
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorResponseError(responseContent!);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent!
+        );
       default:
-        throw internalServerErrorResponseError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

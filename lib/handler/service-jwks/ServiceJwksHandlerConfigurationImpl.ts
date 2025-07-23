@@ -25,16 +25,16 @@ import {
   ProcessApiRequest,
 } from '../processApiRequest';
 import { ProcessApiResponse } from '../processApiResponse';
-import { defaultProcessApiResponse } from './processApiResponse';
+import { createProcessApiResponse } from './processApiResponse';
 import { Handle, createHandle } from '../handle';
-import { SessionSchemas } from '../../session/types';
+import { SessionSchemas } from '@/session/types';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { ServiceJwksHandlerConfiguration } from './ServiceJwksHandlerConfiguration';
 import { ToApiRequest } from '../toApiRequest';
 import { ProcessRequest } from '../processRequest';
 import { defaultToApiRequest } from './toApiRequest';
 import { createProcessRequest } from '../processRequest';
-import { sessionSchemas } from '../../session/sessionSchemas';
+import { sessionSchemas } from '@/session/sessionSchemas';
 
 /** The path for the service JWKS endpoint */
 export const SERVICE_JWKS_PATH = '/api/jwks';
@@ -68,7 +68,8 @@ export class ServiceJwksHandlerConfigurationImpl<
    * Creates an instance of ServiceJwksHandlerConfigurationImpl.
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
+    const { apiClient, recoverResponseResult, responseFactory } =
+      serverHandlerConfiguration;
 
     this.processApiRequest = createProcessGetApiRequest(
       apiClient.serviceJwksPath,
@@ -76,7 +77,9 @@ export class ServiceJwksHandlerConfigurationImpl<
       apiClient
     );
 
-    this.processApiResponse = defaultProcessApiResponse;
+    this.processApiResponse = createProcessApiResponse({
+      responseFactory,
+    });
 
     this.handle = createHandle({
       path: this.path,

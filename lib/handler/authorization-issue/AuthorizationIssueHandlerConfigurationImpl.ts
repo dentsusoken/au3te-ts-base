@@ -59,8 +59,13 @@ export class AuthorizationIssueHandlerConfigurationImpl<
    * @param {ServerHandlerConfiguration<SS>} serverHandlerConfiguration - The server handler configuration.
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.authorizationIssuePath,
@@ -71,6 +76,8 @@ export class AuthorizationIssueHandlerConfigurationImpl<
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

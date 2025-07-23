@@ -17,10 +17,32 @@
 
 import { ServiceJwksResponse } from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import { ProcessApiResponse } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { ResponseFactory } from '../responseFactory';
 
-export const defaultProcessApiResponse: ProcessApiResponse<
-  ServiceJwksResponse
-> = async (apiResponse: ServiceJwksResponse): Promise<Response> => {
-  return responseFactory.ok(apiResponse);
+/**
+ * Parameters required to create a process API response function.
+ */
+type CreateProcessApiResponseParams = {
+  /** Factory to create HTTP responses */
+  responseFactory: ResponseFactory;
 };
+
+/**
+ * Creates a function to process API responses for Service JWKS.
+ *
+ * @param {CreateProcessApiResponseParams} params - The parameters including a response factory.
+ * @returns {ProcessApiResponse<ServiceJwksResponse>} A function that processes a ServiceJwksResponse into an HTTP Response.
+ */
+export const createProcessApiResponse =
+  ({
+    responseFactory,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<ServiceJwksResponse> =>
+  /**
+   * Processes the given ServiceJwksResponse and returns an HTTP Response.
+   *
+   * @param {ServiceJwksResponse} apiResponse - The API response to process.
+   * @returns {Promise<Response>} A promise that resolves to an HTTP Response.
+   */
+  async (apiResponse: ServiceJwksResponse): Promise<Response> => {
+    return responseFactory.ok(apiResponse);
+  };

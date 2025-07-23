@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { tokenHandlerConfiguration } from '../../../testing/configurations';
-import { processParPostRequest } from '../../../testing/par';
-import { processAuthorizationGetRequest } from '../../../testing/authorization';
-import { processAuthorizationDecisionPostRequest } from '../../../testing/authorizationDecision';
-import { createTokenPostRequest } from '../../../testing/token';
+import { tokenHandlerConfiguration } from '@/testing/configurations';
+import { processParPostRequest } from '@/testing/par';
+import { processAuthorizationGetRequest } from '@/testing/authorization';
+import { processAuthorizationDecisionPostRequest } from '@/testing/authorizationDecision';
+import { createTokenPostRequest } from '@/testing/token';
 
 describe('TokenHandlerConfiguration Integration Tests', () => {
   it('should successfully work with processRequest', async () => {

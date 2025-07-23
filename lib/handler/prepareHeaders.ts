@@ -15,14 +15,14 @@
  * License.
  */
 
-import * as responseFactory from '../utils/responseFactory';
+import * as responseFactory from './responseFactory';
 
 /**
  * Parameters for preparing response headers.
  */
 type PrepareHeadersParams = {
   /** DPoP nonce value to be included in the response headers if present */
-  dpopNonce: string | undefined;
+  dpopNonce: string | undefined | null;
 };
 
 /**
@@ -30,9 +30,9 @@ type PrepareHeadersParams = {
  * @param params Parameters containing optional DPoP nonce
  * @returns Response headers object
  */
-export type PrepareHeaders = (
-  params: PrepareHeadersParams
-) => responseFactory.Headers;
+export type PrepareHeaders = ({
+  dpopNonce,
+}: PrepareHeadersParams) => responseFactory.Headers;
 
 /**
  * Default implementation for preparing response headers.

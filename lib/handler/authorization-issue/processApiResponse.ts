@@ -16,7 +16,6 @@
  */
 
 import { AuthorizationIssueResponse } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
-import * as responseFactory from '../../utils/responseFactory';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
@@ -34,6 +33,8 @@ export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<AuthorizationIssueResponse> =>
   /**
    * Processes the API response for Authorization Issue requests.
@@ -46,15 +47,17 @@ export const createProcessApiResponse =
 
     switch (action) {
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent
+        );
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(responseContent);
+        throw responseErrorFactory.badRequestResponseError(responseContent);
       case 'LOCATION':
         return responseFactory.location(responseContent!);
       case 'FORM':
         return responseFactory.form(responseContent);
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

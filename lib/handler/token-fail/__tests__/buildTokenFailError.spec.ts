@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createBuildTokenFailError } from '../buildTokenFailError';
 import { ResponseError } from '../../ResponseError';
-import type { Headers } from '../../../utils/responseFactory';
+import type { Headers } from '../../responseFactory';
 
 describe('createBuildTokenFailError', () => {
   const mockHandle = vi.fn();

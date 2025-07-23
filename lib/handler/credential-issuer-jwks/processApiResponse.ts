@@ -20,7 +20,6 @@ import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
 
 /**
  * Creates a ProcessApiResponse function that handles different API response actions.
@@ -29,12 +28,16 @@ import * as responseFactory from '../../utils/responseFactory';
  * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
  * @param {string} params.path - The path of the API endpoint.
  * @param {Function} params.buildUnknownActionMessage - Function to build an unknown action message.
+ * @param {Object} params.responseFactory - Factory for creating HTTP responses.
+ * @param {Object} params.responseErrorFactory - Factory for creating error responses.
  * @returns {ProcessApiResponse} A function that processes API responses and returns appropriate HTTP responses.
  */
 export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<CredentialIssuerJwksResponse> =>
   /**
    * Processes the API response for Credential Issuer JWKS requests.
@@ -49,11 +52,13 @@ export const createProcessApiResponse =
       case 'OK':
         return responseFactory.ok(responseContent);
       case 'NOT_FOUND':
-        return responseFactory.notFound(responseContent);
+        throw responseErrorFactory.notFoundResponseError(responseContent);
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent
+        );
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

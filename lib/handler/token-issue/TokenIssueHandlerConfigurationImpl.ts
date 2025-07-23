@@ -28,7 +28,7 @@ import { SessionSchemas } from '../../session/types';
 import { createProcessApiRequest } from '../processApiRequest';
 import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from './TokenIssueHandlerConfiguration';
-import { Headers } from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 
 /**
  * The path for the token issue endpoint.
@@ -61,8 +61,13 @@ export class TokenIssueHandlerConfigurationImpl
   constructor(
     serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>
   ) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.tokenIssuePath,
@@ -73,6 +78,8 @@ export class TokenIssueHandlerConfigurationImpl
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

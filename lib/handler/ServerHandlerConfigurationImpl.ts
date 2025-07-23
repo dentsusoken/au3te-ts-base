@@ -8,6 +8,11 @@ import { Session } from '../session/Session';
 import { SessionSchemas } from '../session/types';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { defaultPrepareHeaders, PrepareHeaders } from './prepareHeaders';
+import { defaultResponseFactory, ResponseFactory } from './responseFactory';
+import {
+  createResponseErrorFactory,
+  ResponseErrorFactory,
+} from './responseErrorFactory';
 
 /**
  * Implementation of the ServerHandlerConfiguration interface.
@@ -25,6 +30,12 @@ export class ServerHandlerConfigurationImpl<SS extends SessionSchemas>
   /** The session object for managing user sessions. */
   session: Session<SS>;
 
+  /** The response factory for creating responses. */
+  responseFactory: ResponseFactory;
+
+  /** The response error factory for creating response errors. */
+  responseErrorFactory: ResponseErrorFactory;
+
   /** Function to recover from response errors. */
   recoverResponseResult: RecoverResponseResult;
 
@@ -40,7 +51,14 @@ export class ServerHandlerConfigurationImpl<SS extends SessionSchemas>
     super();
     this.apiClient = apiClient;
     this.session = session;
-    this.recoverResponseResult = createRecoverResponseResult(this.processError);
+    this.responseFactory = defaultResponseFactory;
+    this.responseErrorFactory = createResponseErrorFactory(
+      this.responseFactory
+    );
+    this.recoverResponseResult = createRecoverResponseResult({
+      processError: this.processError,
+      responseFactory: this.responseFactory,
+    });
     this.prepareHeaders = defaultPrepareHeaders;
   }
 }

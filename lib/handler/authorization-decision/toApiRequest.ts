@@ -21,12 +21,12 @@ import { ToApiRequest } from '../toApiRequest';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { badRequestResponseError } from '../responseErrorFactory';
 import { GetOrAuthenticateUser } from './getOrAuthenticateUser';
 import { parseQueryString } from '@vecrea/au3te-ts-common/utils';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 import { CalcSub } from '../authorization/calcSub';
 import { CollectClaims } from './collectClaims';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Parameters required to create an API request handler
@@ -39,6 +39,7 @@ type CreateToApiRequestParams<SS extends SessionSchemas> = {
   buildAuthorizationFailError: BuildAuthorizationFailError;
   calcSub: CalcSub;
   collectClaims: CollectClaims;
+  responseErrorFactory: ResponseErrorFactory;
 };
 
 /**
@@ -54,6 +55,7 @@ export const createToApiRequest =
     buildAuthorizationFailError,
     calcSub,
     collectClaims,
+    responseErrorFactory,
   }: CreateToApiRequestParams<
     typeof sessionSchemas
   >): ToApiRequest<AuthorizationIssueRequest> =>
@@ -66,7 +68,7 @@ export const createToApiRequest =
       );
 
     if (!authorizationDecisionParams) {
-      throw badRequestResponseError(
+      throw responseErrorFactory.badRequestResponseError(
         'Authorization decision session data not found. The session may have expired or the authorization request has not been initiated.'
       );
     }

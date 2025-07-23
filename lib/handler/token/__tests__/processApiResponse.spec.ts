@@ -1,14 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from '../processApiResponse';
-import * as responseFactory from '../../../utils/responseFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { ResponseError } from '../../ResponseError';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 // Mock responseFactory methods
-vi.mock('../../../utils/responseFactory', () => ({
-  ok: vi.fn(),
-  badRequest: vi.fn(),
-  unauthorized: vi.fn(),
-  internalServerError: vi.fn(),
+vi.mock('../../responseFactory', () => ({
+  defaultResponseFactory: {
+    ok: vi.fn(),
+    badRequest: vi.fn(),
+    unauthorized: vi.fn(),
+    internalServerError: vi.fn(),
+  },
 }));
 
 describe('createProcessApiResponse', () => {
@@ -23,8 +27,14 @@ describe('createProcessApiResponse', () => {
     (_path, action) => `Unknown action: ${action}`
   );
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const processApiResponse = createProcessApiResponse({
     path: '/token',
+    responseFactory: defaultResponseFactory,
+    responseErrorFactory,
     prepareHeaders: mockPrepareHeaders,
     handlePassword: mockHandlePassword,
     handleTokenExchange: mockHandleTokenExchange,
@@ -50,7 +60,7 @@ describe('createProcessApiResponse', () => {
     expect(mockPrepareHeaders).toHaveBeenCalledWith({
       dpopNonce: 'test-nonce',
     });
-    expect(responseFactory.ok).toHaveBeenCalledWith(
+    expect(defaultResponseFactory.ok).toHaveBeenCalledWith(
       mockResponse.responseContent,
       { 'Content-Type': 'application/json' }
     );
@@ -66,7 +76,7 @@ describe('createProcessApiResponse', () => {
 
     await processApiResponse(mockResponse);
 
-    expect(responseFactory.ok).toHaveBeenCalledWith(
+    expect(defaultResponseFactory.ok).toHaveBeenCalledWith(
       mockResponse.responseContent,
       { 'Content-Type': 'application/json' }
     );
@@ -80,11 +90,8 @@ describe('createProcessApiResponse', () => {
       dpopNonce: 'test-nonce',
     };
 
-    await processApiResponse(mockResponse);
-
-    expect(responseFactory.badRequest).toHaveBeenCalledWith(
-      mockResponse.responseContent,
-      { 'Content-Type': 'application/json' }
+    await expect(processApiResponse(mockResponse)).rejects.toThrow(
+      new ResponseError('{"error": "invalid_request"}', expect.any(Response))
     );
   });
 
@@ -96,12 +103,8 @@ describe('createProcessApiResponse', () => {
       dpopNonce: 'test-nonce',
     };
 
-    await processApiResponse(mockResponse);
-
-    expect(responseFactory.unauthorized).toHaveBeenCalledWith(
-      mockResponse.responseContent,
-      'Basic realm="token"',
-      { 'Content-Type': 'application/json' }
+    await expect(processApiResponse(mockResponse)).rejects.toThrow(
+      new ResponseError('{"error": "invalid_client"}', expect.any(Response))
     );
   });
 
@@ -113,11 +116,8 @@ describe('createProcessApiResponse', () => {
       dpopNonce: 'test-nonce',
     };
 
-    await processApiResponse(mockResponse);
-
-    expect(responseFactory.internalServerError).toHaveBeenCalledWith(
-      mockResponse.responseContent,
-      { 'Content-Type': 'application/json' }
+    await expect(processApiResponse(mockResponse)).rejects.toThrow(
+      new ResponseError('{"error": "server_error"}', expect.any(Response))
     );
   });
 
@@ -174,14 +174,8 @@ describe('createProcessApiResponse', () => {
       dpopNonce: 'test-nonce',
     };
 
-    await processApiResponse(mockResponse);
-
-    expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
-      '/token',
-      'UNKNOWN_ACTION'
-    );
-    expect(responseFactory.internalServerError).toHaveBeenCalledWith(
-      'Unknown action: UNKNOWN_ACTION'
+    await expect(processApiResponse(mockResponse)).rejects.toThrow(
+      new ResponseError('Unknown action: UNKNOWN_ACTION', expect.any(Response))
     );
   });
 });

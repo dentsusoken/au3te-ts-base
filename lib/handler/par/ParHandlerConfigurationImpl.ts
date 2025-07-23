@@ -82,6 +82,8 @@ export class ParHandlerConfigurationImpl<
       buildUnknownActionMessage,
       recoverResponseResult,
       prepareHeaders,
+      responseFactory,
+      responseErrorFactory,
     } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
@@ -94,6 +96,8 @@ export class ParHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage,
       prepareHeaders,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

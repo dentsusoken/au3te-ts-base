@@ -110,7 +110,7 @@ export const createToApiRequest =
     };
     const introspectionResponse = await introspect(introspectionRequest);
     const headers = prepareHeaders({
-      dpopNonce: introspectionResponse.dpopNonce ?? undefined,
+      dpopNonce: introspectionResponse.dpopNonce,
     });
     const options: CredentialApiOptions = {
       accessToken,

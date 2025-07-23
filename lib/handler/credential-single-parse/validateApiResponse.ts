@@ -20,12 +20,6 @@ import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,
 } from '../validateApiResponse';
-import {
-  internalServerErrorResponseError,
-  badRequestResponseError,
-  unauthorizedResponseError,
-  forbiddenResponseError,
-} from '../responseErrorFactory';
 import { CredentialApiOptions } from '../credential/types';
 
 /**
@@ -34,12 +28,14 @@ import { CredentialApiOptions } from '../credential/types';
  * @param params - Configuration parameters for the validation function
  * @param params.path - API endpoint path used in error messages
  * @param params.buildUnknownActionMessage - Function to create error messages for unknown actions
+ * @param params.responseErrorFactory - Factory for creating error responses.
  * @returns A validation function for credential single parse responses
  */
 export const createValidateApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseErrorFactory,
   }: CreateValidateApiResponseParams): ValidateApiResponse<
     CredentialSingleParseResponse,
     CredentialApiOptions
@@ -58,7 +54,9 @@ export const createValidateApiResponse =
    */
   async (apiResponse, options) => {
     if (!options) {
-      throw internalServerErrorResponseError('Options are required');
+      throw responseErrorFactory.internalServerErrorResponseError(
+        'Options are required'
+      );
     }
 
     const { headers, accessToken } = options;
@@ -66,17 +64,30 @@ export const createValidateApiResponse =
 
     switch (action) {
       case 'BAD_REQUEST':
-        throw badRequestResponseError(responseContent!, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          responseContent,
+          headers
+        );
       case 'UNAUTHORIZED':
-        throw unauthorizedResponseError(accessToken, responseContent, headers);
+        throw responseErrorFactory.unauthorizedResponseError(
+          accessToken,
+          responseContent,
+          headers
+        );
       case 'FORBIDDEN':
-        throw forbiddenResponseError(responseContent!, headers);
+        throw responseErrorFactory.forbiddenResponseError(
+          responseContent,
+          headers
+        );
       case 'OK':
         return;
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorResponseError(responseContent!, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       default:
-        throw internalServerErrorResponseError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action),
           headers
         );

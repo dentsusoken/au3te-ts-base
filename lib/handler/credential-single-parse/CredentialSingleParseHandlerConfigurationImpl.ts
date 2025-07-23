@@ -84,7 +84,8 @@ export class CredentialSingleParseHandlerConfigurationImpl<
    * @param serverHandlerConfiguration - Base configuration containing API client and utility functions
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage } = serverHandlerConfiguration;
+    const { apiClient, buildUnknownActionMessage, responseErrorFactory } =
+      serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialSingleParsePath,
@@ -95,6 +96,7 @@ export class CredentialSingleParseHandlerConfigurationImpl<
     this.validateApiResponse = createValidateApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseErrorFactory,
     });
 
     this.processApiRequestWithValidation =

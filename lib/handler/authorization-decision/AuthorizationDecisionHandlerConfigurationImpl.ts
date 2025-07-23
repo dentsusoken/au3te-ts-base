@@ -86,6 +86,9 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
     authorizationIssueHandlerConfiguration,
     authorizationFailHandlerConfiguration,
   }: CreateAuthorizationDecisionHandlerConfigurationImplConstructorParams<SS>) {
+    const { recoverResponseResult, responseErrorFactory } =
+      serverHandlerConfiguration;
+
     this.getOrAuthenticateUser = createGetOrAuthenticateUser(
       userHandlerConfiguration.getByCredentials
     );
@@ -98,13 +101,14 @@ export class AuthorizationDecisionHandlerConfigurationImpl<
         authorizationFailHandlerConfiguration.buildAuthorizationFailError,
       calcSub: authorizationHandlerConfiguration.calcSub,
       collectClaims: this.collectClaims,
+      responseErrorFactory,
     });
 
     this.processRequest = createProcessRequest({
       path: this.path,
       toApiRequest: this.toApiRequest,
       handle: authorizationIssueHandlerConfiguration.handle,
-      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult,
     });
   }
 }

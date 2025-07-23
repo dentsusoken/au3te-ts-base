@@ -75,15 +75,26 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
     credentialSingleParseHandlerConfiguration,
     commonCredentialHandlerConfiguration,
   }: CreateCredentialSingleIssueHandlerConfigurationImplParams<SS>) {
+    const {
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      prepareHeaders,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
+    const {
+      extractAccessToken,
+      extractClientCertificateAndPath,
+      extractParameters,
+    } = extractorConfiguration;
     this.toApiRequest = createToApiRequest({
-      extractAccessToken: extractorConfiguration.extractAccessToken,
-      extractClientCertificateAndPath:
-        extractorConfiguration.extractClientCertificateAndPath,
-      extractParameters: extractorConfiguration.extractParameters,
+      extractAccessToken,
+      extractClientCertificateAndPath,
+      extractParameters,
       computeHtu: serverCredentialHandlerConfiguration.computeHtu,
       introspect:
         introspectionHandlerConfiguration.processApiRequestWithValidation,
-      prepareHeaders: serverHandlerConfiguration.prepareHeaders,
+      prepareHeaders,
       parseSingleCredential:
         credentialSingleParseHandlerConfiguration.processApiRequestWithValidation,
       getToOrder: commonCredentialHandlerConfiguration.getToOrder,
@@ -97,22 +108,23 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
 
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
-      buildUnknownActionMessage:
-        serverHandlerConfiguration.buildUnknownActionMessage,
+      buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandleWithOptions({
       path: this.path,
       processApiRequest: this.processApiRequest,
       processApiResponse: this.processApiResponse,
-      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult,
     });
 
     this.processRequest = createProcessRequestWithOptions({
       path: this.path,
       toApiRequest: this.toApiRequest,
       handle: this.handle,
-      recoverResponseResult: serverHandlerConfiguration.recoverResponseResult,
+      recoverResponseResult,
     });
   }
 }

@@ -16,7 +16,6 @@
  */
 
 import { TokenCreateResponse } from '@vecrea/au3te-ts-common/schemas.token-create';
-import * as responseFactory from '../../utils/responseFactory';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
@@ -45,19 +44,43 @@ export const buildOkMessage = (apiResponse: TokenCreateResponse): string => {
     2
   );
 };
+
+/**
+ * Builds a JSON error message for token creation failures.
+ *
+ * @param {TokenCreateResponse} apiResponse - The response from the Authlete API containing error details
+ * @returns {string} A formatted JSON string containing the error details
+ */
+export const buildErrorMessage = (apiResponse: TokenCreateResponse): string => {
+  const { action, resultCode, resultMessage } = apiResponse;
+
+  return JSON.stringify(
+    {
+      action,
+      resultCode,
+      resultMessage,
+    },
+    undefined,
+    2
+  );
+};
+
 /**
  * Creates a function to process API responses for Token Create requests.
- * This function handles various response actions and generates appropriate HTTP responses.
  *
- * @param {CreateProcessApiResponseParams} params - Configuration parameters
- * @param {string} params.path - The API endpoint path
- * @param {Function} params.buildUnknownActionMessage - Function to generate error messages for unknown actions
- * @returns {ProcessApiResponse<TokenCreateResponse>} A function that processes token creation responses
+ * @param {CreateProcessApiResponseParams} params - Parameters for creating the process function
+ * @param {string} params.path - API endpoint path
+ * @param {Function} params.buildUnknownActionMessage - Function that builds message for unknown actions
+ * @param {Object} params.responseFactory - Factory for creating HTTP responses
+ * @param {Object} params.responseErrorFactory - Factory for creating error responses
+ * @returns {ProcessApiResponse<TokenCreateResponse>} Function that processes API responses and returns HTTP responses
  */
 export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<TokenCreateResponse> =>
   /**
    * Processes the API response for Token Create requests and generates appropriate HTTP responses.
@@ -71,15 +94,21 @@ export const createProcessApiResponse =
 
     switch (action) {
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(action);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          buildErrorMessage(apiResponse)
+        );
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(action);
+        throw responseErrorFactory.badRequestResponseError(
+          buildErrorMessage(apiResponse)
+        );
       case 'FORBIDDEN':
-        return responseFactory.forbidden(action);
+        throw responseErrorFactory.forbiddenResponseError(
+          buildErrorMessage(apiResponse)
+        );
       case 'OK':
         return responseFactory.ok(buildOkMessage(apiResponse));
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

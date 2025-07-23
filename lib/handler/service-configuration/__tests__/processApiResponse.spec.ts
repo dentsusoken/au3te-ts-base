@@ -1,9 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { ServiceConfigurationResponse } from '@vecrea/au3te-ts-common/schemas.service-configuration';
-import { defaultProcessApiResponse } from '../processApiResponse';
+import { createProcessApiResponse } from '../processApiResponse';
+import { defaultResponseFactory } from '../../responseFactory';
 
-describe('defaultProcessApiResponse', () => {
-  const processApiResponse = defaultProcessApiResponse;
+describe('createProcessApiResponse', () => {
+  const processApiResponse = createProcessApiResponse({
+    responseFactory: defaultResponseFactory,
+  });
 
   it('should handle response', async () => {
     const apiResponse = `{

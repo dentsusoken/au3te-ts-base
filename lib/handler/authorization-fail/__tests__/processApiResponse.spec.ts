@@ -1,14 +1,24 @@
 import { describe, it, expect } from 'vitest';
 import { AuthorizationFailResponse } from '@vecrea/au3te-ts-common/schemas.authorization-fail';
 import { createProcessApiResponse } from '../processApiResponse';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { ResponseError } from '../../ResponseError';
 
 describe('createProcessApiResponse', () => {
   const path = 'path';
 
   const mockBuildUnknownActionMessage = (path: string, action: string) =>
     `${path}: Unknown action: ${action}`;
+
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const processApiResponse = createProcessApiResponse({
     path,
+    responseFactory: defaultResponseFactory,
+    responseErrorFactory,
     buildUnknownActionMessage: mockBuildUnknownActionMessage,
   });
 
@@ -17,9 +27,10 @@ describe('createProcessApiResponse', () => {
       action: 'INTERNAL_SERVER_ERROR',
       responseContent: 'Internal server error content',
     } as AuthorizationFailResponse;
-    const response = await processApiResponse(apiResponse);
-    expect(response.status).toBe(500);
-    expect(await response.text()).toBe('Internal server error content');
+
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError('Internal server error content', expect.any(Response))
+    );
   });
 
   it('should handle BAD_REQUEST action', async () => {
@@ -27,9 +38,10 @@ describe('createProcessApiResponse', () => {
       action: 'BAD_REQUEST',
       responseContent: 'Bad request content',
     } as AuthorizationFailResponse;
-    const response = await processApiResponse(apiResponse);
-    expect(response.status).toBe(400);
-    expect(await response.text()).toBe('Bad request content');
+
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError('Bad request content', expect.any(Response))
+    );
   });
 
   it('should handle LOCATION action', async () => {
@@ -61,8 +73,12 @@ describe('createProcessApiResponse', () => {
     const apiResponse = {
       action: 'UNKNOWN_ACTION',
     } as unknown as AuthorizationFailResponse;
-    const response = await processApiResponse(apiResponse);
-    expect(response.status).toBe(500);
-    expect(await response.text()).toBe('path: Unknown action: UNKNOWN_ACTION');
+
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError(
+        'path: Unknown action: UNKNOWN_ACTION',
+        expect.any(Response)
+      )
+    );
   });
 });

@@ -58,8 +58,13 @@ export class TokenCreateHandlerConfigurationImpl
   constructor(
     serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>
   ) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.tokenCreatePath,
@@ -70,6 +75,8 @@ export class TokenCreateHandlerConfigurationImpl
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

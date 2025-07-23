@@ -3,9 +3,11 @@ import { session } from './configurations';
 import { AuthorizationRequest } from '@vecrea/au3te-ts-common/schemas.authorization';
 import { authorizationHandlerConfiguration } from './configurations';
 
+const CLIENT_ID = process.env.CLIENT_ID!;
+
 export const createAuthorizationParameters = (requestUri: string) => {
   return new URLSearchParams({
-    client_id: 'tw24.wallet.dentsusoken.com',
+    client_id: CLIENT_ID,
     request_uri: requestUri,
   }).toString();
 };

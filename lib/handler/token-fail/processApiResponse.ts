@@ -20,35 +20,33 @@ import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 
-/**
- * Creates a ProcessApiResponse function that processes token fail API responses.
- *
- * @function createProcessApiResponse
- * @param {CreateProcessApiResponseParams} params - Parameters for creating the process function
- * @param {string} params.path - API endpoint path
- * @param {Function} params.buildUnknownActionMessage - Function that builds message for unknown actions
- * @returns {ProcessApiResponse<TokenFailResponse, responseFactory.Headers>} Function that processes API responses and returns HTTP responses with optional headers
- */
 export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<
     TokenFailResponse,
-    responseFactory.Headers
+    Headers
   > =>
   async (apiResponse, headers) => {
     const { action, responseContent } = apiResponse;
 
     switch (action) {
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(responseContent, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          responseContent,
+          headers
+        );
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

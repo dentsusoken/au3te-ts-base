@@ -1,10 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { createValidateApiResponse } from '../validateApiResponse';
 import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import {
-  notFoundResponseError,
-  internalServerErrorResponseError,
-} from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 describe('credential-metadata/validateApiResponse', () => {
   // Test setup
@@ -12,8 +10,13 @@ describe('credential-metadata/validateApiResponse', () => {
   const buildUnknownActionMessage = (path: string, action: string) =>
     `Unknown action: ${action} for ${path}`;
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const validateApiResponse = createValidateApiResponse({
     path,
+    responseErrorFactory,
     buildUnknownActionMessage,
   });
 
@@ -39,7 +42,7 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        notFoundResponseError(errorMessage).message
+        responseErrorFactory.notFoundResponseError(errorMessage).message
       );
     });
 
@@ -53,7 +56,8 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        internalServerErrorResponseError(errorMessage).message
+        responseErrorFactory.internalServerErrorResponseError(errorMessage)
+          .message
       );
     });
 
@@ -67,7 +71,7 @@ describe('credential-metadata/validateApiResponse', () => {
 
       // Act & Assert
       await expect(validateApiResponse(response)).rejects.toThrow(
-        internalServerErrorResponseError(
+        responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, unknownAction)
         ).message
       );

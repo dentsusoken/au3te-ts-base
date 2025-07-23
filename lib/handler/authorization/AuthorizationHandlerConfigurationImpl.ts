@@ -163,6 +163,8 @@ export class AuthorizationHandlerConfigurationImpl<
       session,
       buildUnknownActionMessage,
       recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
     } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
@@ -217,6 +219,8 @@ export class AuthorizationHandlerConfigurationImpl<
       generateAuthorizationPage: this.generateAuthorizationPage,
       handleNoInteraction: this.handleNoInteraction,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

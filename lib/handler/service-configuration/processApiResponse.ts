@@ -17,10 +17,32 @@
 
 import { ServiceConfigurationResponse } from '@vecrea/au3te-ts-common/schemas.service-configuration';
 import { ProcessApiResponse } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { ResponseFactory } from '../responseFactory';
 
-export const defaultProcessApiResponse: ProcessApiResponse<
-  ServiceConfigurationResponse
-> = async (apiResponse: ServiceConfigurationResponse): Promise<Response> => {
-  return responseFactory.ok(apiResponse);
+/**
+ * Parameters for creating a process API response function.
+ */
+type CreateProcessApiResponseParams = {
+  /** Factory to create HTTP responses */
+  responseFactory: ResponseFactory;
 };
+
+/**
+ * Creates a function to process API responses for Service Configuration requests.
+ *
+ * @param {CreateProcessApiResponseParams} params - The parameters for creating the process function.
+ * @returns {ProcessApiResponse<ServiceConfigurationResponse>} A function that processes Service Configuration API responses.
+ */
+export const createProcessApiResponse =
+  ({
+    responseFactory,
+  }: CreateProcessApiResponseParams): ProcessApiResponse<ServiceConfigurationResponse> =>
+  /**
+   * Processes the API response for Service Configuration requests.
+   *
+   * @param {ServiceConfigurationResponse} apiResponse - The response from the Authlete API for Service Configuration.
+   * @returns {Promise<Response>} A promise that resolves to the HTTP response.
+   */
+  async (apiResponse: ServiceConfigurationResponse): Promise<Response> => {
+    return responseFactory.ok(apiResponse);
+  };

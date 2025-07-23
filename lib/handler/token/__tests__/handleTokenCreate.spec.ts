@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { createHandleTokenCreate } from '../handleTokenCreate';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { Headers } from '../../../utils/responseFactory';
+import { Headers } from '../../responseFactory';
 
 describe('createHandleTokenCreate', () => {
   it('should call dependencies with correct arguments and return response', async () => {

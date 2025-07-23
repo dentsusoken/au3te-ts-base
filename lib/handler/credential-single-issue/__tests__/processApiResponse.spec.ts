@@ -1,16 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createProcessApiResponse } from '../processApiResponse';
-import * as responseFactory from '../../../utils/responseFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { ResponseError } from '../../ResponseError';
 import { CredentialSingleIssueResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { ApiResponseWithOptions } from '../../types';
 import { CredentialApiOptions } from '../../credential/types';
 
-describe('createProcessApiResponse', () => {
-  // Mock functions
-  const mockBuildUnknownActionMessage = vi.fn();
-
-  // Mock responseFactory methods
-  vi.mock('../../../utils/responseFactory', () => ({
+// Mock responseFactory methods
+vi.mock('../../responseFactory', () => ({
+  defaultResponseFactory: {
     internalServerError: vi.fn(),
     badRequest: vi.fn(),
     unauthorized: vi.fn(),
@@ -19,7 +18,12 @@ describe('createProcessApiResponse', () => {
     okJwt: vi.fn(),
     accepted: vi.fn(),
     acceptedJwt: vi.fn(),
-  }));
+  },
+}));
+
+describe('createProcessApiResponse', () => {
+  // Mock functions
+  const mockBuildUnknownActionMessage = vi.fn();
 
   // Test path
   const testPath = '/test/path';
@@ -33,10 +37,16 @@ describe('createProcessApiResponse', () => {
     accessToken: mockAccessToken,
   };
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   // Test setup
   const setup = () => {
     return createProcessApiResponse({
       path: testPath,
+      responseFactory: defaultResponseFactory,
+      responseErrorFactory,
       buildUnknownActionMessage: mockBuildUnknownActionMessage,
     });
   };
@@ -44,7 +54,6 @@ describe('createProcessApiResponse', () => {
   it('should handle CALLER_ERROR action', async () => {
     // Arrange
     const processApiResponse = setup();
-    const mockResponse = new Response('error', { status: 500 });
     const apiResponseWithOptions: ApiResponseWithOptions<
       CredentialSingleIssueResponse,
       CredentialApiOptions
@@ -55,25 +64,16 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.internalServerError).mockReturnValue(
-      mockResponse
-    );
 
-    // Act
-    const result = await processApiResponse(apiResponseWithOptions);
-
-    // Assert
-    expect(responseFactory.internalServerError).toHaveBeenCalledWith(
-      mockResponseContent,
-      mockHeaders
+    // Act & Assert
+    await expect(processApiResponse(apiResponseWithOptions)).rejects.toThrow(
+      new ResponseError(mockResponseContent, expect.any(Response))
     );
-    expect(result).toBe(mockResponse);
   });
 
   it('should handle BAD_REQUEST action', async () => {
     // Arrange
     const processApiResponse = setup();
-    const mockResponse = new Response('error', { status: 400 });
     const apiResponseWithOptions: ApiResponseWithOptions<
       CredentialSingleIssueResponse,
       CredentialApiOptions
@@ -84,23 +84,16 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.badRequest).mockReturnValue(mockResponse);
 
-    // Act
-    const result = await processApiResponse(apiResponseWithOptions);
-
-    // Assert
-    expect(responseFactory.badRequest).toHaveBeenCalledWith(
-      mockResponseContent,
-      mockHeaders
+    // Act & Assert
+    await expect(processApiResponse(apiResponseWithOptions)).rejects.toThrow(
+      new ResponseError(mockResponseContent, expect.any(Response))
     );
-    expect(result).toBe(mockResponse);
   });
 
   it('should handle UNAUTHORIZED action', async () => {
     // Arrange
     const processApiResponse = setup();
-    const mockResponse = new Response('error', { status: 401 });
     const apiResponseWithOptions: ApiResponseWithOptions<
       CredentialSingleIssueResponse,
       CredentialApiOptions
@@ -111,18 +104,11 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.unauthorized).mockReturnValue(mockResponse);
 
-    // Act
-    const result = await processApiResponse(apiResponseWithOptions);
-
-    // Assert
-    expect(responseFactory.unauthorized).toHaveBeenCalledWith(
-      mockAccessToken,
-      mockResponseContent,
-      mockHeaders
+    // Act & Assert
+    await expect(processApiResponse(apiResponseWithOptions)).rejects.toThrow(
+      new ResponseError(mockAccessToken, expect.any(Response))
     );
-    expect(result).toBe(mockResponse);
   });
 
   it('should handle OK action', async () => {
@@ -139,13 +125,13 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.ok).mockReturnValue(mockResponse);
+    vi.mocked(defaultResponseFactory.ok).mockReturnValue(mockResponse);
 
     // Act
     const result = await processApiResponse(apiResponseWithOptions);
 
     // Assert
-    expect(responseFactory.ok).toHaveBeenCalledWith(
+    expect(defaultResponseFactory.ok).toHaveBeenCalledWith(
       mockResponseContent,
       mockHeaders
     );
@@ -166,13 +152,13 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.okJwt).mockReturnValue(mockResponse);
+    vi.mocked(defaultResponseFactory.okJwt).mockReturnValue(mockResponse);
 
     // Act
     const result = await processApiResponse(apiResponseWithOptions);
 
     // Assert
-    expect(responseFactory.okJwt).toHaveBeenCalledWith(
+    expect(defaultResponseFactory.okJwt).toHaveBeenCalledWith(
       mockResponseContent,
       mockHeaders
     );
@@ -182,7 +168,6 @@ describe('createProcessApiResponse', () => {
   it('should handle unknown action', async () => {
     // Arrange
     const processApiResponse = setup();
-    const mockResponse = new Response('error', { status: 500 });
     const unknownAction = 'UNKNOWN_ACTION';
     const mockErrorMessage = 'Unknown action error';
     const apiResponseWithOptions: ApiResponseWithOptions<
@@ -190,35 +175,26 @@ describe('createProcessApiResponse', () => {
       CredentialApiOptions
     > = {
       apiResponse: {
-        action: unknownAction as any,
+        action: unknownAction as CredentialSingleIssueResponse['action'],
         responseContent: mockResponseContent,
       },
       options: mockOptions,
     };
     mockBuildUnknownActionMessage.mockReturnValue(mockErrorMessage);
-    vi.mocked(responseFactory.internalServerError).mockReturnValue(
-      mockResponse
+
+    // Act & Assert
+    await expect(processApiResponse(apiResponseWithOptions)).rejects.toThrow(
+      new ResponseError(mockErrorMessage, expect.any(Response))
     );
-
-    // Act
-    const result = await processApiResponse(apiResponseWithOptions);
-
-    // Assert
     expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
       testPath,
       unknownAction
     );
-    expect(responseFactory.internalServerError).toHaveBeenCalledWith(
-      mockErrorMessage,
-      mockHeaders
-    );
-    expect(result).toBe(mockResponse);
   });
 
   it('should handle null responseContent for UNAUTHORIZED action', async () => {
     // Arrange
     const processApiResponse = setup();
-    const mockResponse = new Response('error', { status: 401 });
     const apiResponseWithOptions: ApiResponseWithOptions<
       CredentialSingleIssueResponse,
       CredentialApiOptions
@@ -229,17 +205,10 @@ describe('createProcessApiResponse', () => {
       },
       options: mockOptions,
     };
-    vi.mocked(responseFactory.unauthorized).mockReturnValue(mockResponse);
 
-    // Act
-    const result = await processApiResponse(apiResponseWithOptions);
-
-    // Assert
-    expect(responseFactory.unauthorized).toHaveBeenCalledWith(
-      mockAccessToken,
-      undefined,
-      mockHeaders
+    // Act & Assert
+    await expect(processApiResponse(apiResponseWithOptions)).rejects.toThrow(
+      new ResponseError(mockAccessToken, expect.any(Response))
     );
-    expect(result).toBe(mockResponse);
   });
 });

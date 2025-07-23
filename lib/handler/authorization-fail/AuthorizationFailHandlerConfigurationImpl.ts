@@ -68,8 +68,13 @@ export class AuthorizationFailHandlerConfigurationImpl
   constructor(
     serverHandlerConfiguration: ServerHandlerConfiguration<SessionSchemas>
   ) {
-    const { apiClient, buildUnknownActionMessage, recoverResponseResult } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.authorizationFailPath,
@@ -80,6 +85,8 @@ export class AuthorizationFailHandlerConfigurationImpl
     this.processApiResponse = createProcessApiResponse({
       path: this.path,
       buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

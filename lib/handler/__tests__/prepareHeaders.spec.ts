@@ -7,6 +7,11 @@ describe('defaultPrepareHeaders', () => {
     expect(headers).toEqual({});
   });
 
+  it('returns empty headers object when dpopNonce is null', () => {
+    const headers = defaultPrepareHeaders({ dpopNonce: null });
+    expect(headers).toEqual({});
+  });
+
   it('returns headers object with DPoP-Nonce when dpopNonce is provided', () => {
     const dpopNonce = 'test-nonce-value';
     const headers = defaultPrepareHeaders({ dpopNonce });

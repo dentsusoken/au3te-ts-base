@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createToApiRequest } from '../toApiRequest';
 import { Session } from '../../../session/Session';
 import { sessionSchemas } from '../../../session/sessionSchemas';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../responseFactory';
 
 describe('createToApiRequest', () => {
   // Mock dependencies
@@ -15,6 +17,10 @@ describe('createToApiRequest', () => {
   const mockBuildAuthorizationFailError = vi.fn();
   const mockCalcSub = vi.fn();
   const mockCollectClaims = vi.fn();
+
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -50,6 +56,7 @@ describe('createToApiRequest', () => {
 
     const toApiRequest = createToApiRequest({
       session: mockSession,
+      responseErrorFactory,
       extractParameters: mockExtractParameters,
       getOrAuthenticateUser: mockGetOrAuthenticateUser,
       buildAuthorizationFailError: mockBuildAuthorizationFailError,
@@ -81,6 +88,7 @@ describe('createToApiRequest', () => {
 
     const toApiRequest = createToApiRequest({
       session: mockSession,
+      responseErrorFactory,
       extractParameters: mockExtractParameters,
       getOrAuthenticateUser: mockGetOrAuthenticateUser,
       buildAuthorizationFailError: mockBuildAuthorizationFailError,
@@ -109,6 +117,7 @@ describe('createToApiRequest', () => {
 
     const toApiRequest = createToApiRequest({
       session: mockSession,
+      responseErrorFactory,
       extractParameters: mockExtractParameters,
       getOrAuthenticateUser: mockGetOrAuthenticateUser,
       buildAuthorizationFailError: mockBuildAuthorizationFailError,
@@ -141,6 +150,7 @@ describe('createToApiRequest', () => {
 
     const toApiRequest = createToApiRequest({
       session: mockSession,
+      responseErrorFactory,
       extractParameters: mockExtractParameters,
       getOrAuthenticateUser: mockGetOrAuthenticateUser,
       buildAuthorizationFailError: mockBuildAuthorizationFailError,

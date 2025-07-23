@@ -1,27 +1,26 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createValidateApiResponse } from '../validateApiResponse';
-import {
-  internalServerErrorResponseError,
-  badRequestResponseError,
-  unauthorizedResponseError,
-  forbiddenResponseError,
-} from '../../responseErrorFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../responseFactory';
 import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
 
 // Configure mock functions to throw errors
 const mockError = new Error('Test error');
+
 vi.mock('../../responseErrorFactory', () => ({
-  internalServerErrorResponseError: vi.fn().mockImplementation(() => {
-    throw mockError;
-  }),
-  badRequestResponseError: vi.fn().mockImplementation(() => {
-    throw mockError;
-  }),
-  unauthorizedResponseError: vi.fn().mockImplementation(() => {
-    throw mockError;
-  }),
-  forbiddenResponseError: vi.fn().mockImplementation(() => {
-    throw mockError;
+  createResponseErrorFactory: vi.fn().mockReturnValue({
+    internalServerErrorResponseError: vi.fn().mockImplementation(() => {
+      throw mockError;
+    }),
+    badRequestResponseError: vi.fn().mockImplementation(() => {
+      throw mockError;
+    }),
+    unauthorizedResponseError: vi.fn().mockImplementation(() => {
+      throw mockError;
+    }),
+    forbiddenResponseError: vi.fn().mockImplementation(() => {
+      throw mockError;
+    }),
   }),
 }));
 
@@ -34,8 +33,13 @@ describe('validateApiResponse for introspection', () => {
     ...(dpopNonce ? { 'DPoP-Nonce': dpopNonce } : {}),
   }));
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const validateApiResponse = createValidateApiResponse({
     path: mockPath,
+    responseErrorFactory,
     buildUnknownActionMessage: mockBuildUnknownActionMessage,
     prepareHeaders: mockPrepareHeaders,
   });
@@ -60,7 +64,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(badRequestResponseError).toHaveBeenCalledWith(
+    expect(responseErrorFactory.badRequestResponseError).toHaveBeenCalledWith(
       response.responseContent,
       headers
     );
@@ -76,7 +80,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(unauthorizedResponseError).toHaveBeenCalledWith(
+    expect(responseErrorFactory.unauthorizedResponseError).toHaveBeenCalledWith(
       response.responseContent,
       undefined,
       headers
@@ -93,7 +97,7 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(forbiddenResponseError).toHaveBeenCalledWith(
+    expect(responseErrorFactory.forbiddenResponseError).toHaveBeenCalledWith(
       response.responseContent,
       headers
     );
@@ -109,10 +113,9 @@ describe('validateApiResponse for introspection', () => {
     const headers = { 'DPoP-Nonce': 'nonce123' };
 
     await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(internalServerErrorResponseError).toHaveBeenCalledWith(
-      response.responseContent,
-      headers
-    );
+    expect(
+      responseErrorFactory.internalServerErrorResponseError
+    ).toHaveBeenCalledWith(response.responseContent, headers);
     expect(mockPrepareHeaders).toHaveBeenCalledWith({ dpopNonce: 'nonce123' });
   });
 
@@ -128,7 +131,9 @@ describe('validateApiResponse for introspection', () => {
       mockPath,
       'UNKNOWN_ACTION'
     );
-    expect(internalServerErrorResponseError).toHaveBeenCalledWith(
+    expect(
+      responseErrorFactory.internalServerErrorResponseError
+    ).toHaveBeenCalledWith(
       `Unknown action 'UNKNOWN_ACTION' for /api/introspection`
     );
   });

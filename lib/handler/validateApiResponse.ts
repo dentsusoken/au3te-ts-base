@@ -16,6 +16,7 @@
  */
 
 import { BuildUnknownActionMessage } from '@vecrea/au3te-ts-common/handler';
+import { ResponseErrorFactory } from './responseErrorFactory';
 
 /**
  * Parameters for creating a validate API response function.
@@ -23,6 +24,8 @@ import { BuildUnknownActionMessage } from '@vecrea/au3te-ts-common/handler';
 export type CreateValidateApiResponseParams = {
   /** The path of the API endpoint. */
   path: string;
+  /** Factory to create response errors. */
+  responseErrorFactory: ResponseErrorFactory;
   /** Function to build an unknown action message. */
   buildUnknownActionMessage: BuildUnknownActionMessage;
 };

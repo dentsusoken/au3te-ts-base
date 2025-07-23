@@ -16,107 +16,146 @@
  */
 
 import { ResponseError } from './ResponseError';
-import * as responseFactory from '../utils/responseFactory';
+import { Headers, ResponseFactory } from './responseFactory';
 
 /**
- * Creates a ResponseError for a bad request with the given error message.
- *
- * @param {string} message - The error message describing why the request was bad
- * @param {Headers} [headers] - Optional additional headers to include in the response
- * @returns {ResponseError} A ResponseError instance with a 400 Bad Request response
+ * Interface for ResponseErrorFactory that provides methods to create ResponseError instances.
  */
-export const badRequestResponseError = (
-  message: string,
-  headers?: responseFactory.Headers
-): ResponseError => {
-  const body = JSON.stringify({
-    error: 'bad_request',
-    error_description: message,
-  });
+export interface ResponseErrorFactory {
+  /**
+   * Creates a ResponseError for a bad request with the given error message.
+   */
+  badRequestResponseError(
+    message?: string | null,
+    headers?: Headers
+  ): ResponseError;
 
-  return new ResponseError(message, responseFactory.badRequest(body, headers));
-};
+  /**
+   * Creates a ResponseError for an internal server error with the given error message.
+   */
+  internalServerErrorResponseError(
+    message?: string | null,
+    headers?: Headers
+  ): ResponseError;
 
-/**
- * Creates a ResponseError for an internal server error with the given error message.
- *
- * @param {string} message - The error message describing the internal server error
- * @param {Headers} [headers] - Optional additional headers to include in the response
- * @returns {ResponseError} A ResponseError instance with a 500 Internal Server Error response
- */
-export const internalServerErrorResponseError = (
-  message: string,
-  headers?: responseFactory.Headers
-): ResponseError => {
-  const body = JSON.stringify({
-    error: 'internal_server_error',
-    error_description: message,
-  });
+  /**
+   * Creates a ResponseError for a not found error with the given error message.
+   */
+  notFoundResponseError(
+    message?: string | null,
+    headers?: Headers
+  ): ResponseError;
 
-  return new ResponseError(
-    message,
-    responseFactory.internalServerError(body, headers)
-  );
-};
+  /**
+   * Creates a ResponseError for an unauthorized request with the given error message.
+   */
+  unauthorizedResponseError(
+    message?: string | null,
+    challenge?: string | null,
+    headers?: Headers
+  ): ResponseError;
 
-/**
- * Creates a ResponseError for a not found error with the given error message.
- *
- * @param {string} message - The error message describing why the resource was not found
- * @param {Headers} [headers] - Optional additional headers to include in the response
- * @returns {ResponseError} A ResponseError instance with a 404 Not Found response
- */
-export const notFoundResponseError = (
-  message: string,
-  headers?: responseFactory.Headers
-): ResponseError => {
-  const body = JSON.stringify({
-    error: 'not_found',
-    error_description: message,
-  });
+  /**
+   * Creates a ResponseError for a forbidden request with the given error message.
+   */
+  forbiddenResponseError(
+    message?: string | null,
+    headers?: Headers
+  ): ResponseError;
 
-  return new ResponseError(message, responseFactory.notFound(body, headers));
-};
+  /**
+   * Creates a ResponseError for a payload too large error with the given error message.
+   */
+  tooLargeResponseError(
+    message?: string | null,
+    headers?: Headers
+  ): ResponseError;
+}
 
-/**
- * Creates a ResponseError for an unauthorized request with the given error message.
- *
- * @param {string} message - The error message describing why the request was unauthorized
- * @param {string} [challenge] - Optional WWW-Authenticate challenge value
- * @param {Headers} [headers] - Optional additional headers to include in the response
- * @returns {ResponseError} A ResponseError instance with a 401 Unauthorized response
- */
-export const unauthorizedResponseError = (
-  message: string,
-  challenge?: string | null,
-  headers?: responseFactory.Headers
-): ResponseError => {
-  const body = JSON.stringify({
-    error: 'unauthorized',
-    error_description: message,
-  });
+export const createResponseErrorFactory = (
+  responseFactory: ResponseFactory
+): ResponseErrorFactory => {
+  return {
+    badRequestResponseError: (
+      message?: string | null,
+      headers?: Headers
+    ): ResponseError => {
+      const finalMessage = message ?? 'bad_request';
+      const body = JSON.stringify({
+        error: 'bad_request',
+        error_description: finalMessage,
+      });
 
-  return new ResponseError(
-    message,
-    responseFactory.unauthorized(body, challenge, headers)
-  );
-};
+      const response = responseFactory.badRequest(body, headers);
+      return new ResponseError(finalMessage, response);
+    },
 
-/**
- * Creates a ResponseError for a forbidden request with the given error message.
- *
- * @param {string} message - The error message describing why the request was forbidden
- * @param {Headers} [headers] - Optional additional headers to include in the response
- * @returns {ResponseError} A ResponseError instance with a 403 Forbidden response
- */
-export const forbiddenResponseError = (
-  message: string,
-  headers?: responseFactory.Headers
-): ResponseError => {
-  const body = JSON.stringify({
-    error: 'forbidden',
-    error_description: message,
-  });
+    internalServerErrorResponseError: (
+      message?: string | null,
+      headers?: Headers
+    ): ResponseError => {
+      const finalMessage = message ?? 'internal_server_error';
+      const body = JSON.stringify({
+        error: 'internal_server_error',
+        error_description: finalMessage,
+      });
 
-  return new ResponseError(message, responseFactory.forbidden(body, headers));
+      const response = responseFactory.internalServerError(body, headers);
+      return new ResponseError(finalMessage, response);
+    },
+
+    notFoundResponseError: (
+      message?: string | null,
+      headers?: Headers
+    ): ResponseError => {
+      const finalMessage = message ?? 'not_found';
+      const body = JSON.stringify({
+        error: 'not_found',
+        error_description: finalMessage,
+      });
+
+      const response = responseFactory.notFound(body, headers);
+      return new ResponseError(finalMessage, response);
+    },
+
+    unauthorizedResponseError: (
+      message?: string | null,
+      challenge?: string | null,
+      headers?: Headers
+    ): ResponseError => {
+      const finalMessage = message ?? 'unauthorized';
+      const body = JSON.stringify({
+        error: 'unauthorized',
+        error_description: finalMessage,
+      });
+
+      const response = responseFactory.unauthorized(body, challenge, headers);
+      return new ResponseError(finalMessage, response);
+    },
+
+    forbiddenResponseError: (
+      message?: string | null,
+      headers?: Headers
+    ): ResponseError => {
+      const finalMessage = message ?? 'forbidden';
+      const body = JSON.stringify({
+        error: 'forbidden',
+        error_description: finalMessage,
+      });
+
+      const response = responseFactory.forbidden(body, headers);
+      return new ResponseError(finalMessage, response);
+    },
+
+    tooLargeResponseError: (message?: string | null, headers?: Headers) => {
+      const finalMessage = message ?? 'payload_too_large';
+      const body = JSON.stringify({
+        error: 'payload_too_large',
+        error_description: finalMessage,
+      });
+
+      const response = responseFactory.tooLarge(body, headers);
+      return new ResponseError(finalMessage, response);
+    },
+  };
 };

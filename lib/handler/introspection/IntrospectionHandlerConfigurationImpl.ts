@@ -65,8 +65,12 @@ export class IntrospectionHandlerConfigurationImpl<
    * Creates an instance of IntrospectionHandlerConfigurationImpl.
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, buildUnknownActionMessage, prepareHeaders } =
-      serverHandlerConfiguration;
+    const {
+      apiClient,
+      buildUnknownActionMessage,
+      prepareHeaders,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.introspectionPath,
@@ -78,6 +82,7 @@ export class IntrospectionHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage,
       prepareHeaders,
+      responseErrorFactory,
     });
 
     this.processApiRequestWithValidation =

@@ -118,11 +118,6 @@
       "types": "./dist/session/index.d.ts",
       "import": "./dist/session/index.mjs",
       "require": "./dist/session/index.cjs"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.mjs",
-      "require": "./dist/utils/index.cjs"
     }
   },
   "scripts": {

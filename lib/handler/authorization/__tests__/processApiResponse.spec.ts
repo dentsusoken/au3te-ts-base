@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from '../processApiResponse';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
-import * as responseFactory from '../../../utils/responseFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { ResponseError } from '../../ResponseError';
 import { Session } from '../../../session/Session';
 import { SessionSchemas } from '../../../session/types';
 
@@ -11,10 +13,17 @@ const mockGenerateAuthorizationPage = vi.fn();
 const mockHandleNoInteraction = vi.fn();
 const mockBuildUnknownActionMessage = vi.fn();
 const mockPath = '/';
+
 describe('createProcessApiResponse', () => {
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const processApiResponse = createProcessApiResponse({
     session: mockSession,
     path: mockPath,
+    responseFactory: defaultResponseFactory,
+    responseErrorFactory,
     generateAuthorizationPage: mockGenerateAuthorizationPage,
     handleNoInteraction: mockHandleNoInteraction,
     buildUnknownActionMessage: mockBuildUnknownActionMessage,
@@ -30,11 +39,10 @@ describe('createProcessApiResponse', () => {
       action: 'INTERNAL_SERVER_ERROR',
       responseContent: 'Internal Server Error',
     };
-    const spy = vi.spyOn(responseFactory, 'internalServerError');
 
-    await processApiResponse(apiResponse);
-
-    expect(spy).toHaveBeenCalledWith('Internal Server Error');
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError('Internal Server Error', expect.any(Response))
+    );
   });
 
   it('should handle BAD_REQUEST action', async () => {
@@ -42,11 +50,10 @@ describe('createProcessApiResponse', () => {
       action: 'BAD_REQUEST',
       responseContent: 'Bad Request',
     };
-    const spy = vi.spyOn(responseFactory, 'badRequest');
 
-    await processApiResponse(apiResponse);
-
-    expect(spy).toHaveBeenCalledWith('Bad Request');
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError('Bad Request', expect.any(Response))
+    );
   });
 
   it('should handle LOCATION action', async () => {
@@ -54,11 +61,12 @@ describe('createProcessApiResponse', () => {
       action: 'LOCATION',
       responseContent: 'https://example.com',
     };
-    const spy = vi.spyOn(responseFactory, 'location');
+    const spy = vi.spyOn(defaultResponseFactory, 'location');
 
-    await processApiResponse(apiResponse);
+    const result = await processApiResponse(apiResponse);
 
     expect(spy).toHaveBeenCalledWith('https://example.com');
+    expect(result).toBeInstanceOf(Response);
   });
 
   it('should handle FORM action', async () => {
@@ -66,11 +74,12 @@ describe('createProcessApiResponse', () => {
       action: 'FORM',
       responseContent: '<form>...</form>',
     };
-    const spy = vi.spyOn(responseFactory, 'form');
+    const spy = vi.spyOn(defaultResponseFactory, 'form');
 
-    await processApiResponse(apiResponse);
+    const result = await processApiResponse(apiResponse);
 
     expect(spy).toHaveBeenCalledWith('<form>...</form>');
+    expect(result).toBeInstanceOf(Response);
   });
 
   it('should handle INTERACTION action', async () => {
@@ -106,15 +115,15 @@ describe('createProcessApiResponse', () => {
       action: 'UNKNOWN_ACTION',
       responseContent: undefined,
     } as unknown as AuthorizationResponse;
-    const spy = vi.spyOn(responseFactory, 'internalServerError');
     mockBuildUnknownActionMessage.mockReturnValue('Unknown action message');
 
-    await processApiResponse(apiResponse);
+    await expect(processApiResponse(apiResponse)).rejects.toThrow(
+      new ResponseError('Unknown action message', expect.any(Response))
+    );
 
     expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
       mockPath,
       'UNKNOWN_ACTION'
     );
-    expect(spy).toHaveBeenCalledWith('Unknown action message');
   });
 });

@@ -16,14 +16,16 @@
  */
 
 import { BuildUnknownActionMessage } from '@vecrea/au3te-ts-common/handler';
+import { ResponseFactory } from './responseFactory';
+import { ResponseErrorFactory } from './responseErrorFactory';
 
 /**
- * Represents a function that processes an API response and returns a Response object.
- * @template RES - Type of the API response
- * @template T - Type of the optional parameters
- * @param {RES} apiResponse - The API response to be processed
- * @param {T} [options] - Additional optional parameters
- * @returns {Promise<Response>} A Promise that resolves to a Response object
+ * Defines a function type for processing an API response and returning a Response object.
+ * @template RES - The type representing the API response.
+ * @template T - The type representing optional parameters.
+ * @param {RES} apiResponse - The API response that needs to be processed.
+ * @param {T} [options] - Optional parameters that may be used during processing.
+ * @returns {Promise<Response>} A Promise that resolves to a Response object after processing.
  */
 export type ProcessApiResponse<RES, T = unknown> = (
   apiResponse: RES,
@@ -31,11 +33,21 @@ export type ProcessApiResponse<RES, T = unknown> = (
 ) => Promise<Response>;
 
 /**
- * Parameters for creating a process API response function.
+ * Describes the parameters required to create a function for processing API responses.
  */
 export type CreateProcessApiResponseParams = {
-  /** The path of the API endpoint. */
+  /** The API endpoint path. */
   path: string;
-  /** Function to build an unknown action message. */
+  /** A function to construct a message for unknown actions. */
   buildUnknownActionMessage: BuildUnknownActionMessage;
+
+  /**
+   * A factory for generating HTTP responses.
+   */
+  responseFactory: ResponseFactory;
+
+  /**
+   * A factory for generating response errors.
+   */
+  responseErrorFactory: ResponseErrorFactory;
 };

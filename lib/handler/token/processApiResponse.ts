@@ -20,7 +20,6 @@ import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
 import { PrepareHeaders } from '../prepareHeaders';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
@@ -43,8 +42,6 @@ const CHALLENGE = 'Basic realm="token"';
  * @property {HandleTokenCreate} handleJwtBearer - Function to handle JWT Bearer Token requests (RFC 7523).
  */
 type TokenCreateProcessApiResponseParams = {
-  path: string;
-  buildUnknownActionMessage: (path: string, action: string) => string;
   prepareHeaders: PrepareHeaders;
   handlePassword: HandlePassword;
   handleTokenExchange: HandleTokenCreate;
@@ -62,6 +59,8 @@ export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
     prepareHeaders,
     handlePassword,
     handleTokenExchange,
@@ -97,15 +96,21 @@ export const createProcessApiResponse =
       case 'ID_TOKEN_REISSUABLE':
         return responseFactory.ok(responseContent, headers);
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(responseContent, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          responseContent,
+          headers
+        );
       case 'INVALID_CLIENT':
-        return responseFactory.unauthorized(
+        throw responseErrorFactory.unauthorizedResponseError(
           responseContent,
           CHALLENGE,
           headers
         );
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       case 'PASSWORD':
         // Handle Resource Owner Password Credentials flow
         return handlePassword(apiResponse, headers);
@@ -116,7 +121,7 @@ export const createProcessApiResponse =
         // Handle JWT Bearer token request (RFC 7523)
         return handleJwtBearer(apiResponse, headers);
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

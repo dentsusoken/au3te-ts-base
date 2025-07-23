@@ -16,69 +16,53 @@
  */
 
 import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
-import {
-  CreateValidateApiResponseParams,
-  ValidateApiResponse,
-} from '../validateApiResponse';
-import {
-  internalServerErrorResponseError,
-  badRequestResponseError,
-  unauthorizedResponseError,
-  forbiddenResponseError,
-} from '../responseErrorFactory';
 import { PrepareHeaders } from '../prepareHeaders';
+import {
+  ValidateApiResponse,
+  CreateValidateApiResponseParams,
+} from '../validateApiResponse';
 
 type CreateValidateApiResponseParams4Introspection = {
   prepareHeaders: PrepareHeaders;
 } & CreateValidateApiResponseParams;
 
-/**
- * Creates a ValidateApiResponse function specifically for introspection endpoint responses.
- *
- * @function createValidateApiResponse
- * @param {CreateValidateApiResponseParams4Introspection} params - Configuration parameters
- * @param {string} params.path - The API endpoint path to be used in error messages
- * @param {Function} params.buildUnknownActionMessage - Function to generate error message for unknown actions
- * @param {PrepareHeaders} params.prepareHeaders - Function to prepare HTTP headers for the response
- * @returns {ValidateApiResponse<IntrospectionResponse>} A validation function that processes introspection responses
- * @throws {Error} Various HTTP errors depending on the action in the response
- */
 export const createValidateApiResponse =
   ({
     path,
+    responseErrorFactory,
     buildUnknownActionMessage,
     prepareHeaders,
   }: CreateValidateApiResponseParams4Introspection): ValidateApiResponse<IntrospectionResponse> =>
-  /**
-   * Validates an introspection response from the Authlete API and handles different response actions.
-   *
-   * @param {IntrospectionResponse} apiResponse - The response received from Authlete's introspection endpoint
-   * @param {string} apiResponse.action - The action to take (e.g., 'OK', 'BAD_REQUEST', etc.)
-   * @param {string} [apiResponse.responseContent] - Optional response content to include in error messages
-   * @param {string} [apiResponse.dpopNonce] - Optional DPoP nonce for header preparation
-   * @returns {Promise<void>} Resolves if validation succeeds, throws an error otherwise
-   * @throws {BadRequestError} When the action is 'BAD_REQUEST'
-   * @throws {UnauthorizedError} When the action is 'UNAUTHORIZED'
-   * @throws {ForbiddenError} When the action is 'FORBIDDEN'
-   * @throws {InternalServerError} When the action is 'INTERNAL_SERVER_ERROR' or unknown
-   */
   async (apiResponse: IntrospectionResponse) => {
     const { action, responseContent, dpopNonce } = apiResponse;
-    const headers = prepareHeaders({ dpopNonce: dpopNonce || undefined });
+    const headers = prepareHeaders({ dpopNonce });
 
     switch (action) {
       case 'INTERNAL_SERVER_ERROR':
-        throw internalServerErrorResponseError(responseContent!, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       case 'BAD_REQUEST':
-        throw badRequestResponseError(responseContent!, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          responseContent,
+          headers
+        );
       case 'UNAUTHORIZED':
-        throw unauthorizedResponseError(responseContent!, undefined, headers);
+        throw responseErrorFactory.unauthorizedResponseError(
+          responseContent,
+          undefined,
+          headers
+        );
       case 'FORBIDDEN':
-        throw forbiddenResponseError(responseContent!, headers);
+        throw responseErrorFactory.forbiddenResponseError(
+          responseContent,
+          headers
+        );
       case 'OK':
         return;
       default:
-        throw internalServerErrorResponseError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

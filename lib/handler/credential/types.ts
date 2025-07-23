@@ -15,7 +15,7 @@
  * License.
  */
 
-import { Headers } from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 
 /**
  * Options for making credential API requests.

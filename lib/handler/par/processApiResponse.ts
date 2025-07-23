@@ -20,7 +20,6 @@ import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
 import { PrepareHeaders } from '../prepareHeaders';
 
 /**
@@ -45,6 +44,8 @@ export const createProcessApiResponse =
     path,
     buildUnknownActionMessage,
     prepareHeaders,
+    responseFactory,
+    responseErrorFactory,
   }: ParCreateProcessApiResponseParams): ProcessApiResponse<PushedAuthReqResponse> =>
   async (apiResponse: PushedAuthReqResponse): Promise<Response> => {
     const { action, responseContent } = apiResponse;
@@ -56,21 +57,30 @@ export const createProcessApiResponse =
       case 'CREATED':
         return responseFactory.created(responseContent, headers);
       case 'BAD_REQUEST':
-        return responseFactory.badRequest(responseContent, headers);
+        throw responseErrorFactory.badRequestResponseError(responseContent);
       case 'UNAUTHORIZED':
-        return responseFactory.unauthorized(
+        throw responseErrorFactory.unauthorizedResponseError(
           responseContent,
           undefined,
           headers
         );
       case 'FORBIDDEN':
-        return responseFactory.forbidden(responseContent, headers);
+        throw responseErrorFactory.forbiddenResponseError(
+          responseContent,
+          headers
+        );
       case 'PAYLOAD_TOO_LARGE':
-        return responseFactory.tooLarge(responseContent, headers);
+        throw responseErrorFactory.tooLargeResponseError(
+          responseContent,
+          headers
+        );
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

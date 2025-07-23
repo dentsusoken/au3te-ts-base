@@ -85,7 +85,12 @@ export class CredentialMetadataHandlerConfigurationImpl<
    * Creates an instance of CredentialMetadataHandlerConfigurationImpl.
    */
   constructor(serverHandlerConfiguration: ServerHandlerConfiguration<SS>) {
-    const { apiClient, recoverResponseResult } = serverHandlerConfiguration;
+    const {
+      apiClient,
+      recoverResponseResult,
+      responseFactory,
+      responseErrorFactory,
+    } = serverHandlerConfiguration;
 
     this.processApiRequest = createProcessApiRequest(
       apiClient.credentialIssuerMetadataPath,
@@ -97,6 +102,7 @@ export class CredentialMetadataHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage:
         serverHandlerConfiguration.buildUnknownActionMessage,
+      responseErrorFactory,
     });
 
     this.processApiRequestWithValidation =
@@ -109,6 +115,8 @@ export class CredentialMetadataHandlerConfigurationImpl<
       path: this.path,
       buildUnknownActionMessage:
         serverHandlerConfiguration.buildUnknownActionMessage,
+      responseFactory,
+      responseErrorFactory,
     });
 
     this.handle = createHandle({

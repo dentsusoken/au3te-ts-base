@@ -1,12 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { createValidateApiResponse } from '../validateApiResponse';
 import { CredentialSingleParseResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
-import {
-  internalServerErrorResponseError,
-  badRequestResponseError,
-  unauthorizedResponseError,
-  forbiddenResponseError,
-} from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 describe('validateApiResponse for credential-single-parse', () => {
   const path = '/credential/single/parse';
@@ -16,8 +12,13 @@ describe('validateApiResponse for credential-single-parse', () => {
   const accessToken = 'dummy-token';
   const options = { headers, accessToken };
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const validateApiResponse = createValidateApiResponse({
     path,
+    responseErrorFactory,
     buildUnknownActionMessage,
   });
 
@@ -28,7 +29,9 @@ describe('validateApiResponse for credential-single-parse', () => {
     };
 
     await expect(validateApiResponse(response)).rejects.toThrow(
-      internalServerErrorResponseError('Options are required')
+      responseErrorFactory.internalServerErrorResponseError(
+        'Options are required'
+      )
     );
   });
 
@@ -50,7 +53,7 @@ describe('validateApiResponse for credential-single-parse', () => {
     };
 
     await expect(validateApiResponse(response, options)).rejects.toThrow(
-      badRequestResponseError('Invalid request', headers)
+      responseErrorFactory.badRequestResponseError('Invalid request', headers)
     );
   });
 
@@ -61,7 +64,11 @@ describe('validateApiResponse for credential-single-parse', () => {
     };
 
     await expect(validateApiResponse(response, options)).rejects.toThrow(
-      unauthorizedResponseError(accessToken, 'Unauthorized access', headers)
+      responseErrorFactory.unauthorizedResponseError(
+        accessToken,
+        'Unauthorized access',
+        headers
+      )
     );
   });
 
@@ -72,7 +79,7 @@ describe('validateApiResponse for credential-single-parse', () => {
     };
 
     await expect(validateApiResponse(response, options)).rejects.toThrow(
-      forbiddenResponseError('Access forbidden', headers)
+      responseErrorFactory.forbiddenResponseError('Access forbidden', headers)
     );
   });
 
@@ -83,7 +90,10 @@ describe('validateApiResponse for credential-single-parse', () => {
     };
 
     await expect(validateApiResponse(response, options)).rejects.toThrow(
-      internalServerErrorResponseError('Internal server error', headers)
+      responseErrorFactory.internalServerErrorResponseError(
+        'Internal server error',
+        headers
+      )
     );
   });
 
@@ -95,7 +105,7 @@ describe('validateApiResponse for credential-single-parse', () => {
     } as unknown as CredentialSingleParseResponse;
 
     await expect(validateApiResponse(response, options)).rejects.toThrow(
-      internalServerErrorResponseError(
+      responseErrorFactory.internalServerErrorResponseError(
         buildUnknownActionMessage(path, unknownAction),
         headers
       )

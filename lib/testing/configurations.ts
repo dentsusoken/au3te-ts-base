@@ -43,10 +43,10 @@ import { ServiceJwksHandlerConfigurationImpl } from '../handler/service-jwks/Ser
 import { CredentialIssuerJwksHandlerConfigurationImpl } from '../handler/credential-issuer-jwks/CredentialIssuerJwksHandlerConfigurationImpl';
 
 export const configuration: AuthleteConfiguration = {
-  apiVersion: process.env.API_VERSION || '',
-  baseUrl: process.env.API_BASE_URL || '',
-  serviceApiKey: process.env.API_KEY || '',
-  serviceAccessToken: process.env.ACCESS_TOKEN || '',
+  apiVersion: process.env.API_VERSION!,
+  baseUrl: process.env.API_BASE_URL!,
+  serviceApiKey: process.env.API_KEY!,
+  serviceAccessToken: process.env.ACCESS_TOKEN!,
 };
 
 export const apiClient = new ApiClientImpl(configuration);

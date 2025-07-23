@@ -41,7 +41,6 @@ export default defineConfig({
         'handler/service-jwks': './lib/handler/service-jwks/index.ts',
         extractor: './lib/extractor/index.ts',
         session: './lib/session/index.ts',
-        utils: './lib/utils/index.ts',
       },
       name: 'au3te-ts-server',
       fileName: (format, entry) => {

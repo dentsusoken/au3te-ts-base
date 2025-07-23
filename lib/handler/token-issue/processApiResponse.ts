@@ -20,7 +20,7 @@ import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
 } from '../processApiResponse';
-import * as responseFactory from '../../utils/responseFactory';
+import { Headers } from '../responseFactory';
 
 /**
  * Creates a ProcessApiResponse function that processes token issue API responses.
@@ -35,9 +35,11 @@ export const createProcessApiResponse =
   ({
     path,
     buildUnknownActionMessage,
+    responseFactory,
+    responseErrorFactory,
   }: CreateProcessApiResponseParams): ProcessApiResponse<
     TokenIssueResponse,
-    responseFactory.Headers
+    Headers
   > =>
   async (apiResponse, headers) => {
     const { action, responseContent } = apiResponse;
@@ -46,9 +48,12 @@ export const createProcessApiResponse =
       case 'OK':
         return responseFactory.ok(responseContent, headers);
       case 'INTERNAL_SERVER_ERROR':
-        return responseFactory.internalServerError(responseContent, headers);
+        throw responseErrorFactory.internalServerErrorResponseError(
+          responseContent,
+          headers
+        );
       default:
-        return responseFactory.internalServerError(
+        throw responseErrorFactory.internalServerErrorResponseError(
           buildUnknownActionMessage(path, action)
         );
     }

@@ -18,16 +18,24 @@
 import { Result } from '@vecrea/oid4vc-core/utils';
 import { toErrorJson } from '@vecrea/au3te-ts-common/utils';
 import { ResponseError } from './ResponseError';
-import * as responseFactory from '../utils/responseFactory';
 import { BadRequestError, ProcessError } from '@vecrea/au3te-ts-common/handler';
+import { ResponseFactory } from './responseFactory';
 
 export type RecoverResponseResult = (
   path: string,
   responseResult: Result<Response>
 ) => Promise<Response>;
 
+type CreateRecoverResponseResultParams = {
+  processError: ProcessError;
+  responseFactory: ResponseFactory;
+};
+
 export const createRecoverResponseResult =
-  (processError: ProcessError): RecoverResponseResult =>
+  ({
+    processError,
+    responseFactory,
+  }: CreateRecoverResponseResultParams): RecoverResponseResult =>
   async (path, responseResult): Promise<Response> => {
     const mayBeRecoveredResult = await responseResult.recoverAsync(
       async (error) => {
