@@ -12,7 +12,7 @@ describe('processApiResponse', () => {
       (path, action) => `${path}: Unknown action: ${action}`
     );
     const mockPrepareHeaders = vi.fn(
-      ({ dpopNonce }: { dpopNonce?: string }): Headers =>
+      ({ dpopNonce }: { dpopNonce?: string | null }): Headers =>
         dpopNonce ? { 'DPoP-Nonce': dpopNonce } : {}
     );
 

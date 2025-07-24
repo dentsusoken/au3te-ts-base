@@ -1,8 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { defaultDetermineSubject4JwtBearer } from '../determineSubject4JwtBearer';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 describe('defaultDetermineSubject4JwtBearer', () => {
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   // Test JWT with header: {"alg":"none"} and payload: {"sub":"test-subject"}
   const validJwt = 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJ0ZXN0LXN1YmplY3QifQ.';
 
@@ -12,7 +18,10 @@ describe('defaultDetermineSubject4JwtBearer', () => {
       assertion: validJwt,
     } as TokenResponse;
 
-    const result = await defaultDetermineSubject4JwtBearer(response);
+    const result = await defaultDetermineSubject4JwtBearer(
+      response,
+      responseErrorFactory
+    );
     expect(result).toBe('test-subject');
   });
 
@@ -21,9 +30,9 @@ describe('defaultDetermineSubject4JwtBearer', () => {
       action: 'JWT_BEARER',
     } as TokenResponse;
 
-    await expect(defaultDetermineSubject4JwtBearer(response)).rejects.toThrow(
-      'Assertion is missing'
-    );
+    await expect(
+      defaultDetermineSubject4JwtBearer(response, responseErrorFactory)
+    ).rejects.toThrow('Assertion is missing');
   });
 
   it('should throw error for invalid JWT format', async () => {
@@ -32,7 +41,9 @@ describe('defaultDetermineSubject4JwtBearer', () => {
       assertion: 'invalid-jwt',
     } as TokenResponse;
 
-    await expect(defaultDetermineSubject4JwtBearer(response)).rejects.toThrow();
+    await expect(
+      defaultDetermineSubject4JwtBearer(response, responseErrorFactory)
+    ).rejects.toThrow();
   });
 
   it('should throw error when JWT has no subject claim', async () => {
@@ -43,6 +54,8 @@ describe('defaultDetermineSubject4JwtBearer', () => {
       assertion: jwtWithoutSub,
     } as TokenResponse;
 
-    await expect(defaultDetermineSubject4JwtBearer(response)).rejects.toThrow();
+    await expect(
+      defaultDetermineSubject4JwtBearer(response, responseErrorFactory)
+    ).rejects.toThrow();
   });
 });

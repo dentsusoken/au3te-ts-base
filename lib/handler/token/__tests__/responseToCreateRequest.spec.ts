@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createResponseToCreateRequest } from '../responseToCreateRequest';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 /**
  * Tests for the responseToCreateRequest function factory
@@ -8,9 +10,14 @@ import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 describe('createResponseToCreateRequest', () => {
   const mockDetermineSubject = vi.fn();
 
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   const createRequest = createResponseToCreateRequest({
     grantType: 'urn:ietf:params:oauth:grant-type:token-exchange',
     determineSubject: mockDetermineSubject,
+    responseErrorFactory,
   });
 
   beforeEach(() => {
@@ -29,7 +36,10 @@ describe('createResponseToCreateRequest', () => {
 
       const result = await createRequest(response);
 
-      expect(mockDetermineSubject).toHaveBeenCalledWith(response);
+      expect(mockDetermineSubject).toHaveBeenCalledWith(
+        response,
+        responseErrorFactory
+      );
       expect(result).toEqual({
         grantType: 'urn:ietf:params:oauth:grant-type:token-exchange',
         clientId: 123,

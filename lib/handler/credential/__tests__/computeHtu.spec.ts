@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createComputeHtu } from '../computeHtu';
-import { internalServerErrorResponseError } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 describe('computeHtu', () => {
   // Mock process API request function
@@ -14,6 +15,10 @@ describe('computeHtu', () => {
   const mockMetadataResponse = {
     [testEndpointName]: testEndpointValue,
   };
+
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -48,9 +53,10 @@ describe('computeHtu', () => {
 
   it('should throw error when API response is not OK', async () => {
     const errorContent = 'API Error';
-    mockProcessApiRequest.mockRejectedValueOnce(
-      internalServerErrorResponseError(JSON.stringify({ error: errorContent }))
+    const errorResponse = responseErrorFactory.internalServerErrorResponseError(
+      JSON.stringify({ error: errorContent })
     );
+    mockProcessApiRequest.mockRejectedValueOnce(errorResponse);
 
     const computeHtu = createComputeHtu({
       processCredentialIssuerMetadataRequestWithValidation:
@@ -59,9 +65,7 @@ describe('computeHtu', () => {
 
     await expect(
       computeHtu('dummy-dpop-token', testEndpointName)
-    ).rejects.toEqual(
-      internalServerErrorResponseError(JSON.stringify({ error: errorContent }))
-    );
+    ).rejects.toEqual(errorResponse);
   });
 
   it('should return undefined when endpoint is not found in metadata', async () => {

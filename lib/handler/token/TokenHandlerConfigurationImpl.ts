@@ -168,11 +168,13 @@ export class TokenHandlerConfigurationImpl
     this.responseToCreateRequest4TokenExchange = createResponseToCreateRequest({
       grantType: 'urn:ietf:params:oauth:grant-type:token-exchange',
       determineSubject: this.determineSubject4TokenExchange,
+      responseErrorFactory,
     });
 
     this.responseToCreateRequest4JwtBearer = createResponseToCreateRequest({
       grantType: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       determineSubject: this.determineSubject4JwtBearer,
+      responseErrorFactory,
     });
 
     // Create handlers using the initialized functions

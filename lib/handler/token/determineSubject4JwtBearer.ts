@@ -18,8 +18,8 @@
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
-import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Default implementation for determining the subject identifier from a JWT Bearer token response.
@@ -43,12 +43,13 @@ import { DetermineSubject } from './determineSubject';
  * @see {@link https://datatracker.ietf.org/doc/html/rfc7523|RFC 7523 - JWT Profile for OAuth 2.0 Client Authentication and Authorization Grants}
  */
 export const defaultDetermineSubject4JwtBearer: DetermineSubject = async (
-  apiResponse: TokenResponse
+  apiResponse: TokenResponse,
+  responseErrorFactory: ResponseErrorFactory
 ) => {
   const { assertion } = apiResponse;
 
   if (!assertion) {
-    throw badRequestResponseError(
+    throw responseErrorFactory.badRequestResponseError(
       'Assertion is missing. ' +
         'The assertion must be provided by the token endpoint.'
     );
@@ -57,6 +58,6 @@ export const defaultDetermineSubject4JwtBearer: DetermineSubject = async (
   const result = await runAsyncCatching(async () => getSubFromJwt(assertion));
 
   return result.getOrElse((e) => {
-    throw badRequestResponseError(e.message);
+    throw responseErrorFactory.badRequestResponseError(e.message);
   });
 };

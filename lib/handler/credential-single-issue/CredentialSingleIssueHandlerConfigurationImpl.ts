@@ -87,11 +87,13 @@ export class CredentialSingleIssueHandlerConfigurationImpl<
       extractClientCertificateAndPath,
       extractParameters,
     } = extractorConfiguration;
+    const { computeHtu } = serverCredentialHandlerConfiguration;
     this.toApiRequest = createToApiRequest({
       extractAccessToken,
       extractClientCertificateAndPath,
       extractParameters,
-      computeHtu: serverCredentialHandlerConfiguration.computeHtu,
+      responseErrorFactory,
+      computeHtu,
       introspect:
         introspectionHandlerConfiguration.processApiRequestWithValidation,
       prepareHeaders,

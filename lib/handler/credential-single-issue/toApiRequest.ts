@@ -36,9 +36,9 @@ import {
 } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
 import { GetToOrder } from '@vecrea/au3te-ts-common/handler.credential';
 import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
-import { badRequestResponseError } from '../responseErrorFactory';
 import { CredentialApiOptions } from '../credential/types';
 import { ApiRequestWithOptions } from '../types';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Parameters required to create a credential single issue API request converter.
@@ -62,6 +62,7 @@ type CreateToApiRequestParams = {
     CredentialApiOptions
   >;
   getToOrder: GetToOrder;
+  responseErrorFactory: ResponseErrorFactory;
 };
 
 /**
@@ -81,6 +82,7 @@ export const createToApiRequest =
     prepareHeaders,
     parseSingleCredential,
     getToOrder,
+    responseErrorFactory,
   }: CreateToApiRequestParams): ToApiRequest<
     ApiRequestWithOptions<CredentialSingleIssueRequest, CredentialApiOptions>
   > =>
@@ -143,7 +145,10 @@ export const createToApiRequest =
     );
     orderResult.onFailure((error) => {
       if (error instanceof BadRequestError) {
-        throw badRequestResponseError(error.message, headers);
+        throw responseErrorFactory.badRequestResponseError(
+          error.message,
+          headers
+        );
       }
       throw error;
     });

@@ -18,9 +18,9 @@
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
-import { badRequestResponseError } from '../responseErrorFactory';
 import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { DetermineSubject } from './determineSubject';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Extracts the subject identifier from a token info object.
@@ -34,17 +34,18 @@ import { DetermineSubject } from './determineSubject';
  * @throws {Error} If token info is missing or doesn't contain a subject
  */
 export const determineSubjectBySubjectTokenInfo = async (
-  subjectTokenInfo: TokenInfo | undefined | null
+  subjectTokenInfo: TokenInfo | undefined | null,
+  responseErrorFactory: ResponseErrorFactory
 ): Promise<string> => {
   if (!subjectTokenInfo) {
-    throw badRequestResponseError(
+    throw responseErrorFactory.badRequestResponseError(
       'Subject token info is missing. ' +
         'For access tokens and refresh tokens, subject token info must be provided by the token endpoint.'
     );
   }
 
   if (!subjectTokenInfo.subject) {
-    throw badRequestResponseError(
+    throw responseErrorFactory.badRequestResponseError(
       'Subject is missing in the token info. ' +
         'The token introspection endpoint must return the subject associated with the token.'
     );
@@ -65,10 +66,11 @@ export const determineSubjectBySubjectTokenInfo = async (
  * @throws {Error} If the token is invalid or the subject cannot be extracted
  */
 export const determineSubjectBySubjectToken = async (
-  subjectToken: string | undefined | null
+  subjectToken: string | undefined | null,
+  responseErrorFactory: ResponseErrorFactory
 ): Promise<string> => {
   if (!subjectToken) {
-    throw badRequestResponseError(
+    throw responseErrorFactory.badRequestResponseError(
       'Subject token is missing. ' +
         'The subject token must be provided by the token endpoint.'
     );
@@ -79,7 +81,7 @@ export const determineSubjectBySubjectToken = async (
   );
 
   return result.getOrElse((e) => {
-    throw badRequestResponseError(e.message);
+    throw responseErrorFactory.badRequestResponseError(e.message);
   });
 };
 
@@ -103,20 +105,24 @@ export const determineSubjectBySubjectToken = async (
  * @see {@link https://datatracker.ietf.org/doc/html/rfc8693|RFC 8693 - OAuth 2.0 Token Exchange}
  */
 export const defaultDetermineSubject4TokenExchange: DetermineSubject = async (
-  apiResponse: TokenResponse
+  apiResponse: TokenResponse,
+  responseErrorFactory: ResponseErrorFactory
 ) => {
   const { subjectTokenType, subjectTokenInfo, subjectToken } = apiResponse;
 
   switch (subjectTokenType) {
     case 'urn:ietf:params:oauth:token-type:access_token':
     case 'urn:ietf:params:oauth:token-type:refresh_token':
-      return determineSubjectBySubjectTokenInfo(subjectTokenInfo);
+      return determineSubjectBySubjectTokenInfo(
+        subjectTokenInfo,
+        responseErrorFactory
+      );
     case 'urn:ietf:params:oauth:token-type:jwt':
     case 'urn:ietf:params:oauth:token-type:id_token':
-      return determineSubjectBySubjectToken(subjectToken);
+      return determineSubjectBySubjectToken(subjectToken, responseErrorFactory);
   }
 
-  throw badRequestResponseError(
+  throw responseErrorFactory.badRequestResponseError(
     'Unsupported subject token type. ' +
       'The subject token type must be one of: ' +
       'access_token, refresh_token, jwt, or id_token. ' +

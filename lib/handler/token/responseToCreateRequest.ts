@@ -18,8 +18,8 @@
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { GrantType } from '@vecrea/au3te-ts-common/schemas.common';
 import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { badRequestResponseError } from '../responseErrorFactory';
 import { DetermineSubject } from './determineSubject';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Function type for converting a token response to a token create request.
@@ -35,23 +35,25 @@ export type ResponseToCreateRequest = (
 type CreateResponseToCreateRequestParams = {
   grantType: GrantType;
   determineSubject: DetermineSubject;
+  responseErrorFactory: ResponseErrorFactory;
 };
 
 export const createResponseToCreateRequest =
   ({
     grantType,
     determineSubject,
+    responseErrorFactory,
   }: CreateResponseToCreateRequestParams): ResponseToCreateRequest =>
   async (apiResponse: TokenResponse) => {
     const { clientId, scopes, resources } = apiResponse;
 
     if (!clientId || clientId === 0) {
-      throw badRequestResponseError(
+      throw responseErrorFactory.badRequestResponseError(
         'This authorization server does not allow unidentifiable clients to make token exchange requests.'
       );
     }
 
-    const subject = await determineSubject(apiResponse);
+    const subject = await determineSubject(apiResponse, responseErrorFactory);
 
     return {
       grantType,

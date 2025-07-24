@@ -6,26 +6,35 @@ import {
 } from '../determineSubject4TokenExchange';
 import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../responseErrorFactory';
 
 describe('Token Exchange Subject Determination', () => {
+  const responseErrorFactory = createResponseErrorFactory(
+    defaultResponseFactory
+  );
+
   // Test suite for determineSubjectBySubjectTokenInfo
   describe('determineSubjectBySubjectTokenInfo', () => {
     it('should extract subject from valid token info', async () => {
       const tokenInfo: TokenInfo = { subject: 'test-subject' };
-      const result = await determineSubjectBySubjectTokenInfo(tokenInfo);
+      const result = await determineSubjectBySubjectTokenInfo(
+        tokenInfo,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
     it('should throw error when token info is undefined', async () => {
       await expect(
-        determineSubjectBySubjectTokenInfo(undefined)
+        determineSubjectBySubjectTokenInfo(undefined, responseErrorFactory)
       ).rejects.toThrow('Subject token info is missing');
     });
 
     it('should throw error when subject is missing in token info', async () => {
       const tokenInfo: TokenInfo = {};
       await expect(
-        determineSubjectBySubjectTokenInfo(tokenInfo)
+        determineSubjectBySubjectTokenInfo(tokenInfo, responseErrorFactory)
       ).rejects.toThrow('Subject is missing in the token info');
     });
   });
@@ -36,19 +45,22 @@ describe('Token Exchange Subject Determination', () => {
     const validJwt = 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJ0ZXN0LXN1YmplY3QifQ.';
 
     it('should extract subject from valid JWT', async () => {
-      const result = await determineSubjectBySubjectToken(validJwt);
+      const result = await determineSubjectBySubjectToken(
+        validJwt,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
     it('should throw error when subject token is undefined', async () => {
-      await expect(determineSubjectBySubjectToken(undefined)).rejects.toThrow(
-        'Subject token is missing'
-      );
+      await expect(
+        determineSubjectBySubjectToken(undefined, responseErrorFactory)
+      ).rejects.toThrow('Subject token is missing');
     });
 
     it('should throw error for invalid JWT format', async () => {
       await expect(
-        determineSubjectBySubjectToken('invalid-jwt')
+        determineSubjectBySubjectToken('invalid-jwt', responseErrorFactory)
       ).rejects.toThrow();
     });
   });
@@ -61,7 +73,10 @@ describe('Token Exchange Subject Determination', () => {
         subjectTokenType: 'urn:ietf:params:oauth:token-type:access_token',
         subjectTokenInfo: { subject: 'test-subject' },
       } as TokenResponse;
-      const result = await defaultDetermineSubject4TokenExchange(response);
+      const result = await defaultDetermineSubject4TokenExchange(
+        response,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
@@ -71,7 +86,10 @@ describe('Token Exchange Subject Determination', () => {
         subjectTokenType: 'urn:ietf:params:oauth:token-type:refresh_token',
         subjectTokenInfo: { subject: 'test-subject' },
       } as TokenResponse;
-      const result = await defaultDetermineSubject4TokenExchange(response);
+      const result = await defaultDetermineSubject4TokenExchange(
+        response,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
@@ -81,7 +99,10 @@ describe('Token Exchange Subject Determination', () => {
         subjectTokenType: 'urn:ietf:params:oauth:token-type:jwt',
         subjectToken: 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJ0ZXN0LXN1YmplY3QifQ.',
       } as TokenResponse;
-      const result = await defaultDetermineSubject4TokenExchange(response);
+      const result = await defaultDetermineSubject4TokenExchange(
+        response,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
@@ -91,7 +112,10 @@ describe('Token Exchange Subject Determination', () => {
         subjectTokenType: 'urn:ietf:params:oauth:token-type:id_token',
         subjectToken: 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJ0ZXN0LXN1YmplY3QifQ.',
       } as TokenResponse;
-      const result = await defaultDetermineSubject4TokenExchange(response);
+      const result = await defaultDetermineSubject4TokenExchange(
+        response,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
 
@@ -101,7 +125,7 @@ describe('Token Exchange Subject Determination', () => {
         subjectTokenType: 'urn:ietf:params:oauth:token-type:saml2',
       } as TokenResponse;
       await expect(
-        defaultDetermineSubject4TokenExchange(response)
+        defaultDetermineSubject4TokenExchange(response, responseErrorFactory)
       ).rejects.toThrow('Unsupported subject token type');
     });
 
@@ -112,7 +136,7 @@ describe('Token Exchange Subject Determination', () => {
         subjectToken: undefined,
       } as TokenResponse;
       await expect(
-        defaultDetermineSubject4TokenExchange(response)
+        defaultDetermineSubject4TokenExchange(response, responseErrorFactory)
       ).rejects.toThrow('Subject token is missing');
     });
 
@@ -123,7 +147,7 @@ describe('Token Exchange Subject Determination', () => {
         subjectToken: undefined,
       } as TokenResponse;
       await expect(
-        defaultDetermineSubject4TokenExchange(response)
+        defaultDetermineSubject4TokenExchange(response, responseErrorFactory)
       ).rejects.toThrow('Subject token is missing');
     });
 
@@ -135,7 +159,10 @@ describe('Token Exchange Subject Determination', () => {
         },
       } as TokenResponse;
 
-      const result = await defaultDetermineSubject4TokenExchange(response);
+      const result = await defaultDetermineSubject4TokenExchange(
+        response,
+        responseErrorFactory
+      );
       expect(result).toBe('test-subject');
     });
   });

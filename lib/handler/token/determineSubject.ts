@@ -16,12 +16,17 @@
  */
 
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
+import { ResponseErrorFactory } from '../responseErrorFactory';
 
 /**
  * Function type for determining the subject from a token response.
  *
  * @param apiResponse - The token response from the authorization server
+ * @param responseErrorFactory - The factory for creating response errors
  * @returns A promise that resolves to the subject identifier string
  * @throws {Error} If the subject cannot be determined from the response
  */
-export type DetermineSubject = (apiResponse: TokenResponse) => Promise<string>;
+export type DetermineSubject = (
+  apiResponse: TokenResponse,
+  responseErrorFactory: ResponseErrorFactory
+) => Promise<string>;
