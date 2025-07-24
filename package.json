@@ -19,10 +19,10 @@
       "import": "./dist/api/index.mjs",
       "require": "./dist/api/index.cjs"
     },
-    "./handler": {
-      "types": "./dist/handler/index.d.ts",
-      "import": "./dist/handler/index.mjs",
-      "require": "./dist/handler/index.cjs"
+    "./handler.core": {
+      "types": "./dist/handler/core/index.d.ts",
+      "import": "./dist/handler/core/index.mjs",
+      "require": "./dist/handler/core/index.cjs"
     },
     "./handler.par": {
       "types": "./dist/handler/par/index.d.ts",

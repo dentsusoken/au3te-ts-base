@@ -13,7 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         api: './lib/api/index.ts',
-        handler: './lib/handler/index.ts',
+        'handler/core': './lib/handler/core/index.ts',
         'handler/par': './lib/handler/par/index.ts',
         'handler/authorization': './lib/handler/authorization/index.ts',
         'handler/authorization-decision':
