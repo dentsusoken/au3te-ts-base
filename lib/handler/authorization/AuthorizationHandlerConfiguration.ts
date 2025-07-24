@@ -19,9 +19,9 @@ import {
   AuthorizationRequest,
   AuthorizationResponse,
 } from '@vecrea/au3te-ts-common/schemas.authorization';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { Handle } from '../handle';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { Handle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
 import { GenerateAuthorizationPage } from './generateAuthorizationPage';
 import { HandleNoInteraction } from './handleNoInteraction';
@@ -33,8 +33,8 @@ import { CheckAuthAge } from './checkAuthAge';
 import { ClearCurrentUserInfoInSession } from './clearCurrentUserInfoInSession';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 
 /**
  * Configuration interface for the Authorization handler.

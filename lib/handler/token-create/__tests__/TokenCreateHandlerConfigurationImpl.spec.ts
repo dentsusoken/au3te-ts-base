@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { TokenCreateHandlerConfigurationImpl } from '../TokenCreateHandlerConfigurationImpl';
-import { ServerHandlerConfiguration } from '@/handler/ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '@/handler/core/ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '@/session/types';
 

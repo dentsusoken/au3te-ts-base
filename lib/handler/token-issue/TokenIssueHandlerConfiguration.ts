@@ -19,10 +19,10 @@ import {
   TokenIssueRequest,
   TokenIssueResponse,
 } from '@vecrea/au3te-ts-common/schemas.token-issue';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { Handle } from '../handle';
-import { Headers } from '../responseFactory';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { Handle } from '../core/handle';
+import { Headers } from '../core/responseFactory';
 
 /**
  * Configuration interface for the Token Issue handler.

@@ -23,9 +23,9 @@ import {
 import {
   ProcessApiRequest,
   createProcessApiRequest,
-} from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { createHandle, Handle } from '../handle';
+} from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { createHandle, Handle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
 import {
   createGenerateAuthorizationPage,
@@ -57,11 +57,11 @@ import { AuthorizationHandlerConfiguration } from './AuthorizationHandlerConfigu
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue/AuthorizationIssueHandlerConfiguration';
 import { AuthorizationFailHandlerConfiguration } from '../authorization-fail/AuthorizationFailHandlerConfiguration';
 import { AuthorizationPageHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.authorization-page';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 import { createToApiRequest } from './toApiRequest';
-import { createProcessRequest } from '../processRequest';
+import { createProcessRequest } from '../core/processRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { sessionSchemas } from '../../session/sessionSchemas';
 

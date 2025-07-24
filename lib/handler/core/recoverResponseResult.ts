@@ -21,16 +21,33 @@ import { ResponseError } from './ResponseError';
 import { BadRequestError, ProcessError } from '@vecrea/au3te-ts-common/handler';
 import { ResponseFactory } from './responseFactory';
 
+/**
+ * Type definition for a function that recovers from response errors.
+ * @param {string} path - The API endpoint path where the error occurred.
+ * @param {Result<Response>} responseResult - The result object containing the response or error.
+ * @returns {Promise<Response>} A promise that resolves to a recovered response.
+ */
 export type RecoverResponseResult = (
   path: string,
   responseResult: Result<Response>
 ) => Promise<Response>;
 
+/**
+ * Parameters required to create a recover response result function.
+ * @typedef {Object} CreateRecoverResponseResultParams
+ * @property {ProcessError} processError - Function to process the error.
+ * @property {ResponseFactory} responseFactory - Factory to create response objects.
+ */
 type CreateRecoverResponseResultParams = {
   processError: ProcessError;
   responseFactory: ResponseFactory;
 };
 
+/**
+ * Creates a function to recover from response errors.
+ * @param {CreateRecoverResponseResultParams} params - Parameters for creating the recover response result function.
+ * @returns {RecoverResponseResult} A function that recovers from response errors.
+ */
 export const createRecoverResponseResult =
   ({
     processError,

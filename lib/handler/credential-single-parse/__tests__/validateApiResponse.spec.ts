@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { createValidateApiResponse } from '../validateApiResponse';
 import { CredentialSingleParseResponse } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
 
 describe('validateApiResponse for credential-single-parse', () => {
   const path = '/credential/single/parse';

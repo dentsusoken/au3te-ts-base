@@ -4,9 +4,9 @@ import {
   createProcessApiResponse,
   buildOkMessage,
 } from '../processApiResponse';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { ResponseError } from '../../ResponseError';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { ResponseError } from '../../core/ResponseError';
 
 describe('processApiResponse', () => {
   const path = '/token';

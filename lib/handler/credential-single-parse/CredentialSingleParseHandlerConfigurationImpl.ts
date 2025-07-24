@@ -20,15 +20,15 @@ import {
   CredentialSingleParseResponse,
   credentialSingleParseResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
-import { ProcessApiRequest } from '../processApiRequest';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from './CredentialSingleParseHandlerConfiguration';
-import { ValidateApiResponse } from '../validateApiResponse';
+import { ValidateApiResponse } from '../core/validateApiResponse';
 import {
   createProcessApiRequestWithValidation,
   ProcessApiRequestWithValidation,
-} from '../processApiRequestWithValidation';
+} from '../core/processApiRequestWithValidation';
 import { createValidateApiResponse } from './validateApiResponse';
 import { SessionSchemas } from '@/session/types';
 import { sessionSchemas } from '@/session/sessionSchemas';

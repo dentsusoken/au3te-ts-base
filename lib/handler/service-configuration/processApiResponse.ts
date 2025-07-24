@@ -16,8 +16,8 @@
  */
 
 import { ServiceConfigurationResponse } from '@vecrea/au3te-ts-common/schemas.service-configuration';
-import { ProcessApiResponse } from '../processApiResponse';
-import { ResponseFactory } from '../responseFactory';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { ResponseFactory } from '../core/responseFactory';
 
 /**
  * Parameters for creating a process API response function.

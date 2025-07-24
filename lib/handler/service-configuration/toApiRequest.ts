@@ -16,7 +16,7 @@
  */
 
 import { ServiceConfigurationRequest } from '@vecrea/au3te-ts-common/schemas.service-configuration';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 
 /**
  * Default implementation to convert an HTTP request to a ServiceConfigurationRequest.

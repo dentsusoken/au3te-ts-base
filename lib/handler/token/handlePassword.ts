@@ -17,8 +17,8 @@
 
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { GetByCredentials } from '@vecrea/au3te-ts-common/handler.user';
-import { Headers } from '../responseFactory';
-import { Handle } from '../handle';
+import { Headers } from '../core/responseFactory';
+import { Handle } from '../core/handle';
 import { TokenIssueRequest } from '@vecrea/au3te-ts-common/schemas.token-issue';
 import { BuildTokenFailError } from '../token-fail/buildTokenFailError';
 

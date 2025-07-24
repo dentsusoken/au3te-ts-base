@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ServiceJwksResponse } from '@vecrea/au3te-ts-common/schemas.service-jwks';
 import { createProcessApiResponse } from '../processApiResponse';
-import { defaultResponseFactory } from '../../responseFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
 
 describe('createProcessApiResponse', () => {
   const processApiResponse = createProcessApiResponse({

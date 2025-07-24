@@ -22,7 +22,7 @@ import { CheckAuthAge } from './checkAuthAge';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 import { CheckSubject } from './checkSubject';
 import { CalcSub } from './calcSub';
-import { Handle } from '../handle';
+import { Handle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
 
 /**

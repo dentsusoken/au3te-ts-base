@@ -19,7 +19,7 @@ import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { GrantType } from '@vecrea/au3te-ts-common/schemas.common';
 import { TokenCreateRequest } from '@vecrea/au3te-ts-common/schemas.token-create';
 import { DetermineSubject } from './determineSubject';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Function type for converting a token response to a token create request.

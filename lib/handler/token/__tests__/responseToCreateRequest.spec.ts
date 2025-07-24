@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createResponseToCreateRequest } from '../responseToCreateRequest';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
 
 /**
  * Tests for the responseToCreateRequest function factory

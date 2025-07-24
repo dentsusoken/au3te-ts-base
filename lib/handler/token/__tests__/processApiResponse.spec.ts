@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from '../processApiResponse';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { ResponseError } from '../../ResponseError';
+import { defaultResponseFactory } from '@/handler/core/responseFactory';
+import { createResponseErrorFactory } from '@/handler/core/responseErrorFactory';
+import { ResponseError } from '@/handler/core/ResponseError';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 
 // Mock responseFactory methods
-vi.mock('../../responseFactory', () => ({
+vi.mock('@/handler/core/responseFactory', () => ({
   defaultResponseFactory: {
     ok: vi.fn(),
     badRequest: vi.fn(),

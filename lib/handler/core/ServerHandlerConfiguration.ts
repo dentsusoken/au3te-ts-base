@@ -1,7 +1,7 @@
 import { CommonHandlerConfiguration } from '@vecrea/au3te-ts-common/handler';
 import { RecoverResponseResult } from './recoverResponseResult';
-import { Session } from '../session/Session';
-import { SessionSchemas } from '../session/types';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { PrepareHeaders } from './prepareHeaders';
 import { ResponseFactory } from './responseFactory';

@@ -19,7 +19,7 @@ import {
   CredentialIssuerMetadataRequest,
   CredentialIssuerMetadataResponse,
 } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
+import { ProcessApiRequestWithValidation } from '../core/processApiRequestWithValidation';
 
 /**
  * Type definition for a function that retrieves the configured value of the credential issuer's endpoint.

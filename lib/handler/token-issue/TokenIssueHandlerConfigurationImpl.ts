@@ -20,15 +20,15 @@ import {
   TokenIssueResponse,
   tokenIssueResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.token-issue';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from './TokenIssueHandlerConfiguration';
-import { Headers } from '../responseFactory';
+import { Headers } from '../core/responseFactory';
 
 /**
  * The path for the token issue endpoint.

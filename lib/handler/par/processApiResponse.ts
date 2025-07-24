@@ -19,8 +19,8 @@ import { PushedAuthReqResponse } from '@vecrea/au3te-ts-common/schemas.par';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
-} from '../processApiResponse';
-import { PrepareHeaders } from '../prepareHeaders';
+} from '../core/processApiResponse';
+import { PrepareHeaders } from '../core/prepareHeaders';
 
 /**
  * Parameters for creating a PAR API response processor.

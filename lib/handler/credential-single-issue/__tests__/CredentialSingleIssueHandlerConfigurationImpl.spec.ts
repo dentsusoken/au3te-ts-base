@@ -3,7 +3,7 @@ import { CredentialSingleIssueHandlerConfigurationImpl } from '../CredentialSing
 import { ExtractorConfiguration } from '../../../extractor/ExtractorConfiguration';
 import { ServerCredentialHandlerConfiguration } from '../../credential/ServerCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../../introspection/IntrospectionHandlerConfiguration';
-import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../core/ServerHandlerConfiguration';
 import { CredentialSingleParseHandlerConfiguration } from '../../credential-single-parse/CredentialSingleParseHandlerConfiguration';
 import { CommonCredentialHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.credential';
 import { sessionSchemas } from '../../../session/sessionSchemas';

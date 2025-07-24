@@ -16,9 +16,9 @@
  */
 
 import { BaseClientAuthRequest } from '@vecrea/au3te-ts-common/schemas.common';
-import { ExtractParameters } from '../extractor/extractParameters';
-import { ExtractClientCredentials } from '../extractor/extractClientCredentials';
-import { ExtractClientCertificateAndPath } from '../extractor/extractClientCertificateAndPath';
+import { ExtractParameters } from '../../extractor/extractParameters';
+import { ExtractClientCredentials } from '../../extractor/extractClientCredentials';
+import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCertificateAndPath';
 import { ToApiRequest } from './toApiRequest';
 
 /**

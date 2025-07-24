@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { AuthorizationHandlerConfigurationImpl } from '../AuthorizationHandlerConfigurationImpl';
-import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../core/ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 import { AuthorizationIssueHandlerConfiguration } from '../../authorization-issue/AuthorizationIssueHandlerConfiguration';

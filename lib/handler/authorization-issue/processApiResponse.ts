@@ -19,7 +19,7 @@ import { AuthorizationIssueResponse } from '@vecrea/au3te-ts-common/schemas.auth
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
-} from '../processApiResponse';
+} from '../core/processApiResponse';
 
 /**
  * Creates a function to process API responses for Authorization Issue requests.

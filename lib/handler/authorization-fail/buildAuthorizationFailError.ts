@@ -19,8 +19,8 @@ import {
   AuthorizationFailReason,
   AuthorizationFailRequest,
 } from '@vecrea/au3te-ts-common/schemas.authorization-fail';
-import { Handle } from '../handle';
-import { ResponseError } from '../ResponseError';
+import { Handle } from '../core/handle';
+import { ResponseError } from '../core/ResponseError';
 
 /**
  * Type definition for a function that builds an authorization fail error.

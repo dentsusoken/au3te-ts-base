@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createComputeHtu } from '../computeHtu';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
 
 describe('computeHtu', () => {
   // Mock process API request function

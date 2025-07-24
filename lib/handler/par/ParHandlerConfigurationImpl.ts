@@ -20,19 +20,19 @@ import {
   PushedAuthReqResponse,
   pushedAuthReqResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.par';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { ParHandlerConfiguration } from './ParHandlerConfiguration';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
-import { createToApiRequest } from '../toClientAuthRequest';
-import { createProcessRequest } from '../processRequest';
+import { createToApiRequest } from '../core/toClientAuthRequest';
+import { createProcessRequest } from '../core/processRequest';
 import { sessionSchemas } from '../../session/sessionSchemas';
 
 /** The path for the PAR endpoint */

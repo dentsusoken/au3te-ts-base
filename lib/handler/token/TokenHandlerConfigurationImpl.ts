@@ -20,13 +20,13 @@ import {
   TokenResponse,
   tokenResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.token';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { TokenHandlerConfiguration } from './TokenHandlerConfiguration';
 import { createHandlePassword } from './handlePassword';
 import { createHandleTokenCreate } from './handleTokenCreate';
@@ -41,10 +41,10 @@ import { UserHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.user';
 import { TokenFailHandlerConfiguration } from '../token-fail/TokenFailHandlerConfiguration';
 import { TokenIssueHandlerConfiguration } from '../token-issue/TokenIssueHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from '../token-create/TokenCreateHandlerConfiguration';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
-import { createToApiRequest } from '../toClientAuthRequest';
-import { createProcessRequest } from '../processRequest';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
+import { createToApiRequest } from '../core/toClientAuthRequest';
+import { createProcessRequest } from '../core/processRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 
 /**

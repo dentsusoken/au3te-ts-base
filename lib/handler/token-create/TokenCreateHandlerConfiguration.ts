@@ -19,9 +19,9 @@ import {
   TokenCreateRequest,
   TokenCreateResponse,
 } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { Handle } from '../handle';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { Handle } from '../core/handle';
 
 /**
  * Configuration interface for the Token Create handler.

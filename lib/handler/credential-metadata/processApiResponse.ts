@@ -19,7 +19,7 @@ import { CredentialIssuerMetadataResponse } from '@vecrea/au3te-ts-common/schema
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
-} from '../processApiResponse';
+} from '../core/processApiResponse';
 
 /**
  * Creates a ProcessApiResponse function that handles different API response actions.

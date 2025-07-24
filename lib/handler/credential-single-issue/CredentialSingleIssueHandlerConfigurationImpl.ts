@@ -18,17 +18,17 @@
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { ServerCredentialHandlerConfiguration } from '../credential/ServerCredentialHandlerConfiguration';
 import { IntrospectionHandlerConfiguration } from '../introspection/IntrospectionHandlerConfiguration';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { SessionSchemas } from '../../session';
 import { sessionSchemas } from '../../session/sessionSchemas';
 import { createToApiRequest } from './toApiRequest';
 import { CredentialSingleParseHandlerConfiguration } from '../credential-single-parse/CredentialSingleParseHandlerConfiguration';
 import { CommonCredentialHandlerConfiguration } from '@vecrea/au3te-ts-common/handler.credential';
-import { createProcessApiRequest } from '../processApiRequest';
+import { createProcessApiRequest } from '../core/processApiRequest';
 import { credentialSingleIssueResponseSchema } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { createProcessApiResponse } from './processApiResponse';
-import { createHandleWithOptions } from '../handleWithOptions';
-import { createProcessRequestWithOptions } from '../processRequestWithOptions';
+import { createHandleWithOptions } from '../core/handleWithOptions';
+import { createProcessRequestWithOptions } from '../core/processRequestWithOptions';
 
 type CreateCredentialSingleIssueHandlerConfigurationImplParams<
   SS extends SessionSchemas

@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createToApiRequest } from '../toApiRequest';
 import { Session } from '../../../session/Session';
 import { sessionSchemas } from '../../../session/sessionSchemas';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
 
 describe('createToApiRequest', () => {
   // Mock dependencies

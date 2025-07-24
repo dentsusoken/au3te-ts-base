@@ -17,7 +17,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { AuthorizationDecisionHandlerConfigurationImpl } from '../AuthorizationDecisionHandlerConfigurationImpl';
-import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../core/ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { Session } from '../../../session/Session';
 import { sessionSchemas } from '../../../session/sessionSchemas';

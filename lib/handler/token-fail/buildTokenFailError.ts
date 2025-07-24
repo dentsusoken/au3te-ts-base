@@ -19,9 +19,9 @@ import {
   TokenFailReason,
   TokenFailRequest,
 } from '@vecrea/au3te-ts-common/schemas.token-fail';
-import { Handle } from '../handle';
-import { ResponseError } from '../ResponseError';
-import { Headers } from '../responseFactory';
+import { Handle } from '../core/handle';
+import { ResponseError } from '../core/ResponseError';
+import { Headers } from '../core/responseFactory';
 
 /**
  * Type definition for a function that builds a token fail error.

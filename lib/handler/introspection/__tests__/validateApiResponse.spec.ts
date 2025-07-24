@@ -1,28 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createValidateApiResponse } from '../validateApiResponse';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { defaultResponseFactory } from '../../responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
 import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
-
-// Configure mock functions to throw errors
-const mockError = new Error('Test error');
-
-vi.mock('../../responseErrorFactory', () => ({
-  createResponseErrorFactory: vi.fn().mockReturnValue({
-    internalServerErrorResponseError: vi.fn().mockImplementation(() => {
-      throw mockError;
-    }),
-    badRequestResponseError: vi.fn().mockImplementation(() => {
-      throw mockError;
-    }),
-    unauthorizedResponseError: vi.fn().mockImplementation(() => {
-      throw mockError;
-    }),
-    forbiddenResponseError: vi.fn().mockImplementation(() => {
-      throw mockError;
-    }),
-  }),
-}));
+import { ResponseError } from '../../core/ResponseError';
 
 describe('validateApiResponse for introspection', () => {
   const mockPath = '/api/introspection';
@@ -61,12 +42,9 @@ describe('validateApiResponse for introspection', () => {
       responseContent: 'bad request message',
       dpopNonce: 'nonce123',
     } as unknown as IntrospectionResponse;
-    const headers = { 'DPoP-Nonce': 'nonce123' };
 
-    await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(responseErrorFactory.badRequestResponseError).toHaveBeenCalledWith(
-      response.responseContent,
-      headers
+    await expect(validateApiResponse(response)).rejects.toThrow(
+      new ResponseError('bad request message', expect.any(Response))
     );
     expect(mockPrepareHeaders).toHaveBeenCalledWith({ dpopNonce: 'nonce123' });
   });
@@ -77,13 +55,9 @@ describe('validateApiResponse for introspection', () => {
       responseContent: 'unauthorized message',
       dpopNonce: 'nonce123',
     } as unknown as IntrospectionResponse;
-    const headers = { 'DPoP-Nonce': 'nonce123' };
 
-    await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(responseErrorFactory.unauthorizedResponseError).toHaveBeenCalledWith(
-      response.responseContent,
-      undefined,
-      headers
+    await expect(validateApiResponse(response)).rejects.toThrow(
+      new ResponseError('unauthorized message', expect.any(Response))
     );
     expect(mockPrepareHeaders).toHaveBeenCalledWith({ dpopNonce: 'nonce123' });
   });
@@ -94,12 +68,9 @@ describe('validateApiResponse for introspection', () => {
       responseContent: 'forbidden message',
       dpopNonce: 'nonce123',
     } as unknown as IntrospectionResponse;
-    const headers = { 'DPoP-Nonce': 'nonce123' };
 
-    await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(responseErrorFactory.forbiddenResponseError).toHaveBeenCalledWith(
-      response.responseContent,
-      headers
+    await expect(validateApiResponse(response)).rejects.toThrow(
+      new ResponseError('forbidden message', expect.any(Response))
     );
     expect(mockPrepareHeaders).toHaveBeenCalledWith({ dpopNonce: 'nonce123' });
   });
@@ -110,12 +81,10 @@ describe('validateApiResponse for introspection', () => {
       responseContent: 'internal server error message',
       dpopNonce: 'nonce123',
     } as unknown as IntrospectionResponse;
-    const headers = { 'DPoP-Nonce': 'nonce123' };
 
-    await expect(validateApiResponse(response)).rejects.toThrow(mockError);
-    expect(
-      responseErrorFactory.internalServerErrorResponseError
-    ).toHaveBeenCalledWith(response.responseContent, headers);
+    await expect(validateApiResponse(response)).rejects.toThrow(
+      new ResponseError('internal server error message', expect.any(Response))
+    );
     expect(mockPrepareHeaders).toHaveBeenCalledWith({ dpopNonce: 'nonce123' });
   });
 
@@ -126,15 +95,15 @@ describe('validateApiResponse for introspection', () => {
       dpopNonce: 'nonce123',
     } as unknown as IntrospectionResponse;
 
-    await expect(validateApiResponse(response)).rejects.toThrow(mockError);
+    await expect(validateApiResponse(response)).rejects.toThrow(
+      new ResponseError(
+        `Unknown action 'UNKNOWN_ACTION' for /api/introspection`,
+        expect.any(Response)
+      )
+    );
     expect(mockBuildUnknownActionMessage).toHaveBeenCalledWith(
       mockPath,
       'UNKNOWN_ACTION'
-    );
-    expect(
-      responseErrorFactory.internalServerErrorResponseError
-    ).toHaveBeenCalledWith(
-      `Unknown action 'UNKNOWN_ACTION' for /api/introspection`
     );
   });
 

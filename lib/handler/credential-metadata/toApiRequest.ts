@@ -16,7 +16,7 @@
  */
 
 import { CredentialIssuerMetadataRequest } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 
 /**
  * Default function to convert an HTTP request to a CredentialIssuerMetadataRequest.

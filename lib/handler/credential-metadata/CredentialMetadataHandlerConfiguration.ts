@@ -19,13 +19,13 @@ import {
   CredentialIssuerMetadataRequest,
   CredentialIssuerMetadataResponse,
 } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { Handle } from '../handle';
-import { ValidateApiResponse } from '../validateApiResponse';
-import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { Handle } from '../core/handle';
+import { ValidateApiResponse } from '../core/validateApiResponse';
+import { ProcessApiRequestWithValidation } from '../core/processApiRequestWithValidation';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 
 /**
  * Configuration interface for the Credential Metadata handler.

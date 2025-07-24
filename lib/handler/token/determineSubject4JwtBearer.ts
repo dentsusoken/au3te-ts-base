@@ -19,7 +19,7 @@ import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
 import { DetermineSubject } from './determineSubject';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Default implementation for determining the subject identifier from a JWT Bearer token response.

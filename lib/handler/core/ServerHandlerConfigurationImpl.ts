@@ -4,8 +4,8 @@ import {
   createRecoverResponseResult,
   RecoverResponseResult,
 } from './recoverResponseResult';
-import { Session } from '../session/Session';
-import { SessionSchemas } from '../session/types';
+import { Session } from '../../session/Session';
+import { SessionSchemas } from '../../session/types';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { defaultPrepareHeaders, PrepareHeaders } from './prepareHeaders';
 import { defaultResponseFactory, ResponseFactory } from './responseFactory';

@@ -19,9 +19,9 @@ import { CredentialSingleIssueResponse } from '@vecrea/au3te-ts-common/schemas.c
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
-} from '../processApiResponse';
+} from '../core/processApiResponse';
 import { CredentialApiOptions } from '../credential/types';
-import { ApiResponseWithOptions } from '../types';
+import { ApiResponseWithOptions } from '../core/types';
 
 export const createProcessApiResponse =
   ({

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { defaultDetermineSubject4JwtBearer } from '../determineSubject4JwtBearer';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
 
 describe('defaultDetermineSubject4JwtBearer', () => {
   const responseErrorFactory = createResponseErrorFactory(

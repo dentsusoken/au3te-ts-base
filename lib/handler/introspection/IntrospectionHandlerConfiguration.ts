@@ -19,9 +19,9 @@ import {
   IntrospectionRequest,
   IntrospectionResponse,
 } from '@vecrea/au3te-ts-common/schemas.introspection';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ValidateApiResponse } from '../validateApiResponse';
-import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ValidateApiResponse } from '../core/validateApiResponse';
+import { ProcessApiRequestWithValidation } from '../core/processApiRequestWithValidation';
 
 /**
  * Configuration interface for the Introspection handler.

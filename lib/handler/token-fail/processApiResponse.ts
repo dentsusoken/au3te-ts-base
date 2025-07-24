@@ -19,8 +19,8 @@ import { TokenFailResponse } from '@vecrea/au3te-ts-common/schemas.token-fail';
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
-} from '../processApiResponse';
-import { Headers } from '../responseFactory';
+} from '../core/processApiResponse';
+import { Headers } from '../core/responseFactory';
 
 export const createProcessApiResponse =
   ({

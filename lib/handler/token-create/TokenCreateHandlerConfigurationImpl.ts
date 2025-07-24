@@ -20,13 +20,13 @@ import {
   TokenCreateResponse,
   tokenCreateResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.token-create';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { TokenCreateHandlerConfiguration } from './TokenCreateHandlerConfiguration';
 
 /** The path for the token create endpoint */

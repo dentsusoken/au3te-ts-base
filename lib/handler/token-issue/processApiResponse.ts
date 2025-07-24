@@ -19,8 +19,8 @@ import { TokenIssueResponse } from '@vecrea/au3te-ts-common/schemas.token-issue'
 import {
   CreateProcessApiResponseParams,
   ProcessApiResponse,
-} from '../processApiResponse';
-import { Headers } from '../responseFactory';
+} from '../core/processApiResponse';
+import { Headers } from '../core/responseFactory';
 
 /**
  * Creates a ProcessApiResponse function that processes token issue API responses.

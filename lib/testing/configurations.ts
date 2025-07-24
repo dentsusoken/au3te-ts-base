@@ -19,7 +19,7 @@ import { ApiClientImpl } from '../api/ApiClientImpl';
 import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import { sessionSchemas } from '../session/sessionSchemas';
 import { InMemorySession } from '../session/InMemorySession';
-import { ServerHandlerConfigurationImpl } from '../handler/ServerHandlerConfigurationImpl';
+import { ServerHandlerConfigurationImpl } from '../handler/core/ServerHandlerConfigurationImpl';
 import { ExtractorConfigurationImpl } from '../extractor/ExtractorConfigurationImpl';
 import { ParHandlerConfigurationImpl } from '../handler/par/ParHandlerConfigurationImpl';
 import { ServiceConfigurationHandlerConfigurationImpl } from '../handler/service-configuration/ServiceConfigurationHandlerConfigurationImpl';

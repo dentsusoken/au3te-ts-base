@@ -16,8 +16,8 @@
  */
 
 import { ServiceJwksResponse } from '@vecrea/au3te-ts-common/schemas.service-jwks';
-import { ProcessApiResponse } from '../processApiResponse';
-import { ResponseFactory } from '../responseFactory';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { ResponseFactory } from '../core/responseFactory';
 
 /**
  * Parameters required to create a process API response function.

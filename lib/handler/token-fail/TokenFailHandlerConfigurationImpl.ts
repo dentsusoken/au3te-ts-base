@@ -20,15 +20,15 @@ import {
   TokenFailResponse,
   tokenFailResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.token-fail';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '../../session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { TokenFailHandlerConfiguration } from './TokenFailHandlerConfiguration';
-import { Headers } from '../responseFactory';
+import { Headers } from '../core/responseFactory';
 import {
   BuildTokenFailError,
   createBuildTokenFailError,

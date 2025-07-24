@@ -19,7 +19,7 @@ import { CredentialSingleParseResponse } from '@vecrea/au3te-ts-common/schemas.c
 import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,
-} from '../validateApiResponse';
+} from '../core/validateApiResponse';
 import { CredentialApiOptions } from '../credential/types';
 
 /**

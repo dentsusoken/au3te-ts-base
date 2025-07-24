@@ -17,7 +17,7 @@
 
 import { CredentialSingleIssueRequest } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
 import { ExtractAccessToken } from '../../extractor/extractAccessToken';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 import { ComputeHtu } from '../credential/computeHtu';
 import { ExtractClientCertificateAndPath } from '../../extractor/extractClientCertificateAndPath';
 import {
@@ -25,8 +25,8 @@ import {
   IntrospectionResponse,
 } from '@vecrea/au3te-ts-common/schemas.introspection';
 import { BadRequestError } from '@vecrea/au3te-ts-common/handler';
-import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
-import { PrepareHeaders } from '../prepareHeaders';
+import { ProcessApiRequestWithValidation } from '../core/processApiRequestWithValidation';
+import { PrepareHeaders } from '../core/prepareHeaders';
 import { CREDENTIAL_ENDPOINT, DEFERRED, DPOP, POST } from '../constants';
 import { INVALID_CREDENTIAL_SINGLE_ISSUE_REQUEST } from './errorCode';
 import { ExtractParameters } from '../../extractor/extractParameters';
@@ -37,8 +37,8 @@ import {
 import { GetToOrder } from '@vecrea/au3te-ts-common/handler.credential';
 import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { CredentialApiOptions } from '../credential/types';
-import { ApiRequestWithOptions } from '../types';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ApiRequestWithOptions } from '../core/types';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Parameters required to create a credential single issue API request converter.

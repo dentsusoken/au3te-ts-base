@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { TokenFailResponse } from '@vecrea/au3te-ts-common/schemas.token-fail';
 import { createProcessApiResponse } from '../processApiResponse';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { ResponseError } from '../../ResponseError';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { ResponseError } from '../../core/ResponseError';
 
 describe('createProcessApiResponse', () => {
   const mockBuildUnknownActionMessage = vi.fn(

@@ -20,7 +20,7 @@ import { runAsyncCatching } from '@vecrea/oid4vc-core/utils';
 import { getSubFromJwt } from '@vecrea/au3te-ts-common/utils';
 import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { DetermineSubject } from './determineSubject';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Extracts the subject identifier from a token info object.

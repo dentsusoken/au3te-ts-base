@@ -20,24 +20,24 @@ import {
   CredentialIssuerMetadataResponse,
   credentialIssuerMetadataResponseSchema,
 } from '@vecrea/au3te-ts-common/schemas.credential-metadata';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '@/session/types';
-import { createProcessApiRequest } from '../processApiRequest';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { createProcessApiRequest } from '../core/processApiRequest';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { CredentialMetadataHandlerConfiguration } from './CredentialMetadataHandlerConfiguration';
-import { ValidateApiResponse } from '../validateApiResponse';
+import { ValidateApiResponse } from '../core/validateApiResponse';
 import {
   createProcessApiRequestWithValidation,
   ProcessApiRequestWithValidation,
-} from '../processApiRequestWithValidation';
+} from '../core/processApiRequestWithValidation';
 import { createValidateApiResponse } from './validateApiResponse';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 import { defaultToApiRequest } from './toApiRequest';
-import { createProcessRequest } from '../processRequest';
+import { createProcessRequest } from '../core/processRequest';
 import { sessionSchemas } from '@/session/sessionSchemas';
 
 /** The path for the credential metadata endpoint */

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { AuthorizationFailResponse } from '@vecrea/au3te-ts-common/schemas.authorization-fail';
 import { createProcessApiResponse } from '../processApiResponse';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { ResponseError } from '../../ResponseError';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { ResponseError } from '../../core/ResponseError';
 
 describe('createProcessApiResponse', () => {
   const path = 'path';

@@ -16,7 +16,7 @@
  */
 
 import { CredentialIssuerJwksRequest } from '@vecrea/au3te-ts-common/schemas.credential-issuer-jwks';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 
 /**
  * Default function to convert an HTTP request to a CredentialIssuerJwksRequest.

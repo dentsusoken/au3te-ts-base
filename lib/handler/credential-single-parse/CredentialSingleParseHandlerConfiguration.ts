@@ -19,9 +19,9 @@ import {
   CredentialSingleParseRequest,
   CredentialSingleParseResponse,
 } from '@vecrea/au3te-ts-common/schemas.credential-single-parse';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ValidateApiResponse } from '../validateApiResponse';
-import { ProcessApiRequestWithValidation } from '../processApiRequestWithValidation';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ValidateApiResponse } from '../core/validateApiResponse';
+import { ProcessApiRequestWithValidation } from '../core/processApiRequestWithValidation';
 import { CredentialApiOptions } from '../credential/types';
 
 /**

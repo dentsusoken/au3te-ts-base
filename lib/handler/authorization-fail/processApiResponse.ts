@@ -19,7 +19,7 @@ import { AuthorizationFailResponse } from '@vecrea/au3te-ts-common/schemas.autho
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
-} from '../processApiResponse';
+} from '../core/processApiResponse';
 
 export const createProcessApiResponse =
   ({

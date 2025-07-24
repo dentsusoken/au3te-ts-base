@@ -16,13 +16,13 @@
  */
 
 import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { AuthorizationIssueHandlerConfiguration } from '../authorization-issue';
 import { sessionSchemas } from '../../session/sessionSchemas';
-import { createProcessRequest, ProcessRequest } from '../processRequest';
+import { createProcessRequest, ProcessRequest } from '../core/processRequest';
 import { AuthorizationDecisionHandlerConfiguration } from './AuthorizationDecisionHandlerConfiguration';
 import { createToApiRequest } from './toApiRequest';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 import { ExtractorConfiguration } from '../../extractor/ExtractorConfiguration';
 import { CollectClaims, defaultCollectClaims } from './collectClaims';
 import {

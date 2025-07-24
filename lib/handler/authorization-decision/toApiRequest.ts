@@ -17,7 +17,7 @@
 
 import { AuthorizationIssueRequest } from '@vecrea/au3te-ts-common/schemas.authorization-issue';
 import { ExtractParameters } from '../../extractor/extractParameters';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 import { Session } from '../../session/Session';
 import { SessionSchemas } from '../../session/types';
 import { sessionSchemas } from '../../session/sessionSchemas';
@@ -26,7 +26,7 @@ import { parseQueryString } from '@vecrea/au3te-ts-common/utils';
 import { BuildAuthorizationFailError } from '../authorization-fail/buildAuthorizationFailError';
 import { CalcSub } from '../authorization/calcSub';
 import { CollectClaims } from './collectClaims';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Parameters required to create an API request handler

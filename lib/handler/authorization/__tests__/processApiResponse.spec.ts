@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createProcessApiResponse } from '../processApiResponse';
 import { AuthorizationResponse } from '@vecrea/au3te-ts-common/schemas.authorization';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
-import { ResponseError } from '../../ResponseError';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
+import { ResponseError } from '../../core/ResponseError';
 import { Session } from '../../../session/Session';
 import { SessionSchemas } from '../../../session/types';
 

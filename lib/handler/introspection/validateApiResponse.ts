@@ -16,11 +16,11 @@
  */
 
 import { IntrospectionResponse } from '@vecrea/au3te-ts-common/schemas.introspection';
-import { PrepareHeaders } from '../prepareHeaders';
+import { PrepareHeaders } from '../core/prepareHeaders';
 import {
   ValidateApiResponse,
   CreateValidateApiResponseParams,
-} from '../validateApiResponse';
+} from '../core/validateApiResponse';
 
 type CreateValidateApiResponseParams4Introspection = {
   prepareHeaders: PrepareHeaders;

@@ -23,17 +23,17 @@ import {
 import {
   createProcessGetApiRequest,
   ProcessApiRequest,
-} from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
+} from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
 import { createProcessApiResponse } from './processApiResponse';
-import { Handle, createHandle } from '../handle';
+import { Handle, createHandle } from '../core/handle';
 import { SessionSchemas } from '@/session/types';
-import { ServerHandlerConfiguration } from '../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../core/ServerHandlerConfiguration';
 import { ServiceJwksHandlerConfiguration } from './ServiceJwksHandlerConfiguration';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 import { defaultToApiRequest } from './toApiRequest';
-import { createProcessRequest } from '../processRequest';
+import { createProcessRequest } from '../core/processRequest';
 import { sessionSchemas } from '@/session/sessionSchemas';
 
 /** The path for the service JWKS endpoint */

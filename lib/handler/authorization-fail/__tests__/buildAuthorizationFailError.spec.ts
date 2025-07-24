@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createBuildAuthorizationFailError } from '../buildAuthorizationFailError';
-import { ResponseError } from '../../ResponseError';
+import { ResponseError } from '../../core/ResponseError';
 
 describe('createBuildAuthorizationFailError', () => {
   const mockHandle = vi.fn();

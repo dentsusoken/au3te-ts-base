@@ -19,13 +19,13 @@ import {
   CredentialSingleIssueRequest,
   CredentialSingleIssueResponse,
 } from '@vecrea/au3te-ts-common/schemas.credential-single-issue';
-import { ToApiRequest } from '../toApiRequest';
+import { ToApiRequest } from '../core/toApiRequest';
 import { CredentialApiOptions } from '../credential/types';
-import { ApiRequestWithOptions, ApiResponseWithOptions } from '../types';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { HandleWithOptions } from '../handleWithOptions';
-import { ProcessRequest } from '../processRequest';
+import { ApiRequestWithOptions, ApiResponseWithOptions } from '../core/types';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { HandleWithOptions } from '../core/handleWithOptions';
+import { ProcessRequest } from '../core/processRequest';
 
 /**
  * Configuration interface for the Credential Single Issue Handler.

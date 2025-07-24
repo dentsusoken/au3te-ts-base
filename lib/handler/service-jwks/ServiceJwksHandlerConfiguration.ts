@@ -19,11 +19,11 @@ import {
   ServiceJwksRequest,
   ServiceJwksResponse,
 } from '@vecrea/au3te-ts-common/schemas.service-jwks';
-import { ProcessApiRequest } from '../processApiRequest';
-import { ProcessApiResponse } from '../processApiResponse';
-import { Handle } from '../handle';
-import { ToApiRequest } from '../toApiRequest';
-import { ProcessRequest } from '../processRequest';
+import { ProcessApiRequest } from '../core/processApiRequest';
+import { ProcessApiResponse } from '../core/processApiResponse';
+import { Handle } from '../core/handle';
+import { ToApiRequest } from '../core/toApiRequest';
+import { ProcessRequest } from '../core/processRequest';
 
 /**
  * Configuration interface for the Service Configuration handler.

@@ -19,8 +19,8 @@ import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
-} from '../processApiResponse';
-import { PrepareHeaders } from '../prepareHeaders';
+} from '../core/processApiResponse';
+import { PrepareHeaders } from '../core/prepareHeaders';
 import { HandlePassword } from './handlePassword';
 import { HandleTokenCreate } from './handleTokenCreate';
 

@@ -6,8 +6,8 @@ import {
 } from '../determineSubject4TokenExchange';
 import { TokenInfo } from '@vecrea/au3te-ts-common/schemas.common';
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
-import { defaultResponseFactory } from '../../responseFactory';
-import { createResponseErrorFactory } from '../../responseErrorFactory';
+import { defaultResponseFactory } from '../../core/responseFactory';
+import { createResponseErrorFactory } from '../../core/responseErrorFactory';
 
 describe('Token Exchange Subject Determination', () => {
   const responseErrorFactory = createResponseErrorFactory(

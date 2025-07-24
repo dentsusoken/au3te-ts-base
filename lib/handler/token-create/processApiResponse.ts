@@ -19,7 +19,7 @@ import { TokenCreateResponse } from '@vecrea/au3te-ts-common/schemas.token-creat
 import {
   ProcessApiResponse,
   CreateProcessApiResponseParams,
-} from '../processApiResponse';
+} from '../core/processApiResponse';
 
 /**
  * Builds a JSON response message for successful token creation.

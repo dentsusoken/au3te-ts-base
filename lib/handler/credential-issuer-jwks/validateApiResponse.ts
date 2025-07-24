@@ -19,7 +19,7 @@ import { CredentialIssuerJwksResponse } from '@vecrea/au3te-ts-common/schemas.cr
 import {
   CreateValidateApiResponseParams,
   ValidateApiResponse,
-} from '../validateApiResponse';
+} from '../core/validateApiResponse';
 
 /**
  * Creates a ValidateApiResponse function that handles different API response actions.

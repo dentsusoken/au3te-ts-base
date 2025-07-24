@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { CredentialMetadataHandlerConfigurationImpl } from '../CredentialMetadataHandlerConfigurationImpl';
-import { ServerHandlerConfiguration } from '../../ServerHandlerConfiguration';
+import { ServerHandlerConfiguration } from '../../core/ServerHandlerConfiguration';
 import { ApiClient } from '@vecrea/au3te-ts-common/api';
 import { SessionSchemas } from '../../../session/types';
 

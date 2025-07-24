@@ -16,7 +16,7 @@
  */
 
 import { TokenResponse } from '@vecrea/au3te-ts-common/schemas.token';
-import { ResponseErrorFactory } from '../responseErrorFactory';
+import { ResponseErrorFactory } from '../core/responseErrorFactory';
 
 /**
  * Function type for determining the subject from a token response.
