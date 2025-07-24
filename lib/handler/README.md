@@ -2,6 +2,50 @@
 
 This directory contains handler configurations for processing OAuth 2.0 and OpenID Connect endpoints.
 
+## Directory Structure
+
+```
+lib/handler/
+├── core/                    # Core functionality and utilities
+│   ├── index.ts            # Main exports for core functionality
+│   ├── responseFactory.ts  # HTTP response creation
+│   ├── responseErrorFactory.ts # Error response creation
+│   ├── ResponseError.ts    # Error class for HTTP responses
+│   ├── ServerHandlerConfiguration.ts # Base server configuration interface
+│   ├── ServerHandlerConfigurationImpl.ts # Base server configuration implementation
+│   ├── processApiRequest.ts # API request processing
+│   ├── processApiResponse.ts # API response processing
+│   ├── validateApiResponse.ts # API response validation
+│   ├── handle.ts           # Request handling
+│   ├── handleWithOptions.ts # Request handling with options
+│   ├── prepareHeaders.ts   # Header preparation
+│   ├── toApiRequest.ts     # Request transformation
+│   ├── toClientAuthRequest.ts # Client auth request transformation
+│   ├── types.ts            # Common type definitions
+│   ├── recoverResponseResult.ts # Response result recovery
+│   └── __tests__/          # Core functionality tests
+├── constants/              # Constants and configuration values
+│   └── index.ts
+├── authorization/          # Authorization endpoint handlers
+├── authorization-decision/ # Authorization decision handlers
+├── authorization-fail/     # Authorization failure handlers
+├── authorization-issue/    # Authorization issue handlers
+├── token/                  # Token endpoint handlers
+├── token-create/           # Token creation handlers
+├── token-fail/             # Token failure handlers
+├── token-issue/            # Token issue handlers
+├── credential/             # Credential endpoint handlers
+├── credential-metadata/    # Credential metadata handlers
+├── credential-single-issue/ # Credential single issue handlers
+├── credential-single-parse/ # Credential single parse handlers
+├── credential-issuer-jwks/ # Credential issuer JWKS handlers
+├── introspection/          # Token introspection handlers
+├── par/                    # Pushed Authorization Request handlers
+├── service-configuration/  # Service configuration handlers
+├── service-jwks/           # Service JWKS handlers
+└── README.md               # This file
+```
+
 ## Overview
 
 Each endpoint follows this implementation pattern:
@@ -21,15 +65,15 @@ import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
 import { AuthleteConfiguration } from '@vecrea/au3te-ts-common/conf';
 import { sessionSchemas } from '@vecrea/au3te-ts-server/session';
 import { InMemorySession } from '@vecrea/au3te-ts-server/session';
-import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/core';
 import { ExtractorConfigurationImpl } from '@vecrea/au3te-ts-server/extractor';
-import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
-import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
-import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-fail';
-import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-issue';
-import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization';
-import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-issue';
-import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-fail';
+import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token';
+import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-create';
+import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-fail';
+import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-issue';
+import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization';
+import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization-issue';
+import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization-fail';
 import { AuthorizationPageHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.authorization-page';
 import { UserHandlerConfigurationImpl } from '@vecrea/au3te-ts-common/handler.user';
 
@@ -96,7 +140,7 @@ In actual endpoints (e.g., Hono), call `processRequest()`:
 
 ```typescript
 import { Hono } from 'hono';
-import { TokenHandlerConfiguration } from '@vecrea/au3te-ts-server/handler.token';
+import { TokenHandlerConfiguration } from '@vecrea/au3te-ts-server/handler/token';
 
 const app = new Hono();
 
@@ -132,6 +176,41 @@ app.get('/api/authorization', async (c) => {
 });
 ```
 
+## Core Module
+
+The `core` module provides essential functionality used by all handlers:
+
+```typescript
+import {
+  ServerHandlerConfigurationImpl,
+  responseFactory,
+  responseErrorFactory,
+  ResponseError,
+  processApiRequest,
+  processApiResponse,
+  validateApiResponse,
+  handle,
+  handleWithOptions,
+  prepareHeaders,
+  toApiRequest,
+  toClientAuthRequest,
+  types,
+  recoverResponseResult,
+} from '@vecrea/au3te-ts-server/handler/core';
+```
+
+### Core Components
+
+- **ServerHandlerConfiguration**: Base configuration for all server handlers
+- **responseFactory**: Factory for creating HTTP responses
+- **responseErrorFactory**: Factory for creating error responses
+- **ResponseError**: Error class for HTTP error responses
+- **processApiRequest/processApiResponse**: API request/response processing
+- **validateApiResponse**: API response validation utilities
+- **handle/handleWithOptions**: Request handling utilities
+- **prepareHeaders**: Header preparation utilities
+- **toApiRequest/toClientAuthRequest**: Request transformation utilities
+
 ## Available Endpoints
 
 ### Token Endpoint (`/handler/token/`)
@@ -139,7 +218,7 @@ app.get('/api/authorization', async (c) => {
 Handles OAuth 2.0 token endpoint.
 
 ```typescript
-import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token';
+import { TokenHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token';
 
 const tokenConfig = new TokenHandlerConfigurationImpl({
   serverHandlerConfiguration: serverConfig,
@@ -159,7 +238,7 @@ const response = await tokenConfig.processRequest(request);
 Handles OAuth 2.0 authorization endpoint.
 
 ```typescript
-import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization';
+import { AuthorizationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization';
 
 const authorizationConfig = new AuthorizationHandlerConfigurationImpl({
   serverHandlerConfiguration: serverConfig,
@@ -178,7 +257,7 @@ const response = await authorizationConfig.processRequest(request);
 Handles authorization decision endpoint.
 
 ```typescript
-import { AuthorizationDecisionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-decision';
+import { AuthorizationDecisionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization-decision';
 
 const authDecisionConfig = new AuthorizationDecisionHandlerConfigurationImpl({
   serverHandlerConfiguration: serverConfig,
@@ -195,7 +274,7 @@ const response = await authDecisionConfig.processRequest(request);
 Handles authorization issue endpoint.
 
 ```typescript
-import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-issue';
+import { AuthorizationIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization-issue';
 
 const authIssueConfig = new AuthorizationIssueHandlerConfigurationImpl(
   serverConfig
@@ -210,7 +289,7 @@ const response = await authIssueConfig.processRequest(request);
 Handles authorization fail endpoint.
 
 ```typescript
-import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.authorization-fail';
+import { AuthorizationFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/authorization-fail';
 
 const authFailConfig = new AuthorizationFailHandlerConfigurationImpl(
   serverConfig
@@ -225,7 +304,7 @@ const response = await authFailConfig.processRequest(request);
 Handles token issue endpoint.
 
 ```typescript
-import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-issue';
+import { TokenIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-issue';
 
 const tokenIssueConfig = new TokenIssueHandlerConfigurationImpl(serverConfig);
 
@@ -238,7 +317,7 @@ const response = await tokenIssueConfig.processRequest(request);
 Handles token create endpoint.
 
 ```typescript
-import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-create';
+import { TokenCreateHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-create';
 
 const tokenCreateConfig = new TokenCreateHandlerConfigurationImpl(serverConfig);
 
@@ -251,7 +330,7 @@ const response = await tokenCreateConfig.processRequest(request);
 Handles token fail endpoint.
 
 ```typescript
-import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.token-fail';
+import { TokenFailHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/token-fail';
 
 const tokenFailConfig = new TokenFailHandlerConfigurationImpl(serverConfig);
 
@@ -264,7 +343,7 @@ const response = await tokenFailConfig.processRequest(request);
 Handles token introspection endpoint.
 
 ```typescript
-import { IntrospectionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.introspection';
+import { IntrospectionHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/introspection';
 
 const introspectionConfig = new IntrospectionHandlerConfigurationImpl(
   serverConfig
@@ -279,7 +358,7 @@ const response = await introspectionConfig.processRequest(request);
 Handles Pushed Authorization Request endpoint.
 
 ```typescript
-import { ParHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.par';
+import { ParHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/par';
 
 const parConfig = new ParHandlerConfigurationImpl({
   serverHandlerConfiguration: serverConfig,
@@ -308,7 +387,7 @@ const response = await commonCredentialConfig.processRequest(request);
 #### Base Credential Handler (`/handler/credential/`)
 
 ```typescript
-import { BaseCredentialHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential';
+import { BaseCredentialHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/credential';
 
 const baseCredentialConfig = new BaseCredentialHandlerConfigurationImpl({
   credentialMetadataHandlerConfiguration,
@@ -321,7 +400,7 @@ const response = await baseCredentialConfig.processRequest(request);
 #### Credential Metadata (`/handler/credential-metadata/`)
 
 ```typescript
-import { CredentialMetadataHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-metadata';
+import { CredentialMetadataHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/credential-metadata';
 
 const credentialMetadataConfig = new CredentialMetadataHandlerConfigurationImpl(
   serverConfig
@@ -334,7 +413,7 @@ const response = await credentialMetadataConfig.processRequest(request);
 #### Credential Single Parse (`/handler/credential-single-parse/`)
 
 ```typescript
-import { CredentialSingleParseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-single-parse';
+import { CredentialSingleParseHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/credential-single-parse';
 
 const credentialParseConfig = new CredentialSingleParseHandlerConfigurationImpl(
   serverConfig
@@ -347,7 +426,7 @@ const response = await credentialParseConfig.processRequest(request);
 #### Credential Single Issue (`/handler/credential-single-issue/`)
 
 ```typescript
-import { CredentialSingleIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-single-issue';
+import { CredentialSingleIssueHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/credential-single-issue';
 
 const credentialIssueConfig = new CredentialSingleIssueHandlerConfigurationImpl(
   {
@@ -367,7 +446,7 @@ const response = await credentialIssueConfig.processRequest(request);
 #### Credential Issuer JWKS (`/handler/credential-issuer-jwks/`)
 
 ```typescript
-import { CredentialIssuerJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.credential-issuer-jwks';
+import { CredentialIssuerJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/credential-issuer-jwks';
 
 const credentialJwksConfig = new CredentialIssuerJwksHandlerConfigurationImpl(
   serverConfig
@@ -382,7 +461,7 @@ const response = await credentialJwksConfig.processRequest(request);
 #### Service Configuration (`/handler/service-configuration/`)
 
 ```typescript
-import { ServiceConfigurationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-configuration';
+import { ServiceConfigurationHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/service-configuration';
 
 const serviceConfig = new ServiceConfigurationHandlerConfigurationImpl(
   serverConfig
@@ -395,7 +474,7 @@ const response = await serviceConfig.processRequest(request);
 #### Service JWKS (`/handler/service-jwks/`)
 
 ```typescript
-import { ServiceJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler.service-jwks';
+import { ServiceJwksHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/service-jwks';
 
 const serviceJwksConfig = new ServiceJwksHandlerConfigurationImpl(serverConfig);
 
@@ -410,7 +489,7 @@ const response = await serviceJwksConfig.processRequest(request);
 Server configuration used by all endpoints:
 
 ```typescript
-import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler';
+import { ServerHandlerConfigurationImpl } from '@vecrea/au3te-ts-server/handler/core';
 import { ApiClientImpl } from '@vecrea/au3te-ts-server/api';
 import { InMemorySession } from '@vecrea/au3te-ts-server/session';
 
@@ -477,3 +556,14 @@ const customTokenConfig = new TokenHandlerConfigurationImpl({
   // ... other custom configurations
 });
 ```
+
+## Architecture Benefits
+
+The new structure with the `core` module provides several benefits:
+
+- **Separation of Concerns**: Core functionality is separated from domain-specific handlers
+- **Reusability**: Core components can be reused across different domains
+- **Maintainability**: Easier to maintain and update core functionality
+- **Testability**: Core functionality can be tested independently
+- **Consistency**: Standardized patterns across all handlers
+- **Extensibility**: Easy to add new handlers using the core infrastructure
