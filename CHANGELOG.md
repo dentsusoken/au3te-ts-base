@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2025-07-25
+
+### Changed
+
+- **Major refactoring of handler directory structure**:
+  - Moved core functionality to `lib/handler/core/` module
+  - Moved constants to `lib/handler/constants/index.ts` for consistency
+  - Updated all import paths throughout the codebase to use new structure
+  - Added `lib/handler/core/index.ts` with alphabetical exports for all core functionality
+
+### Added
+
+- **New core module structure** with 18 core files:
+  - `handle.ts`, `handleWithOptions.ts` - Request handling utilities
+  - `prepareHeaders.ts` - Header preparation utilities
+  - `processApiRequest.ts`, `processApiRequestWithValidation.ts` - API request processing
+  - `processApiResponse.ts` - API response processing
+  - `validateApiResponse.ts` - API response validation
+  - `recoverResponseResult.ts` - Response result recovery
+  - `responseFactory.ts`, `responseErrorFactory.ts` - Response creation factories
+  - `ResponseError.ts` - Error class for HTTP responses
+  - `ServerHandlerConfiguration.ts`, `ServerHandlerConfigurationImpl.ts` - Base server configuration
+  - `toApiRequest.ts`, `toClientAuthRequest.ts` - Request transformation utilities
+  - `types.ts` - Common type definitions
+- **Factory-based architecture** for HTTP responses and errors
+- **Updated test files** to use new factory-based architecture with `responseErrorFactory`
+- **Comprehensive documentation** in README.md reflecting new structure
+
+### Fixed
+
+- Fixed test failures in `introspection/validateApiResponse.spec.ts` by removing problematic mocks
+- Updated all test files to use proper `ResponseError` expectations
+- Fixed type mismatches in mock functions (e.g., `dpopNonce` accepting `null` values)
+- Resolved import path issues after directory restructuring
+
+### Technical Details
+
+- **Improved architecture** with separation of core functionality from domain-specific handlers
+- **Enhanced maintainability** through better code organization and responsibility separation
+- **Increased reusability** of core components across different domains
+- **Better testability** with independent core functionality testing
+- **Consistent patterns** across all handlers using standardized core infrastructure
+
 ## [0.1.3] - 2025-07-11
 
 ### Changed
